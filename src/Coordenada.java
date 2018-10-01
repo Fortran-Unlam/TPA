@@ -1,8 +1,8 @@
 
 public class Coordenada {
 
-	int x;
-	int y;
+	private int x;
+	private int y;
 
 	/**
 	 * Crea una coordenada dentro del mapa

@@ -1,7 +1,7 @@
 
 public class Entidad {
 
-	Coordenada coordenada;
+	private Coordenada coordenada;
 
 	public Entidad(Coordenada coordenada) {
 		super();
