@@ -1,8 +1,10 @@
 package core;
 
+import java.util.List;
+
 public class Vibora {
 	private int frutasComidas;
-	private CuerpoVibora[] cuerpos;
+	private List<CuerpoVibora> cuerpos;
 	private int sentido;
 
 	/**
