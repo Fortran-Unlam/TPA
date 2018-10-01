@@ -28,7 +28,7 @@ public class Vibora {
 	 * @return true si choca
 	 */
 	public boolean choque() {
-		// ver si devolver true o devolver una entidad con la que colisiona
+		// TODO: ver si devolver true o devolver una entidad con la que colisiona
 		return false;
 	}
 
