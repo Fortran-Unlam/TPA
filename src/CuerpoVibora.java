@@ -1,4 +1,8 @@
 
-public class CuerpoVibora {
+public class CuerpoVibora extends Entidad {
+
+	public CuerpoVibora(Coordenada coordenada) {
+		super(coordenada);
+	}
 
 }
