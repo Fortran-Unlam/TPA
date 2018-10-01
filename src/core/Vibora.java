@@ -1,3 +1,4 @@
+package core;
 
 public class Vibora {
 	private int frutasComidas;
