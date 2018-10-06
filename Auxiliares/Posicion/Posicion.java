@@ -2,8 +2,10 @@ package Posicion;
 
 public class Posicion 
 {
-	private int x;
-	private int y;
+	/*Se hacen los atributos publicos ya que el encapsulamiento de la clase posicion
+	no se considera importante.*/
+	public int x;
+	public int y;
 	
 	public Posicion(int x, int y)
 	{
@@ -11,25 +13,33 @@ public class Posicion
 		this.y = y;
 	}
 
-	public int getX() 
+	@Override
+	public int hashCode() 
 	{
-		return x;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 
-	public void setX(int x) 
+	@Override
+	public boolean equals(Object obj) 
 	{
-		this.x = x;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Posicion other = (Posicion) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
-
-	public int getY() 
-	{
-		return y;
-	}
-
-	public void setY(int y) 
-	{
-		this.y = y;
-	}
+	
 	
 	
 }
