@@ -122,6 +122,10 @@ public class Mapa {
 		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX()+1][this.tamano.getY()+1];
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
+				// TODO: re pensar esto
+				if (this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] != null) {
+					Colision.colisionar(vibora, this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()]);
+				}
 				this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] = cuerpoVibora; 
 			}
 		}
