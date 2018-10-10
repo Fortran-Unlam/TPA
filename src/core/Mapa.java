@@ -40,9 +40,9 @@ public class Mapa {
 	/**
 	 * Mueve sus entidades
 	 */
-	public void mover() {
+	public void actualizar() {
 		for (Vibora vibora : this.viboras) {
-			vibora.mover();
+			vibora.cabecear();
 		}
 
 		for (Vibora vibora : this.viboras) {
@@ -54,6 +54,12 @@ public class Mapa {
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
+		}
+		
+		for (Fruta fruta : this.frutas) {
+			if (fruta.getMuerte()) {
+				this.frutas.remove(fruta);
+			}
 		}
 
 		for (Vibora vibora : this.viboras) {

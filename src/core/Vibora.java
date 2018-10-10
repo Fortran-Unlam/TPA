@@ -35,7 +35,7 @@ public class Vibora extends Entidad {
 	 * agrega un cuerpo delante de la cabeza. El movimiento no implica la quita de
 	 * la cola
 	 */
-	public void mover() {
+	public void cabecear() {
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, null);
 		switch (this.sentido) {
 		case Param.POSICION_ESTE:
