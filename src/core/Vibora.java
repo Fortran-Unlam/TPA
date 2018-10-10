@@ -53,13 +53,12 @@ public class Vibora {
 	}
 
 	/**
-	 * Mueve la vibora hacia el sentido dado
+	 * Setea un nuevo sentido
 	 * 
 	 * @param sentido
 	 */
-	public void mover(int sentido) {
+	public void setSentido(int sentido) {
 		this.sentido = sentido;
-		this.mover();
 	}
 
 	/**
