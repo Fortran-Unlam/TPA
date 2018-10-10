@@ -14,7 +14,6 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
-
 	public Vibora(Coordenada coordenada) {
 		super(coordenada);
 	}
@@ -81,6 +80,11 @@ public class Vibora extends Entidad {
 		return this.frutasComidas;
 	}
 
+	/**
+	 * Devuelve la lista de sus CuerpoVibora
+	 * 
+	 * @return Lista de CuerpoVibora
+	 */
 	public List<CuerpoVibora> getCuerpos() {
 		return this.cuerpos;
 	}
@@ -96,6 +100,9 @@ public class Vibora extends Entidad {
 		this.crece = false;
 	}
 	
+	/**
+	 * Marca que crece
+	 */
 	public void marcarCrecimiento() {
 		this.crece = true;
 	}

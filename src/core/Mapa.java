@@ -9,48 +9,77 @@ public class Mapa {
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
+	/**
+	 * Crea un mapa a partir de su ancho y alto
+	 * 
+	 * @param ancho
+	 * @param alto
+	 */
 	public Mapa(int ancho, int alto) {
 		this.tamano = new Coordenada(ancho, alto);
 	}
 
+	/**
+	 * Agrega una vibora en el mapa
+	 * 
+	 * @param vibora
+	 */
 	public void add(Vibora vibora) {
 		this.viboras.add(vibora);
 	}
 
+	/**
+	 * Agrega una fruta al mapa
+	 * 
+	 * @param fruta
+	 */
 	public void add(Fruta fruta) {
 		this.frutas.add(fruta);
 	}
 
+	/**
+	 * Mueve sus entidades
+	 */
 	public void mover() {
 		for (Vibora vibora : this.viboras) {
 			vibora.mover();
 		}
-		// colision con fruta para ver si no le saco la cola
+		
 		for (Vibora vibora : this.viboras) {
-			Fruta fruta = this.getFrutaByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
+			Fruta fruta = this.getFruta(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (fruta != null) {
 				Colision.colisionar(vibora, fruta);
 			}
 		}
 		
-		// colision de la cabeza con otra entidad que no sea fruta
 		for (Vibora vibora : this.viboras) {
-			CuerpoVibora cuerpoVibora = this.getCuerpoViboraByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
+			vibora.crecerOMover();
+		}
+		
+		for (Vibora vibora : this.viboras) {
+			CuerpoVibora cuerpoVibora = this.getCuerpoVibora(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (cuerpoVibora != null) {
 				Colision.colisionar(vibora, cuerpoVibora);
 			}
 		}
 		
 		for (Vibora vibora : this.viboras) {
-			vibora.crecerOMover();
-			if (vibora.getMuere()) {
+			if (vibora.getMuerte()) {
 				this.viboras.remove(vibora);
 			}
 		}
 		
 	}
 
-	public Fruta getFrutaByPosition(int x, int y) {
+	/**
+	 * Consigue una fruta si lo hay en la posicion dada
+	 * 
+	 * @param x Horizontal
+	 * @param y Vertical
+	 * 
+	 * @return Fruta | null
+	 */
+	public Fruta getFruta(int x, int y) {
 		for (Fruta fruta : frutas) {
 			if (fruta.getCoordenada().getX() == x && fruta.getCoordenada().getY() == y) {
 				return fruta;
@@ -60,13 +89,14 @@ public class Mapa {
 	}
 	
 	/**
-	 * Retorna el primer cuerpo de vibora en esa posicion si hay
+	 * Retorna el primer cuerpo de vibora si hay en la posicion dada
 	 * 
-	 * @param x
-	 * @param y
-	 * @return Cuerpo de vibora
+	 * @param x Horizontal
+	 * @param y Vertical
+	 * 
+	 * @return Cuerpo de vibora | null
 	 */
-	public CuerpoVibora getCuerpoViboraByPosition(int x, int y) {
+	public CuerpoVibora getCuerpoVibora(int x, int y) {
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				if (cuerpoVibora.getCoordenada().getX() == x && cuerpoVibora.getCoordenada().getY() == y) {
@@ -78,6 +108,11 @@ public class Mapa {
 		return null;
 	}
 	
+	/**
+	 * Retorna la dimension del mapa
+	 * 
+	 * @return Coordenada
+	 */
 	public Coordenada getTamano() {
 		return this.tamano;
 	}

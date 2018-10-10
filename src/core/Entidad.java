@@ -37,24 +37,47 @@ public class Entidad {
 		return coordenada;
 	}
 	
+	/**
+	 * Devuelve la posicion X
+	 * 
+	 * @return X
+	 */
 	public int getX() {
 		return this.coordenada.getX();
 	}
 	
+	/**
+	 * Devuelve la posicion Y
+	 * 
+	 * @return Y
+	 */
 	public int getY() {
 		return this.coordenada.getY();
 	}
 	
+	/**
+	 * Marca la vibora para que muera
+	 */
 	public void matar() {
 		this.muere = true;
 	}
 	
-	public boolean getMuere() {
+	/**
+	 * Devuelve si la vibora ha muerto
+	 * 
+	 * @return True si murio
+	 */
+	public boolean getMuerte() {
 		return this.muere;
 	}
-	
-	public boolean setMuere(boolean muere) {
-		return this.muere = muere;
+
+	/**
+	 * Setea la muerte
+	 * 
+	 * @param muere
+	 */
+	public void setMuerte(boolean muere) {
+		this.muere = muere;
 	}
 
 }
