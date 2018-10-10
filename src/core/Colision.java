@@ -10,6 +10,7 @@ public abstract class Colision {
 	 */
 	public static void colisionar(Vibora vibora, Fruta fruta) {
 		fruta.matar();
+		vibora.comer();
 		vibora.marcarCrecimiento();
 	}
 
