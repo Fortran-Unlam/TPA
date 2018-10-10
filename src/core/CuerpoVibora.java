@@ -6,4 +6,7 @@ public class CuerpoVibora extends Entidad {
 		super(coordenada);
 	}
 
+	public CuerpoVibora(int x, int y) {
+		super(x, y);
+	}
 }

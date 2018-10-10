@@ -9,10 +9,12 @@ public class Vibora {
 	private List<CuerpoVibora> cuerpos;
 	private int sentido;
 	private CuerpoVibora cabeza;
+	private CuerpoVibora colaRemovida;
 
 	/**
-	 * Consigue la cabeza que está en la ultima posicion
-	 * Asume que la cabeza se actualiza en cada movimiento
+	 * Consigue la cabeza que está en la ultima posicion Asume que la cabeza se
+	 * actualiza en cada movimiento
+	 * 
 	 * @return
 	 */
 	public CuerpoVibora getCabeza() {
@@ -30,25 +32,21 @@ public class Vibora {
 		CuerpoVibora cv = new CuerpoVibora(null);
 		switch (this.sentido) {
 		case Param.POSICION_ESTE:
-			cv = new CuerpoVibora(new Coordenada(this.getCabeza().getCoordenada().getX(),
-					this.getCabeza().getCoordenada().getY() + 1));
+			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX() + 1, this.getCabeza().getCoordenada().getY());
 			break;
 		case Param.POSICION_OESTE:
-			cv = new CuerpoVibora(new Coordenada(this.getCabeza().getCoordenada().getX(),
-					this.getCabeza().getCoordenada().getY() - 1));
+			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX() - 1, this.getCabeza().getCoordenada().getY());
 			break;
 		case Param.POSICION_NORTE:
-			cv = new CuerpoVibora(new Coordenada(this.getCabeza().getCoordenada().getX() + 1,
-					this.getCabeza().getCoordenada().getY()));
+			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX(), this.getCabeza().getCoordenada().getY() + 1);
 			break;
 		case Param.POSICION_SUR:
-			cv = new CuerpoVibora(new Coordenada(this.getCabeza().getCoordenada().getX() - 1,
-					this.getCabeza().getCoordenada().getY() + 1));
+			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX(), this.getCabeza().getCoordenada().getY() + 1);
 			break;
 		}
 		this.cabeza = cv;
 		this.cuerpos.add(cv);
-		this.cuerpos.remove(0);
+		this.colaRemovida = this.cuerpos.remove(0);
 
 	}
 
@@ -72,10 +70,21 @@ public class Vibora {
 	}
 
 	/**
-	 * No elimina la cola al moverse
+	 * Se vuelve a cargar la cola que se removio. Esto implica tiene que haber una
+	 * cola removida previamente
 	 */
 	public void crecer() {
+		if (this.colaRemovida != null) {
+			this.cuerpos.add(0, this.colaRemovida);
+			this.colaRemovida = null;
+		}
+	}
 
+	/**
+	 * Al comer incrementa la cantidad de frutas comidas
+	 */
+	public void commer() {
+		this.frutasComidas++;
 	}
 
 	/**
