@@ -27,7 +27,7 @@ public class MapaTest {
 	public void TestAgregadoDeVibora() {
 		// mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Coordenada[] coordenada = { new Coordenada(3, 1) };
+		Coordenada[] coordenada = { new Coordenada(0, 2) };
 		Vibora vibora = new Vibora(coordenada);
 
 		mapa.add(vibora);
@@ -168,18 +168,15 @@ public class MapaTest {
 	public void TestViboraMasDeUnCuerpoNoSePuedeMoverEnDireccionContraria() {
 		// mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Coordenada[] coordenada = { new Coordenada(3, 1) };
+		Coordenada[] coordenada = { new Coordenada(3, 1), new Coordenada(3, 2) };
 		Vibora vibora = new Vibora(coordenada, Param.POSICION.NORTE);
 
 		mapa.add(vibora);
+		
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 1), mapa.getCuerpoVibora(3, 1));
-
-		vibora.cabecear();// hago que cabecee para que agregue una unidad a su cuerpo. Es un harcodeo para
-							// hacer el test
-		mapa.actualizar();
-
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 2), mapa.getCuerpoVibora(3, 2));
 		Assert.assertEquals(true, mapa.getCuerpoVibora(3, 2).isCabeza());
+		
 
 		/*
 		 * le pongo que se mueva al sur pero en el proximo ciclo de maquina no la mueve
@@ -190,7 +187,8 @@ public class MapaTest {
 		mapa.actualizar();
 
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 3), mapa.getCuerpoVibora(3, 3));
-
+		Assert.assertEquals(new CuerpoVibora(vibora, 3, 2), mapa.getCuerpoVibora(3, 2));
+		Assert.assertEquals(true, mapa.getCuerpoVibora(3, 3).isCabeza());
 	}
 
 	@Test
