@@ -80,4 +80,35 @@ public class Entidad {
 		this.muere = muere;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((coordenada == null) ? 0 : coordenada.hashCode());
+		result = prime * result + (muere ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Entidad other = (Entidad) obj;
+		if (coordenada == null) {
+			if (other.coordenada != null)
+				return false;
+		} else if (!coordenada.equals(other.coordenada))
+			return false;
+		if (muere != other.muere)
+			return false;
+		return true;
+	}
+	
+	
+	
+
 }
