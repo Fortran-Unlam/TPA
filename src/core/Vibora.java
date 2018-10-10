@@ -1,5 +1,6 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.Param;
@@ -8,13 +9,15 @@ public class Vibora extends Entidad {
 
 	private String nombre;
 	private int frutasComidas;
-	private List<CuerpoVibora> cuerpos;
+	private List<CuerpoVibora> cuerpos = new ArrayList<CuerpoVibora>();
 	private int sentido;
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
 	public Vibora(Coordenada coordenada) {
 		super(coordenada);
+		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
+		this.cuerpos.add(cuerpoVibora);
 	}
 
 	/**
@@ -27,7 +30,7 @@ public class Vibora extends Entidad {
 		if (this.cabeza != null) {
 			return this.cabeza;
 		}
-		return this.cuerpos.get(this.cuerpos.size());
+		return this.cuerpos.get(this.cuerpos.size()-1);
 	}
 
 	/**
