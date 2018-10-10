@@ -44,8 +44,7 @@ public class CuerpoVibora extends Entidad {
 	 * @return True si es la cabeza
 	 */
 	public boolean isCabeza() {
-		List<CuerpoVibora> cuerpos = this.vibora.getCuerpos();
-		return cuerpos.get(cuerpos.size()).equals(this);
+		return this.vibora.getCabeza().equals(this);
 	}
 
 	@Override

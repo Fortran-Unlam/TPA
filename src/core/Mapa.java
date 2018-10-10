@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Mapa {
 
@@ -69,10 +70,11 @@ public class Mapa {
 			}
 		}
 
-		for (Vibora vibora : this.viboras) {
+		for (Iterator<Vibora> viboras = this.viboras.iterator(); viboras.hasNext();) {
+			Vibora vibora = viboras.next();
 			if (vibora.getMuerte()) {
 				this.viboras.remove(vibora);
-			}
+			}			
 		}
 
 	}
