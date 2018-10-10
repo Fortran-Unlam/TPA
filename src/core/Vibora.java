@@ -10,10 +10,11 @@ public class Vibora {
 	private List<CuerpoVibora> cuerpos;
 	private int sentido;
 	private CuerpoVibora cabeza;
-	private CuerpoVibora colaRemovida;
+	private boolean crece = false;
+	private boolean muere = false;
 
 	/**
-	 * Consigue la cabeza que está en la ultima posicion Asume que la cabeza se
+	 * Consigue la cabeza que estï¿½ en la ultima posicion Asume que la cabeza se
 	 * actualiza en cada movimiento
 	 * 
 	 * @return
@@ -27,7 +28,8 @@ public class Vibora {
 
 	/**
 	 * Mueve la vibora hacia el ultimo sentido. Para moverse se elimina la cola y se
-	 * agrega un cuerpo delante de la cabeza
+	 * agrega un cuerpo delante de la cabeza.
+	 * El movimiento no implica la quita de la cola
 	 */
 	public void mover() {
 		CuerpoVibora cv = new CuerpoVibora(this, null);
@@ -47,8 +49,6 @@ public class Vibora {
 		}
 		this.cabeza = cv;
 		this.cuerpos.add(cv);
-		this.colaRemovida = this.cuerpos.remove(0);
-
 	}
 
 	/**
@@ -71,17 +71,6 @@ public class Vibora {
 	}
 
 	/**
-	 * Se vuelve a cargar la cola que se removio. Esto implica tiene que haber una
-	 * cola removida previamente
-	 */
-	public void crecer() {
-		if (this.colaRemovida != null) {
-			this.cuerpos.add(0, this.colaRemovida);
-			this.colaRemovida = null;
-		}
-	}
-
-	/**
 	 * Al comer incrementa la cantidad de frutas comidas
 	 */
 	public void commer() {
@@ -99,6 +88,17 @@ public class Vibora {
 
 	public List<CuerpoVibora> getCuerpos() {
 		return this.cuerpos;
+	}
+	
+	/**
+	 * Quita la cola si en ese ciclo de juego no va a crecer.
+	 * Si crece no hace nada.
+	 */
+	public void crecerOMover() {
+		if (!this.crece) {
+			this.cuerpos.remove(0);
+		}
+		this.crece = false;
 	}
 
 	@Override
@@ -124,6 +124,14 @@ public class Vibora {
 		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
+	}
+
+	public boolean getMuere() {
+		return this.muere;
+	}
+	
+	public boolean setMuere(boolean muere) {
+		return this.muere = muere;
 	}
 
 }

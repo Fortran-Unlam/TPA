@@ -25,15 +25,48 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			vibora.mover();
 		}
+		// colision con fruta para ver si no le sacola cola
 		for (Vibora vibora : this.viboras) {
-			Entidad entidad = this.getByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
-			if (entidad != null) {
-				// TODO: colision
+			Fruta fruta = this.getFrutaByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
+			if (fruta != null) {
+				Colision colision = new Colision(vibora, fruta);
 			}
 		}
+		
+		// colision de la cabeza con otra entidad que no sea fruta
+		for (Vibora vibora : this.viboras) {
+			CuerpoVibora cuerpoVibora = this.getCuerpoViboraByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
+			if (cuerpoVibora != null) {
+				Colision colision = new Colision(vibora, cuerpoVibora);
+			}
+		}
+		
+		for (Vibora vibora : this.viboras) {
+			vibora.crecerOMover();
+			if (vibora.getMuere()) {
+				this.viboras.remove(vibora);
+			}
+		}
+		
 	}
 
-	public Entidad getByPosition(int x, int y) {
+	public Fruta getFrutaByPosition(int x, int y) {
+		for (Fruta fruta : frutas) {
+			if (fruta.getCoordenada().getX() == x && fruta.getCoordenada().getY() == y) {
+				return fruta;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Retorna el primer cuerpo de vibora en esa posicion si hay
+	 * 
+	 * @param x
+	 * @param y
+	 * @return Cuerpo de vibora
+	 */
+	public CuerpoVibora getCuerpoViboraByPosition(int x, int y) {
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				if (cuerpoVibora.getCoordenada().getX() == x && cuerpoVibora.getCoordenada().getY() == y) {
@@ -42,11 +75,6 @@ public class Mapa {
 			}
 		}
 
-		for (Fruta fruta : frutas) {
-			if (fruta.getCoordenada().getX() == x && fruta.getCoordenada().getY() == y) {
-				return fruta;
-			}
-		}
 		return null;
 	}
 	
