@@ -15,6 +15,17 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
+	public Vibora(Coordenada[] coordenadas) {
+		super(coordenadas[coordenadas.length-1]);
+		
+		for (Coordenada coordenada : coordenadas) {
+			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
+			this.cuerpos.add(cuerpoVibora);			
+		}
+		
+		this.sentido = new Random().nextInt(4);
+	}
+	
 	/**
 	 * Crea una vibora con un sentido random
 	 * 
@@ -26,7 +37,7 @@ public class Vibora extends Entidad {
 		this.cuerpos.add(cuerpoVibora);
 		this.sentido = new Random().nextInt(4);
 	}
-	
+
 	/**
 	 * Crea una vibora con un sentido predeterminado
 	 * 
@@ -75,25 +86,24 @@ public class Vibora extends Entidad {
 		}
 		this.cabeza = cuerpoVibora;
 		this.coordenada = this.cabeza.getCoordenada();
-		
+
 		this.cuerpos.add(cuerpoVibora);
 	}
 
 	/**
-	 * Setea un nuevo sentido si es que puede
-	 * Si la vibora tiene UN cuerpo (UN cuadrado/pixel) se puede mover para su direccion contraria
+	 * Setea un nuevo sentido si es que puede Si la vibora tiene UN cuerpo (UN
+	 * cuadrado/pixel) se puede mover para su direccion contraria
 	 * 
-	 * Si la vibora tiene MAS DE UN cuerpo (MAS DE UN cuadrado/pixel) NO se puede mover para su direccion contraria
-	 * pues "se comería su propio cuerpo".
+	 * Si la vibora tiene MAS DE UN cuerpo (MAS DE UN cuadrado/pixel) NO se puede
+	 * mover para su direccion contraria pues "se comería su propio cuerpo".
 	 * 
 	 * @param sentido
 	 */
 	public void setSentido(int sentido) {
-		
-		if(this.cuerpos.size()==1)
+
+		if (this.cuerpos.size() == 1 || Math.abs(this.sentido - sentido) != 2) {
 			this.sentido = sentido;
-		else if (Math.abs(this.sentido - sentido) != 2) 
-			this.sentido = sentido;
+		}
 	}
 
 	/**
@@ -137,7 +147,7 @@ public class Vibora extends Entidad {
 	public void marcarCrecimiento() {
 		this.crece = true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
