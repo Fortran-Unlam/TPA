@@ -77,4 +77,42 @@ public class ViboraTest {
 		Assert.assertEquals(0, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 	}
+	
+	@Test
+	public void movimientoRectoAlSur() {
+		Coordenada coordenada = new Coordenada(3, 4);
+		Vibora vibora = new Vibora(coordenada, Param.POSICION_SUR);
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(4, vibora.getY());
+
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(3, vibora.getY());
+
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(2, vibora.getY());
+	}
+	
+	@Test
+	public void movimientoRectoAlNorte() {
+		Coordenada coordenada = new Coordenada(3, 4);
+		Vibora vibora = new Vibora(coordenada, Param.POSICION_NORTE);
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(4, vibora.getY());
+
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(5, vibora.getY());
+
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(6, vibora.getY());
+	}
 }

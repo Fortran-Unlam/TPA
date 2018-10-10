@@ -70,7 +70,7 @@ public class Vibora extends Entidad {
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		case Param.POSICION_SUR:
-			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() - 1);
 			break;
 		}
 		this.cabeza = cuerpoVibora;
