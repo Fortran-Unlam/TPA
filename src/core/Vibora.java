@@ -11,7 +11,7 @@ public class Vibora extends Entidad {
 	private String nombre;
 	private int frutasComidas;
 	private List<CuerpoVibora> cuerpos = new ArrayList<CuerpoVibora>();
-	private int sentido;
+	private Param.POSICION sentido;
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
@@ -29,7 +29,7 @@ public class Vibora extends Entidad {
 			this.cuerpos.add(cuerpoVibora);
 		}
 
-		this.sentido = new Random().nextInt(4);
+		this.sentido = Param.POSICION.values()[new Random().nextInt(4)];
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class Vibora extends Entidad {
 	 * @param coordenada
 	 * @param sentido
 	 */
-	public Vibora(Coordenada[] coordenadas, int sentido) {
+	public Vibora(Coordenada[] coordenadas, Param.POSICION sentido) {
 		super(coordenadas[coordenadas.length - 1]);
 
 		for (Coordenada coordenada : coordenadas) {
@@ -71,16 +71,16 @@ public class Vibora extends Entidad {
 	public void cabecear() {
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, null);
 		switch (this.sentido) {
-		case Param.POSICION_ESTE:
+		case ESTE:
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX() + 1, this.getCabeza().getY());
 			break;
-		case Param.POSICION_OESTE:
+		case OESTE:
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX() - 1, this.getCabeza().getY());
 			break;
-		case Param.POSICION_NORTE:
+		case NORTE:
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
-		case Param.POSICION_SUR:
+		case SUR:
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() - 1);
 			break;
 		}
@@ -99,9 +99,9 @@ public class Vibora extends Entidad {
 	 * 
 	 * @param sentido
 	 */
-	public void setSentido(int sentido) {
+	public void setSentido(Param.POSICION sentido) {
 
-		if (this.cuerpos.size() == 1 || Math.abs(this.sentido - sentido) != 2) {
+		if (this.cuerpos.size() == 1 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
 	}
