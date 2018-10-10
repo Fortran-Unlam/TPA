@@ -4,15 +4,20 @@ import java.util.List;
 
 import config.Param;
 
-public class Vibora {
+public class Vibora extends Entidad {
+	
+
 	private String nombre;
 	private int frutasComidas;
 	private List<CuerpoVibora> cuerpos;
 	private int sentido;
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
-	private boolean muere = false;
 
+
+	public Vibora(Coordenada coordenada) {
+		super(coordenada);
+	}
 	/**
 	 * Consigue la cabeza que est� en la ultima posicion Asume que la cabeza se
 	 * actualiza en cada movimiento
@@ -61,19 +66,9 @@ public class Vibora {
 	}
 
 	/**
-	 * Verifica si choca con algo del mapa
-	 * 
-	 * @return true si choca
-	 */
-	public boolean choque() {
-		// TODO: ver si devolver true o devolver una entidad con la que colisiona
-		return false;
-	}
-
-	/**
 	 * Al comer incrementa la cantidad de frutas comidas
 	 */
-	public void commer() {
+	public void comer() {
 		this.frutasComidas++;
 	}
 
@@ -124,14 +119,6 @@ public class Vibora {
 		} else if (!nombre.equals(other.nombre))
 			return false;
 		return true;
-	}
-
-	public boolean getMuere() {
-		return this.muere;
-	}
-	
-	public boolean setMuere(boolean muere) {
-		return this.muere = muere;
 	}
 
 }

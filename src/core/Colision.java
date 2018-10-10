@@ -9,7 +9,7 @@ public class Colision {
 	 * @param fruta  La fruta a comar
 	 */
 	public Colision(Vibora vibora, Fruta fruta) {
-		
+		fruta.setMuere(true);
 	}
 	
 	/**

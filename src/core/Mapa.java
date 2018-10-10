@@ -25,7 +25,7 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			vibora.mover();
 		}
-		// colision con fruta para ver si no le sacola cola
+		// colision con fruta para ver si no le saco la cola
 		for (Vibora vibora : this.viboras) {
 			Fruta fruta = this.getFrutaByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (fruta != null) {

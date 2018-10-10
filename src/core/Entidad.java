@@ -1,7 +1,8 @@
 package core;
 
 public class Entidad {
-
+	
+	private boolean muere = false;
 	private Coordenada coordenada;
 
 	/**
@@ -42,6 +43,14 @@ public class Entidad {
 	
 	public int getY() {
 		return this.coordenada.getY();
+	}
+	
+	public boolean getMuere() {
+		return this.muere;
+	}
+	
+	public boolean setMuere(boolean muere) {
+		return this.muere = muere;
 	}
 
 }
