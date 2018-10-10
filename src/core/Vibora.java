@@ -56,12 +56,14 @@ public class Vibora extends Entidad {
 	}
 
 	/**
-	 * Setea un nuevo sentido
+	 * Setea un nuevo sentido si es que puede
 	 * 
 	 * @param sentido
 	 */
 	public void setSentido(int sentido) {
-		this.sentido = sentido;
+		if (Math.abs(this.sentido - sentido) < 2) {
+			this.sentido = sentido;
+		}
 	}
 
 	/**
