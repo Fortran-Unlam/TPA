@@ -15,38 +15,38 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
-	public Vibora(Coordenada[] coordenadas) {
-		super(coordenadas[coordenadas.length-1]);
-		
-		for (Coordenada coordenada : coordenadas) {
-			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
-			this.cuerpos.add(cuerpoVibora);			
-		}
-		
-		this.sentido = new Random().nextInt(4);
-	}
-	
 	/**
-	 * Crea una vibora con un sentido random
+	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido
+	 * random Se puede pasar una coordenada y esta sera la cabeza
 	 * 
 	 * @param coordenada
 	 */
-	public Vibora(Coordenada coordenada) {
-		super(coordenada);
-		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
-		this.cuerpos.add(cuerpoVibora);
+	public Vibora(Coordenada[] coordenadas) {
+		super(coordenadas[coordenadas.length - 1]);
+
+		for (Coordenada coordenada : coordenadas) {
+			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
+			this.cuerpos.add(cuerpoVibora);
+		}
+
 		this.sentido = new Random().nextInt(4);
 	}
 
 	/**
-	 * Crea una vibora con un sentido predeterminado
+	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido dado
+	 * Se puede pasar una coordenada y esta sera la cabeza
 	 * 
 	 * @param coordenada
+	 * @param sentido
 	 */
-	public Vibora(Coordenada coordenada, int sentido) {
-		super(coordenada);
-		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
-		this.cuerpos.add(cuerpoVibora);
+	public Vibora(Coordenada[] coordenadas, int sentido) {
+		super(coordenadas[coordenadas.length - 1]);
+
+		for (Coordenada coordenada : coordenadas) {
+			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
+			this.cuerpos.add(cuerpoVibora);
+		}
+
 		this.sentido = sentido;
 	}
 

@@ -11,13 +11,13 @@ public class ViboraTest {
 
 	@Test
 	public void creacionEnPosicionCorrecta() {
-		Coordenada coordenada = new Coordenada(2, 3);
+		Coordenada[] coordenada = {new Coordenada(2, 3)};
 		Vibora vibora = new Vibora(coordenada);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 
-		Coordenada coordenada2 = new Coordenada(4, 1);
+		Coordenada[] coordenada2 = {new Coordenada(4, 1)};
 		Vibora vibora2 = new Vibora(coordenada2);
 
 		Assert.assertEquals(4, vibora2.getX());
@@ -27,13 +27,13 @@ public class ViboraTest {
 
 	@Test
 	public void creacionCabezaEnPosicionCorrecta() {
-		Coordenada coordenada = new Coordenada(2, 3);
+		Coordenada[] coordenada = {new Coordenada(2, 3)};
 		Vibora vibora = new Vibora(coordenada);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 
-		Coordenada coordenada2 = new Coordenada(4, 1);
+		Coordenada[] coordenada2 = {new Coordenada(4, 1)};
 		Vibora vibora2 = new Vibora(coordenada2);
 
 		Assert.assertEquals(4, vibora2.getX());
@@ -42,7 +42,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlEste() {
-		Coordenada coordenada = new Coordenada(2, 3);
+		Coordenada[] coordenada = {new Coordenada(2, 3)};
 		Vibora vibora = new Vibora(coordenada, Param.POSICION_ESTE);
 
 		Assert.assertEquals(2, vibora.getX());
@@ -61,7 +61,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlOeste() {
-		Coordenada coordenada = new Coordenada(2, 3);
+		Coordenada[] coordenada = {new Coordenada(2, 3)};
 		Vibora vibora = new Vibora(coordenada, Param.POSICION_OESTE);
 
 		Assert.assertEquals(2, vibora.getX());
@@ -77,10 +77,10 @@ public class ViboraTest {
 		Assert.assertEquals(0, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 	}
-	
+
 	@Test
 	public void movimientoRectoAlSur() {
-		Coordenada coordenada = new Coordenada(3, 4);
+		Coordenada[] coordenada = {new Coordenada(3, 4)};
 		Vibora vibora = new Vibora(coordenada, Param.POSICION_SUR);
 
 		Assert.assertEquals(3, vibora.getX());
@@ -96,11 +96,11 @@ public class ViboraTest {
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(2, vibora.getY());
 	}
-	
+
 	@Test
 	public void movimientoRectoAlNorte() {
-		Coordenada coordenada = new Coordenada(3, 4);
-		Vibora vibora = new Vibora(coordenada, Param.POSICION_NORTE);
+		Coordenada[] coordenada = {new Coordenada(3, 4)};
+		Vibora vibora = new Vibora(coordenada, Param.POSICION_NORTE) ;
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(4, vibora.getY());
@@ -110,6 +110,26 @@ public class ViboraTest {
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(5, vibora.getY());
 
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(6, vibora.getY());
+	}
+
+	@Test
+	public void noIrDeNorteASur() {
+		Coordenada[] coordenadas = { new Coordenada(1, 4), new Coordenada(2, 4), new Coordenada(3, 4) };
+		Vibora vibora = new Vibora(coordenadas, Param.POSICION_NORTE);
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(4, vibora.getY());
+		
+		// hago que cabecee sin elimiar cola
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(5, vibora.getY());
+		vibora.setSentido(Param.POSICION_SUR);
 		vibora.cabecear();
 
 		Assert.assertEquals(3, vibora.getX());
