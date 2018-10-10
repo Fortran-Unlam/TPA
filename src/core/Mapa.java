@@ -57,9 +57,10 @@ public class Mapa {
 			vibora.crecerOMover();
 		}
 		
-		for (Fruta fruta : this.frutas) {
+		for (int i=0; i<this.frutas.size();i++) {
+			Fruta fruta = this.frutas.get(i);
 			if (fruta.getMuerte()) {
-				this.frutas.remove(fruta);
+				this.frutas.remove(i);
 			}
 		}
 

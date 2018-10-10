@@ -1,6 +1,5 @@
 package core;
 
-import java.util.List;
 
 public class CuerpoVibora extends Entidad {
 
