@@ -235,7 +235,7 @@ public class MapaTest {
 	}
 	
 	@Test
-	public void seChocanDosViboras() {
+	public void seChocanDosUnaSobreviveViboras() {
 		Mapa mapa = new Mapa(4, 4);
 		Coordenada[] coordenada = { new Coordenada(2, 2) };
 		Vibora vibora = new Vibora(coordenada, Param.POSICION.ESTE);
@@ -248,6 +248,25 @@ public class MapaTest {
 		mapa.actualizar();
 		Assert.assertEquals(true, vibora.getMuerte());
 		Assert.assertEquals(false, vibora2.getMuerte());
+	}
+	
+	@Test
+	public void viboraSigueAOtra() {
+		Mapa mapa = new Mapa(10, 10);
+		Coordenada[] coordenada = { new Coordenada(2, 2),  new Coordenada(3, 2)};
+		Vibora vibora = new Vibora(coordenada, Param.POSICION.ESTE);
+		mapa.add(vibora);
+
+		Coordenada[] coordenadas = { new Coordenada(4, 2), new Coordenada(5, 2) };
+		Vibora vibora2 = new Vibora(coordenadas, Param.POSICION.ESTE);
+		mapa.add(vibora2);
+
+		mapa.actualizar();
+		Assert.assertEquals(false, vibora.getMuerte());
+		Assert.assertEquals(false, vibora2.getMuerte());
+		
+		Assert.assertEquals(6, vibora2.getX());
+		Assert.assertEquals(4, vibora.getX());
 	}
 
 }
