@@ -29,7 +29,7 @@ public class MapaTest {
 	public void TestAgregadoDeVibora() {
 		//mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Vibora vibora = new Vibora(new Coordenada(0, 2),Param.POSICION_ESTE);
+		Vibora vibora = new Vibora(new Coordenada(0, 2));
 		
 		mapa.add(vibora);
 		
@@ -41,13 +41,13 @@ public class MapaTest {
 	public void TestMovimientoVibora() {
 		//mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Vibora vibora = new Vibora(new Coordenada(0, 2),Param.POSICION_ESTE);
+		Vibora vibora = new Vibora(new Coordenada(0, 2));
 		Fruta fruta = new Fruta(new Coordenada(2, 2));
 		mapa.add(vibora);
 		mapa.add(fruta);
 		
 		Assert.assertEquals(new Coordenada(0, 2), mapa.getCuerpoVibora(0,2).getCoordenada());	
-		//ahora muevo la vibora (cambiando el sentido) y hago un ciclo de máquina para actualizar el juego
+		//ahora muevo la vibora (cambiando el sentido) y hago un ciclo de mï¿½quina para actualizar el juego
 		vibora.setSentido(Param.POSICION_ESTE);
 		mapa.actualizar();
 		

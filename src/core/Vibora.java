@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import config.Param;
 
@@ -14,11 +15,16 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
-	public Vibora(Coordenada coordenada, int sentido) {
+	/**
+	 * Crea una vibora con un sentido random
+	 * 
+	 * @param coordenada
+	 */
+	public Vibora(Coordenada coordenada) {
 		super(coordenada);
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
 		this.cuerpos.add(cuerpoVibora);
-		this.sentido = sentido;
+		this.sentido = new Random().nextInt(4);
 	}
 
 	/**
@@ -31,7 +37,7 @@ public class Vibora extends Entidad {
 		if (this.cabeza != null) {
 			return this.cabeza;
 		}
-		return this.cuerpos.get(this.cuerpos.size()-1);
+		return this.cuerpos.get(this.cuerpos.size() - 1);
 	}
 
 	/**
