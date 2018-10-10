@@ -26,6 +26,18 @@ public class Vibora extends Entidad {
 		this.cuerpos.add(cuerpoVibora);
 		this.sentido = new Random().nextInt(4);
 	}
+	
+	/**
+	 * Crea una vibora con un sentido random
+	 * 
+	 * @param coordenada
+	 */
+	public Vibora(Coordenada coordenada, int sentido) {
+		super(coordenada);
+		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
+		this.cuerpos.add(cuerpoVibora);
+		this.sentido = sentido;
+	}
 
 	/**
 	 * Consigue la cabeza que esta en la ultima posicion. Asume que la cabeza se
