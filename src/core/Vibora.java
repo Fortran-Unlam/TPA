@@ -5,6 +5,7 @@ import java.util.List;
 import config.Param;
 
 public class Vibora {
+	private String nombre;
 	private int frutasComidas;
 	private List<CuerpoVibora> cuerpos;
 	private int sentido;
@@ -29,19 +30,19 @@ public class Vibora {
 	 * agrega un cuerpo delante de la cabeza
 	 */
 	public void mover() {
-		CuerpoVibora cv = new CuerpoVibora(null);
+		CuerpoVibora cv = new CuerpoVibora(this, null);
 		switch (this.sentido) {
 		case Param.POSICION_ESTE:
-			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX() + 1, this.getCabeza().getCoordenada().getY());
+			cv = new CuerpoVibora(this, this.getCabeza().getX() + 1, this.getCabeza().getY());
 			break;
 		case Param.POSICION_OESTE:
-			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX() - 1, this.getCabeza().getCoordenada().getY());
+			cv = new CuerpoVibora(this, this.getCabeza().getX() - 1, this.getCabeza().getY());
 			break;
 		case Param.POSICION_NORTE:
-			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX(), this.getCabeza().getCoordenada().getY() + 1);
+			cv = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		case Param.POSICION_SUR:
-			cv = new CuerpoVibora(this.getCabeza().getCoordenada().getX(), this.getCabeza().getCoordenada().getY() + 1);
+			cv = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		}
 		this.cabeza = cv;
@@ -95,4 +96,34 @@ public class Vibora {
 	public int getFrutasComidas() {
 		return this.frutasComidas;
 	}
+
+	public List<CuerpoVibora> getCuerpos() {
+		return this.cuerpos;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vibora other = (Vibora) obj;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		return true;
+	}
+
 }

@@ -2,11 +2,19 @@ package core;
 
 public class CuerpoVibora extends Entidad {
 
-	public CuerpoVibora(Coordenada coordenada) {
+	private Vibora vibora;
+	
+	public CuerpoVibora(Vibora vibora, Coordenada coordenada) {
 		super(coordenada);
+		this.vibora = vibora;
 	}
 
-	public CuerpoVibora(int x, int y) {
+	public CuerpoVibora(Vibora vibora, int x, int y) {
 		super(x, y);
+		this.vibora = vibora;
+	}
+	
+	public Vibora getVibora() {
+		return this.vibora;
 	}
 }

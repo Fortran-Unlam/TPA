@@ -35,5 +35,13 @@ public class Entidad {
 	public Coordenada getCoordenada() {
 		return coordenada;
 	}
+	
+	public int getX() {
+		return this.coordenada.getX();
+	}
+	
+	public int getY() {
+		return this.coordenada.getY();
+	}
 
 }
