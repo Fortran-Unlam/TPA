@@ -44,31 +44,31 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			vibora.mover();
 		}
-		
+
 		for (Vibora vibora : this.viboras) {
 			Fruta fruta = this.getFruta(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (fruta != null) {
 				Colision.colisionar(vibora, fruta);
 			}
 		}
-		
+
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
 		}
-		
+
 		for (Vibora vibora : this.viboras) {
 			CuerpoVibora cuerpoVibora = this.getCuerpoVibora(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (cuerpoVibora != null) {
 				Colision.colisionar(vibora, cuerpoVibora);
 			}
 		}
-		
+
 		for (Vibora vibora : this.viboras) {
 			if (vibora.getMuerte()) {
 				this.viboras.remove(vibora);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Mapa {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retorna el primer cuerpo de vibora si hay en la posicion dada
 	 * 
@@ -107,7 +107,7 @@ public class Mapa {
 
 		return null;
 	}
-	
+
 	/**
 	 * Retorna la dimension del mapa
 	 * 

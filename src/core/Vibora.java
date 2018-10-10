@@ -5,7 +5,6 @@ import java.util.List;
 import config.Param;
 
 public class Vibora extends Entidad {
-	
 
 	private String nombre;
 	private int frutasComidas;
@@ -17,8 +16,9 @@ public class Vibora extends Entidad {
 	public Vibora(Coordenada coordenada) {
 		super(coordenada);
 	}
+
 	/**
-	 * Consigue la cabeza que est� en la ultima posicion Asume que la cabeza se
+	 * Consigue la cabeza que esta en la ultima posicion. Asume que la cabeza se
 	 * actualiza en cada movimiento
 	 * 
 	 * @return
@@ -32,27 +32,27 @@ public class Vibora extends Entidad {
 
 	/**
 	 * Mueve la vibora hacia el ultimo sentido. Para moverse se elimina la cola y se
-	 * agrega un cuerpo delante de la cabeza.
-	 * El movimiento no implica la quita de la cola
+	 * agrega un cuerpo delante de la cabeza. El movimiento no implica la quita de
+	 * la cola
 	 */
 	public void mover() {
-		CuerpoVibora cv = new CuerpoVibora(this, null);
+		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, null);
 		switch (this.sentido) {
 		case Param.POSICION_ESTE:
-			cv = new CuerpoVibora(this, this.getCabeza().getX() + 1, this.getCabeza().getY());
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX() + 1, this.getCabeza().getY());
 			break;
 		case Param.POSICION_OESTE:
-			cv = new CuerpoVibora(this, this.getCabeza().getX() - 1, this.getCabeza().getY());
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX() - 1, this.getCabeza().getY());
 			break;
 		case Param.POSICION_NORTE:
-			cv = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		case Param.POSICION_SUR:
-			cv = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		}
-		this.cabeza = cv;
-		this.cuerpos.add(cv);
+		this.cabeza = cuerpoVibora;
+		this.cuerpos.add(cuerpoVibora);
 	}
 
 	/**
@@ -88,10 +88,9 @@ public class Vibora extends Entidad {
 	public List<CuerpoVibora> getCuerpos() {
 		return this.cuerpos;
 	}
-	
+
 	/**
-	 * Quita la cola si en ese ciclo de juego no va a crecer.
-	 * Si crece no hace nada.
+	 * Quita la cola si en ese ciclo de juego no va a crecer. Si crece no hace nada.
 	 */
 	public void crecerOMover() {
 		if (!this.crece) {
@@ -99,7 +98,7 @@ public class Vibora extends Entidad {
 		}
 		this.crece = false;
 	}
-	
+
 	/**
 	 * Marca que crece
 	 */

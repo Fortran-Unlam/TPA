@@ -1,13 +1,13 @@
 package core;
 
 public class Entidad {
-	
+
 	private boolean muere = false;
 	private Coordenada coordenada;
 
 	/**
-	 * Crea una entidad a partir de una coordenada
-	 * No se verifica si esta dentro del mapa porque la entidad no conoce el mapa
+	 * Crea una entidad a partir de una coordenada No se verifica si esta dentro del
+	 * mapa porque la entidad no conoce el mapa
 	 * 
 	 * @param coordenada
 	 */
@@ -15,10 +15,10 @@ public class Entidad {
 		super();
 		this.coordenada = coordenada;
 	}
-	
+
 	/**
-	 * Crea una entidad a partir de un X y un Y
-	 * No se verifica si esta dentro del mapa porque la entidad no conoce el mapa
+	 * Crea una entidad a partir de un X y un Y No se verifica si esta dentro del
+	 * mapa porque la entidad no conoce el mapa
 	 * 
 	 * @param x Horizontal
 	 * @param y Vertical
@@ -36,7 +36,7 @@ public class Entidad {
 	public Coordenada getCoordenada() {
 		return coordenada;
 	}
-	
+
 	/**
 	 * Devuelve la posicion X
 	 * 
@@ -45,7 +45,7 @@ public class Entidad {
 	public int getX() {
 		return this.coordenada.getX();
 	}
-	
+
 	/**
 	 * Devuelve la posicion Y
 	 * 
@@ -54,14 +54,14 @@ public class Entidad {
 	public int getY() {
 		return this.coordenada.getY();
 	}
-	
+
 	/**
 	 * Marca la vibora para que muera
 	 */
 	public void matar() {
 		this.muere = true;
 	}
-	
+
 	/**
 	 * Devuelve si la vibora ha muerto
 	 * 

@@ -1,7 +1,7 @@
 package core;
 
 public abstract class Colision {
-	
+
 	/**
 	 * Vibora colisiona con fruta
 	 * 
@@ -12,7 +12,7 @@ public abstract class Colision {
 		fruta.matar();
 		vibora.marcarCrecimiento();
 	}
-	
+
 	/**
 	 * Colision entre viboras
 	 * 
@@ -25,6 +25,5 @@ public abstract class Colision {
 			cuerpoVibora.getVibora().matar();
 		}
 	}
-
 
 }
