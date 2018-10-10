@@ -6,4 +6,5 @@ public class Fruta extends Entidad {
 		super(coordenada);
 	}
 
+	
 }

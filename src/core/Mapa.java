@@ -10,13 +10,13 @@ public class Mapa {
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
 	/**
-	 * Crea un mapa a partir de su ancho y alto
+	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar 4,4. Las posiciones van desde el 0.
 	 * 
 	 * @param ancho
 	 * @param alto
 	 */
-	public Mapa(int ancho, int alto) {
-		this.tamano = new Coordenada(ancho, alto);
+	public Mapa(int x, int y) {
+		this.tamano = new Coordenada(x, y);
 	}
 
 	/**
