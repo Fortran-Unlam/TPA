@@ -81,13 +81,19 @@ public class Vibora extends Entidad {
 
 	/**
 	 * Setea un nuevo sentido si es que puede
+	 * Si la vibora tiene UN cuerpo (UN cuadrado/pixel) se puede mover para su direccion contraria
+	 * 
+	 * Si la vibora tiene MAS DE UN cuerpo (MAS DE UN cuadrado/pixel) NO se puede mover para su direccion contraria
+	 * pues "se comería su propio cuerpo".
 	 * 
 	 * @param sentido
 	 */
 	public void setSentido(int sentido) {
-		if (Math.abs(this.sentido - sentido) != 2) {
+		
+		if(this.cuerpos.size()==1)
 			this.sentido = sentido;
-		}
+		else if (Math.abs(this.sentido - sentido) != 2) 
+			this.sentido = sentido;
 	}
 
 	/**
