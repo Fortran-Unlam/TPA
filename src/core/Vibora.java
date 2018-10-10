@@ -117,6 +117,15 @@ public class Vibora extends Entidad {
 	public void marcarCrecimiento() {
 		this.crece = true;
 	}
+	
+	/**
+	 * Devuelva la coordenada
+	 * 
+	 * @return La coordenada
+	 */
+	public Coordenada getCoordenada() {
+		return this.getCabeza().getCoordenada();
+	}
 
 	@Override
 	public int hashCode() {

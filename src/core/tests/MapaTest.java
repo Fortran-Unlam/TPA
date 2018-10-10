@@ -51,7 +51,7 @@ public class MapaTest {
 		vibora.setSentido(Param.POSICION_ESTE);
 		mapa.actualizar();
 		
-		//Assert.assertEquals(new Coordenada(0, 2), mapa.getCuerpoVibora(1,2).getCoordenada());	
+		Assert.assertEquals(new Coordenada(1, 2), vibora.getCoordenada());	
 	}
 	
 

@@ -20,9 +20,11 @@ public abstract class Colision {
 	 * @param cuerpoViboraChocada
 	 */
 	public static void colisionar(Vibora vibora, CuerpoVibora cuerpoVibora) {
-		vibora.matar();
-		if (cuerpoVibora.isCabeza()) {
-			cuerpoVibora.getVibora().matar();
+		if (!vibora.getCabeza().equals(cuerpoVibora)) {
+			vibora.matar();			
+			if (cuerpoVibora.isCabeza()) {
+				cuerpoVibora.getVibora().matar();
+			}
 		}
 	}
 
