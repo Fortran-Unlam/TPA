@@ -14,10 +14,11 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
-	public Vibora(Coordenada coordenada) {
+	public Vibora(Coordenada coordenada, int sentido) {
 		super(coordenada);
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
 		this.cuerpos.add(cuerpoVibora);
+		this.sentido = sentido;
 	}
 
 	/**
