@@ -29,7 +29,7 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			Fruta fruta = this.getFrutaByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (fruta != null) {
-				Colision colision = new Colision(vibora, fruta);
+				Colision.colisionar(vibora, fruta);
 			}
 		}
 		
@@ -37,7 +37,7 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			CuerpoVibora cuerpoVibora = this.getCuerpoViboraByPosition(vibora.getCabeza().getX(), vibora.getCabeza().getY());
 			if (cuerpoVibora != null) {
-				Colision colision = new Colision(vibora, cuerpoVibora);
+				Colision.colisionar(vibora, cuerpoVibora);
 			}
 		}
 		

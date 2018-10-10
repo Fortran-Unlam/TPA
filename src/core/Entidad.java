@@ -45,6 +45,10 @@ public class Entidad {
 		return this.coordenada.getY();
 	}
 	
+	public void matar() {
+		this.muere = true;
+	}
+	
 	public boolean getMuere() {
 		return this.muere;
 	}

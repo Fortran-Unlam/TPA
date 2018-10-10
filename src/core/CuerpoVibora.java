@@ -1,5 +1,7 @@
 package core;
 
+import java.util.List;
+
 public class CuerpoVibora extends Entidad {
 
 	private Vibora vibora;
@@ -16,5 +18,15 @@ public class CuerpoVibora extends Entidad {
 	
 	public Vibora getVibora() {
 		return this.vibora;
+	}
+	
+	/**
+	 * Chequea si esta parte del cuerpo es la cabeza
+	 * 
+	 * @return True si es la cabeza
+	 */
+	public boolean isCabeza() {
+		List<CuerpoVibora> cuerpos = this.vibora.getCuerpos();
+		return cuerpos.get(cuerpos.size()).equals(this);
 	}
 }

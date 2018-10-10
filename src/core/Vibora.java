@@ -95,6 +95,10 @@ public class Vibora extends Entidad {
 		}
 		this.crece = false;
 	}
+	
+	public void marcarCrecimiento() {
+		this.crece = true;
+	}
 
 	@Override
 	public int hashCode() {

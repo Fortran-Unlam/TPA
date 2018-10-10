@@ -1,6 +1,6 @@
 package core;
 
-public class Colision {
+public abstract class Colision {
 	
 	/**
 	 * Vibora colisiona con fruta
@@ -8,8 +8,9 @@ public class Colision {
 	 * @param vibora Vibora que come fruta
 	 * @param fruta  La fruta a comar
 	 */
-	public Colision(Vibora vibora, Fruta fruta) {
-		fruta.setMuere(true);
+	public static void colisionar(Vibora vibora, Fruta fruta) {
+		fruta.matar();
+		vibora.marcarCrecimiento();
 	}
 	
 	/**
@@ -18,8 +19,12 @@ public class Colision {
 	 * @param vibora
 	 * @param cuerpoViboraChocada
 	 */
-	public Colision(Vibora vibora, CuerpoVibora cuerpoViboraChocada) {
-		
+	public static void colisionar(Vibora vibora, CuerpoVibora cuerpoVibora) {
+		vibora.matar();
+		if (cuerpoVibora.isCabeza()) {
+			cuerpoVibora.getVibora().matar();
+		}
 	}
+
 
 }
