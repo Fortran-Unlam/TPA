@@ -176,11 +176,10 @@ public class MapaTest {
 		Vibora vibora = new Vibora(coordenada, Param.POSICION.NORTE);
 
 		mapa.add(vibora);
-		
+
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 1), mapa.getCuerpoVibora(3, 1));
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 2), mapa.getCuerpoVibora(3, 2));
 		Assert.assertEquals(true, mapa.getCuerpoVibora(3, 2).isCabeza());
-		
 
 		/*
 		 * le pongo que se mueva al sur pero en el proximo ciclo de maquina no la mueve
@@ -217,6 +216,38 @@ public class MapaTest {
 		Assert.assertEquals(new CuerpoVibora(vibora, 3, 1), mapa.getCuerpoVibora(3, 1));
 		Assert.assertEquals(false, mapa.getCuerpoVibora(3, 1).isCabeza());
 
+	}
+
+	@Test
+	public void seChocanDosDeCabezaViboras() {
+		Mapa mapa = new Mapa(4, 4);
+		Coordenada[] coordenada = { new Coordenada(3, 1) };
+		Vibora vibora = new Vibora(coordenada, Param.POSICION.NORTE);
+		mapa.add(vibora);
+
+		Coordenada[] coordenadas = { new Coordenada(3, 4), new Coordenada(3, 3) };
+		Vibora vibora2 = new Vibora(coordenadas, Param.POSICION.SUR);
+		mapa.add(vibora2);
+
+		mapa.actualizar();
+		Assert.assertEquals(true, vibora2.getMuerte());
+		Assert.assertEquals(true, vibora.getMuerte());
+	}
+	
+	@Test
+	public void seChocanDosViboras() {
+		Mapa mapa = new Mapa(4, 4);
+		Coordenada[] coordenada = { new Coordenada(2, 2) };
+		Vibora vibora = new Vibora(coordenada, Param.POSICION.ESTE);
+		mapa.add(vibora);
+
+		Coordenada[] coordenadas = { new Coordenada(3, 3), new Coordenada(3, 2) };
+		Vibora vibora2 = new Vibora(coordenadas, Param.POSICION.SUR);
+		mapa.add(vibora2);
+
+		mapa.actualizar();
+		Assert.assertEquals(true, vibora.getMuerte());
+		Assert.assertEquals(false, vibora2.getMuerte());
 	}
 
 }

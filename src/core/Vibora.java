@@ -165,6 +165,12 @@ public class Vibora extends Entidad {
 		if (getClass() != obj.getClass())
 			return false;
 		Vibora other = (Vibora) obj;
+		if (other.getCuerpos().size() != this.getCuerpos().size())
+			return false;
+		for (int i = 0; i < this.getCuerpos().size(); i++) {
+			if (this.getCuerpos().get(i) != other.getCuerpos().get(i))
+				return false;
+		}
 		if (nombre == null) {
 			if (other.nombre != null)
 				return false;

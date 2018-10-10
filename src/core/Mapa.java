@@ -56,7 +56,7 @@ public class Mapa {
 	public void actualizar() {
 		this.cambioEnFrutas = true;
 		this.cambioEnVibora = true;
-		
+
 		for (Vibora vibora : this.viboras) {
 			vibora.cabecear();
 		}
@@ -79,12 +79,7 @@ public class Mapa {
 			}
 		}
 
-		for (Vibora vibora : this.viboras) {
-			CuerpoVibora cuerpoVibora = this.getCuerpoVibora(vibora.getCabeza().getX(), vibora.getCabeza().getY());
-			if (cuerpoVibora != null) {
-				Colision.colisionar(vibora, cuerpoVibora);
-			}
-		}
+		this.cargarCuerposViboras();
 
 		for (Iterator<Vibora> viboras = this.viboras.iterator(); viboras.hasNext();) {
 			Vibora vibora = viboras.next();
@@ -96,12 +91,12 @@ public class Mapa {
 	}
 
 	private void cargarFrutas() {
-		this.posiconesDeFrutas = new Fruta[this.tamano.getX()+1][this.tamano.getY()+1];
+		this.posiconesDeFrutas = new Fruta[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Fruta fruta : frutas) {
 			this.posiconesDeFrutas[fruta.getX()][fruta.getY()] = fruta;
 		}
 	}
-	
+
 	/**
 	 * Consigue una fruta si lo hay en la posicion dada
 	 * 
@@ -119,17 +114,21 @@ public class Mapa {
 	}
 
 	private void cargarCuerposViboras() {
-		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX()+1][this.tamano.getY()+1];
+		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				// TODO: re pensar esto
 				if (this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] != null) {
-					Colision.colisionar(vibora, this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()]);
+					Colision.colisionar(vibora,
+							this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()]);
+					Colision.colisionar(this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()].getVibora(),
+							cuerpoVibora);
 				}
-				this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] = cuerpoVibora; 
+				this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] = cuerpoVibora;
 			}
 		}
 	}
+
 	/**
 	 * Retorna el primer cuerpo de vibora si hay en la posicion dada
 	 * 
