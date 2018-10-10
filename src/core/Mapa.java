@@ -10,8 +10,17 @@ public class Mapa {
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
+	private Fruta[][] posiconesDeFrutas;
+
+	private boolean cambioEnFrutas;
+
+	private boolean cambioEnVibora;
+
+	private CuerpoVibora[][] posicionesDecuerpoViboras;
+
 	/**
-	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar 4,4. Las posiciones van desde el 0.
+	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
+	 * 4,4. Las posiciones van desde el 0.
 	 * 
 	 * @param ancho
 	 * @param alto
@@ -26,6 +35,7 @@ public class Mapa {
 	 * @param vibora
 	 */
 	public void add(Vibora vibora) {
+		this.cambioEnVibora = true;
 		this.viboras.add(vibora);
 	}
 
@@ -35,13 +45,18 @@ public class Mapa {
 	 * @param fruta
 	 */
 	public void add(Fruta fruta) {
+		this.cambioEnFrutas = true;
 		this.frutas.add(fruta);
 	}
 
 	/**
-	 * Mueve sus entidades
+	 * Actualiza todo el mapa, esto implica mover sus entidades, verificar si se
+	 * chocan, matar a las que corresponde y quitarlas del mapa si mueren
 	 */
 	public void actualizar() {
+		this.cambioEnFrutas = true;
+		this.cambioEnVibora = true;
+		
 		for (Vibora vibora : this.viboras) {
 			vibora.cabecear();
 		}
@@ -56,8 +71,8 @@ public class Mapa {
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
 		}
-		
-		for (int i=0; i<this.frutas.size();i++) {
+
+		for (int i = 0; i < this.frutas.size(); i++) {
 			Fruta fruta = this.frutas.get(i);
 			if (fruta.getMuerte()) {
 				this.frutas.remove(i);
@@ -75,11 +90,18 @@ public class Mapa {
 			Vibora vibora = viboras.next();
 			if (vibora.getMuerte()) {
 				this.viboras.remove(vibora);
-			}			
+			}
 		}
 
 	}
 
+	private void cargarFrutas() {
+		this.posiconesDeFrutas = new Fruta[this.tamano.getX()+1][this.tamano.getY()+1];
+		for (Fruta fruta : frutas) {
+			this.posiconesDeFrutas[fruta.getX()][fruta.getY()] = fruta;
+		}
+	}
+	
 	/**
 	 * Consigue una fruta si lo hay en la posicion dada
 	 * 
@@ -89,14 +111,21 @@ public class Mapa {
 	 * @return Fruta | null
 	 */
 	public Fruta getFruta(int x, int y) {
-		for (Fruta fruta : frutas) {
-			if (fruta.getCoordenada().getX() == x && fruta.getCoordenada().getY() == y) {
-				return fruta;
-			}
+		if (this.cambioEnFrutas) {
+			this.cargarFrutas();
+			this.cambioEnFrutas = false;
 		}
-		return null;
+		return this.posiconesDeFrutas[x][y];
 	}
 
+	private void cargarCuerposViboras() {
+		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX()+1][this.tamano.getY()+1];
+		for (Vibora vibora : this.viboras) {
+			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
+				this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] = cuerpoVibora; 
+			}
+		}
+	}
 	/**
 	 * Retorna el primer cuerpo de vibora si hay en la posicion dada
 	 * 
@@ -106,15 +135,11 @@ public class Mapa {
 	 * @return Cuerpo de vibora | null
 	 */
 	public CuerpoVibora getCuerpoVibora(int x, int y) {
-		for (Vibora vibora : this.viboras) {
-			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
-				if (cuerpoVibora.getCoordenada().getX() == x && cuerpoVibora.getCoordenada().getY() == y) {
-					return cuerpoVibora;
-				}
-			}
+		if (this.cambioEnVibora) {
+			this.cargarCuerposViboras();
 		}
 
-		return null;
+		return this.posicionesDecuerpoViboras[x][y];
 	}
 
 	/**

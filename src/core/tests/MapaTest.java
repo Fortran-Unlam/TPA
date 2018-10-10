@@ -27,7 +27,7 @@ public class MapaTest {
 	public void TestAgregadoDeVibora() {
 		// mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Coordenada[] coordenada = { new Coordenada(3, 1) };
+		Coordenada[] coordenada = { new Coordenada(0, 2) };
 		Vibora vibora = new Vibora(coordenada);
 
 		mapa.add(vibora);
@@ -119,8 +119,10 @@ public class MapaTest {
 
 		Assert.assertEquals(new CuerpoVibora(vibora, 2, 3), mapa.getCuerpoVibora(2, 3));
 
-		// cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
-		// moverse en sentido contrario
+		/*
+		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
+		 * moverse en sentido contrario
+		 */
 		vibora.setSentido(Param.POSICION.ESTE);
 		mapa.actualizar();
 
@@ -156,8 +158,10 @@ public class MapaTest {
 
 		Assert.assertEquals(new CuerpoVibora(vibora, 2, 3), mapa.getCuerpoVibora(2, 3));
 
-		// cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
-		// moverse en sentido contrario
+		/*
+		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
+		 * moverse en sentido contrario
+		 */
 		vibora.setSentido(Param.POSICION.NORTE);
 		mapa.actualizar();
 
