@@ -53,7 +53,7 @@ public class Vibora {
 	}
 
 	/**
-	 * Mueve la vibora habia el sentido dado
+	 * Mueve la vibora hacia el sentido dado
 	 * 
 	 * @param sentido
 	 */
