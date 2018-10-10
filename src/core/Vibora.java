@@ -28,7 +28,7 @@ public class Vibora extends Entidad {
 	}
 	
 	/**
-	 * Crea una vibora con un sentido random
+	 * Crea una vibora con un sentido predeterminado
 	 * 
 	 * @param coordenada
 	 */
@@ -85,7 +85,7 @@ public class Vibora extends Entidad {
 	 * @param sentido
 	 */
 	public void setSentido(int sentido) {
-		if (Math.abs(this.sentido - sentido) < 2) {
+		if (Math.abs(this.sentido - sentido) != 2) {
 			this.sentido = sentido;
 		}
 	}
