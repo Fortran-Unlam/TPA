@@ -62,6 +62,8 @@ public class Vibora extends Entidad {
 			break;
 		}
 		this.cabeza = cuerpoVibora;
+		this.coordenada = this.cabeza.getCoordenada();
+		
 		this.cuerpos.add(cuerpoVibora);
 	}
 
@@ -118,15 +120,6 @@ public class Vibora extends Entidad {
 		this.crece = true;
 	}
 	
-	/**
-	 * Devuelva la coordenada
-	 * 
-	 * @return La coordenada
-	 */
-	public Coordenada getCoordenada() {
-		return this.getCabeza().getCoordenada();
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

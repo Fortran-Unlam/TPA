@@ -3,7 +3,7 @@ package core;
 public class Entidad {
 
 	private boolean muere = false;
-	private Coordenada coordenada;
+	protected Coordenada coordenada;
 
 	/**
 	 * Crea una entidad a partir de una coordenada No se verifica si esta dentro del
