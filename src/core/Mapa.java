@@ -10,12 +10,11 @@ public class Mapa {
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
 	private Fruta[][] posiconesDeFrutas;
+	private CuerpoVibora[][] posicionesDecuerpoViboras;
 
 	private boolean cambioEnFrutas;
-
 	private boolean cambioEnVibora;
 
-	private CuerpoVibora[][] posicionesDecuerpoViboras;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
