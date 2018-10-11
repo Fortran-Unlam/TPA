@@ -16,7 +16,7 @@ public class MapaTest {
 	public void TestAgregadoDeFrutas() {
 		// mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
-		Fruta fruta = new Fruta(new Coordenada(2, 2));
+		Fruta fruta = new Fruta(2, 2);
 		mapa.add(fruta);
 
 		Assert.assertEquals(new Coordenada(2, 2), mapa.getFruta(2, 2).getCoordenada());
@@ -200,7 +200,7 @@ public class MapaTest {
 		Coordenada[] coordenada = { new Coordenada(3, 1) };
 		Vibora vibora = new Vibora(coordenada, Posicion.NORTE);
 
-		Fruta fruta = new Fruta(new Coordenada(3, 2));
+		Fruta fruta = new Fruta(3, 2);
 		mapa.add(vibora);
 		mapa.add(fruta);
 
