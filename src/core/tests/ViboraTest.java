@@ -155,5 +155,43 @@ public class ViboraTest {
 		Assert.assertEquals(1, vibora.getY());
 	}
 	
+	@Test
+	public void noIrDeEsteAOeste() {
+		Coordenada[] coordenadas = { new Coordenada(2, 1), new Coordenada(3, 1), new Coordenada(4, 1) };
+		Vibora vibora = new Vibora(coordenadas, Param.POSICION.ESTE);
+
+		Assert.assertEquals(4, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+		
+		vibora.cabecear();
+
+		Assert.assertEquals(5, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+		vibora.setSentido(Param.POSICION.OESTE);
+		vibora.cabecear();
+
+		Assert.assertEquals(6, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+	}
+	
+	@Test
+	public void noIrDeOesteAEste() {
+		Coordenada[] coordenadas = { new Coordenada(4, 1), new Coordenada(3, 1), new Coordenada(2, 1) };
+		Vibora vibora = new Vibora(coordenadas, Param.POSICION.OESTE);
+
+		Assert.assertEquals(2, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+		
+		vibora.cabecear();
+
+		Assert.assertEquals(1, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+		vibora.setSentido(Param.POSICION.ESTE);
+		vibora.cabecear();
+
+		Assert.assertEquals(0, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+	}
+	
 	
 }
