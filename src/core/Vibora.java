@@ -1,5 +1,8 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -8,6 +11,7 @@ import config.Posicion;
 
 public class Vibora extends Entidad {
 
+	private static final long serialVersionUID = -8997149383922731163L;
 	private String nombre;
 	private int frutasComidas;
 	private List<CuerpoVibora> cuerpos = new ArrayList<CuerpoVibora>();
@@ -179,4 +183,10 @@ public class Vibora extends Entidad {
 		return true;
 	}
 
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+	}
 }

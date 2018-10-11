@@ -1,8 +1,12 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class CuerpoVibora extends Entidad {
 
+	private static final long serialVersionUID = -6067088917549993325L;
 	private Vibora vibora;
 
 	/**
@@ -71,5 +75,11 @@ public class CuerpoVibora extends Entidad {
 		return true;
 	}
 
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+	}
 	
 }
