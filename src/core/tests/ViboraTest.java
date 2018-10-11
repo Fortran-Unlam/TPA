@@ -135,4 +135,25 @@ public class ViboraTest {
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(6, vibora.getY());
 	}
+	
+	@Test
+	public void noIrDeSurANorte() {
+		Coordenada[] coordenadas = { new Coordenada(1, 3), new Coordenada(2, 3), new Coordenada(3, 3) };
+		Vibora vibora = new Vibora(coordenadas, Param.POSICION.SUR);
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(3, vibora.getY());
+		
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(2, vibora.getY());
+		vibora.setSentido(Param.POSICION.NORTE);
+		vibora.cabecear();
+
+		Assert.assertEquals(3, vibora.getX());
+		Assert.assertEquals(1, vibora.getY());
+	}
+	
+	
 }
