@@ -45,7 +45,6 @@ public class GestorMapa extends JFrame {
 				
 		while (true) {
 			mapa.actualizar();
-			repaint();
 			
 			try {
 				Thread.sleep(250);
