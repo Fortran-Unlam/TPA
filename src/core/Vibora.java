@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import config.Param;
+import config.Posicion;
 
 public class Vibora extends Entidad {
 
 	private String nombre;
 	private int frutasComidas;
 	private List<CuerpoVibora> cuerpos = new ArrayList<CuerpoVibora>();
-	private Param.POSICION sentido;
+	private Posicion sentido;
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
@@ -29,7 +29,7 @@ public class Vibora extends Entidad {
 			this.cuerpos.add(cuerpoVibora);
 		}
 
-		this.sentido = Param.POSICION.values()[new Random().nextInt(4)];
+		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
 
 	/**
@@ -39,7 +39,7 @@ public class Vibora extends Entidad {
 	 * @param coordenada
 	 * @param sentido
 	 */
-	public Vibora(Coordenada[] coordenadas, Param.POSICION sentido) {
+	public Vibora(Coordenada[] coordenadas, Posicion sentido) {
 		super(coordenadas[coordenadas.length - 1]);
 
 		for (Coordenada coordenada : coordenadas) {
@@ -95,11 +95,11 @@ public class Vibora extends Entidad {
 	 * cuadrado/pixel) se puede mover para su direccion contraria
 	 * 
 	 * Si la vibora tiene MAS DE UN cuerpo (MAS DE UN cuadrado/pixel) NO se puede
-	 * mover para su direccion contraria pues "se comería su propio cuerpo".
+	 * mover para su direccion contraria pues "se comerï¿½a su propio cuerpo".
 	 * 
 	 * @param sentido
 	 */
-	public void setSentido(Param.POSICION sentido) {
+	public void setSentido(Posicion sentido) {
 
 		if (this.cuerpos.size() == 1 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
