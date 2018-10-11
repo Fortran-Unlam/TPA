@@ -218,7 +218,7 @@ public class MapaTest {
 
 	@Test
 	public void seChocanDosDeCabezaViboras() {
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(4, 5);
 		Coordenada[] coordenada = { new Coordenada(3, 1) };
 		Vibora vibora = new Vibora(coordenada, Posicion.NORTE);
 		mapa.add(vibora);
@@ -293,5 +293,13 @@ public class MapaTest {
 		Assert.assertEquals(true, mapa.estaDentro(0, 0));
 	}
 
-
+	@Test
+	public void verSiAgregaViborasDentroDelMapa() {
+		
+	}
+	
+	@Test
+	public void verSiAgregaFrutasDentroDelMapa() {
+		
+	}
 }

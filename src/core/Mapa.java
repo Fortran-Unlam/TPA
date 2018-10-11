@@ -28,13 +28,19 @@ public class Mapa {
 	}
 
 	/**
-	 * Agrega una vibora en el mapa
+	 * Agrega una vibora en el mapa. Su coordenada tiene que estar dentro del mapa
 	 * 
 	 * @param vibora
 	 */
-	public void add(Vibora vibora) {
+	public boolean add(Vibora vibora) {
+		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
+			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())) {
+				return false;
+			}
+		}
 		this.cambioEnVibora = true;
 		this.viboras.add(vibora);
+		return true;
 	}
 
 	/**
@@ -42,9 +48,13 @@ public class Mapa {
 	 * 
 	 * @param fruta
 	 */
-	public void add(Fruta fruta) {
+	public boolean add(Fruta fruta) {
+		if (!this.estaDentro(fruta.getX(), fruta.getY())) {
+			return false;
+		}
 		this.cambioEnFrutas = true;
 		this.frutas.add(fruta);
+		return true;
 	}
 
 	/**
