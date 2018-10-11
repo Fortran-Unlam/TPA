@@ -278,8 +278,19 @@ public class MapaTest {
 		mapa.actualizar();
 		
 		Assert.assertEquals(true, vibora.getMuerte());
+	}
 	
-
+	@Test
+	public void fueraDelMapa() {
+		Mapa mapa = new Mapa(3,3);
+		Assert.assertEquals(false, mapa.estaDentro(0, 3));
+		Assert.assertEquals(false, mapa.estaDentro(3, 0));
+		Assert.assertEquals(false, mapa.estaDentro(0, 4));
+		Assert.assertEquals(false, mapa.estaDentro(4, 0));
+		Assert.assertEquals(false, mapa.estaDentro(3, 3));
+		Assert.assertEquals(false, mapa.estaDentro(-1, 3));
+		Assert.assertEquals(false, mapa.estaDentro(0, -1));
+		Assert.assertEquals(true, mapa.estaDentro(0, 0));
 	}
 
 

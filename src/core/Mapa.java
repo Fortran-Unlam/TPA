@@ -181,7 +181,7 @@ public class Mapa {
 	 * 
 	 * @return True si esta adentro
 	 */
-	private boolean estaDentro(int x, int y) {
+	public boolean estaDentro(int x, int y) {
 		return x >= 0 && y >= 0 && this.tamano.getX() > x && this.tamano.getY() > y;
 	}
 }
