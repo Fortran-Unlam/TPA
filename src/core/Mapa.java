@@ -81,10 +81,10 @@ public class Mapa {
 
 		this.cargarCuerposViboras();
 
-		for (Iterator<Vibora> viboras = this.viboras.iterator(); viboras.hasNext();) {
-			Vibora vibora = viboras.next();
+		for (int i = 0; i < this.viboras.size(); i++) {
+			Vibora vibora = this.viboras.get(i);
 			if (vibora.getMuerte()) {
-				this.viboras.remove(vibora);
+				this.viboras.remove(i);
 			}
 		}
 
@@ -106,11 +106,16 @@ public class Mapa {
 	 * @return Fruta | null
 	 */
 	public Fruta getFruta(int x, int y) {
-		if (this.cambioEnFrutas) {
-			this.cargarFrutas();
-			this.cambioEnFrutas = false;
+		if (this.estaDentro(x, y)) {
+			
+			if (this.cambioEnFrutas) {
+				this.cargarFrutas();
+				this.cambioEnFrutas = false;
+			}
+			return this.posiconesDeFrutas[x][y];
 		}
-		return this.posiconesDeFrutas[x][y];
+		
+		return null;
 	}
 
 	private void cargarCuerposViboras() {
@@ -118,9 +123,12 @@ public class Mapa {
 		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
-				// TODO: re pensar esto
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();
+				if(!this.estaDentro(coordenadaX, coordenadaY)) {
+					cuerpoVibora.getVibora().matar();
+					continue;
+				}
 				if (this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] != null) {
 					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY],
 							cuerpoVibora);
@@ -153,5 +161,9 @@ public class Mapa {
 	 */
 	public Coordenada getTamano() {
 		return this.tamano;
+	}
+	
+	private boolean estaDentro(int x,  int y) {
+		return x >= 0 && y >= 0 && this.tamano.getX() > x && this.tamano.getY() > y;
 	}
 }

@@ -149,8 +149,7 @@ public class MapaTest {
 
 	@Test
 	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaSurNorte() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Coordenada[] coordenada = { new Coordenada(2, 3) };
 		Vibora vibora = new Vibora(coordenada, Param.POSICION.SUR);
 		mapa.add(vibora);
