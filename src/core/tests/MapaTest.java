@@ -302,4 +302,14 @@ public class MapaTest {
 	public void verSiAgregaFrutasDentroDelMapa() {
 		
 	}
+	
+	@Test
+	public void verSiAgregaViborasDondeHabiaAlgo() {
+		
+	}
+	
+	@Test
+	public void verSiAgregaFrutasDondeHabiaAlgo() {
+		
+	}
 }

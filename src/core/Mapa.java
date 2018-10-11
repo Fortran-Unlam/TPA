@@ -15,7 +15,6 @@ public class Mapa {
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
 
-
 	/**
 	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
 	 * 4,4. Las posiciones van desde el 0.
@@ -28,30 +27,37 @@ public class Mapa {
 	}
 
 	/**
-	 * Agrega una vibora en el mapa. Su coordenada tiene que estar dentro del mapa
+	 * Agrega una vibora en el mapa. Su coordenada tiene que estar dentro del mapa.
+	 * Tampoco puede agregarlo donde haya algo.
 	 * 
 	 * @param vibora
 	 */
 	public boolean add(Vibora vibora) {
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
-			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())) {
+			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())
+					|| this.getCuerpoVibora(cuerpo.getX(), cuerpo.getY()) != null
+					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
 			}
 		}
+
 		this.cambioEnVibora = true;
 		this.viboras.add(vibora);
 		return true;
 	}
 
 	/**
-	 * Agrega una fruta al mapa
+	 * Agrega una fruta al mapa. Su coordenada tiene que estar dentro del mapa.
+	 * Tampoco puede agregarlo donde haya algo.
 	 * 
 	 * @param fruta
 	 */
 	public boolean add(Fruta fruta) {
-		if (!this.estaDentro(fruta.getX(), fruta.getY())) {
+		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getCuerpoVibora(fruta.getX(), fruta.getY()) != null
+				|| this.getFruta(fruta.getX(), fruta.getY()) != null) {
 			return false;
 		}
+
 		this.cambioEnFrutas = true;
 		this.frutas.add(fruta);
 		return true;
@@ -126,7 +132,7 @@ public class Mapa {
 				this.cambioEnFrutas = false;
 			}
 			if (this.posiconesDeFrutas != null) {
-				return this.posiconesDeFrutas[x][y];				
+				return this.posiconesDeFrutas[x][y];
 			}
 		}
 
