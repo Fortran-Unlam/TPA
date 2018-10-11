@@ -20,19 +20,15 @@ public abstract class Colision {
 	 * @param vibora
 	 * @param cuerpoViboraChocada
 	 */
-	public static void colisionar(Vibora vibora, CuerpoVibora cuerpoVibora) {
-		
-		if (vibora.getCabeza().getCoordenada().equals(cuerpoVibora.getCoordenada())) {
-
-			if (!vibora.getCabeza().equals(cuerpoVibora)) {
-			
-				vibora.matar();
-				
-				if (cuerpoVibora.isCabeza()) {
-					cuerpoVibora.getVibora().matar();
-				}
-			}
-		}
+	public static void colisionar(CuerpoVibora cuerpoViboraA, CuerpoVibora cuerpoViboraB) {
+		//si chocan las cabezas, no importa la direción: por ahora mueren las dos.
+		if(cuerpoViboraA.isCabeza() && cuerpoViboraB.isCabeza()) {
+			cuerpoViboraA.getVibora().matar();
+			cuerpoViboraB.getVibora().matar();
+		}else if(cuerpoViboraA.isCabeza() && !cuerpoViboraB.isCabeza()) 	//si choca cabeza de A con cuerpo de B
+			cuerpoViboraA.getVibora().matar();
+		else	//si choca cabeza de B con cuerpo de A
+			cuerpoViboraB.getVibora().matar();
 	}
 
 }

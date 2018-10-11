@@ -22,8 +22,8 @@ public class Mapa {
 	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
 	 * 4,4. Las posiciones van desde el 0.
 	 * 
-	 * @param ancho
-	 * @param alto
+	 * @param x	
+	 * @param y
 	 */
 	public Mapa(int x, int y) {
 		this.tamano = new Coordenada(x, y);
@@ -114,17 +114,18 @@ public class Mapa {
 	}
 
 	private void cargarCuerposViboras() {
+		int coordenadaX, coordenadaY;
 		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Vibora vibora : this.viboras) {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				// TODO: re pensar esto
-				if (this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] != null) {
-					Colision.colisionar(vibora,
-							this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()]);
-					Colision.colisionar(this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()].getVibora(),
+				coordenadaX = cuerpoVibora.getX();
+				coordenadaY = cuerpoVibora.getY();
+				if (this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] != null) {
+					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY],
 							cuerpoVibora);
 				}
-				this.posicionesDecuerpoViboras[cuerpoVibora.getX()][cuerpoVibora.getY()] = cuerpoVibora;
+				this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] = cuerpoVibora;
 			}
 		}
 	}

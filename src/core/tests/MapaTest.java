@@ -17,7 +17,6 @@ public class MapaTest {
 		// mapa de 5x5
 		Mapa mapa = new Mapa(4, 4);
 		Fruta fruta = new Fruta(new Coordenada(2, 2));
-
 		mapa.add(fruta);
 
 		Assert.assertEquals(new Coordenada(2, 2), mapa.getFruta(2, 2).getCoordenada());
@@ -268,5 +267,21 @@ public class MapaTest {
 		Assert.assertEquals(6, vibora2.getX());
 		Assert.assertEquals(4, vibora.getX());
 	}
+	
+	@Test
+	public void viboraMuereChocandoConElMargen() {
+		Mapa mapa = new Mapa(4, 4);
+		Coordenada[] coordenada = {new Coordenada(0, 1)};
+		Vibora vibora = new Vibora(coordenada, Param.POSICION.NORTE);
+		mapa.add(vibora);
+
+		vibora.setSentido(Param.POSICION.OESTE);
+		mapa.actualizar();
+		
+		Assert.assertEquals(true, vibora.getMuerte());
+	
+
+	}
+
 
 }
