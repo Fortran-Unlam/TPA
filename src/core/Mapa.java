@@ -22,7 +22,7 @@ public class Mapa {
 	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
 	 * 4,4. Las posiciones van desde el 0.
 	 * 
-	 * @param x	
+	 * @param x
 	 * @param y
 	 */
 	public Mapa(int x, int y) {
@@ -54,7 +54,6 @@ public class Mapa {
 	 * chocan, matar a las que corresponde y quitarlas del mapa si mueren
 	 */
 	public void actualizar() {
-		this.cambioEnFrutas = true;
 		this.cambioEnVibora = true;
 
 		for (Vibora vibora : this.viboras) {
@@ -75,6 +74,7 @@ public class Mapa {
 		for (int i = 0; i < this.frutas.size(); i++) {
 			Fruta fruta = this.frutas.get(i);
 			if (fruta.getMuerte()) {
+				this.cambioEnFrutas = true;
 				this.frutas.remove(i);
 			}
 		}
@@ -90,6 +90,11 @@ public class Mapa {
 
 	}
 
+	/**
+	 * Carga todas las frutas en una matriz. No deberia haber dos frutas en la misma
+	 * posicion. Esta se deberia llamar cuando se agrega una fruta o cuando se
+	 * remueve una fruta.
+	 */
 	private void cargarFrutas() {
 		this.posiconesDeFrutas = new Fruta[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Fruta fruta : frutas) {
@@ -107,17 +112,24 @@ public class Mapa {
 	 */
 	public Fruta getFruta(int x, int y) {
 		if (this.estaDentro(x, y)) {
-			
+
 			if (this.cambioEnFrutas) {
 				this.cargarFrutas();
 				this.cambioEnFrutas = false;
 			}
-			return this.posiconesDeFrutas[x][y];
+			if (this.posiconesDeFrutas != null) {
+				return this.posiconesDeFrutas[x][y];				
+			}
 		}
-		
+
 		return null;
 	}
 
+	/**
+	 * Carga en una matriz las viboras. Si dos viboras se van a guardar en la misma
+	 * posicion crea una colision para que vea quien tiene que morir. Esto se
+	 * deberia llamar cuando hay una nueva vibora o cuando se mueven las viboras
+	 */
 	private void cargarCuerposViboras() {
 		int coordenadaX, coordenadaY;
 		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
@@ -125,13 +137,12 @@ public class Mapa {
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();
-				if(!this.estaDentro(coordenadaX, coordenadaY)) {
+				if (!this.estaDentro(coordenadaX, coordenadaY)) {
 					cuerpoVibora.getVibora().matar();
 					continue;
 				}
 				if (this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] != null) {
-					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY],
-							cuerpoVibora);
+					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY], cuerpoVibora);
 				}
 				this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] = cuerpoVibora;
 			}
@@ -162,8 +173,16 @@ public class Mapa {
 	public Coordenada getTamano() {
 		return this.tamano;
 	}
-	
-	private boolean estaDentro(int x,  int y) {
+
+	/**
+	 * Retorna si la coordenada (x,y) esta dentro del mapa
+	 * 
+	 * @param x
+	 * @param y
+	 * 
+	 * @return True si esta adentro
+	 */
+	private boolean estaDentro(int x, int y) {
 		return x >= 0 && y >= 0 && this.tamano.getX() > x && this.tamano.getY() > y;
 	}
 }
