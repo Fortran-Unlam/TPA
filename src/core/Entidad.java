@@ -1,10 +1,7 @@
 package core;
 
-import javax.swing.JPanel;
+public class Entidad {
 
-public class Entidad extends JPanel {
-
-	private static final long serialVersionUID = -7720996238943509380L;
 	private boolean muere = false;
 	protected Coordenada coordenada;
 
@@ -46,7 +43,7 @@ public class Entidad extends JPanel {
 	 */
 	public int getX() {
 		if (this.coordenada == null) {
-			return super.getX();
+			return -1;
 		}
 		return this.coordenada.getX();
 	}
@@ -58,7 +55,7 @@ public class Entidad extends JPanel {
 	 */
 	public int getY() {
 		if (this.coordenada == null) {
-			return super.getY();
+			return -1;
 		}
 		return this.coordenada.getY();
 	}

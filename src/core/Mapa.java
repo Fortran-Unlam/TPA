@@ -1,17 +1,8 @@
 package core;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-
-import config.Param;
-
-public class Mapa extends JPanel {
-
-	private static final long serialVersionUID = -6395582080827244488L;
+public class Mapa {
 
 	private Coordenada tamano;
 
@@ -110,7 +101,6 @@ public class Mapa extends JPanel {
 				this.viboras.remove(i);
 			}
 		}
-		repaint();
 	}
 
 	/**
@@ -211,18 +201,4 @@ public class Mapa extends JPanel {
 		return x >= 0 && y >= 0 && this.tamano.getX() > x && this.tamano.getY() > y;
 	}
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, Param.ANCHO_MAPA, Param.LARGO_MAPA);
-		for (Fruta fruta : this.frutas) {
-			fruta.paint(g2d);
-		}
-
-		for (Vibora vibora : this.viboras) {
-			vibora.paint(g2d);
-		}
-	}
 }
