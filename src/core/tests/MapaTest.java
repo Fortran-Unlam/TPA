@@ -294,22 +294,62 @@ public class MapaTest {
 	}
 
 	@Test
-	public void verSiAgregaViborasDentroDelMapa() {
+	public void verSiAgregaViborasFueraDelMapaCoordenadaY() {
+		Mapa mapa = new Mapa(4, 2);
+		Coordenada[] deLaVibora = {new Coordenada(4, 3)};
+		Vibora vibora = new Vibora(deLaVibora, Posicion.NORTE); 
+				
+		Assert.assertEquals(false, mapa.add(vibora));
 		
 	}
 	
 	@Test
-	public void verSiAgregaFrutasDentroDelMapa() {
+	public void verSiAgregaViborasFueraDelMapaCoordenadaX() {
+		Mapa mapa = new Mapa(4, 2);
+		Coordenada[] deLaVibora = {new Coordenada(5, 3)};
+		Vibora vibora = new Vibora(deLaVibora, Posicion.NORTE); 
+				
+		Assert.assertEquals(false, mapa.add(vibora));
 		
 	}
 	
 	@Test
-	public void verSiAgregaViborasDondeHabiaAlgo() {
+	public void verSiAgregaFrutasFueraDelMapaCoordenadaX() {
+		Mapa mapa = new Mapa(10, 4);
+		Fruta fruta = new Fruta(new Coordenada(11, 1));
 		
+		Assert.assertEquals(false, mapa.add(fruta));
 	}
 	
 	@Test
-	public void verSiAgregaFrutasDondeHabiaAlgo() {
+	public void verSiAgregaFrutasFueraDelMapaCoordenadaY() {
+		Mapa mapa = new Mapa(10, 4);
+		Fruta fruta = new Fruta(new Coordenada(1, 5));
+		
+		Assert.assertEquals(false, mapa.add(fruta));
+	}
+	
+	
+	@Test
+	public void verSiAgregaViboraDondeHabiaAlgo() {
+		Mapa mapa = new Mapa(4, 2);
+		Coordenada[] deLaVibora = {new Coordenada(0, 1), new Coordenada(1, 1), new Coordenada(2, 1)};
+		Vibora vibora = new Vibora(deLaVibora,Posicion.ESTE);
+		Fruta fruta = new Fruta(1, 1);
+		Assert.assertEquals(true, mapa.add(fruta));
+		Assert.assertEquals(false, mapa.add(vibora)); 
+	}
+	
+	@Test
+	public void verSiAgregaFrutaDondeHabiaAlgo() {
+		Mapa mapa = new Mapa(4, 2);
+		Coordenada[] deLaVibora = {new Coordenada(0, 1), new Coordenada(1, 1), new Coordenada(2, 1)};
+		Vibora vibora = new Vibora(deLaVibora,Posicion.ESTE);
+		Fruta fruta = new Fruta(1, 1);
+		
+		Assert.assertEquals(true, mapa.add(vibora)); 
+		Assert.assertEquals(false, mapa.add(fruta));
 		
 	}
+	
 }
