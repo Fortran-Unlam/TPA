@@ -4,21 +4,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import config.Posicion;
-import core.Coordenada;
 import core.Vibora;
 
 public class ViboraTest {
 
 	@Test
 	public void creacionEnPosicionCorrecta() {
-		Coordenada[] coordenada = {new Coordenada(2, 3)};
-		Vibora vibora = new Vibora(coordenada);
+		Vibora vibora = new Vibora(2,3,1);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 
-		Coordenada[] coordenada2 = {new Coordenada(4, 1)};
-		Vibora vibora2 = new Vibora(coordenada2);
+		Vibora vibora2 = new Vibora(4,1,1);
 
 		Assert.assertEquals(4, vibora2.getX());
 		Assert.assertEquals(1, vibora2.getY());
@@ -27,14 +24,12 @@ public class ViboraTest {
 
 	@Test
 	public void creacionCabezaEnPosicionCorrecta() {
-		Coordenada[] coordenada = {new Coordenada(2, 3)};
-		Vibora vibora = new Vibora(coordenada);
+		Vibora vibora = new Vibora(2,3,1);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
 
-		Coordenada[] coordenada2 = {new Coordenada(4, 1)};
-		Vibora vibora2 = new Vibora(coordenada2);
+		Vibora vibora2 = new Vibora(4,1,1);
 
 		Assert.assertEquals(4, vibora2.getX());
 		Assert.assertEquals(1, vibora2.getY());
@@ -42,8 +37,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlEste() {
-		Coordenada[] coordenada = {new Coordenada(2, 3)};
-		Vibora vibora = new Vibora(coordenada, Posicion.ESTE);
+		Vibora vibora = new Vibora(2,3,1, Posicion.ESTE);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
@@ -61,8 +55,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlOeste() {
-		Coordenada[] coordenada = {new Coordenada(2, 3)};
-		Vibora vibora = new Vibora(coordenada, Posicion.OESTE);
+		Vibora vibora = new Vibora(2,3,1, Posicion.OESTE);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
@@ -80,8 +73,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlSur() {
-		Coordenada[] coordenada = {new Coordenada(3, 4)};
-		Vibora vibora = new Vibora(coordenada, Posicion.SUR);
+		Vibora vibora = new Vibora(3,4,1, Posicion.SUR);
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(4, vibora.getY());
@@ -99,8 +91,7 @@ public class ViboraTest {
 
 	@Test
 	public void movimientoRectoAlNorte() {
-		Coordenada[] coordenada = {new Coordenada(3, 4)};
-		Vibora vibora = new Vibora(coordenada, Posicion.NORTE) ;
+		Vibora vibora = new Vibora(3,4,1, Posicion.NORTE) ;
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(4, vibora.getY());
@@ -118,8 +109,7 @@ public class ViboraTest {
 
 	@Test
 	public void noIrDeNorteASur() {
-		Coordenada[] coordenadas = { new Coordenada(1, 4), new Coordenada(2, 4), new Coordenada(3, 4) };
-		Vibora vibora = new Vibora(coordenadas, Posicion.NORTE);
+		Vibora vibora = new Vibora(3,4,3, Posicion.NORTE);
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(4, vibora.getY());
@@ -138,8 +128,7 @@ public class ViboraTest {
 	
 	@Test
 	public void noIrDeSurANorte() {
-		Coordenada[] coordenadas = { new Coordenada(1, 3), new Coordenada(2, 3), new Coordenada(3, 3) };
-		Vibora vibora = new Vibora(coordenadas, Posicion.SUR);
+		Vibora vibora = new Vibora(3,3,3, Posicion.SUR);
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(3, vibora.getY());
@@ -157,8 +146,7 @@ public class ViboraTest {
 	
 	@Test
 	public void noIrDeEsteAOeste() {
-		Coordenada[] coordenadas = { new Coordenada(2, 1), new Coordenada(3, 1), new Coordenada(4, 1) };
-		Vibora vibora = new Vibora(coordenadas, Posicion.ESTE);
+		Vibora vibora = new Vibora(4,1,3, Posicion.ESTE);
 
 		Assert.assertEquals(4, vibora.getX());
 		Assert.assertEquals(1, vibora.getY());
@@ -176,8 +164,7 @@ public class ViboraTest {
 	
 	@Test
 	public void noIrDeOesteAEste() {
-		Coordenada[] coordenadas = { new Coordenada(4, 1), new Coordenada(3, 1), new Coordenada(2, 1) };
-		Vibora vibora = new Vibora(coordenadas, Posicion.OESTE);
+		Vibora vibora = new Vibora(2,1,3, Posicion.OESTE);
 
 		Assert.assertEquals(2, vibora.getX());
 		Assert.assertEquals(1, vibora.getY());

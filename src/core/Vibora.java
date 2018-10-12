@@ -15,40 +15,107 @@ public class Vibora extends Entidad {
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
 
+
+	
 	/**
-	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido
-	 * random Se puede pasar una coordenada y esta sera la cabeza
 	 * 
+	 * Crea una vibora del largo pasado por parametro en forma horizontal
+	 * si el sentido es OESTE o ESTE, y en vertical si el sentido es NORTE
+	 * o SUR. La coordenada pasada por parámetro es la cabeza.
 	 * @param coordenada
-	 */
-	public Vibora(Coordenada[] coordenadas) {
-		super(coordenadas[coordenadas.length - 1]);
-
-		for (Coordenada coordenada : coordenadas) {
-			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
-			this.cuerpos.add(cuerpoVibora);
-		}
-
-		this.sentido = Posicion.values()[new Random().nextInt(4)];
-	}
-
-	/**
-	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido dado
-	 * Se puede pasar una coordenada y esta sera la cabeza
-	 * 
-	 * @param coordenada
+	 * @param largo
 	 * @param sentido
 	 */
-	public Vibora(Coordenada[] coordenadas, Posicion sentido) {
-		super(coordenadas[coordenadas.length - 1]);
+	public Vibora(int x, int y, int largo, Posicion sentido) {
+		super(new Coordenada(x, y)); // cabeza de la vibora
+		this.cabeza = new CuerpoVibora(this, x, y);
+		this.sentido = sentido;
+		Coordenada coordenada = new Coordenada(x, y);
 
-		for (Coordenada coordenada : coordenadas) {
-			CuerpoVibora cuerpoVibora = new CuerpoVibora(this, coordenada);
-			this.cuerpos.add(cuerpoVibora);
+		if (sentido == Posicion.ESTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX() - i, coordenada.getY()));
+				this.cuerpos.add(cuerpoVibora);
+			}
 		}
 
-		this.sentido = sentido;
+		if (sentido == Posicion.OESTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX() + i, coordenada.getY()));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+
+		if (sentido == Posicion.NORTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX(), coordenada.getY() - i));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+
+		if (sentido == Posicion.SUR) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX(), coordenada.getY() + i));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
 	}
+	
+	/**
+	 * 
+	 * Crea una vibora del largo pasado por parametro en forma horizontal
+	 * si el sentido(RANDOM) es OESTE o ESTE, y en vertical si el sentido es NORTE
+	 * o SUR. La coordenada pasada por parámetro es la cabeza.
+	 * @param coordenada
+	 * @param largo
+	 * @param sentido
+	 */
+	public Vibora(int x, int y, int largo) {
+		super(new Coordenada(x, y)); // cabeza de la vibora
+		
+		Coordenada coordenada = new Coordenada(x, y);
+		Posicion sentido  = Posicion.values()[new Random().nextInt(4)];
+		this.sentido = sentido;
+		this.cabeza = new CuerpoVibora(this, x, y);
+		
+		if (sentido == Posicion.ESTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX() - i, coordenada.getY()));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+
+		if (sentido == Posicion.OESTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX() + i, coordenada.getY()));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+
+		if (sentido == Posicion.NORTE) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX(), coordenada.getY() - i));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+
+		if (sentido == Posicion.SUR) {
+			for (int i = 0; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(this,
+						new Coordenada(coordenada.getX(), coordenada.getY() + i));
+				this.cuerpos.add(cuerpoVibora);
+			}
+		}
+	}
+
+
 
 	/**
 	 * Consigue la cabeza que esta en la ultima posicion. Asume que la cabeza se
@@ -60,7 +127,7 @@ public class Vibora extends Entidad {
 		if (this.cabeza != null) {
 			return this.cabeza;
 		}
-		return this.cuerpos.get(this.cuerpos.size() - 1);
+		return this.cuerpos.get(0);
 	}
 
 	/**
@@ -69,7 +136,7 @@ public class Vibora extends Entidad {
 	 * la cola
 	 */
 	public void cabecear() {
-		
+
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, null);
 		switch (this.sentido) {
 		case ESTE:
@@ -88,7 +155,7 @@ public class Vibora extends Entidad {
 		this.cabeza = cuerpoVibora;
 		this.coordenada = this.cabeza.getCoordenada();
 
-		this.cuerpos.add(cuerpoVibora);
+		this.cuerpos.add(0,cuerpoVibora);  //TODO: POCO PERFOMANTE; CONSULTAR AL PROFE ALGUNA ESTRUCTURA MEJOR
 	}
 
 	/**
@@ -137,7 +204,7 @@ public class Vibora extends Entidad {
 	 */
 	public void crecerOMover() {
 		if (!this.crece) {
-			this.cuerpos.remove(0);
+			this.cuerpos.remove(this.cuerpos.size()-1);
 		}
 		this.crece = false;
 	}
