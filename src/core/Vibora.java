@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import config.Posicion;
+import input.GestorInput;
 
 public class Vibora extends Entidad {
 
@@ -73,6 +74,9 @@ public class Vibora extends Entidad {
 	 * la cola
 	 */
 	public void cabecear() {
+		
+		this.determinarMovimiento();
+		
 		CuerpoVibora cuerpoVibora = new CuerpoVibora(this, null);
 		switch (this.sentido) {
 		case ESTE:
@@ -82,10 +86,10 @@ public class Vibora extends Entidad {
 			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX() - 1, this.getCabeza().getY());
 			break;
 		case NORTE:
-			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() - 1);
 			break;
 		case SUR:
-			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() - 1);
+			cuerpoVibora = new CuerpoVibora(this, this.getCabeza().getX(), this.getCabeza().getY() + 1);
 			break;
 		}
 		this.cabeza = cuerpoVibora;
@@ -188,5 +192,11 @@ public class Vibora extends Entidad {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.GREEN);
 		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+	}
+	
+	public void determinarMovimiento() {
+		if (GestorInput.teclado.ultimaPulsada != null) {
+			this.setSentido(GestorInput.teclado.ultimaPulsada);
+		}
 	}
 }

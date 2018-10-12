@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import config.Param;
 import config.Posicion;
+import input.GestorInput;
 
 public class GestorMapa extends JFrame {
 
@@ -42,6 +43,8 @@ public class GestorMapa extends JFrame {
 		mapa.add(vibora);
 		
 		this.add(mapa);
+		
+		addKeyListener(GestorInput.teclado);
 				
 		while (true) {
 			mapa.actualizar();
