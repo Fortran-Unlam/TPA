@@ -1,33 +1,34 @@
 package core;
 
-public class CuerpoVibora extends Entidad {
+public class CuerpoVibora{
 
-	/**
-	 * Constructor a partir de la vibora y la coordenada
-	 * 
-	 * @param vibora
-	 * @param coordenada
-	 */
-	public CuerpoVibora(Coordenada coordenada) {
-		super(coordenada);
+	private Coordenada ubicacion;
+
+	public CuerpoVibora(Coordenada ubicacion) {
+		this.ubicacion = ubicacion;
 	}
-
-	/**
-	 * Constructor a partir de la vibora y sus posiciones X,Y
-	 * 
-	 * @param vibora
-	 * @param x
-	 * @param y
-	 */
-	public CuerpoVibora(int x, int y) {
-		super(x, y);
+	
+	public CuerpoVibora(int x, int y){
+		this.ubicacion = new Coordenada(x, y);
+	}
+	
+	public int getX() {
+		return this.ubicacion.getX();
+	}
+	
+	public int getY() {
+		return this.ubicacion.getY();	
+	}
+	
+	public Coordenada getUbicacion() {
+		return this.ubicacion;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result;
+		int result = 1;
+		result = prime * result + ((ubicacion == null) ? 0 : ubicacion.hashCode());
 		return result;
 	}
 
@@ -35,18 +36,19 @@ public class CuerpoVibora extends Entidad {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		CuerpoVibora other = (CuerpoVibora) obj;
-		if (other.getX() != this.getX()) {
+		if (ubicacion == null) {
+			if (other.ubicacion != null)
+				return false;
+		} else if (!ubicacion.equals(other.ubicacion))
 			return false;
-		}
-		if (other.getY() != this.getY()) {
-			return false;
-		}
 		return true;
 	}
+	
+	
 	
 }

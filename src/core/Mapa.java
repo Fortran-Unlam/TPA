@@ -75,7 +75,7 @@ public class Mapa {
 		}
 
 		for (Vibora vibora : this.viboras) {
-			Fruta fruta = this.getFruta(vibora.getCabeza().getX(), vibora.getCabeza().getY());
+			Fruta fruta = this.getFruta(vibora.getHead().getX(), vibora.getHead().getY());
 			if (fruta != null) {
 				Colisionador.colisionar(vibora, fruta);
 			}
@@ -87,7 +87,7 @@ public class Mapa {
 
 		for (int i = 0; i < this.frutas.size(); i++) {
 			Fruta fruta = this.frutas.get(i);
-			if (fruta.getMuerte()) {
+			if (fruta.getFueComida()) {
 				this.cambioEnFrutas = true;
 				this.frutas.remove(i);
 			}
@@ -97,7 +97,7 @@ public class Mapa {
 
 		for (int i = 0; i < this.viboras.size(); i++) {
 			Vibora vibora = this.viboras.get(i);
-			if (vibora.getMuerte()) {
+			if (vibora.isDead()) {
 				this.viboras.remove(i);
 			}
 		}
@@ -152,6 +152,16 @@ public class Mapa {
 				continue;
 			}
 			
+			//verifico la cabeza
+			coordenadaX = vibora.getX();
+			coordenadaY = vibora.getY();
+			if (this.posicionesDeViboras[coordenadaX][coordenadaY] != null) {
+				Colisionador.colisionar(this.posicionesDeViboras[coordenadaX][coordenadaY], vibora);
+			}
+			this.posicionesDeViboras[coordenadaX][coordenadaY] = vibora;
+			
+			
+			//verifico los cuerpos
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();

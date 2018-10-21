@@ -12,7 +12,6 @@ public class Coordenada {
 	 * @param y Posicion vertical
 	 */
 	public Coordenada(int x, int y) {
-		super();
 		this.x = x;
 		this.y = y;
 	}
