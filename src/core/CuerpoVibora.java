@@ -2,33 +2,67 @@ package core;
 
 public class CuerpoVibora{
 
-	private Coordenada ubicacion;
+	private Coordenada coordenada;
+	private boolean isHead = false;
 
 	public CuerpoVibora(Coordenada ubicacion) {
-		this.ubicacion = ubicacion;
+		this.coordenada = ubicacion;
 	}
 	
 	public CuerpoVibora(int x, int y){
-		this.ubicacion = new Coordenada(x, y);
+		this.coordenada = new Coordenada(x, y);
 	}
 	
+	/**
+	 * Ubicación: posición x,y del cuerpo
+	 * Head: marcar con true si ese cuerpo va a ser una cabeza.
+	 * @param ubicacion
+	 * @param head
+	 */
+	public CuerpoVibora(Coordenada ubicacion, boolean head) {
+		this.coordenada = ubicacion;
+		this.isHead = head;
+	}
+	
+	/**
+	 * Ubicación: posición x,y del cuerpo
+	 * Head: marcar con true si ese cuerpo va a ser una cabeza.
+	 * @param ubicacion
+	 * @param head
+	 */	
+	public CuerpoVibora(int x, int y, boolean head){
+		this.coordenada = new Coordenada(x, y);
+		this.isHead = head;
+	}
+
+	
 	public int getX() {
-		return this.ubicacion.getX();
+		return this.coordenada.getX();
 	}
 	
 	public int getY() {
-		return this.ubicacion.getY();	
+		return this.coordenada.getY();	
 	}
 	
 	public Coordenada getUbicacion() {
-		return this.ubicacion;
+		return this.coordenada;
+	}
+	
+	
+
+	public boolean isHead() {
+		return isHead;
+	}
+
+	public void setHead(boolean isHead) {
+		this.isHead = isHead;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((ubicacion == null) ? 0 : ubicacion.hashCode());
+		result = prime * result + ((coordenada == null) ? 0 : coordenada.hashCode());
 		return result;
 	}
 
@@ -41,10 +75,10 @@ public class CuerpoVibora{
 		if (getClass() != obj.getClass())
 			return false;
 		CuerpoVibora other = (CuerpoVibora) obj;
-		if (ubicacion == null) {
-			if (other.ubicacion != null)
+		if (coordenada == null) {
+			if (other.coordenada != null)
 				return false;
-		} else if (!ubicacion.equals(other.ubicacion))
+		} else if (!coordenada.equals(other.coordenada))
 			return false;
 		return true;
 	}

@@ -112,50 +112,48 @@ public class MapaTest {
 		vibora.setSentido(Posicion.ESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(1, 3), mapa.getVibora(1, 3).getHead());
-		Assert.assertEquals(true, mapa.getVibora(1, 3).getCuerpos().isEmpty());
+		Assert.assertEquals(new CuerpoVibora(3, 3), mapa.getVibora(3, 3).getHead());
+		Assert.assertEquals(true, mapa.getVibora(3, 3).getCuerpos().isEmpty());
 	}
 
-//	@Test
-//	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaNorteSur() {
-//		// mapa de 5x5
-//		Mapa mapa = new Mapa(4, 4);
-//		Vibora vibora = new Vibora(2, 3, 1, Posicion.NORTE);
-//		mapa.add(vibora);
-//
-//		Assert.assertEquals(vibora, mapa.getVibora(2, 3));
-//
-//		// cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
-//		// moverse en sentido contrario
-//		vibora.setSentido(Posicion.SUR);
-//		mapa.actualizar();
-//
-//		Assert.assertEquals(vibora, mapa.getVibora(2, 2));
-//	}
-//
-//	@Test
-//	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaSurNorte() {
-//		Mapa mapa = new Mapa(5, 5);
-//		Vibora vibora = new Vibora(2, 3, 1, Posicion.SUR);
-//		mapa.add(vibora);
-//
-//		Assert.assertEquals(vibora, mapa.getVibora(2, 3));
-//
-//		/*
-//		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
-//		 * moverse en sentido contrario
-//		 */
-//		vibora.setSentido(Posicion.NORTE);
-//		mapa.actualizar();
-//
-//		Assert.assertEquals(vibora, mapa.getVibora(2, 4));
-//	}
-//
+	@Test
+	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaNorteSur() {
+		// mapa de 5x5
+		Mapa mapa = new Mapa(4, 4);
+		Vibora vibora = new Vibora(new Coordenada(2,3), 1, Posicion.NORTE);
+		mapa.add(vibora);
+
+		// cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
+		// moverse en sentido contrario
+		vibora.setSentido(Posicion.SUR);
+		mapa.actualizar();
+
+		Assert.assertEquals(vibora, mapa.getVibora(2, 2));
+	}
+
+	@Test
+	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaSurNorte() {
+		Mapa mapa = new Mapa(5, 5);
+		Vibora vibora = new Vibora(new Coordenada(2,3), 1, Posicion.SUR);
+		mapa.add(vibora);
+
+		Assert.assertEquals(vibora, mapa.getVibora(2, 3));
+
+		/*
+		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
+		 * moverse en sentido contrario
+		 */
+		vibora.setSentido(Posicion.NORTE);
+		mapa.actualizar();
+
+		Assert.assertEquals(vibora, mapa.getVibora(2, 4));
+	}
+
 //	@Test
 //	public void viboraMasDeUnCuerpoNoSePuedeMoverEnDireccionContraria() {
 //		// mapa de 5x5
 //		Mapa mapa = new Mapa(4, 4);
-//		Vibora vibora = new Vibora(3, 2, 2, Posicion.NORTE);
+//		Vibora vibora = new Vibora(new Coordenada(3, 2), 2, Posicion.NORTE);
 //
 //		mapa.add(vibora);
 //
@@ -173,7 +171,7 @@ public class MapaTest {
 //
 //		Assert.assertEquals(vibora, mapa.getVibora(3, 3));
 //		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
-//		Assert.assertEquals(new Coordenada(3,3), mapa.getVibora(3, 3).getCoordenada());
+//		Assert.assertEquals(new Coordenada(3, 3), mapa.getVibora(3, 3).getCoordenada());
 //	}
 //
 //	@Test

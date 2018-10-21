@@ -9,7 +9,7 @@ public class Vibora {
 
 	private String nombre;
 	private int frutasComidas;
-	private LinkedList<CuerpoVibora> body = new LinkedList<CuerpoVibora>();
+	private LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
 	private Posicion sentido;
 	private CuerpoVibora head;
 	private boolean crece = false;
@@ -26,7 +26,7 @@ public class Vibora {
 		this.head = new CuerpoVibora(coordenadas[0]);
 
 		for (int i = 1; i < coordenadas.length; i++)
-			this.body.add(new CuerpoVibora(coordenadas[i]));
+			this.bodies.add(new CuerpoVibora(coordenadas[i]));
 
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
@@ -43,7 +43,7 @@ public class Vibora {
 		this.head = new CuerpoVibora(coordenadas[0]);
 
 		for (int i = 1; i < coordenadas.length; i++)
-			this.body.add(new CuerpoVibora(coordenadas[i]));
+			this.bodies.add(new CuerpoVibora(coordenadas[i]));
 
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 
@@ -68,28 +68,28 @@ public class Vibora {
 		if (sentido == Posicion.ESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.OESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.NORTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.SUR) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 	}
@@ -111,28 +111,28 @@ public class Vibora {
 		if (sentido == Posicion.ESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.OESTE) {
 			for (int i = 0; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.NORTE) {
 			for (int i = 0; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 
 		if (sentido == Posicion.SUR) {
 			for (int i = 0; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
-				this.body.add(cuerpoVibora);
+				this.bodies.add(cuerpoVibora);
 			}
 		}
 	}
@@ -152,7 +152,7 @@ public class Vibora {
 	 * posición de la lista de cuerpos de vibora.
 	 */
 	public void cabecear() {
-		CuerpoVibora newHead = new CuerpoVibora(null);
+		CuerpoVibora newHead = new CuerpoVibora(null, true);
 
 		switch (this.sentido) {
 		case ESTE:
@@ -169,8 +169,9 @@ public class Vibora {
 			break;
 		}
 
-		this.body.addFirst(this.head);
-		this.head = newHead;
+		this.head.setHead(false); //ya no va a ser mas la cabeza
+		this.bodies.addFirst(this.head); //ahora es un cuerpo
+		this.head = newHead; //y tiene esta nueva cabeza
 	}
 
 	/**
@@ -185,7 +186,7 @@ public class Vibora {
 	 */
 	public void setSentido(Posicion sentido) {
 
-		if (this.body.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
+		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
 	}
@@ -212,7 +213,7 @@ public class Vibora {
 	 * @return Lista de CuerpoVibora
 	 */
 	public LinkedList<CuerpoVibora> getCuerpos() {
-		return this.body;
+		return this.bodies;
 	}
 
 	/**
@@ -220,7 +221,7 @@ public class Vibora {
 	 */
 	public void crecerOMover() {
 		if (!this.crece) {
-			this.body.removeLast(); // le saco el cuerpo si es que no crece.
+			this.bodies.removeLast(); // le saco el cuerpo si es que no crece.
 		}
 		this.crece = false;
 	}
