@@ -93,14 +93,14 @@ public class MapaTest {
 		Vibora vibora = new Vibora(2, 3, 1, Posicion.ESTE);
 		mapa.add(vibora);
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 2, 3), mapa.getVibora(2, 3).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(2, 3), mapa.getVibora(2, 3).getCuerpos().getFirst());
 
 		// cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
 		// moverse en sentido contrario
 		vibora.setSentido(Posicion.OESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 1, 3), mapa.getVibora(1, 3).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(1, 3), mapa.getVibora(1, 3).getCuerpos().getFirst());
 
 	}
 
@@ -111,7 +111,7 @@ public class MapaTest {
 		Vibora vibora = new Vibora(2, 3, 1, Posicion.OESTE);
 		mapa.add(vibora);
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 2, 3), mapa.getVibora(2, 3).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(2, 3), mapa.getVibora(2, 3).getCuerpos().getFirst());
 
 		/*
 		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
@@ -120,7 +120,7 @@ public class MapaTest {
 		vibora.setSentido(Posicion.ESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 3, 3), mapa.getVibora(3, 3).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(3, 3), mapa.getVibora(3, 3).getCuerpos().getFirst());
 
 	}
 
@@ -195,15 +195,15 @@ public class MapaTest {
 		mapa.add(vibora);
 		mapa.add(fruta);
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 3, 1), mapa.getVibora(3, 1).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(3, 1), mapa.getVibora(3, 1).getCuerpos().getFirst());
 		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
 
 		mapa.actualizar(); // actualizo el ciclo
 
-		Assert.assertEquals(new CuerpoVibora(vibora, 3, 2), mapa.getVibora(3, 2).getCuerpos().getFirst());
+		Assert.assertEquals(new CuerpoVibora(3, 2), mapa.getVibora(3, 2).getCuerpos().getFirst());
 		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
 		
-		Assert.assertEquals(new CuerpoVibora(vibora, 3, 1), mapa.getVibora(3, 1).getCuerpos().getLast());
+		Assert.assertEquals(new CuerpoVibora(3, 1), mapa.getVibora(3, 1).getCuerpos().getLast());
 		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
 
 	}

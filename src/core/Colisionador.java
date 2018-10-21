@@ -1,6 +1,6 @@
 package core;
 
-public abstract class Colision {
+public abstract class Colisionador {
 
 	/**
 	 * Vibora colisiona con fruta

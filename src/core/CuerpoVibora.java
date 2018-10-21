@@ -2,17 +2,14 @@ package core;
 
 public class CuerpoVibora extends Entidad {
 
-	private Vibora vibora;
-
 	/**
 	 * Constructor a partir de la vibora y la coordenada
 	 * 
 	 * @param vibora
 	 * @param coordenada
 	 */
-	public CuerpoVibora(Vibora vibora, Coordenada coordenada) {
+	public CuerpoVibora(Coordenada coordenada) {
 		super(coordenada);
-		this.vibora = vibora;
 	}
 
 	/**
@@ -22,34 +19,15 @@ public class CuerpoVibora extends Entidad {
 	 * @param x
 	 * @param y
 	 */
-	public CuerpoVibora(Vibora vibora, int x, int y) {
+	public CuerpoVibora(int x, int y) {
 		super(x, y);
-		this.vibora = vibora;
-	}
-
-	/**
-	 * Devuelve la Vibora a la que pertenece
-	 * 
-	 * @return Vibora
-	 */
-	public Vibora getVibora() {
-		return this.vibora;
-	}
-
-	/**
-	 * Chequea si esta parte del cuerpo es la cabeza
-	 * 
-	 * @return True si es la cabeza
-	 */
-	public boolean isCabeza() {
-		return this.vibora.getCabeza().equals(this);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((vibora == null) ? 0 : vibora.hashCode());
+		result = prime * result;
 		return result;
 	}
 
