@@ -189,7 +189,7 @@ public class MapaTest {
 		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
 
 		mapa.actualizar();
-System.out.println(mapa.getVibora(3, 2));
+		
 		Assert.assertEquals(new CuerpoVibora(3, 2, true), mapa.getVibora(3, 2).getHead());
 		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
 

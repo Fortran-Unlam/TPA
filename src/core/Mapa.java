@@ -33,6 +33,12 @@ public class Mapa {
 	 * @param vibora
 	 */
 	public boolean add(Vibora vibora) {
+		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
+				|| this.getVibora(vibora.getHead().getX(), vibora.getHead().getY()) != null
+				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null) {
+			return false;
+		}
+		
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())
 					|| this.getVibora(cuerpo.getX(), cuerpo.getY()) != null

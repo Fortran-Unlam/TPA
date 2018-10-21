@@ -170,7 +170,9 @@ public class Vibora {
 		}
 
 		this.head.setHead(false); //ya no va a ser mas la cabeza
-		this.bodies.addFirst(newHead); //ahora es un cuerpo
+		this.bodies.addFirst(this.head); //ahora es un cuerpo
+		
+		newHead.setHead(true);
 		this.head = newHead; //y tiene esta nueva cabeza
 	}
 

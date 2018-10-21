@@ -25,7 +25,7 @@ public abstract class Colisionador {
 		CuerpoVibora headB = vibB.getHead();
 
 		//Choque de cabezas
-		if (headA.getX() == headB.getY() && headA.getY() == headB.getY()) {
+		if (headA.getX() == headB.getX() && headA.getY() == headB.getY()) {
 			vibA.matar();
 			vibB.matar();
 			return;
