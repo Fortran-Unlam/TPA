@@ -2,29 +2,29 @@ package core;
 
 public class Fruta {
 
-	private Coordenada ubicacion;
+	private Coordenada coordenada;
 	private boolean fueComida;
 
 	public Fruta(Coordenada ubicacion) {
-		this.ubicacion = ubicacion;
+		this.coordenada = ubicacion;
 		this.fueComida = false;
 	}
 
 	public Fruta(int x, int y) {
-		this.ubicacion = new Coordenada(x, y);
+		this.coordenada = new Coordenada(x, y);
 		this.fueComida = false;
 	}
 
 	public int getX() {
-		return this.ubicacion.getX();
+		return this.coordenada.getX();
 	}
 
 	public int getY() {
-		return this.ubicacion.getY();
+		return this.coordenada.getY();
 	}
 
-	public Coordenada getUbicacion() {
-		return this.ubicacion;
+	public Coordenada getCoordenada() {
+		return this.coordenada;
 	}
 
 	public void setFueComida() {

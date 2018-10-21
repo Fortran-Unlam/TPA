@@ -1,6 +1,6 @@
 package core;
 
-public class CuerpoVibora{
+public class CuerpoVibora {
 
 	private Coordenada coordenada;
 	private boolean isHead = false;
@@ -8,14 +8,15 @@ public class CuerpoVibora{
 	public CuerpoVibora(Coordenada ubicacion) {
 		this.coordenada = ubicacion;
 	}
-	
-	public CuerpoVibora(int x, int y){
+
+	public CuerpoVibora(int x, int y) {
 		this.coordenada = new Coordenada(x, y);
 	}
-	
+
 	/**
-	 * Ubicación: posición x,y del cuerpo
-	 * Head: marcar con true si ese cuerpo va a ser una cabeza.
+	 * Ubicación: posición x,y del cuerpo Head: marcar con true si ese cuerpo va a
+	 * ser una cabeza.
+	 * 
 	 * @param ubicacion
 	 * @param head
 	 */
@@ -23,32 +24,30 @@ public class CuerpoVibora{
 		this.coordenada = ubicacion;
 		this.isHead = head;
 	}
-	
+
 	/**
-	 * Ubicación: posición x,y del cuerpo
-	 * Head: marcar con true si ese cuerpo va a ser una cabeza.
+	 * Ubicación: posición x,y del cuerpo Head: marcar con true si ese cuerpo va a
+	 * ser una cabeza.
+	 * 
 	 * @param ubicacion
 	 * @param head
-	 */	
-	public CuerpoVibora(int x, int y, boolean head){
+	 */
+	public CuerpoVibora(int x, int y, boolean head) {
 		this.coordenada = new Coordenada(x, y);
 		this.isHead = head;
 	}
 
-	
 	public int getX() {
 		return this.coordenada.getX();
 	}
-	
+
 	public int getY() {
-		return this.coordenada.getY();	
+		return this.coordenada.getY();
 	}
-	
-	public Coordenada getUbicacion() {
+
+	public Coordenada getCoordenada() {
 		return this.coordenada;
 	}
-	
-	
 
 	public boolean isHead() {
 		return isHead;
@@ -82,7 +81,4 @@ public class CuerpoVibora{
 			return false;
 		return true;
 	}
-	
-	
-	
 }
