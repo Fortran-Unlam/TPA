@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -10,7 +11,7 @@ public class Vibora extends Entidad {
 
 	private String nombre;
 	private int frutasComidas;
-	private List<CuerpoVibora> cuerpos = new ArrayList<CuerpoVibora>();
+	private LinkedList<CuerpoVibora> cuerpos = new LinkedList<CuerpoVibora>();
 	private Posicion sentido;
 	private CuerpoVibora cabeza;
 	private boolean crece = false;
@@ -161,7 +162,7 @@ public class Vibora extends Entidad {
 		if (this.cabeza != null) {
 			return this.cabeza;
 		}
-		return this.cuerpos.get(0);
+		return this.cuerpos.getFirst();
 	}
 
 	/**
@@ -189,7 +190,7 @@ public class Vibora extends Entidad {
 		this.cabeza = cuerpoVibora;
 		this.coordenada = this.cabeza.getCoordenada();
 
-		this.cuerpos.add(0,cuerpoVibora);  //TODO: POCO PERFOMANTE; CONSULTAR AL PROFE ALGUNA ESTRUCTURA MEJOR
+		this.cuerpos.addFirst(cuerpoVibora);
 	}
 
 	/**
@@ -238,7 +239,7 @@ public class Vibora extends Entidad {
 	 */
 	public void crecerOMover() {
 		if (!this.crece) {
-			this.cuerpos.remove(this.cuerpos.size()-1);
+			this.cuerpos.removeLast();
 		}
 		this.crece = false;
 	}
