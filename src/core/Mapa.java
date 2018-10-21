@@ -10,7 +10,7 @@ public class Mapa {
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
 	private Fruta[][] posiconesDeFrutas;
-	private CuerpoVibora[][] posicionesDecuerpoViboras;
+	private Vibora[][] posicionesDecuerpoViboras;
 
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
@@ -35,7 +35,7 @@ public class Mapa {
 	public boolean add(Vibora vibora) {
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())
-					|| this.getCuerpoVibora(cuerpo.getX(), cuerpo.getY()) != null
+					|| this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
 			}
@@ -53,7 +53,7 @@ public class Mapa {
 	 * @param fruta
 	 */
 	public boolean add(Fruta fruta) {
-		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getCuerpoVibora(fruta.getX(), fruta.getY()) != null
+		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getVibora(fruta.getX(), fruta.getY()) != null
 				|| this.getFruta(fruta.getX(), fruta.getY()) != null) {
 			return false;
 		}
@@ -145,32 +145,33 @@ public class Mapa {
 	 */
 	private void cargarCuerposViboras() {
 		int coordenadaX, coordenadaY;
-		this.posicionesDecuerpoViboras = new CuerpoVibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
+		this.posicionesDecuerpoViboras = new Vibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Vibora vibora : this.viboras) {
+			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
+				vibora.matar();
+				continue;
+			}
+			
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();
-				if (!this.estaDentro(coordenadaX, coordenadaY)) {
-					cuerpoVibora.getVibora().matar();
-					continue;
-				}
 				if (this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] != null) {
-					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY], cuerpoVibora);
+					Colision.colisionar(this.posicionesDecuerpoViboras[coordenadaX][coordenadaY], vibora);
 				}
-				this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] = cuerpoVibora;
+				this.posicionesDecuerpoViboras[coordenadaX][coordenadaY] = vibora;
 			}
 		}
 	}
 
 	/**
-	 * Retorna el primer cuerpo de vibora si hay en la posicion dada
+	 * Retorna la primera vibora si hay en la posicion dada
 	 * 
 	 * @param x Horizontal
 	 * @param y Vertical
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public CuerpoVibora getCuerpoVibora(int x, int y) {
+	public Vibora getVibora(int x, int y) {
 		if (this.cambioEnVibora) {
 			this.cargarCuerposViboras();
 		}

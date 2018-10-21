@@ -230,7 +230,7 @@ public class Vibora extends Entidad {
 	 * 
 	 * @return Lista de CuerpoVibora
 	 */
-	public List<CuerpoVibora> getCuerpos() {
+	public LinkedList<CuerpoVibora> getCuerpos() {
 		return this.cuerpos;
 	}
 

@@ -1,9 +1,5 @@
 package core;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 public class CuerpoVibora extends Entidad {
 
 	private Vibora vibora;
@@ -66,11 +62,12 @@ public class CuerpoVibora extends Entidad {
 		if (getClass() != obj.getClass())
 			return false;
 		CuerpoVibora other = (CuerpoVibora) obj;
-		if (vibora == null) {
-			if (other.vibora != null)
-				return false;
-		} else if (!vibora.equals(other.vibora))
+		if (other.getX() != this.getX()) {
 			return false;
+		}
+		if (other.getY() != this.getY()) {
+			return false;
+		}
 		return true;
 	}
 	

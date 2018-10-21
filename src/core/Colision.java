@@ -20,12 +20,20 @@ public abstract class Colision {
 	 * @param vibora
 	 * @param cuerpoViboraChocada
 	 */
-	public static void colisionar(CuerpoVibora cuerpoViboraA, CuerpoVibora cuerpoViboraB) {
-		if(cuerpoViboraA.isCabeza()) {
-			cuerpoViboraA.getVibora().matar();
+	public static void colisionar(Vibora viboraA, Vibora viboraB) {
+		if (viboraA.equals(viboraB)) {
+			viboraA.matar();
 		}
-		if (cuerpoViboraB.isCabeza()) {
-			cuerpoViboraB.getVibora().matar();
+		for (CuerpoVibora cuerpoVibora : viboraB.getCuerpos()) {	
+			if(viboraA.getCabeza().equals(cuerpoVibora)) {
+				viboraA.matar();
+			}
+		}
+		
+		for (CuerpoVibora cuerpoVibora : viboraA.getCuerpos()) {
+			if(viboraB.getCabeza().equals(cuerpoVibora)) {
+				viboraB.matar();
+			}
 		}
 	}
 
