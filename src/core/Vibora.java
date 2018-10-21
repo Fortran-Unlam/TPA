@@ -1,12 +1,18 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.JPanel;
+
 import config.Posicion;
 
-public class Vibora {
+public class Vibora extends JPanel {
 
+	private static final long serialVersionUID = -4700905402985527264L;
 	private String nombre;
 	private int frutasComidas;
 	private LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
@@ -296,4 +302,17 @@ public class Vibora {
 		return this.head.getCoordenada();
 	}
 
+	/**
+	 * Dibja la cabeza y luego el cuerpo
+	 */
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.YELLOW);
+		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+		
+		for (CuerpoVibora cuerpoVibora : this.bodies) {
+			cuerpoVibora.paint(g2d);
+		}
+	}
 }

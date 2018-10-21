@@ -1,7 +1,14 @@
 package core;
 
-public class Fruta {
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
+import javax.swing.JPanel;
+
+public class Fruta  extends JPanel {
+	
+	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
 	private boolean fueComida;
 
@@ -35,4 +42,10 @@ public class Fruta {
 		return this.fueComida;
 	}
 
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+	}
 }

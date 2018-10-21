@@ -1,7 +1,14 @@
 package core;
 
-public class CuerpoVibora {
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
+import javax.swing.JPanel;
+
+public class CuerpoVibora extends JPanel {
+
+	private static final long serialVersionUID = 2485552979729067616L;
 	private Coordenada coordenada;
 	private boolean isHead = false;
 
@@ -80,5 +87,12 @@ public class CuerpoVibora {
 		} else if (!coordenada.equals(other.coordenada))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.GREEN);
+		g2d.fillRect(this.getX(), this.getY(), 10, 10);
 	}
 }
