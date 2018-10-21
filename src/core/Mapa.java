@@ -25,14 +25,13 @@ public class Mapa extends JPanel {
 	private boolean cambioEnVibora;
 
 	/**
-	 * Crea un mapa a partir de las coordenadas, si se quiere un mapa de 5x5 enviar
-	 * 4,4. Las posiciones van desde el 0.
+	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
 	 * 
 	 * @param x
 	 * @param y
 	 */
 	public Mapa(int x, int y) {
-		this.tamano = new Coordenada(x, y);
+		this.tamano = new Coordenada(x - 1, y - 1);
 	}
 
 	/**
@@ -47,10 +46,9 @@ public class Mapa extends JPanel {
 				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null) {
 			return false;
 		}
-		
+
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
-			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY())
-					|| this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
+			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
 			}
@@ -167,17 +165,16 @@ public class Mapa extends JPanel {
 				vibora.matar();
 				continue;
 			}
-			
-			//verifico la cabeza
+
+			// verifico la cabeza
 			coordenadaX = vibora.getX();
 			coordenadaY = vibora.getY();
 			if (this.posicionesDeViboras[coordenadaX][coordenadaY] != null) {
 				Colisionador.colisionar(this.posicionesDeViboras[coordenadaX][coordenadaY], vibora);
 			}
 			this.posicionesDeViboras[coordenadaX][coordenadaY] = vibora;
-			
-			
-			//verifico los cuerpos
+
+			// verifico los cuerpos
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();
@@ -225,9 +222,9 @@ public class Mapa extends JPanel {
 	 * @return True si esta adentro
 	 */
 	public boolean estaDentro(int x, int y) {
-		return x >= 0 && y >= 0 && this.tamano.getX() > x && this.tamano.getY() > y;
+		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

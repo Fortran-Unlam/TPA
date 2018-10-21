@@ -14,8 +14,7 @@ public class MapaTest {
 
 	@Test
 	public void TestAgregadoDeFrutas() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Fruta fruta = new Fruta(2, 2);
 		mapa.add(fruta);
 
@@ -24,8 +23,7 @@ public class MapaTest {
 
 	@Test
 	public void TestAgregadoDeVibora() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(0, 2), 1);
 
 		mapa.add(vibora);
@@ -39,8 +37,7 @@ public class MapaTest {
 
 	@Test
 	public void TestMovimientoSinCambiarDireccionVibora() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(0, 2), 1, Posicion.ESTE);
 		mapa.add(vibora);
 
@@ -55,8 +52,7 @@ public class MapaTest {
 
 	@Test
 	public void TestMovimientoCambiandoDireccionesVibora() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(0, 2), 1, Posicion.ESTE);
 		mapa.add(vibora);
 
@@ -84,8 +80,7 @@ public class MapaTest {
 
 	@Test
 	public void vivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaEsteOeste() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1, Posicion.ESTE);
 		mapa.add(vibora);
 
@@ -100,8 +95,7 @@ public class MapaTest {
 
 	@Test
 	public void vivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaOesteEste() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1, Posicion.OESTE);
 		mapa.add(vibora);
 
@@ -118,8 +112,7 @@ public class MapaTest {
 
 	@Test
 	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaNorteSur() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1, Posicion.NORTE);
 		mapa.add(vibora);
 
@@ -133,7 +126,7 @@ public class MapaTest {
 
 	@Test
 	public void TestVivoraDeUnSoloCuerpoSePuedeMoverEnDireccionContrariaSurNorte() {
-		Mapa mapa = new Mapa(5, 5);
+		Mapa mapa = new Mapa(6, 6);
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1, Posicion.SUR);
 		mapa.add(vibora);
 
@@ -151,8 +144,7 @@ public class MapaTest {
 
 	@Test
 	public void viboraMasDeUnCuerpoNoSePuedeMoverEnDireccionContraria() {
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(3, 2), 2, Posicion.NORTE);
 
 		mapa.add(vibora);
@@ -177,8 +169,7 @@ public class MapaTest {
 	@Test
 	public void testViboraComeFruta() {
 
-		// mapa de 5x5
-		Mapa mapa = new Mapa(4, 4);
+		Mapa mapa = new Mapa(5, 5);
 		Vibora vibora = new Vibora(new Coordenada(3, 1), 1, Posicion.NORTE);
 
 		Fruta fruta = new Fruta(3, 2);
@@ -200,7 +191,7 @@ public class MapaTest {
 
 	@Test
 	public void seChocanDosDeCabezaViboras() {
-		Mapa mapa = new Mapa(4, 5);
+		Mapa mapa = new Mapa(6, 6);
 		Vibora vibora = new Vibora(new Coordenada(3, 1), 1, Posicion.NORTE);
 		mapa.add(vibora);
 
@@ -304,7 +295,7 @@ public class MapaTest {
 
 	@Test
 	public void verSiAgregaViboraDondeHabiaAlgo() {
-		Mapa mapa = new Mapa(4, 2);
+		Mapa mapa = new Mapa(4, 3);
 		Vibora vibora = new Vibora(new Coordenada(2, 1), 3, Posicion.ESTE);
 		Fruta fruta = new Fruta(1, 1);
 		Assert.assertEquals(true, mapa.add(fruta));
