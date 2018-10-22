@@ -6,14 +6,14 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-public class Fruta  extends JPanel {
-	
+public class Fruta extends JPanel {
+
 	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
 	private boolean fueComida;
 
-	public Fruta(Coordenada ubicacion) {
-		this.coordenada = ubicacion;
+	public Fruta(Coordenada coordenada) {
+		this.coordenada = coordenada;
 		this.fueComida = false;
 	}
 
@@ -46,6 +46,7 @@ public class Fruta  extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
-		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+		System.out.println(this.getX() * 5);
+		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
 	}
 }

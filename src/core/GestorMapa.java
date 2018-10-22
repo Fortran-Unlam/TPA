@@ -27,8 +27,8 @@ public class GestorMapa extends JFrame {
 		setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
+		contentPane.setBorder(null);
+		setUndecorated(true);
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		setBackground(Color.black);
@@ -37,7 +37,9 @@ public class GestorMapa extends JFrame {
 		mapa = new Mapa(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
 		mapa.setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		mapa.add(new Fruta(1, 1));
-		Vibora vibora = new Vibora(new Coordenada(30, 20), 3, Posicion.ESTE);
+		mapa.add(new Fruta(58, 1));
+		System.out.println(mapa.getTamano().getX());
+		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
 		mapa.add(vibora);
 
 		getContentPane().add(mapa);
@@ -49,7 +51,7 @@ public class GestorMapa extends JFrame {
 			mapa.actualizar();
 			System.out.println(vibora.getX());
 			try {
-				Thread.sleep(190);
+				Thread.sleep(390);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
