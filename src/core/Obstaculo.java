@@ -1,18 +1,17 @@
 package core;
 
+import java.util.LinkedList;
+
 public class Obstaculo {
 	
 	private Coordenada ubicacion;
-	private int largo;
 	
-	public Obstaculo(Coordenada ubicacion, int largo) {
+	public Obstaculo(Coordenada ubicacion) {
 		this.ubicacion = ubicacion;
-		this.largo = largo;
 	}
 
-	public Obstaculo(int x, int y, int largo) {
+	public Obstaculo(int x, int y) {
 		this.ubicacion = new Coordenada(x, y);
-		this.largo = largo;
 	}
 	
 	public int getX() {

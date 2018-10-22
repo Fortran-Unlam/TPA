@@ -23,6 +23,7 @@ public class Mapa extends JPanel {
 
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
+	private boolean cambioEnObstaculo;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
@@ -218,7 +219,17 @@ public class Mapa extends JPanel {
 		}
 		return null;
 	}
-
+	
+	public Vibora getObstaculo(int x, int y) {
+		if (this.cambioEnObstaculos) {
+			this.cargarObstaculo();
+		}
+		if (this.posicionesDeObscatculos != null) {
+			return this.posicionesDeObstaculos[x][y];
+		}
+		return null;
+	}
+	
 	/**
 	 * Retorna la dimension del mapa
 	 * 
