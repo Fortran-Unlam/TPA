@@ -6,7 +6,7 @@ public abstract class Colisionador {
 	 * Vibora colisiona con fruta
 	 * 
 	 * @param vibora Vibora que come fruta
-	 * @param fruta  La fruta a comar
+	 * @param fruta  La fruta a comer
 	 */
 	public static void colisionar(Vibora vibora, Fruta fruta) {
 		fruta.setFueComida();

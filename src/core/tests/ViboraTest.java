@@ -10,20 +10,6 @@ import core.Vibora;
 public class ViboraTest {
 
 	@Test
-	public void creacionEnPosicionCorrecta() {
-		Vibora vibora = new Vibora(new Coordenada(2, 3), 1);
-
-		Assert.assertEquals(2, vibora.getX());
-		Assert.assertEquals(3, vibora.getY());
-
-		Vibora vibora2 = new Vibora(new Coordenada(4, 1), 1);
-
-		Assert.assertEquals(4, vibora2.getX());
-		Assert.assertEquals(1, vibora2.getY());
-
-	}
-
-	@Test
 	public void creacionCabezaEnPosicionCorrecta() {
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1);
 
@@ -115,14 +101,15 @@ public class ViboraTest {
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(4, vibora.getY());
 
-		// hago que cabecee sin elimiar cola
+		//Hago que cabecee sin elimiar cola
 		vibora.cabecear();
 
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(5, vibora.getY());
+		
 		vibora.setSentido(Posicion.SUR);
 		vibora.cabecear();
-
+		
 		Assert.assertEquals(3, vibora.getX());
 		Assert.assertEquals(6, vibora.getY());
 	}
