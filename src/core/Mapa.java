@@ -46,7 +46,8 @@ public class Mapa extends JPanel {
 	public boolean add(Vibora vibora) {
 		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
 				|| this.getVibora(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null) {
+				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
+				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
 		}
 
@@ -110,8 +111,8 @@ public class Mapa extends JPanel {
 		for (Vibora vibora : this.viboras) {
 			vibora.cabecear();
 		}
-		
-		//cabeza de vibora contra obstaculo
+
+		// cabeza de vibora contra obstaculo
 		for (Vibora vibora : this.viboras) {
 			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
 			if (obstaculo != null) {
@@ -244,11 +245,13 @@ public class Mapa extends JPanel {
 	}
 
 	public Obstaculo getObstaculo(int x, int y) {
-		if (this.cambioEnObstaculos) {
-			this.cargarObstaculos();
-		}
-		if (this.posicionesDeObstaculos != null) {
-			return this.posicionesDeObstaculos[x][y];
+		if (this.estaDentro(x, y)) {
+			if (this.cambioEnObstaculos) {
+				this.cargarObstaculos();
+			}
+			if (this.posicionesDeObstaculos != null) {
+				return this.posicionesDeObstaculos[x][y];
+			}
 		}
 		return null;
 	}
@@ -288,7 +291,7 @@ public class Mapa extends JPanel {
 		for (Vibora vibora : this.viboras) {
 			vibora.paint(g2d);
 		}
-		
+
 		for (Obstaculo obstaculo : this.obstaculos) {
 			obstaculo.paint(g2d);
 		}
