@@ -1,13 +1,12 @@
 package core;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import config.Param;
 import config.Posicion;
@@ -38,7 +37,11 @@ public class GestorMapa extends JFrame {
 		mapa.setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		mapa.add(new Fruta(1, 1));
 		mapa.add(new Fruta(58, 1));
-		System.out.println(mapa.getTamano().getX());
+		Random a = new Random();
+		for (int i = 0; i < 25; i++) {
+			mapa.add(new Fruta(a.nextInt(Param.MAPA_WIDTH/5), a.nextInt(Param.MAPA_HEIGHT/5)));
+		}
+		
 		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
 		mapa.add(vibora);
 
@@ -49,9 +52,8 @@ public class GestorMapa extends JFrame {
 
 		while (true) {
 			mapa.actualizar();
-			System.out.println(vibora.getX());
 			try {
-				Thread.sleep(390);
+				Thread.sleep(50);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

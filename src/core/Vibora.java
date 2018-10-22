@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import config.Posicion;
+import input.GestorInput;
 
 public class Vibora extends JPanel {
 
@@ -160,6 +161,8 @@ public class Vibora extends JPanel {
 	public void cabecear() {
 		CuerpoVibora newHead = new CuerpoVibora(null, true);
 
+		this.determinarMovimiento();
+		
 		switch (this.sentido) {
 		case ESTE:
 			newHead = new CuerpoVibora(new Coordenada(this.head.getX() + 1, this.head.getY()));
@@ -313,6 +316,12 @@ public class Vibora extends JPanel {
 
 		for (CuerpoVibora cuerpoVibora : this.bodies) {
 			cuerpoVibora.paint(g2d);
+		}
+	}
+	
+	public void determinarMovimiento() {
+		if (GestorInput.teclado.ultimaPulsada != null) {
+			this.setSentido(GestorInput.teclado.ultimaPulsada);
 		}
 	}
 }

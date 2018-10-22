@@ -111,7 +111,6 @@ public class Mapa extends JPanel {
 		for (int i = 0; i < this.viboras.size(); i++) {
 			Vibora vibora = this.viboras.get(i);
 			if (vibora.isDead()) {
-				System.out.println("muere");
 				this.viboras.remove(i);
 			}
 		}

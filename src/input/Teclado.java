@@ -14,11 +14,11 @@ public class Teclado implements KeyListener {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
-			ultimaPulsada = Posicion.NORTE;
+			ultimaPulsada = Posicion.SUR;
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
-			ultimaPulsada = Posicion.SUR;
+			ultimaPulsada = Posicion.NORTE;
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
