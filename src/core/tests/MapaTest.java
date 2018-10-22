@@ -318,7 +318,6 @@ public class MapaTest {
 	public void cargarObstaculo() {
 		Mapa mapa = new Mapa(5, 5);
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(4, 4));
-		mapa.add(obstaculo);
 
 		Assert.assertEquals(true, mapa.add(obstaculo));
 	}

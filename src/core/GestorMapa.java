@@ -39,9 +39,15 @@ public class GestorMapa extends JFrame {
 		mapa.add(new Fruta(58, 1));
 		Random a = new Random();
 		for (int i = 0; i < 25; i++) {
-			mapa.add(new Fruta(a.nextInt(Param.MAPA_WIDTH/5), a.nextInt(Param.MAPA_HEIGHT/5)));
+			mapa.add(new Fruta(a.nextInt(Param.MAPA_WIDTH / 5), a.nextInt(Param.MAPA_HEIGHT / 5)));
 		}
-		
+
+		// Agrego obstaculos
+		Random b = new Random();
+		for (int i = 0; i < 10; i++) {
+			mapa.add(new Obstaculo(b.nextInt(Param.MAPA_WIDTH / 5), b.nextInt(Param.MAPA_HEIGHT / 5)));
+		}
+
 		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
 		mapa.add(vibora);
 

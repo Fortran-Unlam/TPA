@@ -1,7 +1,14 @@
 package core;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
-public class Obstaculo {
+import javax.swing.JPanel;
+
+public class Obstaculo extends JPanel {
+	
+	private static final long serialVersionUID = 1628026311474738784L;
 	
 	private Coordenada ubicacion;
 	
@@ -45,6 +52,14 @@ public class Obstaculo {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.WHITE);
+		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
+	}
+
 	
 	
 
