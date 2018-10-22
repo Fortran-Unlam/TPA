@@ -1,5 +1,7 @@
 package core.tests;
 
+import java.util.LinkedList;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,6 +10,7 @@ import core.Coordenada;
 import core.CuerpoVibora;
 import core.Fruta;
 import core.Mapa;
+import core.Muro;
 import core.Obstaculo;
 import core.Vibora;
 
@@ -329,10 +332,10 @@ public class MapaTest {
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
 
 		mapa.add(vibora);
-	
+
 		Assert.assertEquals(false, mapa.add(obstaculo));
 	}
-	
+
 	@Test
 	public void obstaculoEncimaDeFruta() {
 		Mapa mapa = new Mapa(5, 5);
@@ -340,10 +343,10 @@ public class MapaTest {
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
 
 		mapa.add(fruta);
-	
+
 		Assert.assertEquals(false, mapa.add(obstaculo));
 	}
-	
+
 	@Test
 	public void obstaculoEncimaDeObstaculo() {
 		Mapa mapa = new Mapa(5, 5);
@@ -351,56 +354,95 @@ public class MapaTest {
 		Obstaculo obstaculo2 = new Obstaculo(new Coordenada(2, 2));
 
 		mapa.add(obstaculo1);
-	
+
 		Assert.assertEquals(false, mapa.add(obstaculo2));
 	}
-	
+
 	@Test
 	public void viboraContraObstaculo() {
 		Mapa mapa = new Mapa(5, 5);
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
 		Vibora vibora = new Vibora(new Coordenada(1, 2), 2, Posicion.ESTE);
-		
+
 		mapa.add(vibora);
 		mapa.add(obstaculo);
-		
-		Assert.assertEquals(false, vibora.isDead()); //vibora viba
+
+		Assert.assertEquals(false, vibora.isDead()); // vibora viba
 
 		mapa.actualizar();
-		
-		Assert.assertEquals(true, vibora.isDead()); //vibora muerta
-		
+
+		Assert.assertEquals(true, vibora.isDead()); // vibora muerta
+
 	}
-	
+
 	@Test
 	public void viboraContraObstaculoCambiandoDireccion() {
 		Mapa mapa = new Mapa(5, 5);
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(1, 3));
 		Vibora vibora = new Vibora(new Coordenada(1, 2), 2, Posicion.ESTE);
-		
+
 		mapa.add(vibora);
 		mapa.add(obstaculo);
-		
-		Assert.assertEquals(false, vibora.isDead()); //vibora viba
+
+		Assert.assertEquals(false, vibora.isDead()); // vibora viba
 		vibora.setSentido(Posicion.NORTE);
 
 		mapa.actualizar();
-		
-		Assert.assertEquals(true, vibora.isDead()); //vibora muerta
-		
+
+		Assert.assertEquals(true, vibora.isDead()); // vibora muerta
+
 	}
 
-	
 	@Test
 	public void viboraContraMargenConObstaculos() {
 		Mapa mapa = new Mapa(5, 5);
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(1, 3));
 		Vibora vibora = new Vibora(new Coordenada(4, 3), 2, Posicion.ESTE);
-		
+
 		mapa.add(vibora);
 		mapa.add(obstaculo);
 		mapa.actualizar();
+	}
+
+	@Test
+	public void cargarMuro() {
+		Mapa mapa = new Mapa(5, 5);
+		LinkedList<Obstaculo> piedras = new LinkedList<>();
+		//Vibora vibora = new Vibora(new Coordenada(3,2),3,Posicion.NORTE);
 		
+		for(int i = 2; i<=4;i++) {
+			piedras.add(new Obstaculo(new Coordenada(i, 3)));
+		}
+		
+		Muro pared = new Muro(piedras);
+		
+		mapa.add(pared);
+
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2,3).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3,3).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4,3).getUbicacion());
+	}
+	
+	@Test
+	public void viboraMuereContraMuro() {
+		Mapa mapa = new Mapa(5, 5);
+		LinkedList<Obstaculo> piedras = new LinkedList<>();
+		Vibora vibora = new Vibora(new Coordenada(3,2),3,Posicion.NORTE);
+		
+		for(int i = 2; i<=4;i++) {
+			piedras.add(new Obstaculo(new Coordenada(i, 3)));
+		}
+		
+		Muro pared = new Muro(piedras);
+		
+		mapa.add(pared);
+		mapa.add(vibora);
+		mapa.actualizar();
+
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2,3).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3,3).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4,3).getUbicacion());
+		Assert.assertEquals(true,vibora.isDead());
 	}
 
 }

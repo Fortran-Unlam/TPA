@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -98,6 +99,31 @@ public class Mapa extends JPanel {
 
 		this.cambioEnObstaculos = true;
 		this.obstaculos.add(obstaculo);
+		return true;
+	}
+
+	/**
+	 * Agrega un muro al mapa. No es mas que un list de obstaculos.
+	 * 
+	 * @param obstaculo
+	 */
+	public boolean add(Muro muro) {
+		// recorro de atras hacia adelante borrando las piedras agregadas
+		LinkedList<Obstaculo> piedras = muro.getPiedras();
+
+		while(!piedras.isEmpty()) {
+			if (!this.estaDentro(piedras.getFirst().getX(), piedras.getFirst().getY())
+					|| this.getVibora(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
+					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
+					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
+				return false;
+			}
+			
+			this.cambioEnObstaculos = true;
+			this.obstaculos.add(piedras.getFirst());
+			piedras.removeFirst();
+		}
+		
 		return true;
 	}
 

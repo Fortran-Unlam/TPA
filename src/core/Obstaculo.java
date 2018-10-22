@@ -27,6 +27,11 @@ public class Obstaculo extends JPanel {
 	public int getY() {
 		return this.ubicacion.getY();
 	}
+	
+	
+	public Coordenada getUbicacion() {
+		return ubicacion;
+	}
 
 	@Override
 	public int hashCode() {
