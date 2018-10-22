@@ -23,7 +23,7 @@ public class Vibora extends JPanel {
 
 	/**
 	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido
-	 * random Se puede pasar una coordenada y esta sera la cabeza
+	 * random Se puede pasar una coordenada y esta sera la cabeza.
 	 * 
 	 * @param coordenadas Array de coordenadas donde iran todos los cuerpos
 	 */
@@ -33,7 +33,6 @@ public class Vibora extends JPanel {
 
 		for (int i = 1; i < coordenadas.length; i++)
 			this.bodies.add(new CuerpoVibora(coordenadas[i]));
-
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
 
@@ -57,7 +56,6 @@ public class Vibora extends JPanel {
 	}
 
 	/**
-	 * 
 	 * Crea una vibora del largo pasado por parametro en forma horizontal si el
 	 * sentido es OESTE o ESTE, y en vertical si el sentido es NORTE o SUR. La
 	 * coordenada pasada por parámetro es la cabeza.
@@ -70,34 +68,7 @@ public class Vibora extends JPanel {
 	public Vibora(Coordenada head, int largo, Posicion sentido) {
 		this.head = new CuerpoVibora(head);
 		this.sentido = sentido;
-
-		if (sentido == Posicion.ESTE) {
-			for (int i = 1; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.OESTE) {
-			for (int i = 1; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.NORTE) {
-			for (int i = 1; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.SUR) {
-			for (int i = 1; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
+		generaCuerpo(largo);
 	}
 
 	/**
@@ -113,40 +84,13 @@ public class Vibora extends JPanel {
 		Posicion sentido = Posicion.values()[new Random().nextInt(4)];
 		this.sentido = sentido;
 		this.head = new CuerpoVibora(head);
-
-		if (sentido == Posicion.ESTE) {
-			for (int i = 1; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.OESTE) {
-			for (int i = 0; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.NORTE) {
-			for (int i = 0; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
-
-		if (sentido == Posicion.SUR) {
-			for (int i = 0; i < largo; i++) {
-				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
-				this.bodies.add(cuerpoVibora);
-			}
-		}
+		generaCuerpo(largo);
 	}
 
 	/**
 	 * Retorna la cabeza de la vibora
 	 * 
-	 * @return
+	 * @return CuerpoVibora
 	 */
 	public CuerpoVibora getHead() {
 		return this.head;
@@ -183,19 +127,48 @@ public class Vibora extends JPanel {
 	}
 
 	/**
-	 * Setea un nuevo sentido si es que puede Si la vibora tiene unicamente una
+	 * Setea un nuevo sentido si es que puede si la vibora tiene unicamente una
 	 * cabeza entonces se puede mover para su direccion contraria
 	 * 
-	 * Si la vibora tiene aunque sea un cuerpo (cabeza + 1 cuerpo = longitud 2) NO
-	 * se puede mover para su direccion contraria pues "se comeria su propio
-	 * cuerpo".
+	 * Si la vibora tiene aunque sea un cuerpo (cabeza + 1 cuerpo = longitud 2) no puede girar 180 grados,
 	 * 
 	 * @param sentido
 	 */
+	
 	public void setSentido(Posicion sentido) {
 
 		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
+		}
+	}
+	
+	private void generaCuerpo(int largo) {
+		if (sentido == Posicion.ESTE) {
+			for (int i = 1; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
+				this.bodies.add(cuerpoVibora);
+			}
+		}
+
+		else if (sentido == Posicion.OESTE) {
+			for (int i = 1; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
+				this.bodies.add(cuerpoVibora);
+			}
+		}
+
+		else if (sentido == Posicion.NORTE) {
+			for (int i = 1; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
+				this.bodies.add(cuerpoVibora);
+			}
+		}
+
+		else if (sentido == Posicion.SUR) {
+			for (int i = 1; i < largo; i++) {
+				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
+				this.bodies.add(cuerpoVibora);
+			}
 		}
 	}
 
@@ -303,7 +276,7 @@ public class Vibora extends JPanel {
 	}
 
 	/**
-	 * Dibja la cabeza y luego el cuerpo
+	 * Dibuja la cabeza y luego el cuerpo
 	 */
 	@Override
 	public void paint(Graphics g) {

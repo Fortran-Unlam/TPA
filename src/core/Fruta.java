@@ -10,16 +10,14 @@ public class Fruta  extends JPanel {
 	
 	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
-	private boolean fueComida;
+	private boolean fueComida = false;
 
 	public Fruta(Coordenada ubicacion) {
 		this.coordenada = ubicacion;
-		this.fueComida = false;
 	}
 
 	public Fruta(int x, int y) {
 		this.coordenada = new Coordenada(x, y);
-		this.fueComida = false;
 	}
 
 	public int getX() {
