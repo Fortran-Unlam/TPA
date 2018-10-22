@@ -75,6 +75,21 @@ public class Mapa extends JPanel {
 		this.frutas.add(fruta);
 		return true;
 	}
+	
+	/**
+	 * Agrega un obstaculo al mapa
+	 * 
+	 * @param obstaculo
+	 */
+	public boolean add(Obstaculo obs) {
+		if (!this.estaDentro(obs.getX(), obs.getY()) || this.getVibora(obs.getX(), obs.getY()) != null
+				|| this.getFruta(obs.getX(), obs.getY()) != null) {
+			return false;
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * Actualiza todo el mapa, esto implica mover sus entidades, verificar si se

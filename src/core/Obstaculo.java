@@ -14,5 +14,13 @@ public class Obstaculo {
 		this.ubicacion = new Coordenada(x, y);
 		this.largo = largo;
 	}
+	
+	public int getX() {
+		return this.ubicacion.getX();
+	}
+	
+	public int getY() {
+		return this.ubicacion.getY();
+	}
 
 }
