@@ -390,5 +390,17 @@ public class MapaTest {
 		
 	}
 
+	
+	@Test
+	public void viboraContraMargenConObstaculos() {
+		Mapa mapa = new Mapa(5, 5);
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(1, 3));
+		Vibora vibora = new Vibora(new Coordenada(4, 3), 2, Posicion.ESTE);
+		
+		mapa.add(vibora);
+		mapa.add(obstaculo);
+		mapa.actualizar();
+		
+	}
 
 }
