@@ -288,5 +288,9 @@ public class Mapa extends JPanel {
 		for (Vibora vibora : this.viboras) {
 			vibora.paint(g2d);
 		}
+		
+		for (Obstaculo obstaculo : this.obstaculos) {
+			obstaculo.paint(g2d);
+		}
 	}
 }
