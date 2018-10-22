@@ -175,11 +175,11 @@ public class Vibora extends JPanel {
 			break;
 		}
 
-		this.head.setHead(false); //ya no va a ser mas la cabeza
-		this.bodies.addFirst(this.head); //ahora es un cuerpo
-		
+		this.head.setHead(false); // ya no va a ser mas la cabeza
+		this.bodies.addFirst(this.head); // ahora es un cuerpo
+
 		newHead.setHead(true);
-		this.head = newHead; //y tiene esta nueva cabeza
+		this.head = newHead; // y tiene esta nueva cabeza
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class Vibora extends JPanel {
 	public void marcarCrecimiento() {
 		this.crece = true;
 	}
-	
+
 	public boolean isDead() {
 		return muerta;
 	}
@@ -248,7 +248,6 @@ public class Vibora extends JPanel {
 	public void matar() {
 		this.muerta = true;
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -283,21 +282,22 @@ public class Vibora extends JPanel {
 
 	/**
 	 * Retorna la posición X de la cabeza
+	 * 
 	 * @return coordeanda x de la cabeza
 	 */
 	public int getX() {
 		return this.head.getX();
 	}
 
-	
 	/**
 	 * Retorna la posición Y de la cabeza
+	 * 
 	 * @return coordeanda Y de la cabeza
 	 */
 	public int getY() {
 		return this.head.getY();
 	}
-	
+
 	public Coordenada getCoordenada() {
 		return this.head.getCoordenada();
 	}
@@ -309,8 +309,8 @@ public class Vibora extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.YELLOW);
-		g2d.fillRect(this.getX(), this.getY(), 10, 10);
-		
+		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
+
 		for (CuerpoVibora cuerpoVibora : this.bodies) {
 			cuerpoVibora.paint(g2d);
 		}

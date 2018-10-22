@@ -24,38 +24,38 @@ public class GestorMapa extends JFrame {
 	public GestorMapa() throws HeadlessException {
 		super("Snake");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100,100,Param.ANCHO_MAPA,Param.LARGO_MAPA);
-		
+		setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+
 		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout(0,0));
-		contentPane.setBorder(new EmptyBorder(0,0,0,0));
-		
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+
 		setContentPane(contentPane);
 		setLocationRelativeTo(null);
 		setBackground(Color.black);
-		
-		// TODO: no me gusta poner el -1
-		mapa = new Mapa(Param.ANCHO_MAPA-1, Param.LARGO_MAPA-1);		
+		contentPane.setLayout(null);
+
+		mapa = new Mapa(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
+		mapa.setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		mapa.add(new Fruta(1, 1));
 		Vibora vibora = new Vibora(new Coordenada(30, 20), 3, Posicion.ESTE);
 		mapa.add(vibora);
-		
-		this.add(mapa);
-		
+
+		getContentPane().add(mapa);
+
 		addKeyListener(GestorInput.teclado);
 		setVisible(true);
-				
+
 		while (true) {
 			mapa.actualizar();
-			
+			System.out.println(vibora.getX());
 			try {
-				Thread.sleep(250);
+				Thread.sleep(190);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
