@@ -230,7 +230,8 @@ public class Mapa extends JPanel {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, Param.ANCHO_MAPA, Param.LARGO_MAPA);
+		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		
 		for (Fruta fruta : this.frutas) {
 			fruta.paint(g2d);
 		}

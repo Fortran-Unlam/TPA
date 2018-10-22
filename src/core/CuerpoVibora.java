@@ -88,11 +88,11 @@ public class CuerpoVibora extends JPanel {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.GREEN);
-		g2d.fillRect(this.getX(), this.getY(), 10, 10);
+		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
 	}
 }
