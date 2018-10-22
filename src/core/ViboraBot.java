@@ -7,7 +7,7 @@ import config.Posicion;
 public class ViboraBot extends Vibora {
 
 	private static final long serialVersionUID = -6266915663507093207L;
-	private int ultimaPosicion = 3;
+	private int ultimaPosicion = 2;
 
 	public ViboraBot(Coordenada head) {
 		super(head, 10);
@@ -18,8 +18,8 @@ public class ViboraBot extends Vibora {
 	 * sentido
 	 */
 	public void determinarMovimiento() {
-		int num = new Random().nextInt(Posicion.values().length);
-		this.ultimaPosicion = (int) Math.round((0.35 * num) + (0.65 * this.ultimaPosicion));
-		this.setSentido(Posicion.values()[this.ultimaPosicion]);
+		if (new Random().nextFloat() > 0.65) {
+			this.setSentido(Posicion.values()[new Random().nextInt(Posicion.values().length)]);
+		}
 	}
 }
