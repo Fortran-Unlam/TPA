@@ -52,7 +52,8 @@ public class Mapa extends JPanel {
 
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
-					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null) {
+					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
+					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
 			}
 		}
@@ -70,7 +71,8 @@ public class Mapa extends JPanel {
 	 */
 	public boolean add(Fruta fruta) {
 		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getVibora(fruta.getX(), fruta.getY()) != null
-				|| this.getFruta(fruta.getX(), fruta.getY()) != null) {
+				|| this.getFruta(fruta.getX(), fruta.getY()) != null
+				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
 			return false;
 		}
 
@@ -78,7 +80,7 @@ public class Mapa extends JPanel {
 		this.frutas.add(fruta);
 		return true;
 	}
-	
+
 	/**
 	 * Agrega un obstaculo al mapa. Su coordenada tiene que estar dentro del mapa.
 	 * No puede agregarlo donde haya algo.
@@ -86,16 +88,17 @@ public class Mapa extends JPanel {
 	 * @param obstaculo
 	 */
 	public boolean add(Obstaculo obstaculo) {
-		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY()) || this.getVibora(obstaculo.getX(), obstaculo.getY()) != null
-				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null) {
+		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY())
+				|| this.getVibora(obstaculo.getX(), obstaculo.getY()) != null
+				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
+				|| this.getObstaculo(obstaculo.getX(), obstaculo.getY()) != null) {
 			return false;
 		}
-		
+
 		this.cambioEnObstaculos = true;
 		this.obstaculos.add(obstaculo);
 		return true;
 	}
-
 
 	/**
 	 * Actualiza todo el mapa, esto implica mover sus entidades, verificar si se
@@ -224,8 +227,7 @@ public class Mapa extends JPanel {
 		}
 		return null;
 	}
-	
-	
+
 	private void cargarObstaculos() {
 		this.posicionesDeObstaculos = new Obstaculo[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Obstaculo obs : obstaculos) {
@@ -233,7 +235,6 @@ public class Mapa extends JPanel {
 		}
 	}
 
-	
 	public Obstaculo getObstaculo(int x, int y) {
 		if (this.cambioEnObstaculos) {
 			this.cargarObstaculos();
@@ -243,7 +244,7 @@ public class Mapa extends JPanel {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Retorna la dimension del mapa
 	 * 
@@ -271,7 +272,7 @@ public class Mapa extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-		
+
 		for (Fruta fruta : this.frutas) {
 			fruta.paint(g2d);
 		}

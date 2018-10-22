@@ -181,7 +181,7 @@ public class MapaTest {
 		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
 
 		mapa.actualizar();
-		
+
 		Assert.assertEquals(new CuerpoVibora(3, 2, true), mapa.getVibora(3, 2).getHead());
 		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
 
@@ -313,14 +313,47 @@ public class MapaTest {
 		Assert.assertEquals(false, mapa.add(fruta));
 
 	}
-	
+
 	@Test
-	public void cargarObstaculo(){
+	public void cargarObstaculo() {
 		Mapa mapa = new Mapa(5, 5);
 		Obstaculo obstaculo = new Obstaculo(new Coordenada(4, 4));
 		mapa.add(obstaculo);
-		
+
 		Assert.assertEquals(true, mapa.add(obstaculo));
+	}
+
+	@Test
+	public void obstaculoEncimaDeVibora() {
+		Mapa mapa = new Mapa(5, 5);
+		Vibora vibora = new Vibora(new Coordenada(2, 2), 3, Posicion.ESTE);
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
+
+		mapa.add(vibora);
+	
+		Assert.assertEquals(false, mapa.add(obstaculo));
+	}
+	
+	@Test
+	public void obstaculoEncimaDeFruta() {
+		Mapa mapa = new Mapa(5, 5);
+		Fruta fruta = new Fruta(new Coordenada(2, 2));
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
+
+		mapa.add(fruta);
+	
+		Assert.assertEquals(false, mapa.add(obstaculo));
+	}
+	
+	@Test
+	public void obstaculoEncimaDeObstaculo() {
+		Mapa mapa = new Mapa(5, 5);
+		Obstaculo obstaculo1 = new Obstaculo(new Coordenada(2, 2));
+		Obstaculo obstaculo2 = new Obstaculo(new Coordenada(2, 2));
+
+		mapa.add(obstaculo1);
+	
+		Assert.assertEquals(false, mapa.add(obstaculo2));
 	}
 
 }
