@@ -20,11 +20,12 @@ public abstract class Colisionador {
 	 * @param vibora
 	 * @param cuerpoViboraChocada
 	 */
+
 	public static void colisionar(Vibora vibA, Vibora vibB) {
 		CuerpoVibora headA = vibA.getHead();
 		CuerpoVibora headB = vibB.getHead();
 
-		//Choque de cabezas
+		// Choque de cabezas
 		if (headA.getX() == headB.getX() && headA.getY() == headB.getY()) {
 			vibA.matar();
 			vibB.matar();

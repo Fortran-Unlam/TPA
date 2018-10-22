@@ -18,7 +18,7 @@ public class Mapa extends JPanel {
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 
-	private Fruta[][] posiconesDeFrutas;
+	private Fruta[][] posicionesDeFrutas;
 	private Vibora[][] posicionesDeViboras;
 
 	private boolean cambioEnFrutas;
@@ -123,9 +123,9 @@ public class Mapa extends JPanel {
 	 * remueve una fruta.
 	 */
 	private void cargarFrutas() {
-		this.posiconesDeFrutas = new Fruta[this.tamano.getX() + 1][this.tamano.getY() + 1];
+		this.posicionesDeFrutas = new Fruta[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Fruta fruta : frutas) {
-			this.posiconesDeFrutas[fruta.getX()][fruta.getY()] = fruta;
+			this.posicionesDeFrutas[fruta.getX()][fruta.getY()] = fruta;
 		}
 	}
 
@@ -144,8 +144,8 @@ public class Mapa extends JPanel {
 				this.cargarFrutas();
 				this.cambioEnFrutas = false;
 			}
-			if (this.posiconesDeFrutas != null) {
-				return this.posiconesDeFrutas[x][y];
+			if (this.posicionesDeFrutas != null) {
+				return this.posicionesDeFrutas[x][y];
 			}
 		}
 
