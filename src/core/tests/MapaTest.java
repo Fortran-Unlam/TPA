@@ -355,5 +355,41 @@ public class MapaTest {
 	
 		Assert.assertEquals(false, mapa.add(obstaculo2));
 	}
+	
+	@Test
+	public void viboraContraObstaculo() {
+		Mapa mapa = new Mapa(5, 5);
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(2, 2));
+		Vibora vibora = new Vibora(new Coordenada(1, 2), 2, Posicion.ESTE);
+		
+		mapa.add(vibora);
+		mapa.add(obstaculo);
+		
+		Assert.assertEquals(false, vibora.isDead()); //vibora viba
+
+		mapa.actualizar();
+		
+		Assert.assertEquals(true, vibora.isDead()); //vibora muerta
+		
+	}
+	
+	@Test
+	public void viboraContraObstaculoCambiandoDireccion() {
+		Mapa mapa = new Mapa(5, 5);
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(1, 3));
+		Vibora vibora = new Vibora(new Coordenada(1, 2), 2, Posicion.ESTE);
+		
+		mapa.add(vibora);
+		mapa.add(obstaculo);
+		
+		Assert.assertEquals(false, vibora.isDead()); //vibora viba
+		vibora.setSentido(Posicion.NORTE);
+
+		mapa.actualizar();
+		
+		Assert.assertEquals(true, vibora.isDead()); //vibora muerta
+		
+	}
+
 
 }

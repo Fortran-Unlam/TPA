@@ -110,6 +110,14 @@ public class Mapa extends JPanel {
 		for (Vibora vibora : this.viboras) {
 			vibora.cabecear();
 		}
+		
+		//cabeza de vibora contra obstaculo
+		for (Vibora vibora : this.viboras) {
+			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
+			if (obstaculo != null) {
+				Colisionador.colisionar(vibora, obstaculo);
+			}
+		}
 
 		for (Vibora vibora : this.viboras) {
 			Fruta fruta = this.getFruta(vibora.getHead().getX(), vibora.getHead().getY());

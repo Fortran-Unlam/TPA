@@ -48,5 +48,10 @@ public abstract class Colisionador {
 			}
 		}
 	}
+	
+	
+	public static void colisionar(Vibora vibora, Obstaculo obs) {
+		vibora.matar();
+	}
 
 }

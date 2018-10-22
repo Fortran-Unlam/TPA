@@ -1,6 +1,5 @@
 package core;
 
-import java.util.LinkedList;
 
 public class Obstaculo {
 	
