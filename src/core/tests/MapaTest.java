@@ -8,6 +8,7 @@ import core.Coordenada;
 import core.CuerpoVibora;
 import core.Fruta;
 import core.Mapa;
+import core.Obstaculo;
 import core.Vibora;
 
 public class MapaTest {
@@ -311,6 +312,15 @@ public class MapaTest {
 		Assert.assertEquals(true, mapa.add(vibora));
 		Assert.assertEquals(false, mapa.add(fruta));
 
+	}
+	
+	@Test
+	public void cargarObstaculo(){
+		Mapa mapa = new Mapa(5, 5);
+		Obstaculo obstaculo = new Obstaculo(new Coordenada(4, 4));
+		mapa.add(obstaculo);
+		
+		Assert.assertEquals(true, mapa.add(obstaculo));
 	}
 
 }

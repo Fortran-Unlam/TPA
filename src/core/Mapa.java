@@ -17,13 +17,15 @@ public class Mapa extends JPanel {
 
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
+	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
 
 	private Fruta[][] posicionesDeFrutas;
 	private Vibora[][] posicionesDeViboras;
+	private Obstaculo[][] posicionesDeObstaculos;
 
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
-	private boolean cambioEnObstaculo;
+	private boolean cambioEnObstaculos;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
@@ -78,16 +80,19 @@ public class Mapa extends JPanel {
 	}
 	
 	/**
-	 * Agrega un obstaculo al mapa
+	 * Agrega un obstaculo al mapa. Su coordenada tiene que estar dentro del mapa.
+	 * No puede agregarlo donde haya algo.
 	 * 
 	 * @param obstaculo
 	 */
-	public boolean add(Obstaculo obs) {
-		if (!this.estaDentro(obs.getX(), obs.getY()) || this.getVibora(obs.getX(), obs.getY()) != null
-				|| this.getFruta(obs.getX(), obs.getY()) != null) {
+	public boolean add(Obstaculo obstaculo) {
+		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY()) || this.getVibora(obstaculo.getX(), obstaculo.getY()) != null
+				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null) {
 			return false;
 		}
-
+		
+		this.cambioEnObstaculos = true;
+		this.obstaculos.add(obstaculo);
 		return true;
 	}
 
@@ -220,11 +225,20 @@ public class Mapa extends JPanel {
 		return null;
 	}
 	
-	public Vibora getObstaculo(int x, int y) {
-		if (this.cambioEnObstaculos) {
-			this.cargarObstaculo();
+	
+	private void cargarObstaculos() {
+		this.posicionesDeObstaculos = new Obstaculo[this.tamano.getX() + 1][this.tamano.getY() + 1];
+		for (Obstaculo obs : obstaculos) {
+			this.posicionesDeObstaculos[obs.getX()][obs.getY()] = obs;
 		}
-		if (this.posicionesDeObscatculos != null) {
+	}
+
+	
+	public Obstaculo getObstaculo(int x, int y) {
+		if (this.cambioEnObstaculos) {
+			this.cargarObstaculos();
+		}
+		if (this.posicionesDeObstaculos != null) {
 			return this.posicionesDeObstaculos[x][y];
 		}
 		return null;
