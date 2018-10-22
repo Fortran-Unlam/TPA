@@ -3,6 +3,7 @@ package core;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.HeadlessException;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -48,12 +49,20 @@ public class GestorMapa extends JFrame {
 			mapa.add(new Obstaculo(b.nextInt(Param.MAPA_WIDTH / 5), b.nextInt(Param.MAPA_HEIGHT / 5)));
 		}
 
+		// Agrego muro
+		LinkedList<Obstaculo> piedras = new LinkedList<>();
+		for (int i = 30; i <= 160; i++) {
+			piedras.add(new Obstaculo(new Coordenada(i, 50)));
+		}
+		Muro pared = new Muro(piedras);
+		mapa.add(pared);
+
 		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
 		mapa.add(vibora);
-		
+
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 50));
 		mapa.add(viboraBot);
-		
+
 		getContentPane().add(mapa);
 
 		addKeyListener(GestorInput.teclado);
