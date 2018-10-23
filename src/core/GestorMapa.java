@@ -62,7 +62,10 @@ public class GestorMapa extends JFrame {
 
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		mapa.add(viboraBot);
-
+		
+		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
+		mapa.add(viboraBot2);
+		
 		getContentPane().add(mapa);
 
 		addKeyListener(GestorInput.teclado);

@@ -171,6 +171,10 @@ public class Mapa extends JPanel {
 			Vibora vibora = this.viboras.get(i);
 			if (vibora.isDead()) {
 				this.viboras.remove(i);
+				// despues de eliminar las viboras transformo sus cuerpos en fruta
+				for(CuerpoVibora cuerpo : vibora.getCuerpos()) {
+					this.add(new Fruta(cuerpo.getX(), cuerpo.getY()));
+				}
 			}
 		}
 		repaint();
