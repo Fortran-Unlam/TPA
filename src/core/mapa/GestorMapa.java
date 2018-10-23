@@ -1,15 +1,12 @@
 package core.mapa;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
 import config.Param;
 import input.GestorInput;
@@ -58,6 +55,7 @@ public class GestorMapa extends JFrame {
 		modelo.addElement("Score vib2: ");
 		list.setModel(modelo);
 		list.setEnabled(false);
+		
 		contentPane.add(list);
 
 		addKeyListener(GestorInput.teclado);

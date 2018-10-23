@@ -15,12 +15,14 @@ public class Vibora extends JPanel {
 
 	private static final long serialVersionUID = -4700905402985527264L;
 	private String nombre;
+	private int id;
 	private int frutasComidas;
 	private LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
 	private Posicion sentido;
 	private CuerpoVibora head;
 	private boolean crece = false;
 	private boolean muerta = false;
+	
 
 	/**
 	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido
@@ -296,5 +298,9 @@ public class Vibora extends JPanel {
 		if (GestorInput.teclado.ultimaPulsada != null) {
 			this.setSentido(GestorInput.teclado.ultimaPulsada);
 		}
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 }

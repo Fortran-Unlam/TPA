@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JPanel;
 
@@ -26,6 +28,7 @@ public class Mapa extends JPanel {
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
+	private ArrayList<Integer> score = new ArrayList<>();
 
 	private Fruta[][] posicionesDeFrutas;
 	private Vibora[][] posicionesDeViboras;
@@ -34,6 +37,8 @@ public class Mapa extends JPanel {
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
+	
+	private static int idVibora;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
@@ -69,6 +74,7 @@ public class Mapa extends JPanel {
 
 		this.cambioEnVibora = true;
 		this.viboras.add(vibora);
+		vibora.setId(idVibora++);
 		return true;
 	}
 
@@ -159,6 +165,9 @@ public class Mapa extends JPanel {
 				Colisionador.colisionar(vibora, fruta);
 			}
 		}
+		
+		
+		
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
