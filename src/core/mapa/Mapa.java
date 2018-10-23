@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -17,6 +17,8 @@ import core.CuerpoVibora;
 import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
+import core.Puntaje;
+import core.Score;
 import core.Vibora;
 
 public class Mapa extends JPanel {
@@ -26,10 +28,10 @@ public class Mapa extends JPanel {
 	private Coordenada tamano;
 
 	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
-	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
-	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
-	private ArrayList<Integer> score = new ArrayList<>();
-
+	private ArrayList<Fruta> frutas = new ArrayList<>();
+	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
+	private ArrayList<Puntaje> score = new ArrayList<>();
+	
 	private Fruta[][] posicionesDeFrutas;
 	private Vibora[][] posicionesDeViboras;
 	private Obstaculo[][] posicionesDeObstaculos;
@@ -38,7 +40,7 @@ public class Mapa extends JPanel {
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
 	
-	private int idVibora;
+	private int idVibora = 1;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
@@ -166,8 +168,7 @@ public class Mapa extends JPanel {
 			}
 		}
 		
-		
-		
+		this.score = Score.calcularScore(viboras);	//calculo el score.
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
@@ -342,4 +343,10 @@ public class Mapa extends JPanel {
 			obstaculo.paint(g2d);
 		}
 	}
+
+	public ArrayList<Puntaje> getScore() {
+		return score;
+	}
+	
+	
 }

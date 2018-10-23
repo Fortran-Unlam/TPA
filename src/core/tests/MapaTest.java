@@ -1,5 +1,6 @@
 package core.tests;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.junit.Assert;
@@ -11,6 +12,7 @@ import core.CuerpoVibora;
 import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
+import core.Puntaje;
 import core.Vibora;
 import core.mapa.Mapa;
 
@@ -408,41 +410,70 @@ public class MapaTest {
 	public void cargarMuro() {
 		Mapa mapa = new Mapa(5, 5);
 		LinkedList<Obstaculo> piedras = new LinkedList<>();
-		//Vibora vibora = new Vibora(new Coordenada(3,2),3,Posicion.NORTE);
-		
-		for(int i = 2; i<=4;i++) {
+		// Vibora vibora = new Vibora(new Coordenada(3,2),3,Posicion.NORTE);
+
+		for (int i = 2; i <= 4; i++) {
 			piedras.add(new Obstaculo(new Coordenada(i, 3)));
 		}
-		
+
 		Muro pared = new Muro(piedras);
-		
+
 		mapa.add(pared);
 
-		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2,3).getUbicacion());
-		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3,3).getUbicacion());
-		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4,3).getUbicacion());
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4, 3).getUbicacion());
 	}
-	
+
 	@Test
 	public void viboraMuereContraMuro() {
 		Mapa mapa = new Mapa(5, 5);
 		LinkedList<Obstaculo> piedras = new LinkedList<>();
-		Vibora vibora = new Vibora(new Coordenada(3,2),3,Posicion.NORTE);
-		
-		for(int i = 2; i<=4;i++) {
+		Vibora vibora = new Vibora(new Coordenada(3, 2), 3, Posicion.NORTE);
+
+		for (int i = 2; i <= 4; i++) {
 			piedras.add(new Obstaculo(new Coordenada(i, 3)));
 		}
-		
+
 		Muro pared = new Muro(piedras);
-		
+
 		mapa.add(pared);
 		mapa.add(vibora);
 		mapa.actualizar();
 
-		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2,3).getUbicacion());
-		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3,3).getUbicacion());
-		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4,3).getUbicacion());
-		Assert.assertEquals(true,vibora.isDead());
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4, 3).getUbicacion());
+		Assert.assertEquals(true, vibora.isDead());
+	}
+
+	@Test
+	public void testRanking() {
+		// Dos viboras comen frutas, una come 3 y la otra 0. Pruebo que el ranking
+		// funcione ok
+		Mapa mapa = new Mapa(6, 6);
+		Vibora vibA = new Vibora(new Coordenada(1, 3), 1, Posicion.ESTE);
+		Vibora vibB = new Vibora(new Coordenada(1, 2), 1, Posicion.ESTE);
+		Fruta fr1 = new Fruta(2, 3);
+		Fruta fr2 = new Fruta(3, 3);
+		Fruta fr3 = new Fruta(4, 3);
+
+		mapa.add(vibA);
+		mapa.add(vibB);
+		
+		mapa.add(fr1);
+		mapa.add(fr2);
+		mapa.add(fr3);
+		
+		mapa.actualizar();
+		mapa.actualizar();
+		mapa.actualizar();
+		
+		ArrayList<Puntaje> rank = mapa.getScore();
+		System.out.println("Vibora  Puntaje");
+		for(Puntaje p: rank) {
+			System.out.println(p);
+		}
 	}
 
 }

@@ -303,4 +303,8 @@ public class Vibora extends JPanel {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getId() {
+		return this.id;
+	}
 }
