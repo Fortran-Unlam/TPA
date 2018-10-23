@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import config.Param;
+import core.Score;
 import input.GestorInput;
 import javax.swing.JList;
 import java.awt.Font;
@@ -22,6 +23,8 @@ public class GestorMapa extends JFrame {
 
 	private Mapa mapa;
 	private JLabel lblScore;
+	private JLabel lblVib;
+	private JLabel lblFrutas;
 
 	public GestorMapa() throws HeadlessException {
 		super("Snake");
@@ -42,27 +45,34 @@ public class GestorMapa extends JFrame {
 		
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblScore.setBounds(18, 12, 67, 21);
+		lblScore.setBounds(16, 7, 67, 21);
 		contentPane.add(lblScore);
 		
 		JList<String> list = new JList<String>();
 		list.setBackground(SystemColor.control);
 		list.setBorder(null);
-		list.setBounds(6, 36, 87, 262);
+		list.setBounds(10, 54, 87, 262);
 		list.setOpaque(false);
-		DefaultListModel<String> modelo =  new DefaultListModel<>();
-		modelo.addElement("Score vib1: ");
-		modelo.addElement("Score vib2: ");
-		list.setModel(modelo);
 		list.setEnabled(false);
 		
 		contentPane.add(list);
+		
+		lblVib = new JLabel("Vib");
+		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblVib.setBounds(10, 39, 22, 14);
+		contentPane.add(lblVib);
+		
+		lblFrutas = new JLabel("Frutas");
+		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblFrutas.setBounds(51, 35, 42, 21);
+		contentPane.add(lblFrutas);
 
 		addKeyListener(GestorInput.teclado);
 		setVisible(true);
 
 		while (true) {
 			mapa.actualizar();
+			list.setModel(Score.ScoreToModel(mapa.getScore()));
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

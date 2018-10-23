@@ -449,7 +449,7 @@ public class MapaTest {
 
 	@Test
 	public void testRanking() {
-		// Dos viboras comen frutas, una come 3 y la otra 0. Pruebo que el ranking
+		// Dos viboras comen frutas, una come 3 y la otra 1. Pruebo que el ranking
 		// funcione ok
 		Mapa mapa = new Mapa(6, 6);
 		Vibora vibA = new Vibora(new Coordenada(1, 3), 1, Posicion.ESTE);
@@ -467,6 +467,7 @@ public class MapaTest {
 		
 		mapa.actualizar();
 		mapa.actualizar();
+		mapa.add(new Fruta(4, 2));
 		mapa.actualizar();
 		
 		ArrayList<Puntaje> rank = mapa.getScore();

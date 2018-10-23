@@ -1,7 +1,10 @@
 package core;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.swing.DefaultListModel;
 
 public class Score {
 	
@@ -15,5 +18,15 @@ public class Score {
 		Collections.sort(ranking);
 		
 		return ranking;
+	}
+	
+	public static DefaultListModel<String> ScoreToModel(ArrayList<Puntaje> rank) {
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+		
+		for(Puntaje p: rank) {
+			modelo.addElement(p.toString());
+		}
+		
+		return modelo;
 	}
 }

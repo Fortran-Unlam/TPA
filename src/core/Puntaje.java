@@ -16,7 +16,7 @@ public class Puntaje implements Comparable<Puntaje> {
 
 	@Override
 	public String toString() {
-		return idVibora + "\t" + frutasComidas;
+		return idVibora + "            " + frutasComidas;
 	}
 	
 	
