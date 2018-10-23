@@ -2,6 +2,7 @@ package core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.util.LinkedList;
 import java.util.Random;
@@ -24,7 +25,7 @@ public class GestorMapa extends JFrame {
 	public GestorMapa() throws HeadlessException {
 		super("Snake");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(null);
@@ -35,18 +36,16 @@ public class GestorMapa extends JFrame {
 		contentPane.setLayout(null);
 
 		mapa = new Mapa(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
-		mapa.setBounds(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-		mapa.add(new Fruta(1, 1));
-		mapa.add(new Fruta(58, 1));
-		Random a = new Random();
+		mapa.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+
+		Random random = new Random();
 		for (int i = 0; i < 25; i++) {
-			mapa.add(new Fruta(a.nextInt(Param.MAPA_WIDTH / 5), a.nextInt(Param.MAPA_HEIGHT / 5)));
+			mapa.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
 		}
 
 		// Agrego obstaculos
-		Random b = new Random();
 		for (int i = 0; i < 10; i++) {
-			mapa.add(new Obstaculo(b.nextInt(Param.MAPA_WIDTH / 5), b.nextInt(Param.MAPA_HEIGHT / 5)));
+			mapa.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
 		}
 
 		// Agrego muro
@@ -62,10 +61,10 @@ public class GestorMapa extends JFrame {
 
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		mapa.add(viboraBot);
-		
+
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
 		mapa.add(viboraBot2);
-		
+
 		getContentPane().add(mapa);
 
 		addKeyListener(GestorInput.teclado);
@@ -83,6 +82,9 @@ public class GestorMapa extends JFrame {
 
 	public void paint(Graphics g) {
 		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.DARK_GRAY);
+		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 	}
 
 }
