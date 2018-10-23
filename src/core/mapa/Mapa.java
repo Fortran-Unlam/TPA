@@ -1,4 +1,4 @@
-package core;
+package core.mapa;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,13 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import config.Param;
+import core.Colisionador;
+import core.Coordenada;
+import core.CuerpoVibora;
+import core.Fruta;
+import core.Muro;
+import core.Obstaculo;
+import core.Vibora;
 
 public class Mapa extends JPanel {
 

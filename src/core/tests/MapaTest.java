@@ -9,10 +9,10 @@ import config.Posicion;
 import core.Coordenada;
 import core.CuerpoVibora;
 import core.Fruta;
-import core.Mapa;
 import core.Muro;
 import core.Obstaculo;
 import core.Vibora;
+import core.mapa.Mapa;
 
 public class MapaTest {
 

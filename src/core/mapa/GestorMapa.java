@@ -1,4 +1,4 @@
-package core;
+package core.mapa;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,6 +12,12 @@ import javax.swing.JPanel;
 
 import config.Param;
 import config.Posicion;
+import core.Coordenada;
+import core.Fruta;
+import core.Muro;
+import core.Obstaculo;
+import core.Vibora;
+import core.ViboraBot;
 import input.GestorInput;
 
 public class GestorMapa extends JFrame {
@@ -35,36 +41,7 @@ public class GestorMapa extends JFrame {
 		setBackground(Color.black);
 		contentPane.setLayout(null);
 
-		mapa = new Mapa(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
-		mapa.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-
-		Random random = new Random();
-		for (int i = 0; i < 25; i++) {
-			mapa.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
-		}
-
-		// Agrego obstaculos
-		for (int i = 0; i < 10; i++) {
-			mapa.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
-		}
-
-		// Agrego muro
-		LinkedList<Obstaculo> piedras = new LinkedList<>();
-		for (int i = 30; i <= 160; i++) {
-			piedras.add(new Obstaculo(new Coordenada(i, 50)));
-		}
-		Muro pared = new Muro(piedras);
-		mapa.add(pared);
-
-		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
-		mapa.add(vibora);
-
-		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
-		mapa.add(viboraBot);
-
-		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
-		mapa.add(viboraBot2);
-
+		mapa = new MapaRandom();
 		getContentPane().add(mapa);
 
 		addKeyListener(GestorInput.teclado);
