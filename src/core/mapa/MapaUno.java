@@ -1,13 +1,11 @@
 package core.mapa;
 
-import java.util.LinkedList;
 import java.util.Random;
 
 import config.Param;
 import config.Posicion;
 import core.Coordenada;
 import core.Fruta;
-import core.Muro;
 import core.Obstaculo;
 import core.Vibora;
 import core.ViboraBot;
