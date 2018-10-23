@@ -12,9 +12,9 @@ public class Puntaje implements Comparable<Puntaje> {
 	@Override
 	public int compareTo(Puntaje otro) {
 		if(this.frutasComidas>otro.frutasComidas)
-			return 1;
-		if(this.frutasComidas<otro.frutasComidas)
 			return -1;
+		if(this.frutasComidas<otro.frutasComidas)
+			return 1;
 		return 0;
 	}
 
