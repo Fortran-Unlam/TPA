@@ -38,7 +38,7 @@ public class Mapa extends JPanel {
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
 	
-	private static int idVibora;
+	private int idVibora;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
