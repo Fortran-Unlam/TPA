@@ -4,20 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
-import java.util.LinkedList;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import config.Param;
-import config.Posicion;
-import core.Coordenada;
-import core.Fruta;
-import core.Muro;
-import core.Obstaculo;
-import core.Vibora;
-import core.ViboraBot;
 import input.GestorInput;
 
 public class GestorMapa extends JFrame {
