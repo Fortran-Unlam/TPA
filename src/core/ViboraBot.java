@@ -7,7 +7,6 @@ import config.Posicion;
 public class ViboraBot extends Vibora {
 
 	private static final long serialVersionUID = -6266915663507093207L;
-	private int ultimaPosicion = 2;
 
 	public ViboraBot(Coordenada head) {
 		super(head, 10);
