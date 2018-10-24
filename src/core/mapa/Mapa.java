@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 import config.Param;
 import core.Colisionador;
 import core.Coordenada;
-import core.CuerpoVibora;
-import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
 import core.Puntaje;
 import core.Score;
-import core.Vibora;
+import core.entidad.CuerpoVibora;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
 
 public class Mapa extends JPanel {
 

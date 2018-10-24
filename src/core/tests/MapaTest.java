@@ -8,12 +8,12 @@ import org.junit.Test;
 
 import config.Posicion;
 import core.Coordenada;
-import core.CuerpoVibora;
-import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
 import core.Puntaje;
-import core.Vibora;
+import core.entidad.CuerpoVibora;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
 import core.mapa.Mapa;
 
 public class MapaTest {

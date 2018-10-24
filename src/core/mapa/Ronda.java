@@ -16,8 +16,8 @@ import config.Posicion;
 import core.Coordenada;
 import core.Jugador;
 import core.Score;
-import core.Vibora;
-import core.ViboraBot;
+import core.entidad.Vibora;
+import core.entidad.ViboraBot;
 import input.GestorInput;
 
 public class Ronda extends JFrame {

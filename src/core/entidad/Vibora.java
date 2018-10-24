@@ -1,4 +1,4 @@
-package core;
+package core.entidad;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import config.Posicion;
+import core.Coordenada;
 import input.GestorInput;
 
 public class Vibora extends JPanel {
@@ -61,7 +62,7 @@ public class Vibora extends JPanel {
 	/**
 	 * Crea una vibora del largo pasado por parametro en forma horizontal si el
 	 * sentido es OESTE o ESTE, y en vertical si el sentido es NORTE o SUR. La
-	 * coordenada pasada por parámetro es la cabeza.
+	 * coordenada pasada por parï¿½metro es la cabeza.
 	 * 
 	 * @param head    indica la coordenada de la cabeza.
 	 * @param largo   indica el largo de la vibora a construir
@@ -78,7 +79,7 @@ public class Vibora extends JPanel {
 	 * 
 	 * Crea una vibora del largo pasado por parametro en forma horizontal si el
 	 * sentido(RANDOM) es OESTE o ESTE, y en vertical si el sentido es NORTE o SUR.
-	 * La coordenada pasada por parámetro es la cabeza.
+	 * La coordenada pasada por parï¿½metro es la cabeza.
 	 * 
 	 * @param head  indica la coordenada de la cabeza.
 	 * @param largo indica el largo de la vibora a construir
@@ -101,8 +102,8 @@ public class Vibora extends JPanel {
 
 	/**
 	 * Agrega un cuerpo de vibora justo detras de la cabeza de la misma, luego el
-	 * mapa se encargará de determinar si le tiene que quitar o no la ultima
-	 * posición de la lista de cuerpos de vibora.
+	 * mapa se encargarï¿½ de determinar si le tiene que quitar o no la ultima
+	 * posiciï¿½n de la lista de cuerpos de vibora.
 	 */
 	public void cabecear() {
 		CuerpoVibora newHead = new CuerpoVibora(null, true);
@@ -259,7 +260,7 @@ public class Vibora extends JPanel {
 	}
 
 	/**
-	 * Retorna la posición X de la cabeza
+	 * Retorna la posiciï¿½n X de la cabeza
 	 * 
 	 * @return coordeanda x de la cabeza
 	 */
@@ -268,7 +269,7 @@ public class Vibora extends JPanel {
 	}
 
 	/**
-	 * Retorna la posición Y de la cabeza
+	 * Retorna la posiciï¿½n Y de la cabeza
 	 * 
 	 * @return coordeanda Y de la cabeza
 	 */

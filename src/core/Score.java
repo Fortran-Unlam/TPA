@@ -5,6 +5,8 @@ import java.util.Collections;
 
 import javax.swing.DefaultListModel;
 
+import core.entidad.Vibora;
+
 public class Score {
 	
 	public static ArrayList<Puntaje> calcularScore(ArrayList<Vibora> viboras) {

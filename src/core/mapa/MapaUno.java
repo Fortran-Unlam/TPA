@@ -5,10 +5,10 @@ import java.util.Random;
 import config.Param;
 import config.Posicion;
 import core.Coordenada;
-import core.Fruta;
 import core.Obstaculo;
-import core.Vibora;
-import core.ViboraBot;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
+import core.entidad.ViboraBot;
 
 public class MapaUno extends Mapa {
 

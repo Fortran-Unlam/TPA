@@ -1,10 +1,12 @@
-package core;
+package core.entidad;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
+
+import core.Coordenada;
 
 public class Fruta extends JPanel {
 

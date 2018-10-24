@@ -1,5 +1,7 @@
 package core;
 
+import core.entidad.Vibora;
+
 public class Jugador {
 
 	Vibora vibora;
