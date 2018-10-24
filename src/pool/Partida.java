@@ -8,14 +8,14 @@ import core.entidad.Vibora;
 import core.mapa.Ronda;
 
 public class Partida {
-	private int idPartida;
-	private boolean partidaEnCurso = false;
+	private int id;
+	private boolean enCurso = false;
 	LinkedList<Ronda> rondas = new LinkedList<Ronda>();
 	private List<Jugador> jugadores = new LinkedList<Jugador>();
 
-	public Partida(int idPartida) {
-		this.idPartida = idPartida;
-		this.partidaEnCurso = true;
+	public Partida(final int id) {
+		this.id = id;
+		this.enCurso = true;
 	}
 
 	public boolean agregarRonda() {
@@ -23,19 +23,25 @@ public class Partida {
 	}
 
 	public void start() {
+		this.enCurso = true;
 		this.rondas.getLast().start();
 	}
 	
 	public void stop() {
+		this.enCurso = false;
 		this.rondas.getLast().stop();
 	}
 	
-	public void add(Jugador jugador) {
+	public boolean enCurso() {
+		return this.enCurso;
+	}
+	
+	public void add(final Jugador jugador) {
 		this.jugadores.add(jugador);
 		this.rondas.getLast().add(jugador);
 	}
 	
-	public Jugador crearJugador(String nombre) throws Exception {
+	public Jugador crearJugador(final String nombre) throws Exception {
 		
 		Vibora vibora = this.rondas.getLast().crearVibora();
 
