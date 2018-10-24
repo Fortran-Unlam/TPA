@@ -1,10 +1,11 @@
 package core;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.DefaultListModel;
+
+import core.entidad.Vibora;
 
 public class Score {
 	

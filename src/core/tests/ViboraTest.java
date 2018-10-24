@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import config.Posicion;
 import core.Coordenada;
-import core.Vibora;
+import core.entidad.Vibora;
 
 public class ViboraTest {
 

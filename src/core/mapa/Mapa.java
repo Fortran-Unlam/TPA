@@ -4,22 +4,20 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 
 import javax.swing.JPanel;
 
 import config.Param;
 import core.Colisionador;
 import core.Coordenada;
-import core.CuerpoVibora;
-import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
 import core.Puntaje;
 import core.Score;
-import core.Vibora;
+import core.entidad.CuerpoVibora;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
 
 public class Mapa extends JPanel {
 
@@ -27,7 +25,7 @@ public class Mapa extends JPanel {
 
 	private Coordenada tamano;
 
-	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
+	public ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
@@ -153,7 +151,6 @@ public class Mapa extends JPanel {
 			vibora.cabecear();
 		}
 
-		// cabeza de vibora contra obstaculo
 		for (Vibora vibora : this.viboras) {
 			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
 			if (obstaculo != null) {
@@ -168,7 +165,7 @@ public class Mapa extends JPanel {
 			}
 		}
 		
-		this.score = Score.calcularScore(viboras);	//calculo el score.
+		this.score = Score.calcularScore(viboras);
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();

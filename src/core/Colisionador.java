@@ -1,5 +1,9 @@
 package core;
 
+import core.entidad.CuerpoVibora;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
+
 public abstract class Colisionador {
 
 	/**
