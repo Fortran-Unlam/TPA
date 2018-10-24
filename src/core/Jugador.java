@@ -4,8 +4,8 @@ import core.entidad.Vibora;
 
 public class Jugador {
 
-	Vibora vibora;
-	String nombre;
+	private Vibora vibora;
+	private String nombre;
 	
 	public Jugador(final Vibora vibora, final String nombre) {
 		super();

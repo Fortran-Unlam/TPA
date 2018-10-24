@@ -19,6 +19,9 @@ import core.Score;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
 import input.GestorInput;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Ronda extends JFrame {
 
@@ -36,6 +39,7 @@ public class Ronda extends JFrame {
 	private JList<String> list;
 
 	private boolean run;
+	private JButton button;
 
 	public Ronda() throws HeadlessException {
 		super("Snake");
@@ -79,7 +83,26 @@ public class Ronda extends JFrame {
 		mapa = new MapaRandom();
 		getContentPane().add(mapa);
 		
+		JButton btnNewButton = new JButton("Stop");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stop();
+			}
+		});
+		btnNewButton.setBounds(0, 312, 100, 25);
+		contentPane.add(btnNewButton);
+		
+		button = new JButton("Exit");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		button.setBounds(0, 350, 100, 25);
+		contentPane.add(button);
+		
 		addKeyListener(GestorInput.teclado);
+		setFocusable(true);
 		setVisible(true);
 	}
 	
@@ -123,11 +146,4 @@ public class Ronda extends JFrame {
 		}
 		return null;
 	}
-
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//		Graphics2D g2d = (Graphics2D) g;
-//		g2d.setColor(Color.DARK_GRAY);
-//		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-//	}
 }

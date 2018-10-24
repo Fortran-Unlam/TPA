@@ -148,11 +148,9 @@ public class Mapa extends JPanel {
 		this.cambioEnVibora = true;
 
 		for (Vibora vibora : this.viboras) {
-			
 			vibora.cabecear();
 		}
 
-		// cabeza de vibora contra obstaculo
 		for (Vibora vibora : this.viboras) {
 			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
 			if (obstaculo != null) {
@@ -167,7 +165,7 @@ public class Mapa extends JPanel {
 			}
 		}
 		
-		this.score = Score.calcularScore(viboras);	//calculo el score.
+		this.score = Score.calcularScore(viboras);
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
