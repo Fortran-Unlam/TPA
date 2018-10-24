@@ -1,19 +1,18 @@
 package core.mapa;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.HeadlessException;
+import java.awt.SystemColor;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import config.Param;
 import core.Score;
 import input.GestorInput;
-import javax.swing.JList;
-import java.awt.Font;
-import java.awt.SystemColor;
 
 public class Ronda extends JFrame {
 
