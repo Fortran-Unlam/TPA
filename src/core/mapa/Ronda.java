@@ -89,15 +89,12 @@ public class Ronda extends JFrame {
 	
 	public void start() {
 	
-		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
-		mapa.add(vibora);
-
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		mapa.add(viboraBot);
 
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
 		mapa.add(viboraBot2);
-		
+		System.out.println(mapa.viboras.size());
 		this.run = true;
 		
 		while (this.run) {
