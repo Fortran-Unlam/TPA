@@ -27,17 +27,12 @@ public class GestorMapa extends JFrame {
 
 	public GestorMapa() throws HeadlessException {
 		super("Snake");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
 
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(null);
-		setUndecorated(true);
-		setContentPane(contentPane);
-		setLocationRelativeTo(null);
-		setBackground(Color.black);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 
 		mapa = new MapaRandom();
 		getContentPane().add(mapa);
@@ -45,6 +40,7 @@ public class GestorMapa extends JFrame {
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblScore.setBounds(16, 7, 67, 21);
+
 		contentPane.add(lblScore);
 		
 		JList<String> list = new JList<String>();
@@ -66,6 +62,11 @@ public class GestorMapa extends JFrame {
 		lblFrutas.setBounds(51, 35, 42, 21);
 		contentPane.add(lblFrutas);
 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
+		setUndecorated(true);
+		setLocationRelativeTo(null);
+		setBackground(Color.black);
 		addKeyListener(GestorInput.teclado);
 		setVisible(true);
 
@@ -81,10 +82,4 @@ public class GestorMapa extends JFrame {
 		}
 	}
 
-//	public void paint(Graphics g) {
-//		super.paint(g);
-//		Graphics2D g2d = (Graphics2D) g;
-//		g2d.setColor(Color.DARK_GRAY);
-//		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-//	}
 }

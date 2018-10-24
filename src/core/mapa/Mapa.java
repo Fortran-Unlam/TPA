@@ -29,7 +29,7 @@ public class Mapa extends JPanel {
 	private ArrayList<Fruta> frutas = new ArrayList<>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
-	
+
 	private Fruta[][] posicionesDeFrutas;
 	private Vibora[][] posicionesDeViboras;
 	private Obstaculo[][] posicionesDeObstaculos;
@@ -37,7 +37,7 @@ public class Mapa extends JPanel {
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
-	
+
 	private int idVibora = 1;
 
 	/**
@@ -46,7 +46,7 @@ public class Mapa extends JPanel {
 	 * @param x
 	 * @param y
 	 */
-	public Mapa(int x, int y) {
+	public Mapa(final int x, final int y) {
 		this.tamano = new Coordenada(x - 1, y - 1);
 	}
 
@@ -56,7 +56,7 @@ public class Mapa extends JPanel {
 	 * 
 	 * @param vibora
 	 */
-	public boolean add(Vibora vibora) {
+	public boolean add(final Vibora vibora) {
 		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
 				|| this.getVibora(vibora.getHead().getX(), vibora.getHead().getY()) != null
 				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
@@ -84,7 +84,7 @@ public class Mapa extends JPanel {
 	 * 
 	 * @param fruta
 	 */
-	public boolean add(Fruta fruta) {
+	public boolean add(final Fruta fruta) {
 		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getVibora(fruta.getX(), fruta.getY()) != null
 				|| this.getFruta(fruta.getX(), fruta.getY()) != null
 				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
@@ -102,7 +102,7 @@ public class Mapa extends JPanel {
 	 * 
 	 * @param obstaculo
 	 */
-	public boolean add(Obstaculo obstaculo) {
+	public boolean add(final Obstaculo obstaculo) {
 		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY())
 				|| this.getVibora(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
@@ -120,23 +120,23 @@ public class Mapa extends JPanel {
 	 * 
 	 * @param obstaculo
 	 */
-	public boolean add(Muro muro) {
+	public boolean add(final Muro muro) {
 		// recorro de atras hacia adelante borrando las piedras agregadas
 		LinkedList<Obstaculo> piedras = muro.getPiedras();
 
-		while(!piedras.isEmpty()) {
+		while (!piedras.isEmpty()) {
 			if (!this.estaDentro(piedras.getFirst().getX(), piedras.getFirst().getY())
 					|| this.getVibora(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
 				return false;
 			}
-			
+
 			this.cambioEnObstaculos = true;
 			this.obstaculos.add(piedras.getFirst());
 			piedras.removeFirst();
 		}
-		
+
 		return true;
 	}
 
@@ -164,7 +164,7 @@ public class Mapa extends JPanel {
 				Colisionador.colisionar(vibora, fruta);
 			}
 		}
-		
+
 		this.score = Score.calcularScore(viboras);
 
 		for (Vibora vibora : this.viboras) {
@@ -186,7 +186,7 @@ public class Mapa extends JPanel {
 			if (vibora.isDead()) {
 				this.viboras.remove(i);
 				// despues de eliminar las viboras transformo sus cuerpos en fruta
-				for(CuerpoVibora cuerpo : vibora.getCuerpos()) {
+				for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 					this.add(new Fruta(cuerpo.getX(), cuerpo.getY()));
 				}
 			}
@@ -214,7 +214,7 @@ public class Mapa extends JPanel {
 	 * 
 	 * @return Fruta | null
 	 */
-	public Fruta getFruta(int x, int y) {
+	public Fruta getFruta(final int x, final int y) {
 		if (this.estaDentro(x, y)) {
 
 			if (this.cambioEnFrutas) {
@@ -271,7 +271,7 @@ public class Mapa extends JPanel {
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public Vibora getVibora(int x, int y) {
+	public Vibora getVibora(final int x, final int y) {
 		if (this.cambioEnVibora) {
 			this.cargarViboras();
 		}
@@ -288,7 +288,7 @@ public class Mapa extends JPanel {
 		}
 	}
 
-	public Obstaculo getObstaculo(int x, int y) {
+	public Obstaculo getObstaculo(final int x, final int y) {
 		if (this.estaDentro(x, y)) {
 			if (this.cambioEnObstaculos) {
 				this.cargarObstaculos();
@@ -317,12 +317,12 @@ public class Mapa extends JPanel {
 	 * 
 	 * @return True si esta adentro
 	 */
-	public boolean estaDentro(int x, int y) {
+	public boolean estaDentro(final int x, final int y) {
 		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
 	}
 
 	@Override
-	public void paint(Graphics g) {
+	public void paint(final Graphics g) {
 		super.paint(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
@@ -344,6 +344,5 @@ public class Mapa extends JPanel {
 	public ArrayList<Puntaje> getScore() {
 		return score;
 	}
-	
-	
+
 }
