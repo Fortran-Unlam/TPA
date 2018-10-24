@@ -29,4 +29,6 @@ public class Score {
 		
 		return modelo;
 	}
+	
+	
 }

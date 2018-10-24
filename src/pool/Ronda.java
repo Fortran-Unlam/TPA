@@ -11,6 +11,10 @@ public abstract class Ronda {
 		this.mapaActual = mapaActual;
 	}
 	
+	public Ronda() {
+		
+	}
+	
 	
 	
 	

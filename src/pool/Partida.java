@@ -15,7 +15,8 @@ public class Partida {
 	
 	public boolean agregarRonda()
 	{
-		return rondas.add(new Ronda());
+		return rondas.add(new Ronda() {
+		});
 	}
 	
 	

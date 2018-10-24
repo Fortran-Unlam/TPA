@@ -72,6 +72,7 @@ public class GestorMapa extends JFrame {
 
 		while (true) {
 			mapa.actualizar();
+			//puntaje.calc();
 			list.setModel(Score.ScoreToModel(mapa.getScore()));
 			try {
 				Thread.sleep(50);
