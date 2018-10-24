@@ -15,7 +15,7 @@ import javax.swing.JList;
 import java.awt.Font;
 import java.awt.SystemColor;
 
-public class GestorMapa extends JFrame {
+public class Ronda extends JFrame {
 
 	private static final long serialVersionUID = 48427270007064034L;
 
@@ -26,7 +26,7 @@ public class GestorMapa extends JFrame {
 	private JLabel lblVib;
 	private JLabel lblFrutas;
 
-	public GestorMapa() throws HeadlessException {
+	public Ronda() throws HeadlessException {
 		super("Snake");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
