@@ -55,26 +55,25 @@ public class Ronda extends JFrame {
 		setBackground(Color.black);
 		contentPane.setLayout(null);
 
-		
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblScore.setBounds(16, 7, 67, 21);
 		contentPane.add(lblScore);
-		
+
 		list = new JList<String>();
 		list.setBackground(SystemColor.control);
 		list.setBorder(null);
 		list.setBounds(10, 54, 87, 262);
 		list.setOpaque(false);
 		list.setEnabled(false);
-		
+
 		contentPane.add(list);
-		
+
 		lblVib = new JLabel("Vib");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblVib.setBounds(10, 39, 22, 14);
 		contentPane.add(lblVib);
-		
+
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblFrutas.setBounds(51, 35, 42, 21);
@@ -82,7 +81,7 @@ public class Ronda extends JFrame {
 
 		mapa = new MapaRandom();
 		getContentPane().add(mapa);
-		
+
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +90,7 @@ public class Ronda extends JFrame {
 		});
 		btnNewButton.setBounds(0, 312, 100, 25);
 		contentPane.add(btnNewButton);
-		
+
 		button = new JButton("Exit");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,26 +99,29 @@ public class Ronda extends JFrame {
 		});
 		button.setBounds(0, 350, 100, 25);
 		contentPane.add(button);
-		
+
 		addKeyListener(GestorInput.teclado);
 		setFocusable(true);
 		setVisible(true);
 	}
-	
-	public void add(Jugador jugador) {
+
+	public void add(final Jugador jugador) {
 		this.jugadores.add(jugador);
 	}
-	
+
+	/**
+	 * Le da comienzo a  la ronda actualizando el mapa cada cierto tiempo
+	 */
 	public void start() {
-	
+
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		mapa.add(viboraBot);
 
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
 		mapa.add(viboraBot2);
-		System.out.println(mapa.viboras.size());
-		this.run = true;
 		
+		this.run = true;
+
 		while (this.run) {
 			mapa.actualizar();
 			list.setModel(Score.ScoreToModel(mapa.getScore()));
@@ -130,16 +132,22 @@ public class Ronda extends JFrame {
 			}
 		}
 	}
-	
+
 	public void stop() {
 		this.run = false;
 	}
 
+	/**
+	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
+	 * cuando el mapa se actualiza, se actualiza la vibora
+	 * 
+	 * @return La vibora si se pudo crear sino null-
+	 */
 	public Vibora crearVibora() {
 		Vibora vibora = null;
 		for (int intento = 0; intento < 10; intento++) {
-			
-			vibora = new Vibora(new Coordenada(10*intento, 10*intento), 10, Posicion.ESTE);
+
+			vibora = new Vibora(new Coordenada(10 * intento, 10 * intento), 10, Posicion.ESTE);
 			if (mapa.add(vibora)) {
 				return vibora;
 			}
