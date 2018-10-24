@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import config.Param;
+
 public class CuerpoVibora extends JPanel {
 
 	private static final long serialVersionUID = 2485552979729067616L;
@@ -21,7 +23,7 @@ public class CuerpoVibora extends JPanel {
 	}
 
 	/**
-	 * Ubicación: posición x,y del cuerpo Head: marcar con true si ese cuerpo va a
+	 * Ubicacion: posicion x,y del cuerpo Head: marcar con true si ese cuerpo va a
 	 * ser una cabeza.
 	 * 
 	 * @param ubicacion
@@ -33,7 +35,7 @@ public class CuerpoVibora extends JPanel {
 	}
 
 	/**
-	 * Ubicación: posición x,y del cuerpo Head: marcar con true si ese cuerpo va a
+	 * Ubicacion: posicion x,y del cuerpo Head: marcar con true si ese cuerpo va a
 	 * ser una cabeza.
 	 * 
 	 * @param ubicacion
@@ -93,6 +95,6 @@ public class CuerpoVibora extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.GREEN);
-		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
+		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 	}
 }
