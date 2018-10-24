@@ -76,6 +76,9 @@ public class Ronda extends JFrame {
 		lblFrutas.setBounds(51, 35, 42, 21);
 		contentPane.add(lblFrutas);
 
+		mapa = new MapaRandom();
+		getContentPane().add(mapa);
+		
 		addKeyListener(GestorInput.teclado);
 		setVisible(true);
 	}
@@ -85,8 +88,6 @@ public class Ronda extends JFrame {
 	}
 	
 	public void start() {
-		mapa = new MapaRandom();
-		getContentPane().add(mapa);
 	
 		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
 		mapa.add(vibora);
@@ -112,6 +113,18 @@ public class Ronda extends JFrame {
 	
 	public void stop() {
 		this.run = false;
+	}
+
+	public Vibora crearVibora() {
+		Vibora vibora = null;
+		for (int intento = 0; intento < 10; intento++) {
+			
+			vibora = new Vibora(new Coordenada(10*intento, 10*intento), 10, Posicion.ESTE);
+			if (mapa.add(vibora)) {
+				return vibora;
+			}
+		}
+		return null;
 	}
 
 //	public void paint(Graphics g) {
