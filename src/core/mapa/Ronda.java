@@ -35,6 +35,8 @@ public class Ronda extends JFrame {
 
 	private JList<String> list;
 
+	private boolean run;
+
 	public Ronda() throws HeadlessException {
 		super("Snake");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,7 +97,9 @@ public class Ronda extends JFrame {
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
 		mapa.add(viboraBot2);
 		
-		while (true) {
+		this.run = true;
+		
+		while (this.run) {
 			mapa.actualizar();
 			list.setModel(Score.ScoreToModel(mapa.getScore()));
 			try {
@@ -104,6 +108,10 @@ public class Ronda extends JFrame {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void stop() {
+		this.run = false;
 	}
 
 //	public void paint(Graphics g) {
