@@ -5,6 +5,7 @@ import core.mapa.Ronda;
 public class GestorPrincipal {
 
 	public static void main(String[] args) {
-		new Ronda();
+		Ronda ronda = new Ronda();
+		ronda.start();
 	}
 }

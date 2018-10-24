@@ -4,13 +4,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import config.Param;
-import config.Posicion;
 import core.Coordenada;
 import core.Fruta;
 import core.Muro;
 import core.Obstaculo;
-import core.Vibora;
-import core.ViboraBot;
 
 public class MapaRandom extends Mapa {
 
@@ -37,16 +34,6 @@ public class MapaRandom extends Mapa {
 		}
 		Muro pared = new Muro(piedras);
 		this.add(pared);
-
-		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
-		this.add(vibora);
-
-		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
-		this.add(viboraBot);
-
-		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
-		this.add(viboraBot2);
-
 	}
 
 }

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.SystemColor;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -11,7 +12,12 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import config.Param;
+import config.Posicion;
+import core.Coordenada;
+import core.Jugador;
 import core.Score;
+import core.Vibora;
+import core.ViboraBot;
 import input.GestorInput;
 
 public class Ronda extends JFrame {
@@ -24,6 +30,10 @@ public class Ronda extends JFrame {
 	private JLabel lblScore;
 	private JLabel lblVib;
 	private JLabel lblFrutas;
+
+	private List<Jugador> jugadores;
+
+	private JList<String> list;
 
 	public Ronda() throws HeadlessException {
 		super("Snake");
@@ -39,15 +49,13 @@ public class Ronda extends JFrame {
 		setBackground(Color.black);
 		contentPane.setLayout(null);
 
-		mapa = new MapaRandom();
-		getContentPane().add(mapa);
 		
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblScore.setBounds(16, 7, 67, 21);
 		contentPane.add(lblScore);
 		
-		JList<String> list = new JList<String>();
+		list = new JList<String>();
 		list.setBackground(SystemColor.control);
 		list.setBorder(null);
 		list.setBounds(10, 54, 87, 262);
@@ -68,7 +76,25 @@ public class Ronda extends JFrame {
 
 		addKeyListener(GestorInput.teclado);
 		setVisible(true);
+	}
+	
+	public void add(Jugador jugador) {
+		this.jugadores.add(jugador);
+	}
+	
+	public void start() {
+		mapa = new MapaRandom();
+		getContentPane().add(mapa);
+	
+		Vibora vibora = new Vibora(new Coordenada(30, 20), 10, Posicion.ESTE);
+		mapa.add(vibora);
 
+		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
+		mapa.add(viboraBot);
+
+		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
+		mapa.add(viboraBot2);
+		
 		while (true) {
 			mapa.actualizar();
 			list.setModel(Score.ScoreToModel(mapa.getScore()));
