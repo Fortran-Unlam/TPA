@@ -8,6 +8,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import config.Param;
 import config.Posicion;
 import core.Coordenada;
 import input.GestorInput;
@@ -288,7 +289,7 @@ public class Vibora extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.YELLOW);
-		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
+		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 
 		for (CuerpoVibora cuerpoVibora : this.bodies) {
 			cuerpoVibora.paint(g2d);

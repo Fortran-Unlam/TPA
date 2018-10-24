@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import config.Param;
 import core.Coordenada;
 
 public class Fruta extends JPanel {
@@ -46,6 +47,6 @@ public class Fruta extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
-		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
+		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 	}
 }
