@@ -142,14 +142,14 @@ public class Vibora extends JPanel {
 	 * @param sentido
 	 */
 	
-	public void setSentido(Posicion sentido) {
+	public void setSentido(final Posicion sentido) {
 
 		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
 	}
 	
-	private void generaCuerpo(int largo) {
+	private void generaCuerpo(final int largo) {
 		if (sentido == Posicion.ESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
@@ -238,7 +238,7 @@ public class Vibora extends JPanel {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)

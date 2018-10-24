@@ -7,7 +7,7 @@ public class Jugador {
 	Vibora vibora;
 	String nombre;
 	
-	public Jugador(Vibora vibora, String nombre) {
+	public Jugador(final Vibora vibora, final String nombre) {
 		super();
 		this.vibora = vibora;
 		this.nombre = nombre;
@@ -17,7 +17,7 @@ public class Jugador {
 		return vibora;
 	}
 
-	public void setVibora(Vibora vibora) {
+	public void setVibora(final Vibora vibora) {
 		this.vibora = vibora;
 	}
 
@@ -25,7 +25,7 @@ public class Jugador {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
+	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
 	
