@@ -14,17 +14,17 @@ public class MapaRandom extends Mapa {
 	private static final long serialVersionUID = 9176450957074794826L;
 
 	public MapaRandom() {
-		super(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
+		super(Param.MAPA_WIDTH / Param.PIXEL_RESIZE, Param.MAPA_HEIGHT / Param.PIXEL_RESIZE);
 		this.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
 		Random random = new Random();
 		for (int i = 0; i < 25; i++) {
-			this.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
+			this.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / Param.PIXEL_RESIZE), random.nextInt(Param.MAPA_HEIGHT / Param.PIXEL_RESIZE)));
 		}
 
 		// Agrego obstaculos
 		for (int i = 0; i < 10; i++) {
-			this.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
+			this.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / Param.PIXEL_RESIZE), random.nextInt(Param.MAPA_HEIGHT / Param.PIXEL_RESIZE)));
 		}
 
 		// Agrego muro
