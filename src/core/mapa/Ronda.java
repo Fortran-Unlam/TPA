@@ -114,15 +114,10 @@ public class Ronda extends JFrame {
 	 * Le da comienzo a la ronda actualizando el mapa cada cierto tiempo
 	 */
 	public void start() {
-		//TODO: VALIDAR QUE HAYA DOS VIBORAS PARA JUGAR
-		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
-		this.mapa.add(viboraBot);
-		
-		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(30, 20));
-		this.mapa.add(viboraBot2);
-
-		ViboraBot viboraBot3 = new ViboraBot(new Coordenada(100, 70));
-		this.mapa.add(viboraBot3);
+		//TODO: VALIDAR QUE HAYA DOS VIBORAS MINIMO PARA JUGAR
+		this.crearViboraBot();
+		this.crearViboraBot();
+		this.crearViboraBot();
 
 		this.run = true;
 		Score score = new Score();
@@ -160,6 +155,25 @@ public class Ronda extends JFrame {
 		for (int intento = 0; intento < 20; intento++) {
 			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)),
 					10, Posicion.ESTE);
+			if (mapa.add(vibora)) {
+				return vibora;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
+	 * cuando el mapa se actualiza, se actualiza la vibora
+	 * 
+	 * @return La vibora si se pudo crear sino null-
+	 */
+	public Vibora crearViboraBot() {
+		Vibora vibora = null;
+		Random random = new Random();
+		
+		for (int intento = 0; intento < 20; intento++) {
+			vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 			if (mapa.add(vibora)) {
 				return vibora;
 			}
