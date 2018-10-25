@@ -115,19 +115,19 @@ public class Ronda extends JFrame {
 	public void start() {
 
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
-		mapa.add(viboraBot);
+		this.mapa.add(viboraBot);
 
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
-		mapa.add(viboraBot2);
+		this.mapa.add(viboraBot2);
 		
 		this.run = true;
 		Score score = new Score();
-		score.add(mapa.getViboras());
+		score.add(this.mapa.getViboras());
 
 		while (this.run) {
-			mapa.actualizar();
+			this.mapa.actualizar();
 			score.calcularScore();
-			list.setModel(score.ScoreToModel());
+			this.list.setModel(score.ScoreToModel());
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

@@ -13,21 +13,21 @@ public class Score {
 
 	public ArrayList<Puntaje> calcularScore() {
 
-		ranking = new ArrayList<Puntaje>();
+		this.ranking = new ArrayList<Puntaje>();
 
 		for (Vibora vib : this.viboras) {
-			ranking.add(new Puntaje(vib.getId(), vib.getFrutasComidas()));
+			this.ranking.add(new Puntaje(vib.getId(), vib.getFrutasComidas()));
 		}
 
-		Collections.sort(ranking);
+		Collections.sort(this.ranking);
 
-		return ranking;
+		return this.ranking;
 	}
 
 	public DefaultListModel<String> ScoreToModel() {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 
-		for (Puntaje p : ranking) {
+		for (Puntaje p : this.ranking) {
 			modelo.addElement(p.toString());
 		}
 

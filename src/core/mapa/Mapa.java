@@ -14,7 +14,6 @@ import core.Coordenada;
 import core.Muro;
 import core.Obstaculo;
 import core.Puntaje;
-import core.Score;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
