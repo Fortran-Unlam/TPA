@@ -114,7 +114,7 @@ public class Ronda extends JFrame {
 	 * Le da comienzo a la ronda actualizando el mapa cada cierto tiempo
 	 */
 	public void start() {
-
+		//TODO: VALIDAR QUE HAYA DOS VIBORAS PARA JUGAR
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		this.mapa.add(viboraBot);
 

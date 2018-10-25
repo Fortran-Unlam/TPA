@@ -190,6 +190,8 @@ public class Mapa extends JPanel {
 				}
 			}
 		}
+		
+		//TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que gana
 		repaint();
 	}
 
