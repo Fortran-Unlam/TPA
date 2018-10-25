@@ -207,7 +207,7 @@ public class Vibora extends JPanel {
 	/**
 	 * Quita la cola si en ese ciclo de juego no va a crecer. Si crece no hace nada.
 	 */
-	public void crecerOMover() {
+	public void removerCola() {
 		if (!this.crece) {
 			this.bodies.removeLast(); // le saco el cuerpo si es que no crece.
 		}

@@ -146,11 +146,11 @@ public class Mapa extends JPanel {
 	public void actualizar() {
 		this.cambioEnVibora = true;
 
+		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
+		
 		for (Vibora vibora : this.viboras) {
 			vibora.cabecear();
-		}
-
-		for (Vibora vibora : this.viboras) {
+			
 			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
 			if (obstaculo != null) {
 				Colisionador.colisionar(vibora, obstaculo);
@@ -159,22 +159,20 @@ public class Mapa extends JPanel {
 			Fruta fruta = this.getFruta(vibora.getHead().getX(), vibora.getHead().getY());
 			if (fruta != null) {
 				Colisionador.colisionar(vibora, fruta);
+				frutasComidas.add(fruta);
 			}
+			vibora.removerCola();
 		}
 
-		for (Vibora vibora : this.viboras) {
-			vibora.crecerOMover();
-		}
-
-		for (int i = 0; i < this.frutas.size(); i++) {
-			Fruta fruta = this.frutas.get(i);
+		for (int i = 0; i < frutasComidas.size(); i++) {
+			Fruta fruta = frutasComidas.get(i);
 			if (fruta.getFueComida()) {
 				this.cambioEnFrutas = true;
-				this.frutas.remove(i);
+				this.frutas.remove(fruta);
 			}
 		}
 
-		this.cargarViboras();
+		this.cargarYVerSiColisionanViboras();
 
 		for (int i = 0; i < this.viboras.size(); i++) {
 			Vibora vibora = this.viboras.get(i);
@@ -231,7 +229,7 @@ public class Mapa extends JPanel {
 	 * posicion crea una colision para que vea quien tiene que morir. Esto se
 	 * deberia llamar cuando hay una nueva vibora o cuando se mueven las viboras
 	 */
-	private void cargarViboras() {
+	private void cargarYVerSiColisionanViboras() {
 		int coordenadaX, coordenadaY;
 		this.posicionesDeViboras = new Vibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Vibora vibora : this.viboras) {
@@ -270,7 +268,7 @@ public class Mapa extends JPanel {
 	 */
 	public Vibora getVibora(final int x, final int y) {
 		if (this.cambioEnVibora) {
-			this.cargarViboras();
+			this.cargarYVerSiColisionanViboras();
 		}
 		if (this.posicionesDeViboras != null) {
 			return this.posicionesDeViboras[x][y];
