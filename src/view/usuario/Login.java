@@ -8,38 +8,32 @@ import javax.swing.JTextField;
 public class Login extends JFrame {
 	
 	private static final long serialVersionUID = 6592698064274884489L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField nombre;
+	private JTextField contrasena;
 
 	public Login() {
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Nombre");
-		lblNewLabel.setBounds(41, 50, 122, 14);
-		getContentPane().add(lblNewLabel);
+		JLabel nombreLabel = new JLabel("Nombre");
+		nombreLabel.setBounds(41, 50, 92, 14);
+		getContentPane().add(nombreLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("Contrase\u00F1a");
-		lblNewLabel_1.setBounds(41, 75, 132, 14);
-		getContentPane().add(lblNewLabel_1);
+		JLabel contrasenaLabel = new JLabel("Contrase\u00F1a");
+		contrasenaLabel.setBounds(41, 75, 92, 14);
+		getContentPane().add(contrasenaLabel);
 
-		textField = new JTextField();
-		textField.setBounds(193, 47, 86, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		nombre = new JTextField();
+		nombre.setBounds(143, 47, 86, 20);
+		getContentPane().add(nombre);
+		nombre.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setBounds(193, 72, 86, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-
-		textField_2 = new JTextField();
-		textField_2.setBounds(193, 97, 86, 20);
-		getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		contrasena = new JTextField();
+		contrasena.setBounds(143, 72, 86, 20);
+		getContentPane().add(contrasena);
+		contrasena.setColumns(10);
 
 		JButton btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
-		btnCrearUsuario.setBounds(109, 146, 122, 23);
+		btnCrearUsuario.setBounds(75, 103, 122, 23);
 		getContentPane().add(btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
