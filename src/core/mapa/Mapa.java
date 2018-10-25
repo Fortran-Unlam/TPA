@@ -155,16 +155,12 @@ public class Mapa extends JPanel {
 			if (obstaculo != null) {
 				Colisionador.colisionar(vibora, obstaculo);
 			}
-		}
 
-		for (Vibora vibora : this.viboras) {
 			Fruta fruta = this.getFruta(vibora.getHead().getX(), vibora.getHead().getY());
 			if (fruta != null) {
 				Colisionador.colisionar(vibora, fruta);
 			}
 		}
-
-//		this.score = Score.calcularScore();
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
