@@ -8,28 +8,37 @@ import javax.swing.DefaultListModel;
 import core.entidad.Vibora;
 
 public class Score {
-	
-	public static ArrayList<Puntaje> calcularScore(ArrayList<Vibora> viboras) {
-		ArrayList<Puntaje> ranking = new ArrayList<>();
-		
-		for(Vibora vib: viboras) {
+	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
+	private ArrayList<Puntaje> ranking = new ArrayList<Puntaje>();
+
+	public ArrayList<Puntaje> calcularScore() {
+
+		ranking = new ArrayList<Puntaje>();
+
+		for (Vibora vib : this.viboras) {
 			ranking.add(new Puntaje(vib.getId(), vib.getFrutasComidas()));
 		}
-		
+
 		Collections.sort(ranking);
-		
+
 		return ranking;
 	}
-	
-	public static DefaultListModel<String> ScoreToModel(ArrayList<Puntaje> rank) {
+
+	public DefaultListModel<String> ScoreToModel() {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		
-		for(Puntaje p: rank) {
+
+		for (Puntaje p : ranking) {
 			modelo.addElement(p.toString());
 		}
-		
+
 		return modelo;
 	}
-	
-	
+
+	public void add(ArrayList<Vibora> viboras) {
+		for (Vibora vibora : viboras) {
+			this.viboras.add(vibora);
+		}
+
+	}
+
 }

@@ -25,7 +25,7 @@ public class Mapa extends JPanel {
 
 	private Coordenada tamano;
 
-	public ArrayList<Vibora> viboras = new ArrayList<Vibora>();
+	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
 	private ArrayList<Fruta> frutas = new ArrayList<>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
@@ -165,7 +165,7 @@ public class Mapa extends JPanel {
 			}
 		}
 
-		this.score = Score.calcularScore(viboras);
+//		this.score = Score.calcularScore();
 
 		for (Vibora vibora : this.viboras) {
 			vibora.crecerOMover();
@@ -343,6 +343,10 @@ public class Mapa extends JPanel {
 
 	public ArrayList<Puntaje> getScore() {
 		return score;
+	}
+
+	public ArrayList<Vibora> getViboras() {
+		return this.viboras;
 	}
 
 }

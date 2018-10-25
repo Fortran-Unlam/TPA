@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -19,9 +22,6 @@ import core.Score;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
 import input.GestorInput;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Ronda extends JFrame {
 
@@ -121,10 +121,13 @@ public class Ronda extends JFrame {
 		mapa.add(viboraBot2);
 		
 		this.run = true;
+		Score score = new Score();
+		score.add(mapa.getViboras());
 
 		while (this.run) {
 			mapa.actualizar();
-			list.setModel(Score.ScoreToModel(mapa.getScore()));
+			score.calcularScore();
+			list.setModel(score.ScoreToModel());
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
