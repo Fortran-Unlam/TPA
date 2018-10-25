@@ -1,7 +1,11 @@
 package core.entidad;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Random;
 
+import config.Param;
 import config.Posicion;
 import core.Coordenada;
 
@@ -20,6 +24,21 @@ public class ViboraBot extends Vibora {
 	public void determinarMovimiento() {
 		if (new Random().nextFloat() > 0.65) {
 			this.setSentido(Posicion.values()[new Random().nextInt(Posicion.values().length)]);
+		}
+	}
+
+	/**
+	 * Dibuja la cabeza y luego el cuerpo
+	 */
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLUE);
+		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+				Param.PIXEL_RESIZE);
+
+		for (CuerpoVibora cuerpoVibora : this.bodies) {
+			cuerpoVibora.paint(g2d);
 		}
 	}
 }

@@ -25,6 +25,7 @@ public class Score {
 	}
 
 	public DefaultListModel<String> ScoreToModel() {
+		this.calcularScore();
 		DefaultListModel<String> modelo = new DefaultListModel<>();
 
 		for (Puntaje p : this.ranking) {

@@ -7,6 +7,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -110,7 +111,7 @@ public class Ronda extends JFrame {
 	}
 
 	/**
-	 * Le da comienzo a  la ronda actualizando el mapa cada cierto tiempo
+	 * Le da comienzo a la ronda actualizando el mapa cada cierto tiempo
 	 */
 	public void start() {
 
@@ -119,20 +120,23 @@ public class Ronda extends JFrame {
 
 		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
 		this.mapa.add(viboraBot2);
-		
+
 		this.run = true;
 		Score score = new Score();
 		score.add(this.mapa.getViboras());
 
-		while (this.run) {
-			this.mapa.actualizar();
-			score.calcularScore();
-			this.list.setModel(score.ScoreToModel());
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		try {
+			Thread.sleep(1000);
+			
+			while (this.run) {
+				this.mapa.actualizar();
+	
+				this.list.setModel(score.ScoreToModel());
+	
+					Thread.sleep(50);
 			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -148,9 +152,11 @@ public class Ronda extends JFrame {
 	 */
 	public Vibora crearVibora() {
 		Vibora vibora = null;
-		for (int intento = 0; intento < 10; intento++) {
-
-			vibora = new Vibora(new Coordenada(10 * intento, 10 * intento), 10, Posicion.ESTE);
+		Random random = new Random();
+		
+		for (int intento = 0; intento < 20; intento++) {
+			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)),
+					10, Posicion.ESTE);
 			if (mapa.add(vibora)) {
 				return vibora;
 			}

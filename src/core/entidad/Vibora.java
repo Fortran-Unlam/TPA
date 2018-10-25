@@ -19,12 +19,11 @@ public class Vibora extends JPanel {
 	private String nombre;
 	private int id;
 	private int frutasComidas;
-	private LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
+	protected LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
 	private Posicion sentido;
 	private CuerpoVibora head;
 	private boolean crece = false;
 	private boolean muerta = false;
-	
 
 	/**
 	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido
@@ -110,7 +109,7 @@ public class Vibora extends JPanel {
 		CuerpoVibora newHead = new CuerpoVibora(null, true);
 
 		this.determinarMovimiento();
-		
+
 		switch (this.sentido) {
 		case ESTE:
 			newHead = new CuerpoVibora(new Coordenada(this.head.getX() + 1, this.head.getY()));
@@ -137,18 +136,19 @@ public class Vibora extends JPanel {
 	 * Setea un nuevo sentido si es que puede si la vibora tiene unicamente una
 	 * cabeza entonces se puede mover para su direccion contraria
 	 * 
-	 * Si la vibora tiene aunque sea un cuerpo (cabeza + 1 cuerpo = longitud 2) no puede girar 180 grados,
+	 * Si la vibora tiene aunque sea un cuerpo (cabeza + 1 cuerpo = longitud 2) no
+	 * puede girar 180 grados,
 	 * 
 	 * @param sentido
 	 */
-	
+
 	public void setSentido(final Posicion sentido) {
 
 		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
 	}
-	
+
 	private void generaCuerpo(final int largo) {
 		if (sentido == Posicion.ESTE) {
 			for (int i = 1; i < largo; i++) {
@@ -289,23 +289,24 @@ public class Vibora extends JPanel {
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.YELLOW);
-		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+				Param.PIXEL_RESIZE);
 
 		for (CuerpoVibora cuerpoVibora : this.bodies) {
 			cuerpoVibora.paint(g2d);
 		}
 	}
-	
+
 	public void determinarMovimiento() {
 		if (GestorInput.teclado.ultimaPulsada != null) {
 			this.setSentido(GestorInput.teclado.ultimaPulsada);
 		}
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
