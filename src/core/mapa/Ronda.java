@@ -117,9 +117,12 @@ public class Ronda extends JFrame {
 		//TODO: VALIDAR QUE HAYA DOS VIBORAS PARA JUGAR
 		ViboraBot viboraBot = new ViboraBot(new Coordenada(50, 100));
 		this.mapa.add(viboraBot);
-
-		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(100, 70));
+		
+		ViboraBot viboraBot2 = new ViboraBot(new Coordenada(30, 20));
 		this.mapa.add(viboraBot2);
+
+		ViboraBot viboraBot3 = new ViboraBot(new Coordenada(100, 70));
+		this.mapa.add(viboraBot3);
 
 		this.run = true;
 		Score score = new Score();
