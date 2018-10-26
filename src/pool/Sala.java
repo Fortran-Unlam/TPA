@@ -3,7 +3,7 @@ package pool;
 import java.util.ArrayList;
 import java.util.List;
 
-import view.partida.PartidaIndex;
+import view.sala.VentanaSala;
 
 public class Sala {
 	private int idSala;
