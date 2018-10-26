@@ -17,9 +17,11 @@ import pool.Sala;
 public class VentanaCreacionSala extends JFrame {
 
 	private static final long serialVersionUID = 490509587271361339L;
-	private JTextField nombre;
+	private JTextField nombreSala;
 	private JTextField maxJugadores;
-
+	private VentanaSala ventanaSala;
+	
+	
 	public VentanaCreacionSala() {
 		getContentPane().setLayout(null);
 
@@ -44,15 +46,15 @@ public class VentanaCreacionSala extends JFrame {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		panel.add(list);
 
-		this.nombre = new JTextField();
-		this.nombre.addActionListener(new ActionListener() {
+		this.nombreSala = new JTextField();
+		this.nombreSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				createSubmit();
 			}
 		});
-		this.nombre.setBounds(297, 154, 131, 20);
-		getContentPane().add(this.nombre);
-		this.nombre.setColumns(10);
+		this.nombreSala.setBounds(297, 154, 131, 20);
+		getContentPane().add(this.nombreSala);
+		this.nombreSala.setColumns(10);
 
 		JButton btnCrearSala = new JButton("Crear Sala");
 		btnCrearSala.addActionListener(new ActionListener() {
@@ -93,7 +95,7 @@ public class VentanaCreacionSala extends JFrame {
 	 * Evento que se ejecuta cuando se envia el formulario para crear la sala
 	 */
 	protected void createSubmit() {
-		if (this.nombre.getText().isEmpty()) {
+		if (this.nombreSala.getText().isEmpty()) {
 			System.out.println("falta nombre");
 			return;
 		}
@@ -103,11 +105,10 @@ public class VentanaCreacionSala extends JFrame {
 			return;
 		}
 		
-		Sala sala = new Sala(this.nombre.getText(), Integer.parseInt(this.maxJugadores.getText()));
-		
-		VentanaSala VentanaSala = new VentanaSala(this.nombre.getText());
-		
 		this.dispose();//Cierro la ventana de creacion de sala
-		// TODO: hacer un new sala y poner el jframe
+		
+		this.ventanaSala = new VentanaSala(); //Creo una nueva ventana
+		ventanaSala.setNombreYMaxUsuarios(this.nombreSala.getText(),this.maxJugadores.getText()); //le paso el nombres y el maxJugadores
+		
 	}
 }

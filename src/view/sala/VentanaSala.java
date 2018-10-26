@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import pool.Partida;
+import pool.Sala;
+import pool.Usuario;
+
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
@@ -20,16 +23,21 @@ public class VentanaSala extends JFrame {
 	private static final long serialVersionUID = -788139998457766457L;
 	private JComboBox comboBoxMapa;
 	private JTextField textFieldCantidadRondas;
-
-	public VentanaSala(String nombreSala) {
+	private VentanaCreacionSala ventanaCreacionSala;
+	private Sala sala;
+	private JLabel lblSala;
+	private JList listUsuarios;
+	private JLabel lblMaxUsuarios;
+	
+	public VentanaSala() {
 		
 		getContentPane().setLayout(null);
 
-		JLabel lblSala = new JLabel(nombreSala);
-		lblSala.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblSala.setForeground(Color.MAGENTA);
-		lblSala.setBounds(218, 10, 53, 15);
-		getContentPane().add(lblSala);
+		this.lblSala = new JLabel();
+		this.lblSala.setFont(new Font("Tahoma", Font.BOLD, 18));
+		this.lblSala.setForeground(Color.MAGENTA);
+		this.lblSala.setBounds(218, 10, 53, 15);
+		getContentPane().add(this.lblSala);
 
 		JLabel lblMapa = new JLabel("Mapa");
 		lblMapa.setBounds(50, 56, 70, 15);
@@ -60,30 +68,36 @@ public class VentanaSala extends JFrame {
 		getContentPane().add(textFieldCantidadRondas);
 		textFieldCantidadRondas.setColumns(10);
 		
-		JList listUsuarios = new JList();
-		listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		listUsuarios.setBounds(30, 161, 489, 187);
-		listUsuarios.setEnabled(false);
-		listUsuarios.setOpaque(false);
-		getContentPane().add(listUsuarios);
+		this.listUsuarios = new JList();
+		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		this.listUsuarios.setBounds(30, 161, 489, 187);
+		this.listUsuarios.setEnabled(false);
+		this.listUsuarios.setOpaque(false);
+		getContentPane().add(this.listUsuarios);
 		
 		JLabel lblUsuariosConectados = new JLabel("Usuarios en la sala");
 		lblUsuariosConectados.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblUsuariosConectados.setBounds(218, 137, 161, 24);
 		getContentPane().add(lblUsuariosConectados);
 		
+		this.lblMaxUsuarios = new JLabel("");
+		this.lblMaxUsuarios.setBounds(444, 56, 46, 14);
+		getContentPane().add(this.lblMaxUsuarios);
+		
 		btnCrearPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					createSubmit();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
 		
 		setBounds(297, 183, 587, 446);
+	
+		this.sala = new Sala();
+		
 		setVisible(true);
 	}
 	
@@ -92,14 +106,26 @@ public class VentanaSala extends JFrame {
 	 * @throws Exception 
 	 */
 	protected void createSubmit() throws Exception {
-				
 		Partida partida = new Partida(1);
 		
 		partida.agregarRonda();
-		
 		partida.crearJugador("Player 1");
+
+		
+		this.dispose();
 		
 		partida.start();
-		this.dispose();
+		
+	}
+	
+	void setNombreYMaxUsuarios(String nombreSala, String maxUsuarios) {
+		this.lblSala.setText(nombreSala);
+		this.lblMaxUsuarios.setText(maxUsuarios);
+		
+		this.sala.setDatos(nombreSala, Integer.valueOf(maxUsuarios));
+	}
+	
+	void addUsuarioAlList(Usuario user) {
+		
 	}
 }
