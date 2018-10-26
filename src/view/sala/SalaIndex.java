@@ -1,27 +1,31 @@
 package view.sala;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.AbstractListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
-import javax.swing.AbstractListModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
-public class Index extends JFrame {
+import pool.Sala;
+import view.partida.PartidaIndex;
+
+public class SalaIndex extends JFrame {
 
 	private static final long serialVersionUID = 490509587271361339L;
 	private JTextField nombre;
 	private JTextField maxJugadores;
 
-	public Index() {
+	public SalaIndex() {
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(21, 11, 189, 251);
+		panel.setBounds(12, 80, 189, 251);
 		getContentPane().add(panel);
 
 		JList list = new JList();
@@ -47,7 +51,7 @@ public class Index extends JFrame {
 				createSubmit();
 			}
 		});
-		this.nombre.setBounds(290, 11, 131, 20);
+		this.nombre.setBounds(297, 154, 131, 20);
 		getContentPane().add(this.nombre);
 		this.nombre.setColumns(10);
 
@@ -57,7 +61,7 @@ public class Index extends JFrame {
 				createSubmit();
 			}
 		});
-		btnCrearSala.setBounds(220, 118, 201, 23);
+		btnCrearSala.setBounds(213, 282, 201, 23);
 		getContentPane().add(btnCrearSala);
 
 		this.maxJugadores = new JTextField();
@@ -66,17 +70,24 @@ public class Index extends JFrame {
 				createSubmit();
 			}
 		});
-		this.maxJugadores.setBounds(290, 42, 60, 20);
+		this.maxJugadores.setBounds(297, 198, 60, 20);
 		getContentPane().add(this.maxJugadores);
 		this.maxJugadores.setColumns(10);
 
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(220, 11, 60, 20);
+		lblNombre.setBounds(219, 153, 60, 20);
 		getContentPane().add(lblNombre);
 
 		JLabel lblJugMax = new JLabel("Jug. Max");
-		lblJugMax.setBounds(220, 44, 60, 17);
+		lblJugMax.setBounds(219, 199, 60, 17);
 		getContentPane().add(lblJugMax);
+		
+		JLabel lblCrearSala = new JLabel("Crear Sala");
+		lblCrearSala.setBounds(179, 12, 100, 15);
+		getContentPane().add(lblCrearSala);
+		
+		setVisible(true);
+		setBounds(121, 111, 456, 373);
 	}
 
 	/**
@@ -92,6 +103,10 @@ public class Index extends JFrame {
 			System.out.println("falta maximo de jugadores");
 			return;
 		}
+		
+		Sala sala = new Sala();
+		
+		PartidaIndex partidaIndex = new PartidaIndex();
 		// TODO: hacer un new sala y poner el jframe
 	}
 }

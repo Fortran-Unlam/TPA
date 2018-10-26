@@ -3,15 +3,18 @@ package pool;
 import java.util.ArrayList;
 import java.util.List;
 
+import view.partida.PartidaIndex;
+
 public class Sala {
 	private int idSala;
+	private String nombreSala;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidas;
 	private List<Partida> partidas = new ArrayList<>();
 
-	public Sala(int idSala, int cantidadUsuarioMaximos) {
-		this.idSala = idSala;
+	public Sala(String nombreSala, int cantidadUsuarioMaximos) {
+		this.nombreSala = nombreSala;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.cantidadUsuarioActuales = 0;
 	}

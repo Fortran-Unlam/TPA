@@ -18,9 +18,6 @@ public class Partida {
 		this.enCurso = true;
 	}
 
-	
-
-
 	public boolean agregarRonda() {
 		return rondas.add(new Ronda());
 
