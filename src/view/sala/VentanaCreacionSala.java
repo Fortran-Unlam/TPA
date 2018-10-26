@@ -105,7 +105,7 @@ public class VentanaCreacionSala extends JFrame {
 		
 		Sala sala = new Sala(this.nombre.getText(), Integer.parseInt(this.maxJugadores.getText()));
 		
-		VentanaSala VentanaSala = new VentanaSala();
+		VentanaSala VentanaSala = new VentanaSala(this.nombre.getText());
 		
 		this.dispose();//Cierro la ventana de creacion de sala
 		// TODO: hacer un new sala y poner el jframe

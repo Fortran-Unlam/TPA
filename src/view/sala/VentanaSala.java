@@ -21,10 +21,11 @@ public class VentanaSala extends JFrame {
 	private JComboBox comboBoxMapa;
 	private JTextField textFieldCantidadRondas;
 
-	public VentanaSala() {
+	public VentanaSala(String nombreSala) {
+		
 		getContentPane().setLayout(null);
 
-		JLabel lblSala = new JLabel("SALA");
+		JLabel lblSala = new JLabel(nombreSala);
 		lblSala.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblSala.setForeground(Color.MAGENTA);
 		lblSala.setBounds(218, 10, 53, 15);
@@ -99,5 +100,6 @@ public class VentanaSala extends JFrame {
 		partida.crearJugador("Player 1");
 		
 		partida.start();
+		this.dispose();
 	}
 }
