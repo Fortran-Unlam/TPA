@@ -81,7 +81,8 @@ public class VentanaSala extends JFrame {
 		getContentPane().add(lblUsuariosConectados);
 		
 		this.lblMaxUsuarios = new JLabel("");
-		this.lblMaxUsuarios.setBounds(444, 56, 46, 14);
+		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		this.lblMaxUsuarios.setBounds(325, 51, 195, 23);
 		getContentPane().add(this.lblMaxUsuarios);
 		
 		btnCrearPartida.addActionListener(new ActionListener() {
@@ -120,8 +121,7 @@ public class VentanaSala extends JFrame {
 	
 	void setNombreYMaxUsuarios(String nombreSala, String maxUsuarios) {
 		this.lblSala.setText(nombreSala);
-		this.lblMaxUsuarios.setText(maxUsuarios);
-		
+		this.lblMaxUsuarios.setText("Cantidad maxima de usuarios: " + maxUsuarios);
 		this.sala.setDatos(nombreSala, Integer.valueOf(maxUsuarios));
 	}
 	
