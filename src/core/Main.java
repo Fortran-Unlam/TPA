@@ -1,6 +1,6 @@
 package core;
 
-import pool.Partida;
+import looby.Partida;
 import view.sala.VentanaCreacionSala;
 import view.sala.VentanaSala;
 

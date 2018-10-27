@@ -1,4 +1,4 @@
-package pool;
+package looby;
 
 public class Usuario {
 	private String usrName;

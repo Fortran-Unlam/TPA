@@ -7,16 +7,15 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import pool.Partida;
-import pool.Sala;
-import pool.Usuario;
-
 import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.border.BevelBorder;
+
+import looby.Partida;
+import looby.Sala;
+import looby.Usuario;
 
 public class VentanaSala extends JFrame {
 
