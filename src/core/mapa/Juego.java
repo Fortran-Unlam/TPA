@@ -12,15 +12,16 @@ import core.Jugador;
 import core.Score;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
+import looby.TipoDeJuego;
 
 public class Juego {
 
 	private List<Jugador> jugadores;
 	private Mapa mapa;
 	private JList jListScore;
-	private TipoJuego tipoJuego;
+	private TipoDeJuego tipoJuego;
 	
-	public Juego(List<Jugador> jugadores, Mapa mapa, JList score, TipoJuego tipoJuego) {
+	public Juego(List<Jugador> jugadores, Mapa mapa, JList score, TipoDeJuego tipoJuego) {
 		this.jugadores = jugadores;
 		this.mapa = mapa;
 		this.jListScore = score;
