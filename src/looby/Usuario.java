@@ -1,6 +1,7 @@
 package looby;
 
 public class Usuario {
+	private int idUsuario;
 	private String usrName;
 	private String password;
 	private int puntos;
@@ -15,9 +16,21 @@ public class Usuario {
 		this.password = password;
 	}
 
-	public Sala crearSala() {
-		return new Sala();
+	public Usuario(int idUsuario, String usrName, String password, int puntos, int cantidadFrutaComida, int asesinatos,
+			int muertes, int partidasGanadas, int rondasGanadas) {
+		this.idUsuario = idUsuario;
+		this.usrName = usrName;
+		this.password = password;
+		this.puntos = puntos;
+		this.cantidadFrutaComida = cantidadFrutaComida;
+		this.asesinatos = asesinatos;
+		this.muertes = muertes;
+		this.partidasGanadas = partidasGanadas;
+		this.rondasGanadas = rondasGanadas;
 	}
-	
+
+	public Sala crearSala(String nombreSala, int cantDeUsrMaximos, int cantDePartidas) {
+		return new Sala(nombreSala, cantDeUsrMaximos, cantDePartidas, this);
+	}
 
 }
