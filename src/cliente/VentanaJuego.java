@@ -1,4 +1,4 @@
-package core.mapa;
+package cliente;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 
 import config.Param;
 import core.Jugador;
+import core.mapa.Juego;
+import core.mapa.Mapa;
 import input.GestorInput;
 
 public class VentanaJuego extends JFrame {
