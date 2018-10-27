@@ -43,7 +43,7 @@ public class Juego {
 			while (true) {
 				this.mapa.actualizar();
 
-				//this.jListScore.setModel(score.ScoreToModel());
+				this.jListScore.setModel(score.ScoreToModel());
 
 				Thread.sleep(50);
 			}
@@ -82,8 +82,8 @@ public class Juego {
 	 * 
 	 * @return La vibora si se pudo crear sino null-
 	 */
-	public Vibora crearViboraBot() {
-		Vibora vibora = null;
+	public Jugador crearViboraBot() {
+		Jugador vibora = null;
 		Random random = new Random();
 
 		for (int intento = 0; intento < 20; intento++) {

@@ -11,11 +11,8 @@ import core.entidad.Fruta;
 
 public class MapaRandom extends Mapa {
 
-	private static final long serialVersionUID = 9176450957074794826L;
-
 	public MapaRandom() {
 		super(Param.MAPA_WIDTH / Param.PIXEL_RESIZE, Param.MAPA_HEIGHT / Param.PIXEL_RESIZE);
-		this.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
 		Random random = new Random();
 		for (int i = 0; i < 25; i++) {

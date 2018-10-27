@@ -6,22 +6,22 @@ import core.entidad.Vibora;
  * @author Joni
  *
  */
-public class Jugador {
+public class Jugador implements Comparable<Jugador> {
 
 	/**
 	 * 
 	 */
 	private Vibora vibora;
-	
+
 	/**
 	 * 
 	 */
 	private String nombre;
 	/**
-	 *  Cantidad de frutas comidas en la ronda
+	 * Cantidad de frutas comidas en la ronda
 	 */
 	private int frutasComidas;
-	
+
 	/**
 	 * 
 	 * @param vibora
@@ -33,6 +33,7 @@ public class Jugador {
 		this.nombre = nombre;
 		this.frutasComidas = 0;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -64,13 +65,14 @@ public class Jugador {
 	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
+
 	/**
 	 * 
 	 */
 	public void aumentarFrutasComidas() {
 		this.frutasComidas++;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -78,5 +80,14 @@ public class Jugador {
 	public int getFrutasComidas() {
 		return this.frutasComidas;
 	}
-	
+
+	@Override
+	public int compareTo(Jugador otro) {
+		return otro.frutasComidas - this.frutasComidas;
+	}
+
+	@Override
+	public String toString() {
+		return this.nombre + "            " + this.frutasComidas;
+	}
 }
