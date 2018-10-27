@@ -9,15 +9,15 @@ public class Usuario {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	
+
 	public Usuario(String usrName, String password) {
 		this.usrName = usrName;
 		this.password = password;
 	}
-	
-	public Sala crearSala()
-	{
+
+	public Sala crearSala() {
 		return new Sala();
 	}
 	
+
 }
