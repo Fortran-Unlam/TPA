@@ -1,16 +1,11 @@
 package core.mapa;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.JPanel;
-
-import config.Param;
 import core.Colisionador;
 import core.Coordenada;
+import core.Jugador;
 import core.Muro;
 import core.Obstaculo;
 import core.Puntaje;
@@ -18,13 +13,11 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
 
-public class Mapa{
-
-	private static final long serialVersionUID = -7166030434212474238L;
+public class Mapa {
 
 	private Coordenada tamano;
 
-	private ArrayList<Vibora> viboras = new ArrayList<Vibora>();
+	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	private ArrayList<Fruta> frutas = new ArrayList<>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
@@ -36,8 +29,6 @@ public class Mapa{
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
-
-	private int idVibora = 1;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
@@ -55,15 +46,15 @@ public class Mapa{
 	 * 
 	 * @param vibora
 	 */
-	public boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
-				|| this.getVibora(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
+	public boolean add(final Jugador jugador) {
+		if (!this.estaDentro(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY())
+				|| this.getVibora(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
+				|| this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
+				|| this.getObstaculo(jugador.getVibora().getX(), jugador.getVibora().getY()) != null) {
 			return false;
 		}
 
-		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
+		for (CuerpoVibora cuerpo : jugador.getVibora().getCuerpos()) {
 			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
@@ -72,8 +63,8 @@ public class Mapa{
 		}
 
 		this.cambioEnVibora = true;
-		this.viboras.add(vibora);
-		vibora.setId(idVibora++);
+		this.jugadores.add(jugador);
+//		jugador.setId(idVibora++);
 		return true;
 	}
 
@@ -147,21 +138,21 @@ public class Mapa{
 		this.cambioEnVibora = true;
 
 		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
-		
-		for (Vibora vibora : this.viboras) {
-			vibora.cabecear();
-			
-			Obstaculo obstaculo = this.getObstaculo(vibora.getHead().getX(), vibora.getHead().getY());
+
+		for (Jugador jugador : this.jugadores) {
+			jugador.getVibora().cabecear();
+
+			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
 			if (obstaculo != null) {
-				Colisionador.colisionar(vibora, obstaculo);
+				Colisionador.colisionar(jugador.getVibora(), obstaculo);
 			}
 
-			Fruta fruta = this.getFruta(vibora.getHead().getX(), vibora.getHead().getY());
+			Fruta fruta = this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
 			if (fruta != null) {
-				Colisionador.colisionar(vibora, fruta);
+				Colisionador.colisionar(jugador.getVibora(), fruta);
 				frutasComidas.add(fruta);
 			}
-			vibora.removerCola();
+			jugador.getVibora().removerCola();
 		}
 
 		for (int i = 0; i < frutasComidas.size(); i++) {
@@ -174,19 +165,20 @@ public class Mapa{
 
 		this.cargarYVerSiColisionanViboras();
 
-		for (int i = 0; i < this.viboras.size(); i++) {
-			Vibora vibora = this.viboras.get(i);
+		for (int i = 0; i < this.jugadores.size(); i++) {
+			Vibora vibora = this.jugadores.get(i).getVibora();
 			if (vibora.isDead()) {
-				this.viboras.remove(i);
+				this.jugadores.remove(i);
 				// despues de eliminar las viboras transformo sus cuerpos en fruta
 				for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 					this.add(new Fruta(cuerpo.getX(), cuerpo.getY()));
 				}
 			}
 		}
-		
-		//TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que gana
-		
+
+		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que
+		// gana
+
 	}
 
 	/**
@@ -232,7 +224,8 @@ public class Mapa{
 	private void cargarYVerSiColisionanViboras() {
 		int coordenadaX, coordenadaY;
 		this.posicionesDeViboras = new Vibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
-		for (Vibora vibora : this.viboras) {
+		for (Jugador jugador: this.jugadores) {
+			Vibora vibora = jugador.getVibora();
 			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
 				vibora.matar();
 				continue;
@@ -316,13 +309,12 @@ public class Mapa{
 		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
 	}
 
-
 	public ArrayList<Puntaje> getScore() {
 		return score;
 	}
 
-	public ArrayList<Vibora> getViboras() {
-		return this.viboras;
+	public ArrayList<Jugador> getJugadores() {
+		return this.jugadores;
 	}
 
 }

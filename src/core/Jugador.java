@@ -8,7 +8,14 @@ import core.entidad.Vibora;
  */
 public class Jugador {
 
+	/**
+	 * 
+	 */
 	private Vibora vibora;
+	
+	/**
+	 * 
+	 */
 	private String nombre;
 	/**
 	 *  Cantidad de frutas comidas en la ronda
