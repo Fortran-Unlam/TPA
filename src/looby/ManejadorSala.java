@@ -18,9 +18,9 @@ public class ManejadorSala {
 	public static void main(String[] args) {
 		ManejadorSala controlador = new ManejadorSala();
 		Usuario usuarioPrueba = new Usuario("Emiliano", "123");
+		controlador.agregarAUsuariosActivos(usuarioPrueba);
 		Sala salaPrueba = usuarioPrueba.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
-		controlador.agregarAUsuariosActivos(usuarioPrueba);
 	}
 
 }

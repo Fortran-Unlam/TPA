@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import view.sala.VentanaCreacionSala;
-import view.sala.VentanaSala;
+
 
 public class Sala {
 	private String nombreSala;
