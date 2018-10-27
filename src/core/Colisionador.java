@@ -2,20 +2,19 @@ package core;
 
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
-import core.entidad.Vibora;
 
 public abstract class Colisionador {
 
 	/**
 	 * Vibora colisiona con fruta
 	 * 
-	 * @param vibora Vibora que come fruta
+	 * @param jugador Vibora que come fruta
 	 * @param fruta  La fruta a comer
 	 */
-	public static void colisionar(Vibora vibora, Fruta fruta) {
+	public static void colisionar(Jugador jugador, Fruta fruta) {
 		fruta.setFueComida();
-		vibora.comer();
-		vibora.marcarCrecimiento();
+		jugador.getVibora().comer();
+		jugador.getVibora().marcarCrecimiento();
 	}
 
 	/**
@@ -25,37 +24,37 @@ public abstract class Colisionador {
 	 * @param cuerpoViboraChocada
 	 */
 
-	public static void colisionar(Vibora vibA, Vibora vibB) {
-		CuerpoVibora headA = vibA.getHead();
-		CuerpoVibora headB = vibB.getHead();
+	public static void colisionar(Jugador jugadorA, Jugador jugadorB) {
+		CuerpoVibora headA = jugadorA.getVibora().getHead();
+		CuerpoVibora headB = jugadorB.getVibora().getHead();
 
 		// Choque de cabezas
 		if (headA.getX() == headB.getX() && headA.getY() == headB.getY()) {
-			vibA.matar();
-			vibB.matar();
+			jugadorA.getVibora().matar();
+			jugadorB.getVibora().matar();
 			return;
 		}
 
 		// Cabeza de A contra B
-		for (CuerpoVibora cB : vibB.getCuerpos()) {
+		for (CuerpoVibora cB : jugadorB.getVibora().getCuerpos()) {
 			if (headA.getX() == cB.getX() && headA.getY() == cB.getY()) {
-				vibA.matar();
+				jugadorA.getVibora().matar();
 				return;
 			}
 		}
 
 		// Cabeza de B contra A
-		for (CuerpoVibora cA : vibA.getCuerpos()) {
+		for (CuerpoVibora cA : jugadorA.getVibora().getCuerpos()) {
 			if (headB.getX() == cA.getX() && headB.getY() == cA.getY()) {
-				vibB.matar();
+				jugadorB.getVibora().matar();
 				return;
 			}
 		}
 	}
 	
 	
-	public static void colisionar(Vibora vibora, Obstaculo obs) {
-		vibora.matar();
+	public static void colisionar(Jugador jugador, Obstaculo obs) {
+		jugador.getVibora().matar();
 	}
 
 }

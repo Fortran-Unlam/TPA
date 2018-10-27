@@ -23,7 +23,7 @@ public class Mapa {
 	private ArrayList<Puntaje> score = new ArrayList<>();
 
 	private Fruta[][] posicionesDeFrutas;
-	private Vibora[][] posicionesDeViboras;
+	private Jugador[][] posicionesDeJugadores;
 	private Obstaculo[][] posicionesDeObstaculos;
 
 	private boolean cambioEnFrutas;
@@ -48,14 +48,14 @@ public class Mapa {
 	 */
 	public boolean add(final Jugador jugador) {
 		if (!this.estaDentro(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY())
-				|| this.getVibora(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
+				|| this.getJugador(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
 				|| this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
 				|| this.getObstaculo(jugador.getVibora().getX(), jugador.getVibora().getY()) != null) {
 			return false;
 		}
 
 		for (CuerpoVibora cuerpo : jugador.getVibora().getCuerpos()) {
-			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getVibora(cuerpo.getX(), cuerpo.getY()) != null
+			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
@@ -75,7 +75,7 @@ public class Mapa {
 	 * @param fruta
 	 */
 	public boolean add(final Fruta fruta) {
-		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getVibora(fruta.getX(), fruta.getY()) != null
+		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getJugador(fruta.getX(), fruta.getY()) != null
 				|| this.getFruta(fruta.getX(), fruta.getY()) != null
 				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
 			return false;
@@ -94,7 +94,7 @@ public class Mapa {
 	 */
 	public boolean add(final Obstaculo obstaculo) {
 		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY())
-				|| this.getVibora(obstaculo.getX(), obstaculo.getY()) != null
+				|| this.getJugador(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getObstaculo(obstaculo.getX(), obstaculo.getY()) != null) {
 			return false;
@@ -116,7 +116,7 @@ public class Mapa {
 
 		while (!piedras.isEmpty()) {
 			if (!this.estaDentro(piedras.getFirst().getX(), piedras.getFirst().getY())
-					|| this.getVibora(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
+					|| this.getJugador(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
 				return false;
@@ -144,12 +144,12 @@ public class Mapa {
 
 			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
 			if (obstaculo != null) {
-				Colisionador.colisionar(jugador.getVibora(), obstaculo);
+				Colisionador.colisionar(jugador, obstaculo);
 			}
 
 			Fruta fruta = this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
 			if (fruta != null) {
-				Colisionador.colisionar(jugador.getVibora(), fruta);
+				Colisionador.colisionar(jugador, fruta);
 				frutasComidas.add(fruta);
 			}
 			jugador.getVibora().removerCola();
@@ -223,7 +223,7 @@ public class Mapa {
 	 */
 	private void cargarYVerSiColisionanViboras() {
 		int coordenadaX, coordenadaY;
-		this.posicionesDeViboras = new Vibora[this.tamano.getX() + 1][this.tamano.getY() + 1];
+		this.posicionesDeJugadores = new Jugador[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Jugador jugador: this.jugadores) {
 			Vibora vibora = jugador.getVibora();
 			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
@@ -234,19 +234,19 @@ public class Mapa {
 			// verifico la cabeza
 			coordenadaX = vibora.getX();
 			coordenadaY = vibora.getY();
-			if (this.posicionesDeViboras[coordenadaX][coordenadaY] != null) {
-				Colisionador.colisionar(this.posicionesDeViboras[coordenadaX][coordenadaY], vibora);
+			if (this.posicionesDeJugadores[coordenadaX][coordenadaY] != null) {
+				Colisionador.colisionar(this.posicionesDeJugadores[coordenadaX][coordenadaY], jugador);
 			}
-			this.posicionesDeViboras[coordenadaX][coordenadaY] = vibora;
+			this.posicionesDeJugadores[coordenadaX][coordenadaY] = jugador;
 
 			// verifico los cuerpos
 			for (CuerpoVibora cuerpoVibora : vibora.getCuerpos()) {
 				coordenadaX = cuerpoVibora.getX();
 				coordenadaY = cuerpoVibora.getY();
-				if (this.posicionesDeViboras[coordenadaX][coordenadaY] != null) {
-					Colisionador.colisionar(this.posicionesDeViboras[coordenadaX][coordenadaY], vibora);
+				if (this.posicionesDeJugadores[coordenadaX][coordenadaY] != null) {
+					Colisionador.colisionar(this.posicionesDeJugadores[coordenadaX][coordenadaY], jugador);
 				}
-				this.posicionesDeViboras[coordenadaX][coordenadaY] = vibora;
+				this.posicionesDeJugadores[coordenadaX][coordenadaY] = jugador;
 			}
 		}
 	}
@@ -259,12 +259,12 @@ public class Mapa {
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public Vibora getVibora(final int x, final int y) {
+	public Jugador getJugador(final int x, final int y) {
 		if (this.cambioEnVibora) {
 			this.cargarYVerSiColisionanViboras();
 		}
-		if (this.posicionesDeViboras != null) {
-			return this.posicionesDeViboras[x][y];
+		if (this.posicionesDeJugadores != null) {
+			return this.posicionesDeJugadores[x][y];
 		}
 		return null;
 	}

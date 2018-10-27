@@ -35,10 +35,10 @@ public class MapaTest {
 		mapa.add(vibora);
 
 		// verifico que tenga el mapa tenga el cuerpo
-		Assert.assertEquals(vibora, mapa.getVibora(0, 2));
+		Assert.assertEquals(vibora, mapa.getJugador(0, 2));
 
 		// y que sea la cabeza pues esta viborita es de un solo cuerpo
-		Assert.assertEquals(new Coordenada(0, 2), mapa.getVibora(0, 2).getHead().getCoordenada());
+		Assert.assertEquals(new Coordenada(0, 2), mapa.getJugador(0, 2).getHead().getCoordenada());
 	}
 
 	@Test
@@ -51,8 +51,8 @@ public class MapaTest {
 		mapa.actualizar();
 
 		// verifico que se haya movido y siga siendo la cabeza
-		Assert.assertEquals(vibora, mapa.getVibora(1, 2));
-		Assert.assertEquals(new Coordenada(1, 2), mapa.getVibora(1, 2).getHead().getCoordenada());
+		Assert.assertEquals(vibora, mapa.getJugador(1, 2));
+		Assert.assertEquals(new Coordenada(1, 2), mapa.getJugador(1, 2).getHead().getCoordenada());
 
 	}
 
@@ -63,25 +63,25 @@ public class MapaTest {
 		mapa.add(vibora);
 
 		// Basicamente lo que hago es que de un giro y vuelva al mismo lugar
-		Assert.assertEquals(vibora, mapa.getVibora(0, 2));
+		Assert.assertEquals(vibora, mapa.getJugador(0, 2));
 		// Cambio el sentido y actualizo el ciclo de juego
 		vibora.setSentido(Posicion.NORTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(vibora, mapa.getVibora(0, 3));
+		Assert.assertEquals(vibora, mapa.getJugador(0, 3));
 
 		vibora.setSentido(Posicion.ESTE);
 		mapa.actualizar();
-		Assert.assertEquals(vibora, mapa.getVibora(1, 3));
+		Assert.assertEquals(vibora, mapa.getJugador(1, 3));
 
 		vibora.setSentido(Posicion.SUR);
 		mapa.actualizar();
-		Assert.assertEquals(vibora, mapa.getVibora(1, 2));
+		Assert.assertEquals(vibora, mapa.getJugador(1, 2));
 
 		// vuelve a su lugar de inicio
 		vibora.setSentido(Posicion.OESTE);
 		mapa.actualizar();
-		Assert.assertEquals(vibora, mapa.getVibora(0, 2));
+		Assert.assertEquals(vibora, mapa.getJugador(0, 2));
 	}
 
 	@Test
@@ -95,7 +95,7 @@ public class MapaTest {
 		vibora.setSentido(Posicion.OESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(1, 3), mapa.getVibora(1, 3).getHead());
+		Assert.assertEquals(new CuerpoVibora(1, 3), mapa.getJugador(1, 3).getHead());
 
 	}
 
@@ -112,8 +112,8 @@ public class MapaTest {
 		vibora.setSentido(Posicion.ESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(3, 3), mapa.getVibora(3, 3).getHead());
-		Assert.assertEquals(true, mapa.getVibora(3, 3).getCuerpos().isEmpty());
+		Assert.assertEquals(new CuerpoVibora(3, 3), mapa.getJugador(3, 3).getHead());
+		Assert.assertEquals(true, mapa.getJugador(3, 3).getCuerpos().isEmpty());
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class MapaTest {
 		vibora.setSentido(Posicion.SUR);
 		mapa.actualizar();
 
-		Assert.assertEquals(vibora, mapa.getVibora(2, 2));
+		Assert.assertEquals(vibora, mapa.getJugador(2, 2));
 	}
 
 	@Test
@@ -136,7 +136,7 @@ public class MapaTest {
 		Vibora vibora = new Vibora(new Coordenada(2, 3), 1, Posicion.SUR);
 		mapa.add(vibora);
 
-		Assert.assertEquals(vibora, mapa.getVibora(2, 3));
+		Assert.assertEquals(vibora, mapa.getJugador(2, 3));
 
 		/*
 		 * cambio de este a oeste y como tiene una sola unidad en su cuerpo puede
@@ -145,7 +145,7 @@ public class MapaTest {
 		vibora.setSentido(Posicion.NORTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(vibora, mapa.getVibora(2, 4));
+		Assert.assertEquals(vibora, mapa.getJugador(2, 4));
 	}
 
 	@Test
@@ -155,9 +155,9 @@ public class MapaTest {
 
 		mapa.add(vibora);
 
-		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
-		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
-		Assert.assertEquals(new Coordenada(3, 2), mapa.getVibora(3, 2).getHead().getCoordenada());
+		Assert.assertEquals(vibora, mapa.getJugador(3, 1));
+		Assert.assertEquals(vibora, mapa.getJugador(3, 2));
+		Assert.assertEquals(new Coordenada(3, 2), mapa.getJugador(3, 2).getHead().getCoordenada());
 
 		/*
 		 * le pongo que se mueva al sur pero en el proximo ciclo de maquina no la mueve
@@ -167,9 +167,9 @@ public class MapaTest {
 		vibora.setSentido(Posicion.SUR);
 		mapa.actualizar();
 
-		Assert.assertEquals(vibora, mapa.getVibora(3, 3));
-		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
-		Assert.assertEquals(new Coordenada(3, 3), mapa.getVibora(3, 3).getCoordenada());
+		Assert.assertEquals(vibora, mapa.getJugador(3, 3));
+		Assert.assertEquals(vibora, mapa.getJugador(3, 2));
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getJugador(3, 3).getCoordenada());
 	}
 
 	@Test
@@ -182,16 +182,16 @@ public class MapaTest {
 		mapa.add(vibora);
 		mapa.add(fruta);
 
-		Assert.assertEquals(new CuerpoVibora(3, 1, true), mapa.getVibora(3, 1).getHead());
-		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
+		Assert.assertEquals(new CuerpoVibora(3, 1, true), mapa.getJugador(3, 1).getHead());
+		Assert.assertEquals(vibora, mapa.getJugador(3, 1));
 
 		mapa.actualizar();
 
-		Assert.assertEquals(new CuerpoVibora(3, 2, true), mapa.getVibora(3, 2).getHead());
-		Assert.assertEquals(vibora, mapa.getVibora(3, 2));
+		Assert.assertEquals(new CuerpoVibora(3, 2, true), mapa.getJugador(3, 2).getHead());
+		Assert.assertEquals(vibora, mapa.getJugador(3, 2));
 
-		Assert.assertEquals(new CuerpoVibora(3, 1), mapa.getVibora(3, 1).getCuerpos().getLast());
-		Assert.assertEquals(vibora, mapa.getVibora(3, 1));
+		Assert.assertEquals(new CuerpoVibora(3, 1), mapa.getJugador(3, 1).getCuerpos().getLast());
+		Assert.assertEquals(vibora, mapa.getJugador(3, 1));
 
 	}
 
