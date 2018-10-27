@@ -61,10 +61,10 @@ public class Juego {
 
 			while (this.run) {
 				this.mapa.actualizar();
-
+				System.out.println("jugando");
 				this.jListScore.setModel(score.ScoreToModel());
 
-				Thread.sleep(50);
+				Thread.sleep(150);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();

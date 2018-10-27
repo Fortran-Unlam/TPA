@@ -68,7 +68,7 @@ public class Mapa {
 	 * 
 	 * @param vibora
 	 */
-	private boolean add(final Vibora vibora) {
+	protected boolean add(final Vibora vibora) {
 		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
 				|| this.getJugador(vibora.getHead().getX(), vibora.getHead().getY()) != null
 				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
