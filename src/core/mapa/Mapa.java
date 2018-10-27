@@ -20,7 +20,7 @@ public class Mapa {
 
 	private Coordenada tamano;
 
-	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+	protected ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	private ArrayList<Fruta> frutas = new ArrayList<>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
