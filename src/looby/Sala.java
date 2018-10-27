@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import core.Jugador;
+
 public class Sala {
 	private String nombreSala;
 	private int cantidadUsuarioActuales;
@@ -31,8 +33,9 @@ public class Sala {
 		return false;
 	}
 
-	public boolean agregarPartida() {
-		this.partidaActual = new Partida(++cantidadDePartidas);
+	public boolean agregarPartida(Usuario usuario) throws Exception {
+		Jugador jugador = new Jugador(usuario);
+		this.partidaActual = new Partida(++cantidadDePartidas, jugador);
 		return partidas.add(this.partidaActual);
 	}
 

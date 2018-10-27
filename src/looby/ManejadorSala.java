@@ -15,14 +15,14 @@ public class ManejadorSala {
 		return this.usuariosActivos.add(usuario);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ManejadorSala controlador = new ManejadorSala();
 		Usuario usuarioPrueba = new Usuario("Emiliano", "123");
 		controlador.agregarAUsuariosActivos(usuarioPrueba);
 		Sala salaPrueba = usuarioPrueba.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
 		
-		salaPrueba.agregarPartida();
+		salaPrueba.agregarPartida(usuarioPrueba);
 		
 		System.out.println(salaPrueba.startPartida());
 	}

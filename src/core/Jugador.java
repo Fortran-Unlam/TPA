@@ -1,6 +1,7 @@
 package core;
 
 import core.entidad.Vibora;
+import looby.Usuario;
 
 /**
  * @author Joni
@@ -34,6 +35,18 @@ public class Jugador implements Comparable<Jugador> {
 		this.frutasComidas = 0;
 	}
 
+	/**
+	 * Convierte el usuario en un jugador, todavia no tiene vibora
+	 * @param vibora
+	 * @param nombre
+	 */
+	public Jugador(final Usuario usuario) {
+		super();
+		this.nombre = usuario.getUsrName();
+		
+		this.frutasComidas = 0;
+	}
+	
 	/**
 	 * 
 	 * @return

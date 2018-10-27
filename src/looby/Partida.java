@@ -12,9 +12,15 @@ public class Partida {
 	private LinkedList<Juego> juegos = new LinkedList<Juego>();
 	private List<Jugador> jugadores = new LinkedList<Jugador>();
 
-	public Partida(final int id) {
+	public Partida(final int id, final Jugador jugador) throws Exception {
 		this.id = id;
-		this.enCurso = true;
+		
+		//TODO: primero tendria que agregar un juego
+		this.crearJuego(new TipoDeJuego());
+		if (!this.add(jugador)) {
+			throw new Exception("No se pudo agregar un jugador en el mapa");
+		}
+		this.jugadores.add(jugador);
 	}
 
 	public boolean crearJuego(TipoDeJuego tipoJuego) {
@@ -27,13 +33,13 @@ public class Partida {
 	 * @return False si no puede empezar el juego.
 	 */
 	public boolean start() {
-		
+
 		if (this.juegos.size() == 0) {
 			return false;
 		}
-		
+
 		Juego juego = this.juegos.getLast();
-		
+
 		if (!juego.puedeEmpezar()) {
 			return false;
 		}
