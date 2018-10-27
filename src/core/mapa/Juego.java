@@ -71,7 +71,7 @@ public class Juego {
 		for (int intento = 0; intento < 20; intento++) {
 			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
 					Posicion.ESTE);
-			if (mapa.add(vibora)) {
+			if (mapa.add(vibora)){
 				return vibora;
 			}
 		}
