@@ -2,8 +2,14 @@ package config;
 
 public abstract class Param {
 
-	public static final int VENTANA_WIDTH = 700;
-	public static final int VENTANA_HEIGHT = 600;
+	public static final int VENTANA_MAPA_WIDTH = 600;
+	public static final int VENTANA_MAPA_HEIGHT = 700;
+	
+	public static final int BOTON_WIDTH = 120;
+	public static final int BOTON_HEIGHT = 40;
+	
+	public static final int VENTANA_CLIENTE_WIDTH = 500;
+	public static final int VENTANA_CLIENTE_HEIGHT = 400;
 
 	public static final int MAPA_WIDTH = 600;
 	public static final int MAPA_HEIGHT = 600;
