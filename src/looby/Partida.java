@@ -27,11 +27,18 @@ public class Partida {
 	 * @return False si no puede empezar el juego.
 	 */
 	public boolean start() {
-		this.enCurso = true;
-		if (!this.juegos.getLast().puedeEmpezar()) {
+		
+		if (this.juegos.size() == 0) {
 			return false;
 		}
-		this.juegos.getLast().start();
+		
+		Juego juego = this.juegos.getLast();
+		
+		if (!juego.puedeEmpezar()) {
+			return false;
+		}
+		juego.start();
+		this.enCurso = true;
 		return true;
 	}
 

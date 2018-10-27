@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-
-
 public class Sala {
 	private String nombreSala;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidas;
 	private Usuario usuarioAdministrador;
-	private List<Partida> partidas = new ArrayList<>();
+	private ArrayList<Partida> partidas = new ArrayList<>();
 	private List<Usuario> usuarios = new LinkedList<Usuario>();
+	private Partida partidaActual;
 
 	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioAdministrador) {
 		this.nombreSala = nombreSala;
@@ -33,11 +32,16 @@ public class Sala {
 	}
 
 	public boolean agregarPartida() {
-		return partidas.add(new Partida(++cantidadDePartidas));
+		this.partidaActual = new Partida(++cantidadDePartidas);
+		return partidas.add(this.partidaActual);
 	}
-	
+
 	public Usuario getAdministrador() {
 		return this.usuarioAdministrador;
+	}
+
+	public boolean startPartida() {
+		return this.partidaActual.start();
 	}
 
 }

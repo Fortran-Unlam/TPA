@@ -21,6 +21,9 @@ public class ManejadorSala {
 		controlador.agregarAUsuariosActivos(usuarioPrueba);
 		Sala salaPrueba = usuarioPrueba.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
+		
+		salaPrueba.agregarPartida();
+		
+		System.out.println(salaPrueba.startPartida());
 	}
-
 }
