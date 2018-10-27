@@ -104,8 +104,8 @@ public class VentanaCreacionSala extends JFrame {
 			System.out.println("falta maximo de jugadores");
 			return;
 		}
-		
-		this.dispose();//Cierro la ventana de creacion de sala
+		this.setVisible(false);
+//		this.dispose();//Cierro la ventana de creacion de sala
 		
 		this.ventanaSala = new VentanaSala(); //Creo una nueva ventana
 		ventanaSala.setNombreYMaxUsuarios(this.nombreSala.getText(),this.maxJugadores.getText()); //le paso el nombres y el maxJugadores

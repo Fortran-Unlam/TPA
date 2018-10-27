@@ -112,8 +112,8 @@ public class VentanaSala extends JFrame {
 		partida.agregarRonda();
 		partida.crearJugador("Player 1");
 
-		
-		this.dispose();
+		this.setVisible(false);
+//		this.dispose();
 		
 		partida.start();
 		
