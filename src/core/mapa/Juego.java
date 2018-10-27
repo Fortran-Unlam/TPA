@@ -6,17 +6,17 @@ import javax.swing.JList;
 
 import core.Jugador;
 import core.Score;
-import looby.TipoDeJuego;
+import looby.TipoJuego;
 
 public class Juego {
 
 	private List<Jugador> jugadores;
 	private Mapa mapa;
 	private JList jListScore;
-	private TipoDeJuego tipoJuego;
+	private TipoJuego tipoJuego;
 	private boolean run = false;
 
-	public Juego(List<Jugador> jugadores, TipoDeJuego tipoJuego) {
+	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
 		this.jugadores = jugadores;
 		this.mapa = new MapaUno();
 

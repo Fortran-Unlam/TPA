@@ -16,14 +16,14 @@ public class Partida {
 		this.id = id;
 		
 		//TODO: primero tendria que agregar un juego
-		this.crearJuego(new TipoDeJuego());
+		this.crearJuego((TipoJuego)new TipoJuegoSupervivencia(null));
 		if (!this.add(jugador)) {
 			throw new Exception("No se pudo agregar un jugador en el mapa");
 		}
 		this.jugadores.add(jugador);
 	}
 
-	public boolean crearJuego(TipoDeJuego tipoJuego) {
+	public boolean crearJuego(TipoJuego tipoJuego) {
 		return juegos.add(new Juego(this.jugadores, tipoJuego));
 	}
 
