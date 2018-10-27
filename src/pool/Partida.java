@@ -3,6 +3,8 @@ package pool;
 import java.util.LinkedList;
 import java.util.List;
 
+import config.Posicion;
+import core.Coordenada;
 import core.Jugador;
 import core.entidad.Vibora;
 import core.mapa.Ronda;
@@ -25,33 +27,25 @@ public class Partida {
 
 	public void start() {
 		this.enCurso = true;
-		this.rondas.getLast().start();
+		this.rondas.getLast().iniciarRonda(jugadores);
 	}
 	
-	public void stop() {
-		this.enCurso = false;
-		this.rondas.getLast().stop();
-	}
+//	public void stop() {
+//		this.enCurso = false;
+//		this.rondas.getLast().stop();
+//	}
 	
 	public boolean enCurso() {
 		return this.enCurso;
 	}
 	
-	public void add(final Jugador jugador) {
-		this.jugadores.add(jugador);
-		this.rondas.getLast().add(jugador);
-	}
-	
+//	public void add(final Jugador jugador) {
+//		this.jugadores.add(jugador);
+//		this.rondas.getLast().add(jugador);
+//	}
+//	
 	public Jugador crearJugador(final String nombre) throws Exception {
-		
-		Vibora vibora = this.rondas.getLast().crearVibora();
-
-		if (vibora == null) {
-			throw new Exception();
-		}
-		
-		Jugador jugador = new Jugador(vibora, nombre);
-		
+		Jugador jugador = new Jugador(new Vibora(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
 		this.jugadores.add(jugador);
 		
 		return jugador;
