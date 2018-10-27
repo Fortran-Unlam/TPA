@@ -38,11 +38,21 @@ public class Juego {
 	}
 
 	/**
+	 * Verifica si puede empezar el juego
+	 * 
+	 * @return True si puede empezar, false si no
+	 */
+	public boolean puedeEmpezar() {
+		if (this.jugadores.size() > 1) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Le da comienzo a la ronda actualizando el mapa cada cierto tiempo
 	 */
 	public void start() {
-		// TODO: VALIDAR QUE HAYA DOS VIBORAS MINIMO PARA JUGAR
-
 		Score score = new Score();
 		score.add(this.mapa.getJugadores());
 		this.run = true;
@@ -64,23 +74,4 @@ public class Juego {
 	public void stop() {
 		this.run = false;
 	}
-
-	/**
-	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
-	 * cuando el mapa se actualiza, se actualiza la vibora
-	 * 
-	 * @return La vibora si se pudo crear sino null-
-	 */
-//	public Jugador crearViboraBot() {
-//		Jugador vibora = null;
-//		Random random = new Random();
-//
-//		for (int intento = 0; intento < 20; intento++) {
-//			vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
-//			if (mapa.add(vibora)) {
-//				return vibora;
-//			}
-//		}
-//		return null;
-//	}
 }

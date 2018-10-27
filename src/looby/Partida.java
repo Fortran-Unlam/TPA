@@ -21,32 +21,51 @@ public class Partida {
 		return juegos.add(new Juego(this.jugadores, tipoJuego));
 	}
 
-	public void start() {
+	/**
+	 * Comienza el juego si puede
+	 * 
+	 * @return False si no puede empezar el juego.
+	 */
+	public boolean start() {
 		this.enCurso = true;
+		if (!this.juegos.getLast().puedeEmpezar()) {
+			return false;
+		}
 		this.juegos.getLast().start();
+		return true;
 	}
-	
+
+	/**
+	 * Para el juego que esta en curso
+	 */
 	public void stop() {
 		this.enCurso = false;
 		this.juegos.getLast().stop();
 	}
-	
+
+	/**
+	 * Devuelve true si hay un juego en curso
+	 * 
+	 * @return
+	 */
 	public boolean enCurso() {
 		return this.enCurso;
 	}
-	
+
+	/**
+	 * Agregar un jugador al juego que está en curso
+	 * 
+	 * @param jugador
+	 * 
+	 * @return True si puede agregar
+	 */
 	public boolean add(final Jugador jugador) {
+		// TODO: ver si no es necesario agregar el jugador en el juego en curso, por ahi
+		// es solo necesario agregarlo a la partida
 		if (this.juegos.getLast().add(jugador)) {
 			this.jugadores.add(jugador);
 			return true;
 		}
 		return false;
 	}
-//	
-//	public Jugador crearJugador(final String nombre) throws Exception {
-//		Jugador jugador = new Jugador(new Vibora(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
-//		this.jugadores.add(jugador);
-//		
-//		return jugador;
-//	}
 }
