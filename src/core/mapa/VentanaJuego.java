@@ -1,8 +1,6 @@
 package core.mapa;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -14,14 +12,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import config.Param;
 import core.Jugador;
 import input.GestorInput;
 
 public class VentanaJuego extends JFrame {
-	private JPanel contentPane;
+
+	private static final long serialVersionUID = 595619242686756871L;
+
+	private JPanel contenedor;
 
 	private Mapa mapa;
 	private JLabel lblScore;
@@ -32,28 +32,30 @@ public class VentanaJuego extends JFrame {
 
 	private JButton button;
 	private Juego juego;
+	private JPanel panelMapa;
 	
 	public VentanaJuego(List<Jugador> jugadores, Mapa mapa) {
 		super("Snake");
+		this.mapa = mapa;
 		this.juego = new Juego(jugadores, mapa, jListScore);
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
 
-		contentPane = new JPanel();
-		contentPane.setBackground(SystemColor.control);
-		contentPane.setBorder(null);
+		contenedor = new JPanel();
+		contenedor.setBackground(SystemColor.control);
+		contenedor.setBorder(null);
 		setUndecorated(true);
-		setContentPane(contentPane);
+		setContentPane(contenedor);
 		setLocationRelativeTo(null);
 		setBackground(Color.black);
-		contentPane.setLayout(null);
+		contenedor.setLayout(null);
 
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblScore.setBounds(16, 7, 67, 21);
-		contentPane.add(lblScore);
+		contenedor.add(lblScore);
 
 		jListScore = new JList<String>();
 		jListScore.setBackground(SystemColor.control);
@@ -62,19 +64,19 @@ public class VentanaJuego extends JFrame {
 		jListScore.setOpaque(false);
 		jListScore.setEnabled(false);
 
-		contentPane.add(jListScore);
+		contenedor.add(jListScore);
 
 		lblVib = new JLabel("Vib");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblVib.setBounds(10, 39, 22, 14);
-		contentPane.add(lblVib);
+		contenedor.add(lblVib);
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblFrutas.setBounds(51, 35, 42, 21);
-		contentPane.add(lblFrutas);
+		contenedor.add(lblFrutas);
 
-		getContentPane().add(mapa);
+//		contenedor().add(mapa);
 		
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -83,7 +85,7 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(0, 312, 100, 25);
-		contentPane.add(btnNewButton);
+		contenedor.add(btnNewButton);
 
 		button = new JButton("Exit");
 		button.addActionListener(new ActionListener() {
@@ -92,7 +94,11 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		button.setBounds(0, 350, 100, 25);
-		contentPane.add(button);
+		contenedor.add(button);
+		
+		panelMapa = new JPanel();
+		panelMapa.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		contenedor.add(panelMapa);
 
 		addKeyListener(GestorInput.teclado);
 		setFocusable(true);
@@ -100,5 +106,4 @@ public class VentanaJuego extends JFrame {
 		
 		this.juego.start();  //EMPIEZA EL JUEGO!!!
 	}
-
 }

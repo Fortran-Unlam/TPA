@@ -18,7 +18,7 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
 
-public class Mapa extends JPanel {
+public class Mapa{
 
 	private static final long serialVersionUID = -7166030434212474238L;
 
@@ -186,7 +186,7 @@ public class Mapa extends JPanel {
 		}
 		
 		//TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que gana
-		repaint();
+		
 	}
 
 	/**
@@ -316,25 +316,6 @@ public class Mapa extends JPanel {
 		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
 	}
 
-	@Override
-	public void paint(final Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-
-		for (Fruta fruta : this.frutas) {
-			fruta.paint(g2d);
-		}
-
-		for (Vibora vibora : this.viboras) {
-			vibora.paint(g2d);
-		}
-
-		for (Obstaculo obstaculo : this.obstaculos) {
-			obstaculo.paint(g2d);
-		}
-	}
 
 	public ArrayList<Puntaje> getScore() {
 		return score;

@@ -12,7 +12,7 @@ import core.mapa.Ronda;
 public class Partida {
 	private int id;
 	private boolean enCurso = false;
-	LinkedList<Ronda> rondas = new LinkedList<Ronda>();
+	private LinkedList<Ronda> rondas = new LinkedList<Ronda>();
 	private List<Jugador> jugadores = new LinkedList<Jugador>();
 
 	public Partida(final int id) {
