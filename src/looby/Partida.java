@@ -6,7 +6,6 @@ import java.util.List;
 import config.Posicion;
 import core.Coordenada;
 import core.Jugador;
-import core.entidad.Vibora;
 import core.mapa.Ronda;
 
 public class Partida {
@@ -45,7 +44,7 @@ public class Partida {
 //	}
 //	
 	public Jugador crearJugador(final String nombre) throws Exception {
-		Jugador jugador = new Jugador(new Jugador(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
+		Jugador jugador = new Jugador(new Vibora(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
 		this.jugadores.add(jugador);
 		
 		return jugador;

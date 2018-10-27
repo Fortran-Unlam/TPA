@@ -1,9 +1,9 @@
 package view.usuario;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 
 public class Crear extends JFrame {
 

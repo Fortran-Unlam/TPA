@@ -1,8 +1,6 @@
 package core;
 
-import looby.Partida;
 import view.sala.VentanaCreacionSala;
-import view.sala.VentanaSala;
 
 public class Main {
 

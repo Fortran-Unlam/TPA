@@ -18,11 +18,13 @@ public class Juego {
 	private List<Jugador> jugadores;
 	private Mapa mapa;
 	private JList jListScore;
+	private TipoJuego tipoJuego;
 	
-	public Juego(List<Jugador> jugadores, Mapa mapa, JList score) {
+	public Juego(List<Jugador> jugadores, Mapa mapa, JList score, TipoJuego tipoJuego) {
 		this.jugadores = jugadores;
 		this.mapa = mapa;
 		this.jListScore = score;
+		this.tipoJuego = tipoJuego;
 	}
 
 	/**
