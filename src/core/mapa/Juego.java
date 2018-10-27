@@ -1,17 +1,11 @@
 package core.mapa;
 
 import java.util.List;
-import java.util.Random;
 
 import javax.swing.JList;
 
-import config.Param;
-import config.Posicion;
-import core.Coordenada;
 import core.Jugador;
 import core.Score;
-import core.entidad.Vibora;
-import core.entidad.ViboraBot;
 import looby.TipoDeJuego;
 
 public class Juego {
@@ -20,12 +14,27 @@ public class Juego {
 	private Mapa mapa;
 	private JList jListScore;
 	private TipoDeJuego tipoJuego;
-	
-	public Juego(List<Jugador> jugadores, Mapa mapa, JList score, TipoDeJuego tipoJuego) {
+	private boolean run = false;
+
+	public Juego(List<Jugador> jugadores, TipoDeJuego tipoJuego) {
 		this.jugadores = jugadores;
-		this.mapa = mapa;
-		this.jListScore = score;
+		this.mapa = new MapaUno();
+
+		for (Jugador jugador : jugadores) {
+			this.mapa.add(jugador);
+		}
+
+		this.jListScore = new JList<Jugador>();
 		this.tipoJuego = tipoJuego;
+	}
+
+	public boolean add(Jugador jugador) {
+		if (!this.mapa.add(jugador)) {
+			System.out.println("no pudo agregar jugador");
+			return false;
+		}
+		this.jugadores.add(jugador);
+		return true;
 	}
 
 	/**
@@ -33,17 +42,14 @@ public class Juego {
 	 */
 	public void start() {
 		// TODO: VALIDAR QUE HAYA DOS VIBORAS MINIMO PARA JUGAR
-//		this.crearViboraBot();
-//		this.crearViboraBot();
-//		this.crearViboraBot();
 
 		Score score = new Score();
 		score.add(this.mapa.getJugadores());
-
+		this.run = true;
 		try {
 			Thread.sleep(1000);
 
-			while (true) {
+			while (this.run) {
 				this.mapa.actualizar();
 
 				this.jListScore.setModel(score.ScoreToModel());
@@ -55,46 +61,26 @@ public class Juego {
 		}
 	}
 
-//	public void stop() {
-//		this.run = false;
+	public void stop() {
+		this.run = false;
+	}
+
+	/**
+	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
+	 * cuando el mapa se actualiza, se actualiza la vibora
+	 * 
+	 * @return La vibora si se pudo crear sino null-
+	 */
+//	public Jugador crearViboraBot() {
+//		Jugador vibora = null;
+//		Random random = new Random();
+//
+//		for (int intento = 0; intento < 20; intento++) {
+//			vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+//			if (mapa.add(vibora)) {
+//				return vibora;
+//			}
+//		}
+//		return null;
 //	}
-
-	/**
-	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
-	 * cuando el mapa se actualiza, se actualiza la vibora
-	 * 
-	 * @return La vibora si se pudo crear sino null-
-	 */
-	public Vibora crearVibora() {
-		Vibora vibora = null;
-		Random random = new Random();
-
-		for (int intento = 0; intento < 20; intento++) {
-			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
-					Posicion.ESTE);
-			if (mapa.add(vibora)){
-				return vibora;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Intenta n veces crear una vibora en el mapa y la agrega al mapa. Osea que
-	 * cuando el mapa se actualiza, se actualiza la vibora
-	 * 
-	 * @return La vibora si se pudo crear sino null-
-	 */
-	public Jugador crearViboraBot() {
-		Jugador vibora = null;
-		Random random = new Random();
-
-		for (int intento = 0; intento < 20; intento++) {
-			vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
-			if (mapa.add(vibora)) {
-				return vibora;
-			}
-		}
-		return null;
-	}
 }

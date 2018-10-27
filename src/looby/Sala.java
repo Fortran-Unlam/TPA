@@ -35,5 +35,9 @@ public class Sala {
 	public boolean agregarPartida() {
 		return partidas.add(new Partida(++cantidadDePartidas));
 	}
+	
+	public Usuario getAdministrador() {
+		return this.usuarioAdministrador;
+	}
 
 }

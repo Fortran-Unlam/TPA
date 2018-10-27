@@ -3,15 +3,13 @@ package looby;
 import java.util.LinkedList;
 import java.util.List;
 
-import config.Posicion;
-import core.Coordenada;
 import core.Jugador;
-import core.mapa.Ronda;
+import core.mapa.Juego;
 
 public class Partida {
 	private int id;
 	private boolean enCurso = false;
-	private LinkedList<Ronda> rondas = new LinkedList<Ronda>();
+	private LinkedList<Juego> juegos = new LinkedList<Juego>();
 	private List<Jugador> jugadores = new LinkedList<Jugador>();
 
 	public Partida(final int id) {
@@ -19,34 +17,36 @@ public class Partida {
 		this.enCurso = true;
 	}
 
-	public boolean agregarRonda() {
-		return rondas.add(new Ronda());
-
+	public boolean crearJuego(TipoDeJuego tipoJuego) {
+		return juegos.add(new Juego(this.jugadores, tipoJuego));
 	}
 
 	public void start() {
 		this.enCurso = true;
-		this.rondas.getLast().iniciarRonda(jugadores);
+		this.juegos.getLast().start();
 	}
 	
-//	public void stop() {
-//		this.enCurso = false;
-//		this.rondas.getLast().stop();
-//	}
+	public void stop() {
+		this.enCurso = false;
+		this.juegos.getLast().stop();
+	}
 	
 	public boolean enCurso() {
 		return this.enCurso;
 	}
 	
-//	public void add(final Jugador jugador) {
-//		this.jugadores.add(jugador);
-//		this.rondas.getLast().add(jugador);
-//	}
-//	
-	public Jugador crearJugador(final String nombre) throws Exception {
-		Jugador jugador = new Jugador(new Vibora(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
-		this.jugadores.add(jugador);
-		
-		return jugador;
+	public boolean add(final Jugador jugador) {
+		if (this.juegos.getLast().add(jugador)) {
+			this.jugadores.add(jugador);
+			return true;
+		}
+		return false;
 	}
+//	
+//	public Jugador crearJugador(final String nombre) throws Exception {
+//		Jugador jugador = new Jugador(new Vibora(new Coordenada(3,2), 4, Posicion.NORTE), nombre);
+//		this.jugadores.add(jugador);
+//		
+//		return jugador;
+//	}
 }

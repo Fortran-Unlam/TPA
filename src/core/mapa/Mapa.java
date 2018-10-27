@@ -2,7 +2,10 @@ package core.mapa;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
+import config.Param;
+import config.Posicion;
 import core.Colisionador;
 import core.Coordenada;
 import core.Jugador;
@@ -41,20 +44,39 @@ public class Mapa {
 	}
 
 	/**
+	 * Agrega un jugador al mapa creando una vibora para ese jugador y estableciendo
+	 * su posicion
+	 * 
+	 * @param jugador
+	 * 
+	 * @return True si lo agregar, False si no lo puede agregar.
+	 */
+	public boolean add(final Jugador jugador) {
+		Vibora vibora = this.intentarCrearVibora();
+		if (vibora != null) {
+			jugador.setVibora(vibora);
+			this.jugadores.add(jugador);
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Agrega una vibora en el mapa. Su coordenada tiene que estar dentro del mapa.
-	 * Tampoco puede agregarlo donde haya algo.
+	 * Tampoco puede agregarlo donde haya algo. Solo el mapa agregar vibora porque
+	 * se deberia agregar jugadores.
 	 * 
 	 * @param vibora
 	 */
-	public boolean add(final Jugador jugador) {
-		if (!this.estaDentro(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY())
-				|| this.getJugador(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
-				|| this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY()) != null
-				|| this.getObstaculo(jugador.getVibora().getX(), jugador.getVibora().getY()) != null) {
+	private boolean add(final Vibora vibora) {
+		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
+				|| this.getJugador(vibora.getHead().getX(), vibora.getHead().getY()) != null
+				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
+				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
 		}
 
-		for (CuerpoVibora cuerpo : jugador.getVibora().getCuerpos()) {
+		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
@@ -63,9 +85,26 @@ public class Mapa {
 		}
 
 		this.cambioEnVibora = true;
-		this.jugadores.add(jugador);
-//		jugador.setId(idVibora++);
 		return true;
+	}
+
+	/**
+	 * Intenta agregar una vibora al mapa.
+	 * 
+	 * @return Si no puede return null
+	 */
+	public Vibora intentarCrearVibora() {
+		Vibora vibora = null;
+		Random random = new Random();
+
+		for (int intento = 0; intento < 20; intento++) {
+			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
+					Posicion.ESTE);
+			if (this.add(vibora)) {
+				return vibora;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -142,7 +181,8 @@ public class Mapa {
 		for (Jugador jugador : this.jugadores) {
 			jugador.getVibora().cabecear();
 
-			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
+			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(),
+					jugador.getVibora().getHead().getY());
 			if (obstaculo != null) {
 				Colisionador.colisionar(jugador, obstaculo);
 			}
@@ -224,7 +264,7 @@ public class Mapa {
 	private void cargarYVerSiColisionanViboras() {
 		int coordenadaX, coordenadaY;
 		this.posicionesDeJugadores = new Jugador[this.tamano.getX() + 1][this.tamano.getY() + 1];
-		for (Jugador jugador: this.jugadores) {
+		for (Jugador jugador : this.jugadores) {
 			Vibora vibora = jugador.getVibora();
 			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
 				vibora.matar();
