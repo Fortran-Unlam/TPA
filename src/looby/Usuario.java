@@ -17,7 +17,7 @@ public class Usuario {
 	}
 
 	public Usuario(int idUsuario, String usrName, String password, int puntos, int cantidadFrutaComida, int asesinatos,
-			int muertes, int partidasGanadas, int rondasGanadas) {
+		int muertes, int partidasGanadas, int rondasGanadas) {
 		this.idUsuario = idUsuario;
 		this.usrName = usrName;
 		this.password = password;
@@ -29,8 +29,12 @@ public class Usuario {
 		this.rondasGanadas = rondasGanadas;
 	}
 
-	public Sala crearSala(String nombreSala, int cantDeUsrMaximos, int cantDePartidas) {
-		return new Sala(nombreSala, cantDeUsrMaximos, cantDePartidas, this);
+	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
+		return new Sala(nombreSala, cantDeUsrMaximos, this);
+	}
+
+	public Usuario unirseASala() {
+		return this;
 	}
 
 }
