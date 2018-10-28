@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28/10/2018 13:41:38 by Hibernate Tools 5.1.0.Alpha1 -->
+<hibernate-mapping>
+ <class catalog="sql10263270" name="Entidades.Usuario" table="usuarios">
+  <id name="id" type="int">
+   <column name="id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="apodo" type="string">
+   <column length="45" name="apodo" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="contrasena" type="string">
+   <column name="contrasena" not-null="true"/>
+  </property>
+ </class>
+</hibernate-mapping>

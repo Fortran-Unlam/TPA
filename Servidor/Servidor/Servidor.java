@@ -3,21 +3,22 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import Conexion.Conexion;
+import org.hibernate.Session;
+import HibernateUtils.HibernateUtils;
 
 public class Servidor {
 
+	private static Session session;
+	
 	//Parametrizacion estática de configuraciones.
 	private static final int PUERTO = 1234;
 	private static final int MAXIMASCONEXIONESIMULTANEAS = 10;
     
     public static void main(String[] args) {
     	
+    	session = HibernateUtils.getSessionFactory().openSession();
     	ServerSocket servidor = null;
     	Socket socket = null;
-    	String estadoConexion = Conexion.connectDatabase();
-    	//Creo el acceso a la base de datos.
-        System.out.println(estadoConexion);
         try 
         {
             // Se crea el serverSocket para empezar a escuchar a los clientes.
@@ -45,6 +46,8 @@ public class Servidor {
         } 
         finally
         {
+        	//Cierro la conexion a la base de datos (Hibernate).
+        	session.close();
         	//Cierro todos los sockets abiertos tras ocurrir un error.
             try 
             {
@@ -58,5 +61,11 @@ public class Servidor {
             	System.out.println(mensajeError);
             }
         }
+    }
+    
+    //Es una manera de no pasar la session a las clases que utilizan la session para INSERT,SELECT,UPDATE,etc.
+    public static Session getSession()
+    {
+    	return session;
     }
 }

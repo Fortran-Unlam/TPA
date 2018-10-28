@@ -3,7 +3,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import Conexion.*;
+
+import Constantes.TipoMensaje;
+import DeprecadoConexion.*;
+import Entidades.Usuario;
+import Entidades.UsuarioHibernate;
 
 
 public class ConexionCliente extends Thread
@@ -51,20 +55,8 @@ public class ConexionCliente extends Thread
             {
                 // Lee un mensaje enviado por el cliente
                 mensajeRecibido = entradaDatos.readUTF();
-                String[] recepcion = mensajeRecibido.split(";");
-                int tipoMensaje = Integer.valueOf(recepcion[0]);
-                //Intento de login.
-                if(tipoMensaje == 0)
-                {
-                	String usuario = recepcion[1];
-                	String contrasena = recepcion[2];
-                	//Observo la recepcion encriptada.
-                	/*System.out.println(usuario);
-                	System.out.println(contrasena);*/
-                	//Intento logear y mando la respuesta al cliente.
-                	boolean resultado = Conexion.login(usuario, contrasena);
-                	salidaDatos.writeUTF("0;" +((resultado)?"ok":"nok"));
-                }
+                String retorno = TratamientoMensajeServidor.tratarMensaje(mensajeRecibido);
+                salidaDatos.writeUTF(retorno);
             } 
             catch (IOException ex) 
             {

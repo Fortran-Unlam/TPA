@@ -29,13 +29,19 @@ public class PantallaLogin extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	public static void main(String[] args) 
+	{
+		EventQueue.invokeLater(new Runnable() 
+		{
+			public void run() 
+			{
+				try 
+				{
 					PantallaLogin window = new PantallaLogin();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
+				} 
+				catch (Exception e) 
+				{
 					e.printStackTrace();
 				}
 			}
@@ -91,30 +97,49 @@ public class PantallaLogin extends JFrame {
         {
             System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
         }
-        
+        //Creo la conexion al servidor.
+		ConexionServidor con = new ConexionServidor(socket);
+		//La conexion al servidor se ejecuta paralelamente en otro thread.
+		Thread escucha = new Thread(con);
+        escucha.start();
         
 		
 		JButton btnIngresar = new JButton("Ingresar");
+		btnIngresar.setBounds(12, 221, 117, 25);
+		frame.getContentPane().add(btnIngresar);
 		//Clickear sobre el boton ingresar.
 		btnIngresar.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mouseClicked(MouseEvent e) 
 			{
-				ConexionServidor con = new ConexionServidor(socket);
 				//Encripto ambos campos.
 				String usuario = Seguridad.encrypt(textUsuario.getText());
 				String contrasena = Seguridad.encrypt(String.valueOf(textPassword.getPassword()));
+				//Intento logear.
 				con.logear(usuario, contrasena);
-				//Empiezo a escuchar del servidor.
-				con.recibirMensajesServidor();
 			}
 		});
-		btnIngresar.setBounds(156, 212, 117, 25);
-		frame.getContentPane().add(btnIngresar);
 		
 		lblEstado = new JLabel("");
 		lblEstado.setBounds(12, 245, 426, 15);
 		frame.getContentPane().add(lblEstado);
+		
+		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar.setBounds(321, 221, 117, 25);
+		frame.getContentPane().add(btnRegistrar);
+		//Clickear sobre el boton registrar.
+		btnRegistrar.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mouseClicked(MouseEvent e) 
+			{
+				//Encripto ambos campos.
+				String usuario = Seguridad.encrypt(textUsuario.getText());
+				String contrasena = Seguridad.encrypt(String.valueOf(textPassword.getPassword()));
+				//Intento registrar.
+				con.registrar(usuario, contrasena);
+			}
+		});
 	}
 }

@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 import Login.PantallaLogin;
+import Constantes.TipoMensaje;
 
-public class ConexionServidor
+public class ConexionServidor implements Runnable
 {
     private Socket socket; 
     private DataOutputStream salidaDatos;
@@ -34,8 +35,21 @@ public class ConexionServidor
     	//Intento escribir en el buffer de salida.
         try 
         {
-            salidaDatos.writeUTF("0;" + usuario + ";" + password);
+            salidaDatos.writeUTF(TipoMensaje.MENSAJEINGRESAR + usuario + ";" + password);
             //Al realizar salidaDatos.writeUTF estaria "llamando" al entradaDatos.readUTF(); del servidor.
+        } 
+        catch (IOException ex) 
+        {
+            System.out.println("Error al intentar enviar un mensaje: " + ex.getMessage());
+        }
+    }
+    
+    public void registrar(String usuario, String password)
+    {
+    	//Intento escribir en el buffer de salida.
+        try 
+        {
+            salidaDatos.writeUTF(TipoMensaje.MENSAJEREGISTRAR + usuario + ";" + password);
         } 
         catch (IOException ex) 
         {
@@ -66,30 +80,12 @@ public class ConexionServidor
         {
             try 
             {
-                String mensajeRecibido = entradaDatos.readUTF();
-                //Siempre voy a recibir un string separados por ; donde el primer valor me indica a que corresponde el mensaje.
-                String[] recepcion = mensajeRecibido.split(";");
-                int tipoMensaje = Integer.valueOf(recepcion[0]);
-                //Intento de login.
-                if(tipoMensaje == 0)
-                {
-                	String respuesta = recepcion[1];
-                	if(respuesta.equals("ok"))
-                	{
-                		PantallaLogin.lblEstado.setText("Conectado");
-                		//Al recibir respuesta corto la escucha por el momento, esto fixear despues xd
-                		conectado = false;
-                	}
-                	else
-                	{
-                		PantallaLogin.lblEstado.setText("Usuario y/o contrasena invalido");
-                		//Al recibir respuesta corto la escucha por el momento, esto fixear despues xd
-                		conectado = false;
-                	}
-                		
-                }
-                if(mensajeRecibido!=null)
-                	conectado = false;
+            	//Chequea si hay datos provenientes del servidor a traves del socket.
+            	if(entradaDatos.available()!=0)
+            	{
+	                String mensajeRecibido = entradaDatos.readUTF();
+	                TratamientoMensajeCliente.tratarMensaje(mensajeRecibido);
+            	}
             } 
             catch (IOException ex) 
             {
@@ -100,7 +96,13 @@ public class ConexionServidor
             {
                 System.out.println("El socket no se creo correctamente. ");
                 conectado = false;
-            }
+            } 
         }
     }
+
+	@Override
+	public void run() 
+	{
+		this.recibirMensajesServidor();
+	}
 }
