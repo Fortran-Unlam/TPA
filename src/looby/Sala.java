@@ -33,7 +33,7 @@ public class Sala {
 		return false; // SALA LLENA
 	}
 
-	public boolean sacarUsuarioDeSala(Usuario usuario) {
+	public boolean sacarUsuarioDeSala(Usuario usuario) { // VER TEMA SI SACAN AL ADMIN DE LA SALA
 
 		if (this.usuariosActivos.remove(usuario)) {
 			this.cantidadUsuarioActuales--;
@@ -43,7 +43,7 @@ public class Sala {
 
 	}
 
-	public boolean agregarPartida(Usuario usuario) throws Exception {
+	public boolean agregarPartida(Usuario usuario) throws Exception { // BORRAR
 		Jugador jugador = new Jugador(usuario);
 		this.partidaActual = new Partida(++cantidadDePartidasJugadas, jugador);
 		return partidasJugadas.add(this.partidaActual);
@@ -52,7 +52,7 @@ public class Sala {
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
 		if (partidaActual == null) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida, tipo); // ACA SE DEBERIA INDICAR EL TIPO DE JEUGO
+					cantidadDeRondasDePartida, tipo);
 			return true;
 		}
 
@@ -70,16 +70,14 @@ public class Sala {
 		return false; // NO HAY PARTIDA ACTUAL
 	}
 
-	public boolean startPartida() {
+	public void empezarPartida() {
 		if (this.partidaActual != null) {
-			return this.partidaActual.comienzoDeJuego();
+			this.partidaActual.empezarPartida();
 		}
-		return false;
-
 	}
 
 	public void stopPartida() {
-		this.partidaActual.stopDeJuego();
+		this.partidaActual.pararJuegoEnCurso();
 	}
 
 	public Usuario getAdministrador() {

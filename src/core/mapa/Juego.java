@@ -30,7 +30,7 @@ public class Juego {
 
 	public boolean add(Jugador jugador) {
 		if (!this.mapa.add(jugador)) {
-			System.out.println("no pudo agregar jugador");
+			System.out.println("No pudo agregar jugador");
 			return false;
 		}
 		this.jugadores.add(jugador);

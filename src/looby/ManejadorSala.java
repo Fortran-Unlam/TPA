@@ -17,18 +17,24 @@ public class ManejadorSala {
 
 	public static void main(String[] args) throws Exception {
 		ManejadorSala controlador = new ManejadorSala();
-		Usuario usuarioPrueba = new Usuario("Emiliano", "123");
-		controlador.agregarAUsuariosActivos(usuarioPrueba);
-		Sala salaPrueba = usuarioPrueba.crearSala("Sala 1", 4);
+		Usuario usuarioPruebaCreadorDeSala = new Usuario("Admin", "123");
+		Usuario usuarioPruebaInvitado = new Usuario("Invitado","123");
+		controlador.agregarAUsuariosActivos(usuarioPruebaCreadorDeSala);
+		controlador.agregarAUsuariosActivos(usuarioPruebaInvitado);
+		Sala salaPrueba = usuarioPruebaCreadorDeSala.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
-		salaPrueba.agregarPartida(usuarioPrueba);
+		controlador.salasActivas.get(0).agregarUsuarioASala(usuarioPruebaInvitado.unirseASala());
+		
+		//salaPrueba.agregarPartida(usuarioPrueba);
+		
 		TipoJuego tipoJuego = new TipoJuego();
 		tipoJuego = new TipoJuegoFruta(tipoJuego);
 		tipoJuego = new TipoJuegoTiempo(tipoJuego);
 		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
 		tipoJuego.setFrutasMaximas(2);
 		System.out.println(tipoJuego.termina(2, 3, 3));
+		
 		salaPrueba.crearPartida(1,tipoJuego);
-		System.out.println(salaPrueba.startPartida());
+		salaPrueba.empezarPartida();
 	}
 }
