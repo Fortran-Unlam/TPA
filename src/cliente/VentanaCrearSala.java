@@ -20,9 +20,15 @@ public class VentanaCrearSala extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
+	private VentanaMenu ventanaMenu;
 	
-	public VentanaCrearSala() {
+	public VentanaCrearSala(VentanaMenu ventanaMenu) {
+		this.ventanaMenu = ventanaMenu;
+		this.ventanaMenu.setVisible(false);
+		
 		setTitle("Nueva Sala");
+		
+		//Ver evento WindowListener para poder hacer un DISPOSE_ON_CLOSED
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
@@ -54,17 +60,18 @@ public class VentanaCrearSala extends JFrame {
 				ventanaSala.setVisible(true);
 			}
 		});
-		
 		contentPane.add(btnAceptar);
 		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ventanaMenu.setVisible(true);
 				dispose();
 			}
 		});
 		btnVolver.setBounds(280, 283, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
+		setLocationRelativeTo(this.ventanaMenu);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 16));

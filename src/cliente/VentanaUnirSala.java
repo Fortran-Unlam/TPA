@@ -16,14 +16,14 @@ public class VentanaUnirSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private VentanaMenu principal;
+	private VentanaMenu ventanaMenu;
 
-	public VentanaUnirSala(VentanaMenu principal) {
-		this.principal = principal;
-		principal.setVisible(false);
+	public VentanaUnirSala(VentanaMenu ventanaMenu) {
+		this.ventanaMenu = ventanaMenu;
+		ventanaMenu.setVisible(false);
 		
 		setTitle("Unirse a sala");
-		//Por ahora Exit on close. Se puede poner dispose_on_close pero tengo que terminar de ver
+		//Por ahora EXIT_ON_CLOSED. Se puede poner DISPOSE_ON_CLOSED pero tengo que terminar de ver
 		//el evento windowslistener para que no quede invisible la vista del menu ppcal.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -53,21 +53,21 @@ public class VentanaUnirSala extends JFrame {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				principal.setVisible(true);
+				ventanaMenu.setVisible(true);
 				dispose();	
 			}
 		});
 		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
-		setLocationRelativeTo(principal);
+		setLocationRelativeTo(this.ventanaMenu);
 		
-		JButton btnNewButton = new JButton("Refrescar salas");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnRefrescarSalas = new JButton("Refrescar");
+		btnRefrescarSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				//Ver como refrescar salas cuando tengamos eso listo.
 			}
 		});
-		btnNewButton.setBounds(267, 55, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnNewButton);
+		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnRefrescarSalas);
 	}
 }
