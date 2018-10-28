@@ -10,6 +10,9 @@ public abstract class Param {
 	
 	public static final int VENTANA_CLIENTE_WIDTH = 500;
 	public static final int VENTANA_CLIENTE_HEIGHT = 400;
+	
+	public static final int VENTANA_SALA_WIDTH = 600;
+	public static final int VENTANA_SALA_HEIGHT = 450;
 
 	public static final int MAPA_WIDTH = 600;
 	public static final int MAPA_HEIGHT = 600;

@@ -12,7 +12,9 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 
 import config.Param;
 
@@ -21,8 +23,20 @@ public class VentanaSala extends JFrame {
 	private static final long serialVersionUID = 1L;	
 	private JList listUsuarios;
 	private JLabel lblMaxUsuarios;
+	private JPanel contentPane;
 	
 	public VentanaSala() {
+		
+		setTitle("Sala");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setVisible(true);
 		
 		getContentPane().setLayout(null);
 
@@ -76,10 +90,6 @@ public class VentanaSala extends JFrame {
 		lblJugabilidad.setBounds(327, 107, 155, 23);
 		getContentPane().add(lblJugabilidad);
 		
-		
-		setBounds(297, 183, 587, 446);
-		
-		setVisible(true);
 	}
 	
 
