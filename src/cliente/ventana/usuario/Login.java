@@ -57,6 +57,9 @@ public class Login extends JFrame {
 		this.setLocationRelativeTo(null);
 	}
 
+	/**
+	 * Le dice al servidor que el usuario quiere loguearse
+	 */
 	protected void iniciarSession() {
 		this.conexionServidor.loguear(this.username.getText(), this.password.getText());
 	}

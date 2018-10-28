@@ -1,5 +1,6 @@
 package cliente;
 
+import java.awt.EventQueue;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.net.Socket;
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import cliente.ventana.VentanaMenu;
 import config.Param;
 import looby.Usuario;
 
@@ -57,6 +59,16 @@ public class ConexionServidor {
 				case Param.REQUEST_LOGUEO_CORRECTO:
 					System.out.println("loguee");
 					usuario = new Usuario(mensajeRecibido);
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								VentanaMenu frame = new VentanaMenu();
+								frame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
 					break;
 				case Param.REQUEST_LOGUEO_INCORRECTO:
 
