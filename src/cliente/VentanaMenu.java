@@ -61,8 +61,7 @@ public class VentanaMenu extends JFrame {
 		JButton btnUnirSala = new JButton("Unirse a sala");
 		btnUnirSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				VentanaUnirSala ventanaUnirSala = new VentanaUnirSala();
-				ventanaUnirSala.setVisible(true);
+				abrirVentanaUnirSala();
 			}
 		});
 		
@@ -88,4 +87,9 @@ public class VentanaMenu extends JFrame {
 		textPane.setBounds(10, 131, 476, 48);
 		contentPane.add(textPane);
 	}
+	
+	public void abrirVentanaUnirSala() {
+		new VentanaUnirSala(this).setVisible(true);
+	}
+
 }

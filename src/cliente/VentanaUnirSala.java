@@ -16,13 +16,17 @@ public class VentanaUnirSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private VentanaMenu principal;
 
-	public VentanaUnirSala() {
-		setTitle("Unirse a sala");
+	public VentanaUnirSala(VentanaMenu principal) {
+		this.principal = principal;
+		principal.setVisible(false);
 		
-		//Para mi no deberia cerrarse con la cruz, sino que se deberian utilizar los botones.
-		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setTitle("Unirse a sala");
+		//Por ahora Exit on close. Se puede poner dispose_on_close pero tengo que terminar de ver
+		//el evento windowslistener para que no quede invisible la vista del menu ppcal.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -38,9 +42,9 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(lblSalasDisponibles);
 		
 		JList list = new JList();
-		list.setBounds(10, 89, 454, 209);
+		list.setBounds(12, 98, 454, 209);
 		contentPane.add(list);
-		//Agregar lista de salas.
+		//Agregar lista de salas. Ver de donde viene la lista.
 		
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
@@ -49,10 +53,21 @@ public class VentanaUnirSala extends JFrame {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				principal.setVisible(true);
 				dispose();	
 			}
 		});
 		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
+		setLocationRelativeTo(principal);
+		
+		JButton btnNewButton = new JButton("Refrescar salas");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Ver como refrescar salas cuando tengamos eso listo.
+			}
+		});
+		btnNewButton.setBounds(267, 55, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnNewButton);
 	}
 }
