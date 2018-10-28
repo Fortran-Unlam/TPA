@@ -23,7 +23,7 @@ public abstract class Param {
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
 
 	public static final int PUERTO = 9000;
-	public static final int MAXIMASCONEXIONESIMULTANEAS = 100;
+	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
 	public static final String HOST = "localhost";
 	
 	public static final String REQUEST_LOGUEAR = "loguear";
