@@ -1,12 +1,8 @@
 package cliente;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import config.Param;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,6 +14,7 @@ import java.awt.event.ActionEvent;
 
 public class VentanaUnirSala extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	public VentanaUnirSala() {
@@ -31,6 +28,7 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false);
 		
 		JLabel lblSalasDisponibles = new JLabel("Salas disponibles:");
 		lblSalasDisponibles.setForeground(Color.MAGENTA);

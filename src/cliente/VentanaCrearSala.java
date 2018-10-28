@@ -1,14 +1,9 @@
 package cliente;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import config.Param;
-
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -21,6 +16,7 @@ import java.awt.event.ActionEvent;
 
 public class VentanaCrearSala extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -28,11 +24,12 @@ public class VentanaCrearSala extends JFrame {
 	public VentanaCrearSala() {
 		setTitle("Nueva Sala");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Param.VENTANA_MAPA_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
+		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false); 
 		
 		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
 		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));

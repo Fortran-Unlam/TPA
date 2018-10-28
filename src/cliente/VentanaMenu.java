@@ -18,6 +18,10 @@ import java.awt.event.ActionEvent;
 
 public class VentanaMenu extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -47,6 +51,7 @@ public class VentanaMenu extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setResizable(false); 
 		
 		JButton btnCrearSala = new JButton("Crear sala");
 		btnCrearSala.addActionListener(new ActionListener() {
