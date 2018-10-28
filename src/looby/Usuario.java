@@ -15,6 +15,7 @@ public class Usuario {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
+	private boolean enSala = false;
 
 	public Usuario(String usrName, String password) {
 		this.username = usrName;
@@ -42,14 +43,17 @@ public class Usuario {
 	}
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
+		this.enSala = true;
 		return new Sala(nombreSala, cantDeUsrMaximos, this);
 	}
 
 	public Usuario unirseASala() {
+		this.enSala = true;
 		return this;
 	}
 
 	public Usuario salirDeSala() {
+		this.enSala = false;
 		return this;
 	}
 
@@ -67,6 +71,10 @@ public class Usuario {
 
 	public void setUsrName(String usrName) {
 		this.username = usrName;
+	}
+	
+	public boolean isEnSala() {
+		return enSala;
 	}
 
 	public String getUsuarioLogueado() {

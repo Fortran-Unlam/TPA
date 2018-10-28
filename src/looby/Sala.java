@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import core.Jugador;
 
 public class Sala {
@@ -23,6 +27,14 @@ public class Sala {
 		this.usuarioCreador = usuarioCreador;
 		this.usuariosActivos.add(usuarioCreador);
 	}
+	
+	public Sala(JsonObject jsonObject) {
+		this.nombreSala = jsonObject.get("nombreSala").toString();
+		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
+		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
+		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
+		
+	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
@@ -33,7 +45,7 @@ public class Sala {
 		return false; // SALA LLENA
 	}
 
-	public boolean sacarUsuarioDeSala(Usuario usuario) {
+	public boolean sacarUsuarioDeSala(Usuario usuario) { // VER TEMA SI SACAN AL ADMIN DE LA SALA
 
 		if (this.usuariosActivos.remove(usuario)) {
 			this.cantidadUsuarioActuales--;
@@ -43,7 +55,7 @@ public class Sala {
 
 	}
 
-	public boolean agregarPartida(Usuario usuario) throws Exception {
+	public boolean agregarPartida(Usuario usuario) throws Exception { // BORRAR
 		Jugador jugador = new Jugador(usuario);
 		this.partidaActual = new Partida(++cantidadDePartidasJugadas, jugador);
 		return partidasJugadas.add(this.partidaActual);
@@ -52,7 +64,7 @@ public class Sala {
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
 		if (partidaActual == null) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida, tipo); // ACA SE DEBERIA INDICAR EL TIPO DE JEUGO
+					cantidadDeRondasDePartida, tipo);
 			return true;
 		}
 
@@ -70,20 +82,26 @@ public class Sala {
 		return false; // NO HAY PARTIDA ACTUAL
 	}
 
-	public boolean startPartida() {
+	public void empezarPartida() {
 		if (this.partidaActual != null) {
-			return this.partidaActual.comienzoDeJuego();
+			this.partidaActual.empezarPartida();
 		}
-		return false;
-
 	}
 
 	public void stopPartida() {
-		this.partidaActual.stopDeJuego();
+		this.partidaActual.pararJuegoEnCurso();
 	}
 
 	public Usuario getAdministrador() {
 		return this.usuarioCreador;
 	}
+	
+	public JsonObjectBuilder jsonify() {
+		return Json.createObjectBuilder()
+				.add("nombreSala", this.nombreSala)
+				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
+				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
+				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
 
+	}
 }

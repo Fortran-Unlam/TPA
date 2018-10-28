@@ -74,7 +74,7 @@ public class Login extends JFrame {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						VentanaMenu frame = new VentanaMenu();
+						VentanaMenu frame = new VentanaMenu(conexionServidor);
 						frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
