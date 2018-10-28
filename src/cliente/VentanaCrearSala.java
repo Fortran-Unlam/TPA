@@ -41,20 +41,20 @@ public class VentanaCrearSala extends JFrame {
 		
 		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
 		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCantidadDeRondas.setBounds(103, 125, 175, 33);
+		lblCantidadDeRondas.setBounds(86, 126, 175, 33);
 		contentPane.add(lblCantidadDeRondas);
 		
 		JLabel lblTipoDeJugabilidad = new JLabel("Tipo de jugabilidad:");
 		lblTipoDeJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTipoDeJugabilidad.setBounds(103, 170, 165, 33);
+		lblTipoDeJugabilidad.setBounds(86, 163, 165, 33);
 		contentPane.add(lblTipoDeJugabilidad);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(280, 175, 151, 25);
+		comboBox.setBounds(259, 169, 151, 25);
 		contentPane.add(comboBox);
 		
 		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(86, 283, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				nombreSala = txtNombre.getText();
@@ -70,13 +70,13 @@ public class VentanaCrearSala extends JFrame {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(280, 283, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnVolver.setBounds(259, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 		
 		textField = new JTextField();
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField.setBounds(280, 129, 40, 25);
+		textField.setBounds(259, 129, 40, 25);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -84,25 +84,25 @@ public class VentanaCrearSala extends JFrame {
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCreacionDeSala.setForeground(Color.ORANGE);
 		lblCreacionDeSala.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblCreacionDeSala.setBounds(86, -1, 384, 69);
+		lblCreacionDeSala.setBounds(56, 0, 384, 69);
 		contentPane.add(lblCreacionDeSala);
 		
 		JLabel lblMapa = new JLabel("Mapa:");
 		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMapa.setBounds(103, 219, 165, 20);
+		lblMapa.setBounds(86, 207, 165, 20);
 		contentPane.add(lblMapa);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(280, 216, 151, 25);
+		comboBox_1.setBounds(259, 207, 151, 25);
 		contentPane.add(comboBox_1);
 		
 		JLabel lblNewLabel = new JLabel("Nombre de la sala:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(103, 80, 175, 25);
+		lblNewLabel.setBounds(86, 90, 175, 25);
 		contentPane.add(lblNewLabel);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(280, 81, 151, 25);
+		txtNombre.setBounds(259, 90, 151, 25);
 		contentPane.add(txtNombre);
 		txtNombre.setColumns(10);
 		
