@@ -10,41 +10,80 @@ public class Sala {
 	private String nombreSala;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
-	private int cantidadDePartidas;
-	private Usuario usuarioAdministrador;
-	private ArrayList<Partida> partidas = new ArrayList<>();
-	private List<Usuario> usuarios = new LinkedList<Usuario>();
+	private int cantidadDePartidasJugadas;
+	private Usuario usuarioCreador;
+	private ArrayList<Partida> partidasJugadas = new ArrayList<>();
+	private List<Usuario> usuariosActivos = new LinkedList<Usuario>();
 	private Partida partidaActual;
 
-	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioAdministrador) {
+	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioCreador) {
 		this.nombreSala = nombreSala;
 		this.cantidadUsuarioActuales = 1;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
-		this.usuarioAdministrador = usuarioAdministrador;
-		this.usuarios.add(usuarioAdministrador);
+		this.usuarioCreador = usuarioCreador;
+		this.usuariosActivos.add(usuarioCreador);
 	}
 
-	public boolean agregarJugadorASala(Usuario usuario) {
+	public boolean agregarUsuarioASala(Usuario usuario) {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
-			this.usuarios.add(usuario);
+			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
 			return true;
 		}
+		return false; // SALA LLENA
+	}
+
+	public boolean sacarUsuarioDeSala(Usuario usuario) {
+
+		if (this.usuariosActivos.remove(usuario)) {
+			this.cantidadUsuarioActuales--;
+			return true;
+		}
 		return false;
+
 	}
 
 	public boolean agregarPartida(Usuario usuario) throws Exception {
 		Jugador jugador = new Jugador(usuario);
-		this.partidaActual = new Partida(++cantidadDePartidas, jugador);
-		return partidas.add(this.partidaActual);
+		this.partidaActual = new Partida(++cantidadDePartidasJugadas, jugador);
+		return partidasJugadas.add(this.partidaActual);
 	}
 
-	public Usuario getAdministrador() {
-		return this.usuarioAdministrador;
+	public boolean crearPartida(int cantidadDeRondasDePartida) {
+		if (partidaActual == null) {
+			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
+					cantidadDeRondasDePartida); // ACA SE DEBERIA INDICAR EL TIPO DE JEUGO
+			return true;
+		}
+
+		return false;
+
+	}
+
+	public boolean partidaTerminada() {
+		if (this.partidaActual != null) {
+			this.partidasJugadas.add(this.partidaActual);
+			this.partidaActual = null;
+			return true;
+		}
+
+		return false; // NO HAY PARTIDA ACTUAL
 	}
 
 	public boolean startPartida() {
-		return this.partidaActual.start();
+		if (this.partidaActual != null) {
+			return this.partidaActual.start();
+		}
+		return false;
+
+	}
+
+	public void stopPartida() {
+		this.partidaActual.stop();
+	}
+
+	public Usuario getAdministrador() {
+		return this.usuarioCreador;
 	}
 
 }

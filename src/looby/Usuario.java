@@ -1,7 +1,7 @@
 package looby;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+//import javax.json.Json;
+//import javax.json.JsonObject;
 
 public class Usuario {
 	private int id;
@@ -20,7 +20,7 @@ public class Usuario {
 	}
 
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
-		int muertes, int partidasGanadas, int rondasGanadas) {
+			int muertes, int partidasGanadas, int rondasGanadas) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -32,20 +32,26 @@ public class Usuario {
 		this.rondasGanadas = rondasGanadas;
 	}
 
-	public Usuario(JsonObject jsonObject) {
-		this.id = Integer.valueOf(jsonObject.get("id").toString());
-		this.username = jsonObject.get("username").toString();
-//		this.password = jsonObject.get("password").toString();
-//		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
-		
-		
-	}
+	/*
+	 * public Usuario(JsonObject jsonObject) { this.id =
+	 * Integer.valueOf(jsonObject.get("id").toString()); this.username =
+	 * jsonObject.get("username").toString(); // this.password =
+	 * jsonObject.get("password").toString(); // this.puntos =
+	 * Integer.valueOf(jsonObject.get("password").toString());
+	 * 
+	 * 
+	 * }
+	 */
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
 		return new Sala(nombreSala, cantDeUsrMaximos, this);
 	}
 
 	public Usuario unirseASala() {
+		return this;
+	}
+
+	public Usuario salirDeSala() {
 		return this;
 	}
 
@@ -65,13 +71,11 @@ public class Usuario {
 		this.username = usrName;
 	}
 
-	public String getUsuarioLogueado() {
-		return Json.createObjectBuilder()
-				.add("request", "logueoCorrecto")
-				.add("id", this.id)
-				.add("usuario", this.username)
-				.add("password", this.password)
-				.build().toString();
-		
-	}
+	/*
+	 * public String getUsuarioLogueado() { return Json.createObjectBuilder()
+	 * .add("request", "logueoCorrecto") .add("id", this.id) .add("usuario",
+	 * this.username) .add("password", this.password) .build().toString();
+	 * 
+	 * }
+	 */
 }

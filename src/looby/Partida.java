@@ -6,10 +6,6 @@ import java.util.List;
 import core.Jugador;
 import core.mapa.Juego;
 
-/**
- * @author Joni
- *
- */
 public class Partida {
 	private int id;
 	private boolean enCurso = false;
@@ -18,8 +14,7 @@ public class Partida {
 
 	public Partida(final int id, final Jugador jugador) throws Exception {
 		this.id = id;
-
-		// esto se puede borrar pero lo dejo para probar por ahora
+		// Esto se puede borrar pero lo dejo para probar por ahora
 		TipoJuego tipoJuego = new TipoJuego();
 		tipoJuego = new TipoJuegoFruta(tipoJuego);
 		tipoJuego = new TipoJuegoTiempo(tipoJuego);
@@ -35,8 +30,12 @@ public class Partida {
 		this.jugadores.add(jugador);
 	}
 
+	public Partida(int i, List<Usuario> usuariosActivos, int cantidadDeRondasDePartida) {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
-	 * Crae un juego de acuerdo al tipo de dado y lo agrega al listado de juegos
+	 * Crea un juego de acuerdo al tipo dado y lo agrega al listado de juegos
 	 * 
 	 * @param tipoJuego
 	 * @return Si puede agregarlo
