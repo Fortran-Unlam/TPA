@@ -19,8 +19,9 @@ public class VentanaCrearSala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtNombre;
 	private VentanaMenu ventanaMenu;
+	public String nombreSala;
 	
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -56,6 +57,7 @@ public class VentanaCrearSala extends JFrame {
 		btnAceptar.setBounds(86, 283, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				nombreSala = txtNombre.getText();
 				abrirVentanaSala();
 			}
 		});
@@ -99,10 +101,11 @@ public class VentanaCrearSala extends JFrame {
 		lblNewLabel.setBounds(103, 80, 175, 25);
 		contentPane.add(lblNewLabel);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(280, 81, 151, 25);
-		contentPane.add(textField_1);
-		textField_1.setColumns(10);
+		txtNombre = new JTextField();
+		txtNombre.setBounds(280, 81, 151, 25);
+		contentPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		
 	}
 	
 	private void abrirVentanaSala() {

@@ -2,7 +2,6 @@ package cliente;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +22,7 @@ public class VentanaSala extends JFrame {
 	private JPanel contentPane;
 	private VentanaCrearSala ventanaCrearSala;
 	private VentanaUnirSala ventanaUnirSala;
+	private String nombreSala;
 	
 	/*
 	 * Constructor para abrirse si es que viene de "Crear sala"
@@ -31,6 +31,7 @@ public class VentanaSala extends JFrame {
 	public VentanaSala(VentanaCrearSala ventanaCrearSala) {
 		this.ventanaCrearSala = ventanaCrearSala;
 		this.ventanaCrearSala.setVisible(false);
+		this.nombreSala = ventanaCrearSala.nombreSala;
 		dibujarSala(1);	
 	}
 	
@@ -41,6 +42,7 @@ public class VentanaSala extends JFrame {
 	public VentanaSala(VentanaUnirSala ventanaUnirSala) {
 		this.ventanaUnirSala = ventanaUnirSala;
 		this.ventanaUnirSala.setVisible(false);
+		this.nombreSala = ventanaUnirSala.salaSeleccionada;
 		dibujarSala(2);	
 	}
 	
@@ -50,7 +52,7 @@ public class VentanaSala extends JFrame {
 	 * 2 = Vuelve al Frame de UnirSala
 	 */
 	public void dibujarSala(int opcion) {
-		setTitle("Sala");
+		setTitle("Sala: " + this.nombreSala);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
 		contentPane = new JPanel();
@@ -120,7 +122,7 @@ public class VentanaSala extends JFrame {
 		this.lblMaxUsuarios.setBounds(327, 51, 192, 23);
 		getContentPane().add(this.lblMaxUsuarios);
 		
-		JLabel lblNewLabel = new JLabel("SALA");
+		JLabel lblNewLabel = new JLabel("Sala");
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblNewLabel.setBounds(249, 10, 69, 30);
