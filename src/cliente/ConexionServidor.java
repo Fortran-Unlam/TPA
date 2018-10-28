@@ -1,17 +1,21 @@
 package cliente;
 
-import java.awt.EventQueue;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
+import javax.json.JsonValue;
 
-import cliente.ventana.VentanaMenu;
 import config.Param;
+import looby.Sala;
 import looby.Usuario;
 
 public class ConexionServidor {
@@ -61,6 +65,43 @@ public class ConexionServidor {
 				case Param.REQUEST_LOGUEO_INCORRECTO:
 					System.out.println("no loguee");
 					return null;
+				default:
+					return null;
+				}
+
+			} catch (IOException ex) {
+				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
+				return null;
+			} catch (NullPointerException ex) {
+				System.err.println("El socket no se creo correctamente. ");
+				return null;
+			}
+		}
+	}
+
+	public List<Sala> getAllSalas() {
+		DataInputStream entradaDatos = null;
+		try {
+			entradaDatos = new DataInputStream(socket.getInputStream());
+		} catch (IOException ex) {
+			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+			return null;
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+			return null;
+		}
+
+		while (true) {
+			try {
+				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
+				switch (mensajeRecibido.get("request").toString()) {
+				case Param.REQUEST_GET_ALL_SALAS:
+					JsonArrayBuilder arrayBuilder = (JsonArrayBuilder) mensajeRecibido.get("salas");
+					List<Sala> salas = new ArrayList<Sala>();
+					for (JsonValue jsonValue : arrayBuilder.build()) {
+						salas.add(new Sala((JsonObject)jsonValue));
+					}
+					return salas;
 				default:
 					return null;
 				}

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import core.Jugador;
@@ -25,6 +26,14 @@ public class Sala {
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.usuarioCreador = usuarioCreador;
 		this.usuariosActivos.add(usuarioCreador);
+	}
+	
+	public Sala(JsonObject jsonObject) {
+		this.nombreSala = jsonObject.get("nombreSala").toString();
+		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
+		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
+		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
+		
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
@@ -93,8 +102,8 @@ public class Sala {
 		return Json.createObjectBuilder()
 				.add("nombreSala", this.nombreSala)
 				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
-				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas)
-				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos);
+				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
+				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
 
 	}
 }
