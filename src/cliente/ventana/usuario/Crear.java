@@ -1,4 +1,4 @@
-package view.usuario;
+package cliente.ventana.usuario;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
