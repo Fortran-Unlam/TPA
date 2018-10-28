@@ -22,20 +22,20 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos = new DataOutputStream(this.socket.getOutputStream());
 		} catch (IOException ex) {
-			System.out.println("Error al crear el stream de salida : " + ex.getMessage());
+			System.err.println("Error al crear el stream de salida : " + ex.getMessage());
 		} catch (NullPointerException ex) {
-			System.out.println("El socket no se creo correctamente. ");
+			System.err.println("El socket no se creo correctamente. ");
 		}
 	}
 
-	public void loguear(String usuario, String password) {
+	public void loguear(String username, String password) {
 		try {
-			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR).add("usuario", usuario)
+			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR).add("username", username)
 					.add("password", password).build();
 			System.err.println("envio loguear");
 			salidaDatos.writeUTF(jsonObject.toString());
 		} catch (IOException ex) {
-			System.out.println("Error al intentar enviar un mensaje: " + ex.getMessage());
+			System.err.println("Error al intentar enviar un mensaje: " + ex.getMessage());
 		}
 	}
 

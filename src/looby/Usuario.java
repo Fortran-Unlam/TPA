@@ -3,6 +3,8 @@ package looby;
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import config.Param;
+
 public class Usuario {
 	private int id;
 	private String username;
@@ -67,9 +69,9 @@ public class Usuario {
 
 	public String getUsuarioLogueado() {
 		return Json.createObjectBuilder()
-				.add("request", "logueoCorrecto")
+				.add("request", Param.REQUEST_LOGUEO_CORRECTO)
 				.add("id", this.id)
-				.add("usuario", this.username)
+				.add("username", this.username)
 				.add("password", this.password)
 				.build().toString();
 		
