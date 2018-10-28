@@ -44,18 +44,13 @@ public class ConexionCliente extends Thread {
 			try {
 				System.out.println("A la espera de un mensaje");
 				mensajeRecibido = Json.createReader(new StringReader(this.entradaDatos.readUTF())).readObject();
-
-				System.out.println("leyo un mensaje  del cliente ");
 				System.out.println("El cliente solicita " + mensajeRecibido.get("request"));
-				System.out.println(mensajeRecibido);
 				switch (mensajeRecibido.get("request").toString()) {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
-					System.out.println("server-loguea");
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
 					break;
-
 				default:
 					break;
 				}
