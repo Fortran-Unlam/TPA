@@ -1,24 +1,24 @@
 package looby;
 
-public class TipoJuegoSupervivencia extends TipoDeJuegoDecorator {
+public class TipoJuegoTiempo extends TipoDeJuegoDecorator {
 
 	protected TipoJuego tipoJuego;
 	
-	public TipoJuegoSupervivencia(TipoJuego tipoJuego) {
+	public TipoJuegoTiempo(TipoJuego tipoJuego) {
 		super(tipoJuego);
 		this.tipoJuego = tipoJuego;
 	}
 
 	@Override
 	public boolean termina(int cantidadJugadores, int puntosMaximos, int segundos) {
-		System.out.println("supervivencia");
+		System.out.println("tiempo");
 		if (tipoJuego.termina(cantidadJugadores, puntosMaximos, segundos)) {
 			return true;
 		}
-		if (cantidadJugadores <= 1) {
+		if (segundos >= this.segundos) {
 			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	public TipoJuego getTipoJuego() {

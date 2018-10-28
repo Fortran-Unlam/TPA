@@ -15,6 +15,15 @@ public class Partida {
 	public Partida(final int id, final Jugador jugador) throws Exception {
 		this.id = id;
 		
+		// esto se puede borrar pero lo dejo para probar por ahora
+		TipoJuego tipoJuego = new TipoJuego();
+		tipoJuego = new TipoJuegoFruta(tipoJuego);
+		tipoJuego = new TipoJuegoTiempo(tipoJuego);
+		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
+		
+		tipoJuego.setFrutasMaximas(2);
+		System.out.println(tipoJuego.termina(2, 3, 3));
+		
 		//TODO: primero tendria que agregar un juego
 		this.crearJuego((TipoJuego)new TipoJuegoSupervivencia(null));
 		if (!this.add(jugador)) {

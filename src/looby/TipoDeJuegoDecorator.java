@@ -1,18 +1,14 @@
 package looby;
 
-public abstract class TipoDeJuegoDecorator implements TipoJuego {
-	private TipoJuego tipoJuego;
-	
+public abstract class TipoDeJuegoDecorator extends TipoJuego {
+
 	public TipoDeJuegoDecorator(TipoJuego tipoJuego) {
-		this.tipoJuego = tipoJuego;
+		this.tipoJuego = new TipoJuego();
 	}
-	
-	public TipoJuego getTipoJuego() {
-		return this.tipoJuego;
-	}
-	
+
 	@Override
-	public boolean termina(int cantidadJugadores, int puntosMaximos) {
-		return false;
+	public boolean termina(int cantidadJugadores, int puntosMaximos, int segundos) {
+		return tipoJuego.termina(cantidadJugadores, puntosMaximos, segundos);
 	}
+
 }
