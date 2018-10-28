@@ -39,11 +39,13 @@ public class VentanaJuego extends JFrame {
 	public VentanaJuego(List<Jugador> jugadores, Mapa mapa) {
 		super("Snake");
 		this.mapa = mapa;
-		this.juego = new Juego(jugadores, mapa, jListScore);
+		
+		//this.juego = new Juego(jugadores, mapa, jListScore);
+		this.juego = new Juego(jugadores, mapa);
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Param.VENTANA_WIDTH, Param.VENTANA_HEIGHT);
+		setBounds(0, 0, Param.VENTANA_MAPA_WIDTH, Param.VENTANA_MAPA_HEIGHT);
 
 		contenedor = new JPanel();
 		contenedor.setBackground(SystemColor.control);
@@ -99,7 +101,7 @@ public class VentanaJuego extends JFrame {
 		contenedor.add(button);
 		
 		panelMapa = new JPanel();
-		panelMapa.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		panelMapa.setBounds(Param.VENTANA_MAPA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		contenedor.add(panelMapa);
 
 		addKeyListener(GestorInput.teclado);

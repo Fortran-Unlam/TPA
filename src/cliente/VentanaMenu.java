@@ -51,32 +51,49 @@ public class VentanaMenu extends JFrame {
 		JButton btnCrearSala = new JButton("Crear sala");
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				VentanaCrearSala ventanaSala = new VentanaCrearSala();
+				ventanaSala.setVisible(true);
+				//Para que no se pueda tocar la ventan de atras.
+				setEnabled(false);
 			}
 		});
+		
 		btnCrearSala.setBounds(167, 230, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnCrearSala);
 		
 		JButton btnUnirSala = new JButton("Unirse a una sala");
+		btnUnirSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VentanaUnirSala ventanaUnirSala = new VentanaUnirSala();
+				ventanaUnirSala.setVisible(true);
+				//Para que no se pueda tocar la ventan de atras pero desp no se puede 
+				//volver a poner enabled. ver.
+				//setEnabled(false);
+			}
+		});
+		
+		
+		
 		btnUnirSala.setBounds(167, 293, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirSala);
 		
 		JLabel lblBienvenidos = new JLabel("BIENVENIDOS !");
 		lblBienvenidos.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblBienvenidos.setBounds(167, 11, 138, 38);
+		lblBienvenidos.setBounds(158, 12, 138, 38);
 		contentPane.add(lblBienvenidos);
 		
 		JLabel lblSnakeFortran = new JLabel("Snake - Fortran");
 		lblSnakeFortran.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblSnakeFortran.setBounds(176, 47, 115, 38);
+		lblSnakeFortran.setBounds(167, 48, 129, 38);
 		contentPane.add(lblSnakeFortran);
 		
 		JLabel lblTusEstadsticas = new JLabel("Tus estad\u00EDsticas");
 		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTusEstadsticas.setBounds(10, 103, 107, 14);
+		lblTusEstadsticas.setBounds(10, 103, 145, 14);
 		contentPane.add(lblTusEstadsticas);
 		
 		JTextPane textPane = new JTextPane();
-		textPane.setBounds(10, 131, 462, 48);
+		textPane.setBounds(10, 131, 476, 48);
 		contentPane.add(textPane);
 	}
 }

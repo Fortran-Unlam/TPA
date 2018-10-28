@@ -31,15 +31,15 @@ public class VentanaSala extends JFrame {
 		getContentPane().add(lblMapa);
 
 		JButton btnSalirDeSala = new JButton("Salir de sala");
-		btnSalirDeSala.setBounds(371, 357, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnSalirDeSala.setBounds(399, 357, 162, 40);
 		getContentPane().add(btnSalirDeSala);
 
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(213, 357, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnCancelar.setBounds(213, 357, 168, 40);
 		getContentPane().add(btnCancelar);
 
 		JButton btnCrearPartida = new JButton("Empezar juego");
-		btnCrearPartida.setBounds(51, 357, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnCrearPartida.setBounds(33, 357, 168, 40);
 		getContentPane().add(btnCrearPartida);
 		
 		JLabel lblRondas = new JLabel("");
@@ -49,14 +49,14 @@ public class VentanaSala extends JFrame {
 		
 		this.listUsuarios = new JList();
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		this.listUsuarios.setBounds(30, 161, 489, 165);
+		this.listUsuarios.setBounds(33, 83, 528, 169);
 		this.listUsuarios.setEnabled(false);
 		this.listUsuarios.setOpaque(false);
 		getContentPane().add(this.listUsuarios);
 		
 		JLabel lblUsuariosConectados = new JLabel("Usuarios en la sala");
 		lblUsuariosConectados.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsuariosConectados.setBounds(218, 137, 115, 24);
+		lblUsuariosConectados.setBounds(30, 48, 210, 24);
 		getContentPane().add(lblUsuariosConectados);
 		
 		this.lblMaxUsuarios = new JLabel("");
@@ -67,7 +67,7 @@ public class VentanaSala extends JFrame {
 		JLabel lblNewLabel = new JLabel("SALA");
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(249, 10, 52, 30);
+		lblNewLabel.setBounds(249, 10, 69, 30);
 		getContentPane().add(lblNewLabel);
 		
 		JLabel lblJugabilidad = new JLabel("");
