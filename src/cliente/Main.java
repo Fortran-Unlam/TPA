@@ -12,6 +12,9 @@ public class Main {
 	public Main() {
 		try {
 			this.socket = new Socket(Param.HOST, Param.PUERTO);
+			ConexionServidor cs = new ConexionServidor(this.socket);
+			cs.logear("a", "b");
+			cs.recibirMensajesServidor();
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
 		}

@@ -1,14 +1,20 @@
 package servidor;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.StringReader;
 import java.net.Socket;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+
+import protocolo.Message;
 
 public class ConexionCliente extends Thread {
 
 	private Socket socket;
-	private DataInputStream entradaDatos;
+	private ObjectInputStream entradaDatos;
 	private DataOutputStream salidaDatos;
 
 	/**
@@ -21,7 +27,7 @@ public class ConexionCliente extends Thread {
 		this.socket = socket;
 
 		try {
-			this.entradaDatos = new DataInputStream(socket.getInputStream());
+			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
 			this.salidaDatos = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
@@ -30,30 +36,20 @@ public class ConexionCliente extends Thread {
 
 	@Override
 	public void run() {
-		String mensajeRecibido;
+		JsonObject mensajeRecibido;
 		boolean conectado = true;
 
 		while (conectado) {
 			try {
+				System.out.println("intenta leer un mensaje del cliente");
 				// Lee un mensaje enviado por el cliente
-				mensajeRecibido = this.entradaDatos.readUTF();
-
-				String[] recepcion = mensajeRecibido.split(";");
-				int tipoMensaje = Integer.valueOf(recepcion[0]);
-				// Intento de login.
-				if (tipoMensaje == 0) {
-					String usuario = recepcion[1];
-					String contrasena = recepcion[2];
-					// Observo la recepcion encriptada.
-					/*
-					 * System.out.println(usuario); System.out.println(contrasena);
-					 */
-					// Intento logear y mando la respuesta al cliente.
-//                	boolean resultado = Conexion.login(usuario, contrasena);
-//                	salidaDatos.writeUTF("0;" +((resultado)?"ok":"nok"));
-				}
+				mensajeRecibido = Json.createReader(new StringReader((String) this.entradaDatos.readObject())).readObject();
+				
+				System.err.println("leyo un mensaje  del cliente ");
+			
+				System.out.println(mensajeRecibido);
 			} catch (IOException ex) {
-				String mensaje = ex.getMessage() + "Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.";
+				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.";
 				System.out.println(mensaje);
 				conectado = false;
 				// Si se ha producido un error al recibir datos del cliente se cierra la
@@ -65,6 +61,8 @@ public class ConexionCliente extends Thread {
 					String mensajeError2 = "Error al cerrar los stream de entrada y salida :" + ex2.getMessage();
 					System.out.println(mensajeError2);
 				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 		}
 	}
