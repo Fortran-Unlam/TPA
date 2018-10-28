@@ -68,7 +68,7 @@ public class Servidor {
 		for (Sala sala : salasActivas) {
 			salas.add(sala.jsonify());
 		}
-		json.add("sala", salas);
+		json.add("salas", salas);
 		return json.build().toString();
 		
 	}
