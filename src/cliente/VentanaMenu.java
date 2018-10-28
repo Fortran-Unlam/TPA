@@ -52,26 +52,19 @@ public class VentanaMenu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				VentanaCrearSala ventanaSala = new VentanaCrearSala();
 				ventanaSala.setVisible(true);
-				//Para que no se pueda tocar la ventan de atras.
-				setEnabled(false);
 			}
 		});
 		
 		btnCrearSala.setBounds(167, 230, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnCrearSala);
 		
-		JButton btnUnirSala = new JButton("Unirse a una sala");
+		JButton btnUnirSala = new JButton("Unirse a sala");
 		btnUnirSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				VentanaUnirSala ventanaUnirSala = new VentanaUnirSala();
 				ventanaUnirSala.setVisible(true);
-				//Para que no se pueda tocar la ventan de atras pero desp no se puede 
-				//volver a poner enabled. ver.
-				//setEnabled(false);
 			}
 		});
-		
-		
 		
 		btnUnirSala.setBounds(167, 293, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirSala);

@@ -5,7 +5,7 @@ public abstract class Param {
 	public static final int VENTANA_MAPA_WIDTH = 600;
 	public static final int VENTANA_MAPA_HEIGHT = 700;
 	
-	public static final int BOTON_WIDTH = 120;
+	public static final int BOTON_WIDTH = 130;
 	public static final int BOTON_HEIGHT = 40;
 	
 	public static final int VENTANA_CLIENTE_WIDTH = 500;

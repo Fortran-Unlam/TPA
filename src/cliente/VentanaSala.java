@@ -46,10 +46,20 @@ public class VentanaSala extends JFrame {
 		getContentPane().add(lblMapa);
 
 		JButton btnSalirDeSala = new JButton("Salir de sala");
+		btnSalirDeSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnSalirDeSala.setBounds(399, 357, 162, 40);
 		getContentPane().add(btnSalirDeSala);
 
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
 		btnCancelar.setBounds(213, 357, 168, 40);
 		getContentPane().add(btnCancelar);
 
