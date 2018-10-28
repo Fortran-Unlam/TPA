@@ -1,19 +1,21 @@
 package servidor;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.net.Socket;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import looby.Usuario;
+
 public class ConexionCliente extends Thread {
 
 	private Socket socket;
-	private ObjectInputStream entradaDatos;
-	private ObjectOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
+	private DataOutputStream salidaDatos;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -25,8 +27,8 @@ public class ConexionCliente extends Thread {
 		this.socket = socket;
 
 		try {
-			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
+			this.entradaDatos = new DataInputStream(socket.getInputStream());
+			this.salidaDatos = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -40,18 +42,27 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
-				// Lee un mensaje enviado por el cliente
-				mensajeRecibido = Json.createReader(new StringReader((String) this.entradaDatos.readObject())).readObject();
+				mensajeRecibido = Json.createReader(new StringReader(this.entradaDatos.readUTF())).readObject();
 				
 				System.out.println("leyo un mensaje  del cliente ");
 				System.out.println("El cliente solicita " + mensajeRecibido.get("request"));
 				System.out.println(mensajeRecibido);
+				switch (mensajeRecibido.get("request").toString()) {
+				case "loguear":
+					// TODO: logica para loguear
+					System.out.println("server-loguea");
+					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
+					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
+					break;
+
+				default:
+					break;
+				}
+				
 			} catch (IOException ex) {
 				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress() + " desconectado.";
 				System.out.println(mensaje);
 				conectado = false;
-				// Si se ha producido un error al recibir datos del cliente se cierra la
-				// conexion con el.
 				try {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
@@ -59,8 +70,6 @@ public class ConexionCliente extends Thread {
 					String mensajeError2 = "Error al cerrar los stream de entrada y salida :" + ex2.getMessage();
 					System.out.println(mensajeError2);
 				}
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			}
 		}
 	}

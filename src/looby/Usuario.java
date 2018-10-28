@@ -1,8 +1,11 @@
 package looby;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 public class Usuario {
-	private int idUsuario;
-	private String usrName;
+	private int id;
+	private String username;
 	private String password;
 	private int puntos;
 	private int cantidadFrutaComida;
@@ -12,14 +15,14 @@ public class Usuario {
 	private int rondasGanadas;
 
 	public Usuario(String usrName, String password) {
-		this.usrName = usrName;
+		this.username = usrName;
 		this.password = password;
 	}
 
-	public Usuario(int idUsuario, String usrName, String password, int puntos, int cantidadFrutaComida, int asesinatos,
+	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
 		int muertes, int partidasGanadas, int rondasGanadas) {
-		this.idUsuario = idUsuario;
-		this.usrName = usrName;
+		this.id = id;
+		this.username = username;
 		this.password = password;
 		this.puntos = puntos;
 		this.cantidadFrutaComida = cantidadFrutaComida;
@@ -27,6 +30,15 @@ public class Usuario {
 		this.muertes = muertes;
 		this.partidasGanadas = partidasGanadas;
 		this.rondasGanadas = rondasGanadas;
+	}
+
+	public Usuario(JsonObject jsonObject) {
+		this.id = Integer.valueOf(jsonObject.get("id").toString());
+		this.username = jsonObject.get("username").toString();
+//		this.password = jsonObject.get("password").toString();
+//		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
+		
+		
 	}
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
@@ -38,20 +50,28 @@ public class Usuario {
 	}
 
 	public int getIdUsuario() {
-		return idUsuario;
+		return id;
 	}
 
 	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+		this.id = idUsuario;
 	}
 
 	public String getUsrName() {
-		return usrName;
+		return username;
 	}
 
 	public void setUsrName(String usrName) {
-		this.usrName = usrName;
+		this.username = usrName;
 	}
 
-
+	public String getUsuarioLogueado() {
+		return Json.createObjectBuilder()
+				.add("request", "logueoCorrecto")
+				.add("id", this.id)
+				.add("usuario", this.username)
+				.add("password", this.password)
+				.build().toString();
+		
+	}
 }
