@@ -51,6 +51,9 @@ public class ConexionCliente extends Thread {
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
 					break;
+				case Param.REQUEST_GET_ALL_SALAS:
+					this.salidaDatos.writeUTF(Servidor.requestgetAllSalas());
+					break;
 				default:
 					break;
 				}

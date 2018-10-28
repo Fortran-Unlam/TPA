@@ -1,5 +1,6 @@
 package cliente.ventana;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,17 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
+import cliente.ConexionServidor;
 import config.Param;
 
 public class VentanaMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private ConexionServidor conexionServidor;
 
 	/**
 	 * Create the frame.
 	 */
-	public VentanaMenu() {
+	public VentanaMenu(ConexionServidor conexionServidor) {
+		this.conexionServidor = conexionServidor;
 		setTitle("Menu principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
@@ -70,6 +74,15 @@ public class VentanaMenu extends JFrame {
 		JTextPane textPane = new JTextPane();
 		textPane.setBounds(10, 131, 476, 48);
 		contentPane.add(textPane);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					pedirSalas();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	private void abrirVentanaUnirSala() {
@@ -78,6 +91,10 @@ public class VentanaMenu extends JFrame {
 	
 	private void abrirVentanaCrearSala() {
 		new VentanaCrearSala(this).setVisible(true);
+	}
+	
+	public void pedirSalas() {
+		this.conexionServidor.getAllSalas();
 	}
 
 }
