@@ -110,12 +110,15 @@ public class Partida {
 
 	// AGREGA JUGADORES A LA RONDA EN CURSO
 	public boolean agregarJugadoresAJuegoEnCurso(){
-		for (Jugador jugador : this.jugadoresEnPartida) {
-			rondaEnCurso.add(jugador);
+		//for (Jugador jugador : this.jugadoresEnPartida) {
+			Jugador jugador1 = this.jugadoresEnPartida.get(0);
+			Jugador jugador2 = this.jugadoresEnPartida.get(1);
+			rondaEnCurso.add(jugador1);
+			rondaEnCurso.add(jugador2);
 			/*if (!rondaEnCurso.add(jugador)) {
 				//throw new Exception("No se pudo agregar un jugador en el mapa.");
 			}*/
-		}
+		//}
 		return true;
 	}
 }
