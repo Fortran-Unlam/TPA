@@ -17,7 +17,6 @@ import looby.Usuario;
 public class ConexionServidor {
 	private Socket socket;
 	private DataOutputStream salidaDatos;
-	private Usuario usuario;
 
 	public ConexionServidor(Socket socket) {
 		this.socket = socket;
@@ -32,8 +31,8 @@ public class ConexionServidor {
 
 	public void loguear(String username, String password) {
 		try {
-			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR).add("username", username)
-					.add("password", password).build();
+			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR)
+					.add("username", username).add("password", password).build();
 			System.err.println("envio loguear");
 			salidaDatos.writeUTF(jsonObject.toString());
 		} catch (IOException ex) {
@@ -41,47 +40,37 @@ public class ConexionServidor {
 		}
 	}
 
-	public void recibirMensajesServidor() {
+	public Usuario recibirLogueo() {
 		DataInputStream entradaDatos = null;
 		try {
 			entradaDatos = new DataInputStream(socket.getInputStream());
 		} catch (IOException ex) {
 			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+			return null;
 		} catch (NullPointerException ex) {
 			System.err.println("El socket no se creo correctamente. ");
+			return null;
 		}
 
-		boolean conectado = true;
-		while (conectado) {
+		while (true) {
 			try {
 				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
 				switch (mensajeRecibido.get("request").toString()) {
 				case Param.REQUEST_LOGUEO_CORRECTO:
-					System.out.println("loguee");
-					usuario = new Usuario(mensajeRecibido);
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								VentanaMenu frame = new VentanaMenu();
-								frame.setVisible(true);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					});
-					break;
+					return new Usuario(mensajeRecibido);
 				case Param.REQUEST_LOGUEO_INCORRECTO:
-
 					System.out.println("no loguee");
-					break;
+					return null;
+				default:
+					return null;
 				}
 
 			} catch (IOException ex) {
 				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
-				conectado = false;
+				return null;
 			} catch (NullPointerException ex) {
 				System.err.println("El socket no se creo correctamente. ");
-				conectado = false;
+				return null;
 			}
 		}
 	}

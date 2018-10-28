@@ -18,8 +18,6 @@ public class Main {
 			Login login = new Login(cs);
 			login.setVisible(true);
 			
-			cs.recibirMensajesServidor();
-			
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
 		}

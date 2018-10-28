@@ -1,5 +1,6 @@
 package cliente.ventana.usuario;
 
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,9 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import cliente.ConexionServidor;
+import cliente.ventana.VentanaMenu;
+import looby.Usuario;
 
 public class Login extends JFrame {
-	
+
 	private static final long serialVersionUID = 6592698064274884489L;
 	private JTextField username;
 	private JTextField password;
@@ -19,7 +22,7 @@ public class Login extends JFrame {
 
 	public Login(ConexionServidor conexionServidor) {
 		this.conexionServidor = conexionServidor;
-		
+
 		this.getContentPane().setLayout(null);
 		JLabel usernameLabel = new JLabel("Nombre");
 		usernameLabel.setBounds(41, 50, 92, 14);
@@ -58,9 +61,29 @@ public class Login extends JFrame {
 	}
 
 	/**
-	 * Le dice al servidor que el usuario quiere loguearse
+	 * Le dice al servidor que el usuario quiere loguearse. El servidor va a
+	 * responder en su debido tiempo y voy a crear un usuario el cual lo uso para
+	 * guardarlo y abro la ventana menu cuando este es distinto de null
 	 */
 	protected void iniciarSession() {
 		this.conexionServidor.loguear(this.username.getText(), this.password.getText());
+		Usuario usuario = this.conexionServidor.recibirLogueo();
+
+		if (usuario != null) {
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						VentanaMenu frame = new VentanaMenu();
+						frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			
+			this.dispose();
+		} else {
+			//TODO: mostrar mensaje de error en login
+		}
 	}
 }
