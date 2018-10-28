@@ -4,12 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JList;
@@ -22,7 +18,7 @@ import config.Param;
 public class VentanaSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;	
-	private JList listUsuarios;
+	private JList<String> listUsuarios;
 	private JLabel lblMaxUsuarios;
 	private JPanel contentPane;
 	private VentanaCrearSala ventanaCrearSala;
@@ -107,7 +103,7 @@ public class VentanaSala extends JFrame {
 		lblRondas.setBounds(32, 96, 198, 22);
 		getContentPane().add(lblRondas);
 		
-		this.listUsuarios = new JList();
+		this.listUsuarios = new JList<String>();
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		this.listUsuarios.setBounds(33, 83, 528, 169);
 		this.listUsuarios.setEnabled(false);
