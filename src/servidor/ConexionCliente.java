@@ -1,21 +1,19 @@
 package servidor;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.net.Socket;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import protocolo.Message;
-
 public class ConexionCliente extends Thread {
 
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
-	private DataOutputStream salidaDatos;
+	private ObjectOutputStream salidaDatos;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -28,7 +26,7 @@ public class ConexionCliente extends Thread {
 
 		try {
 			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			this.salidaDatos = new DataOutputStream(socket.getOutputStream());
+			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -41,7 +39,7 @@ public class ConexionCliente extends Thread {
 
 		while (conectado) {
 			try {
-				System.out.println("intenta leer un mensaje del cliente");
+				System.out.println("A la espera de un mensaje");
 				// Lee un mensaje enviado por el cliente
 				mensajeRecibido = Json.createReader(new StringReader((String) this.entradaDatos.readObject())).readObject();
 				
@@ -49,7 +47,7 @@ public class ConexionCliente extends Thread {
 			
 				System.out.println(mensajeRecibido);
 			} catch (IOException ex) {
-				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.";
+				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress() + " desconectado.";
 				System.out.println(mensaje);
 				conectado = false;
 				// Si se ha producido un error al recibir datos del cliente se cierra la

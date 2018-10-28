@@ -15,12 +15,13 @@ public class Servidor {
 
 		try {
 			servidor = new ServerSocket(Param.PUERTO, Param.MAXIMASCONEXIONESIMULTANEAS);
+			System.out.println("Corriendo en " + Param.PUERTO);
 
 			while (true) {
-				System.out.println("Servidor a la espera de conexiones.");
 				socket = servidor.accept();
-				// Muestra de informacion por pantalla y por archivo.
-				System.out.println("Cliente con la IP " + socket.getInetAddress().getHostName() + " conectado.");
+				
+				System.out.println("Cliente con la IP " + socket.getInetAddress().getHostAddress() + " conectado.");
+				
 				ConexionCliente cc = new ConexionCliente(socket);
 				
 				cc.start();
@@ -29,12 +30,10 @@ public class Servidor {
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
 		} finally {
-			// Cierro todos los sockets abiertos tras ocurrir un error.
 			try {
 				socket.close();
 				servidor.close();
 			} catch (IOException ex) {
-				// Muestra de errores por pantalla y por archivo.
 				System.out.println(ex.getMessage());
 			}
 		}

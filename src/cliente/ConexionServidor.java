@@ -8,8 +8,6 @@ import java.net.Socket;
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import protocolo.Message;
-
 public class ConexionServidor {
 	private Socket socket;
 	private ObjectOutputStream salidaDatos;
@@ -26,13 +24,12 @@ public class ConexionServidor {
 	}
 
 	public void logear(String usuario, String password) {
-		// Intento escribir en el buffer de salida.
 		try {
 			JsonObject jsonObject = Json.createObjectBuilder()
 				     .add("usuario", "joni")
 				     .add("password", "leerEsDePutos")
 				     .build();
-			System.out.println("se envia " + jsonObject.toString());
+			
 			salidaDatos.writeObject(jsonObject.toString());
 		} catch (IOException ex) {
 			System.out.println("Error al intentar enviar un mensaje: " + ex.getMessage());
