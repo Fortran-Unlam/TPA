@@ -25,4 +25,9 @@ public abstract class Param {
 	public static final int PUERTO = 9000;
 	public static final int MAXIMASCONEXIONESIMULTANEAS = 100;
 	public static final String HOST = "localhost";
+	
+	public static final String REQUEST_LOGUEAR = "loguear";
+	public static final String REQUEST_LOGUEO_CORRECTO = "logueoCorrecto";
+	public static final String REQUEST_LOGUEO_INCORRECTO = "logueoIncorrecto";
+	
 }

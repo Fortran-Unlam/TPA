@@ -1,4 +1,4 @@
-package cliente;
+package cliente.ventana;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -13,11 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
 import core.mapa.Juego;
 import core.mapa.Mapa;
-import input.GestorInput;
 
 public class VentanaJuego extends JFrame {
 

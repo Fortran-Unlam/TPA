@@ -1,4 +1,4 @@
-package input;
+package cliente.input;
 public class GestorInput {
 
 	public static final Teclado teclado = new Teclado();

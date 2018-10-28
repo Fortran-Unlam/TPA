@@ -1,4 +1,4 @@
-package cliente;
+package cliente.ventana;
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;

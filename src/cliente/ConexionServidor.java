@@ -9,6 +9,7 @@ import java.net.Socket;
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import config.Param;
 import looby.Usuario;
 
 public class ConexionServidor {
@@ -29,7 +30,7 @@ public class ConexionServidor {
 
 	public void loguear(String usuario, String password) {
 		try {
-			JsonObject jsonObject = Json.createObjectBuilder().add("request", "loguear").add("usuario", usuario)
+			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR).add("usuario", usuario)
 					.add("password", password).build();
 			System.err.println("envio loguear");
 			salidaDatos.writeUTF(jsonObject.toString());
@@ -53,11 +54,11 @@ public class ConexionServidor {
 			try {
 				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
 				switch (mensajeRecibido.get("request").toString()) {
-				case "logueoCorrecto":
+				case Param.REQUEST_LOGUEO_CORRECTO:
 					System.out.println("loguee");
 					usuario = new Usuario(mensajeRecibido);
 					break;
-				case "logueoIncorrecto":
+				case Param.REQUEST_LOGUEO_INCORRECTO:
 
 					System.out.println("no loguee");
 					break;

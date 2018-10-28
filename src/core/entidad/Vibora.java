@@ -8,10 +8,10 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
+import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
 import core.Coordenada;
-import input.GestorInput;
 
 public class Vibora extends JPanel {
 
