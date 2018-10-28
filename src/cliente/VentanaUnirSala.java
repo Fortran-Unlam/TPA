@@ -29,6 +29,7 @@ public class VentanaUnirSala extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false);
+		setLocationRelativeTo(null);
 		
 		JLabel lblSalasDisponibles = new JLabel("Salas disponibles:");
 		lblSalasDisponibles.setForeground(Color.MAGENTA);

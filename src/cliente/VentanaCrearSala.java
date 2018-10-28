@@ -30,6 +30,7 @@ public class VentanaCrearSala extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setResizable(false); 
+		setLocationRelativeTo(null);
 		
 		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
 		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
