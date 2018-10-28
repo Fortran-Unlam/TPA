@@ -1,4 +1,4 @@
-package cliente;
+package cliente.ventana;
 
 import java.awt.Color;
 import java.awt.Font;

@@ -1,4 +1,4 @@
-package cliente;
+package cliente.ventana;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
