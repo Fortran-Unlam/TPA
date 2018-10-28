@@ -52,7 +52,7 @@ public class Login extends JFrame {
 		this.getContentPane().add(btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
-		lblCrearUsuario.setBounds(119, 11, 86, 14);
+		lblCrearUsuario.setBounds(75, 12, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,6 +64,7 @@ public class Login extends JFrame {
 	 * Le dice al servidor que el usuario quiere loguearse. El servidor va a
 	 * responder en su debido tiempo y voy a crear un usuario el cual lo uso para
 	 * guardarlo y abro la ventana menu cuando este es distinto de null
+	 * 
 	 */
 	protected void iniciarSession() {
 		this.conexionServidor.loguear(this.username.getText(), this.password.getText());

@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
+
 public class VentanaUnirSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -32,8 +33,6 @@ public class VentanaUnirSala extends JFrame {
 		ventanaMenu.setVisible(false);
 		
 		setTitle("Unirse a sala");
-		//Por ahora EXIT_ON_CLOSED. Se puede poner DISPOSE_ON_CLOSED pero tengo que terminar de ver
-		//el evento windowslistener para que no quede invisible la vista del menu ppcal.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
@@ -71,10 +70,19 @@ public class VentanaUnirSala extends JFrame {
 		salas.addElement("Sala 1");
 		salas.addElement("Sala 2");
 		salas.addElement("Sala 3");
-		list.setModel(salas);
-		contentPane.add(list);
-		scrollPane.setViewportView(list);		
+		
+		list.setModel(salas);		
+		scrollPane.setViewportView(list);
 		//Agregar lista de salas. Ver de donde viene la lista.
+		
+		JButton btnRefrescarSalas = new JButton("Refrescar");
+		btnRefrescarSalas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Ver como refrescar salas cuando tengamos eso listo.
+			}
+		});
+		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnRefrescarSalas);
 		
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
@@ -96,18 +104,12 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 		
-		JButton btnRefrescarSalas = new JButton("Refrescar");
-		btnRefrescarSalas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Ver como refrescar salas cuando tengamos eso listo.
-			}
-		});
-		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnRefrescarSalas);
 	}
 	
 	private void abrirVentanaSala(String salaSeleccionada) {
-		new VentanaSala(this).setVisible(true);
+		new VentanaSala(this,salaSeleccionada).setVisible(true);
 	}
 	
 }
+
+

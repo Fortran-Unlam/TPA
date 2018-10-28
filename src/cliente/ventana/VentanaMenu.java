@@ -13,7 +13,13 @@ import javax.swing.border.EmptyBorder;
 
 import config.Param;
 
+
 public class VentanaMenu extends JFrame {
+	
+	//Main para ir probando, borrar luego.
+//	public static void main (String[] args) {
+//		new VentanaMenu().setVisible(true);
+//	}
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

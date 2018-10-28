@@ -20,41 +20,23 @@ public class VentanaSala extends JFrame {
 	private JList<String> listUsuarios;
 	private JLabel lblMaxUsuarios;
 	private JPanel contentPane;
-	private VentanaCrearSala ventanaCrearSala;
-	private VentanaUnirSala ventanaUnirSala;
+	private JFrame ventanaPrevia;
+	//private VentanaUnirSala ventanaUnirSala;
 	private String nombreSala;
-	
-	/*
-	 * Constructor para abrirse si es que viene de "Crear sala"
-	 * 
-	 */
-	public VentanaSala(VentanaCrearSala ventanaCrearSala) {
-		this.ventanaCrearSala = ventanaCrearSala;
-		this.ventanaCrearSala.setVisible(false);
-		this.nombreSala = ventanaCrearSala.nombreSala;
-		dibujarSala(1);	
+		
+	public VentanaSala(JFrame ventanaPrevia, String nombreSala) {
+		this.ventanaPrevia = ventanaPrevia;
+		this.ventanaPrevia.setVisible(false);
+		this.nombreSala = nombreSala;
+		dibujarSala();
 	}
 	
-	/*
-	 * Constructor para abrirse si es que viene de un "Unirse a sala"
-	 * 
-	 */
-	public VentanaSala(VentanaUnirSala ventanaUnirSala) {
-		this.ventanaUnirSala = ventanaUnirSala;
-		this.ventanaUnirSala.setVisible(false);
-		this.nombreSala = ventanaUnirSala.salaSeleccionada;
-		dibujarSala(2);	
-	}
-	
-	/*
-	 * DibujarSala recibe un entero como opciòn para saber a donde tiene que volver al cerrarse:
-	 * 1 = Vuelve al Frame de CrearSala
-	 * 2 = Vuelve al Frame de UnirSala
-	 */
-	public void dibujarSala(int opcion) {
+	public void dibujarSala() {
 		setTitle("Sala: " + this.nombreSala);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -73,10 +55,7 @@ public class VentanaSala extends JFrame {
 		JButton btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(opcion == 1)
-					ventanaCrearSala.setVisible(true);
-				else
-					ventanaUnirSala.setVisible(true);
+				ventanaPrevia.setVisible(true);
 				dispose();
 			}
 		});
@@ -86,10 +65,7 @@ public class VentanaSala extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(opcion == 1)
-					ventanaCrearSala.setVisible(true);
-				else
-					ventanaUnirSala.setVisible(true);
+				ventanaPrevia.setVisible(true);
 				dispose();
 			}
 		});
