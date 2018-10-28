@@ -22,7 +22,13 @@ public class ManejadorSala {
 		Sala salaPrueba = usuarioPrueba.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
 		salaPrueba.agregarPartida(usuarioPrueba);
-		salaPrueba.crearPartida(1);
+		TipoJuego tipoJuego = new TipoJuego();
+		tipoJuego = new TipoJuegoFruta(tipoJuego);
+		tipoJuego = new TipoJuegoTiempo(tipoJuego);
+		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
+		tipoJuego.setFrutasMaximas(2);
+		System.out.println(tipoJuego.termina(2, 3, 3));
+		salaPrueba.crearPartida(1,tipoJuego);
 		System.out.println(salaPrueba.startPartida());
 	}
 }

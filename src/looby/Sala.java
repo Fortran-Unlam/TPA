@@ -49,10 +49,10 @@ public class Sala {
 		return partidasJugadas.add(this.partidaActual);
 	}
 
-	public boolean crearPartida(int cantidadDeRondasDePartida) {
+	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
 		if (partidaActual == null) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida); // ACA SE DEBERIA INDICAR EL TIPO DE JEUGO
+					cantidadDeRondasDePartida, tipo); // ACA SE DEBERIA INDICAR EL TIPO DE JEUGO
 			return true;
 		}
 
@@ -72,14 +72,14 @@ public class Sala {
 
 	public boolean startPartida() {
 		if (this.partidaActual != null) {
-			return this.partidaActual.start();
+			return this.partidaActual.comienzoDeJuego();
 		}
 		return false;
 
 	}
 
 	public void stopPartida() {
-		this.partidaActual.stop();
+		this.partidaActual.stopDeJuego();
 	}
 
 	public Usuario getAdministrador() {
