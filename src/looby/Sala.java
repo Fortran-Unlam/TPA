@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+
 import core.Jugador;
 
 public class Sala {
@@ -85,5 +88,13 @@ public class Sala {
 	public Usuario getAdministrador() {
 		return this.usuarioCreador;
 	}
+	
+	public JsonObjectBuilder jsonify() {
+		return Json.createObjectBuilder()
+				.add("nombreSala", this.nombreSala)
+				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
+				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas)
+				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos);
 
+	}
 }
