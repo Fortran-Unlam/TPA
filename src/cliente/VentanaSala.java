@@ -28,18 +28,31 @@ public class VentanaSala extends JFrame {
 	private VentanaCrearSala ventanaCrearSala;
 	private VentanaUnirSala ventanaUnirSala;
 	
+	/*
+	 * Constructor para abrirse si es que viene de "Crear sala"
+	 * 
+	 */
 	public VentanaSala(VentanaCrearSala ventanaCrearSala) {
 		this.ventanaCrearSala = ventanaCrearSala;
 		this.ventanaCrearSala.setVisible(false);
 		dibujarSala(1);	
 	}
 	
+	/*
+	 * Constructor para abrirse si es que viene de un "Unirse a sala"
+	 * 
+	 */
 	public VentanaSala(VentanaUnirSala ventanaUnirSala) {
 		this.ventanaUnirSala = ventanaUnirSala;
 		this.ventanaUnirSala.setVisible(false);
 		dibujarSala(2);	
 	}
 	
+	/*
+	 * DibujarSala recibe un entero como opciòn para saber a donde tiene que volver al cerrarse:
+	 * 1 = Vuelve al Frame de CrearSala
+	 * 2 = Vuelve al Frame de UnirSala
+	 */
 	public void dibujarSala(int opcion) {
 		setTitle("Sala");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

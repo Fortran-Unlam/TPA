@@ -109,6 +109,4 @@ public class VentanaCrearSala extends JFrame {
 		new VentanaSala(this).setVisible(true);
 	}
 	
-
-	
 }
