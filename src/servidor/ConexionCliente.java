@@ -43,8 +43,8 @@ public class ConexionCliente extends Thread {
 				// Lee un mensaje enviado por el cliente
 				mensajeRecibido = Json.createReader(new StringReader((String) this.entradaDatos.readObject())).readObject();
 				
-				System.err.println("leyo un mensaje  del cliente ");
-			
+				System.out.println("leyo un mensaje  del cliente ");
+				System.out.println("El cliente solicita " + mensajeRecibido.get("request"));
 				System.out.println(mensajeRecibido);
 			} catch (IOException ex) {
 				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress() + " desconectado.";

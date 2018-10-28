@@ -26,8 +26,9 @@ public class ConexionServidor {
 	public void logear(String usuario, String password) {
 		try {
 			JsonObject jsonObject = Json.createObjectBuilder()
-				     .add("usuario", "joni")
-				     .add("password", "leerEsDePutos")
+				     .add("request", "loguear")
+				     .add("usuario", usuario)
+				     .add("password", password)
 				     .build();
 			
 			salidaDatos.writeObject(jsonObject.toString());
