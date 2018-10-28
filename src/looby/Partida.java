@@ -24,8 +24,7 @@ public class Partida {
 		tipoJuego.setFrutasMaximas(2);
 		System.out.println(tipoJuego.termina(2, 3, 3));
 		
-		//TODO: primero tendria que agregar un juego
-		this.crearJuego((TipoJuego)new TipoJuegoSupervivencia(null));
+		this.crearJuego(new TipoJuego());
 		if (!this.add(jugador)) {
 			throw new Exception("No se pudo agregar un jugador en el mapa");
 		}
