@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -24,9 +25,22 @@ public class VentanaSala extends JFrame {
 	private JList listUsuarios;
 	private JLabel lblMaxUsuarios;
 	private JPanel contentPane;
+	private VentanaCrearSala ventanaCrearSala;
+	private VentanaUnirSala ventanaUnirSala;
 	
-	public VentanaSala() {
-		
+	public VentanaSala(VentanaCrearSala ventanaCrearSala) {
+		this.ventanaCrearSala = ventanaCrearSala;
+		this.ventanaCrearSala.setVisible(false);
+		dibujarSala(1);	
+	}
+	
+	public VentanaSala(VentanaUnirSala ventanaUnirSala) {
+		this.ventanaUnirSala = ventanaUnirSala;
+		this.ventanaUnirSala.setVisible(false);
+		dibujarSala(2);	
+	}
+	
+	public void dibujarSala(int opcion) {
 		setTitle("Sala");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
@@ -48,6 +62,10 @@ public class VentanaSala extends JFrame {
 		JButton btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(opcion == 1)
+					ventanaCrearSala.setVisible(true);
+				else
+					ventanaUnirSala.setVisible(true);
 				dispose();
 			}
 		});
@@ -57,6 +75,10 @@ public class VentanaSala extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if(opcion == 1)
+					ventanaCrearSala.setVisible(true);
+				else
+					ventanaUnirSala.setVisible(true);
 				dispose();
 			}
 		});

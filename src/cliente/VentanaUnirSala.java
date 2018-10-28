@@ -48,6 +48,11 @@ public class VentanaUnirSala extends JFrame {
 		
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnUnirse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirVentanaSala();
+			}
+		});
 		contentPane.add(btnUnirse);
 		
 		JButton btnVolver = new JButton("Volver");
@@ -70,4 +75,9 @@ public class VentanaUnirSala extends JFrame {
 		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnRefrescarSalas);
 	}
+	
+	private void abrirVentanaSala() {
+		new VentanaSala(this).setVisible(true);
+	}
+	
 }

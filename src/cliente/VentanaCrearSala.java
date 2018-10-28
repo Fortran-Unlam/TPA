@@ -56,8 +56,7 @@ public class VentanaCrearSala extends JFrame {
 		btnAceptar.setBounds(86, 283, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				VentanaSala ventanaSala = new VentanaSala();
-				ventanaSala.setVisible(true);
+				abrirVentanaSala();
 			}
 		});
 		contentPane.add(btnAceptar);
@@ -105,4 +104,11 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 	}
+	
+	private void abrirVentanaSala() {
+		new VentanaSala(this).setVisible(true);
+	}
+	
+
+	
 }
