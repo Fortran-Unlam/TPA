@@ -21,8 +21,8 @@ public class ConexionCliente extends Thread {
 		this.socket = socket;
 
 		try {
-			entradaDatos = new DataInputStream(socket.getInputStream());
-			salidaDatos = new DataOutputStream(socket.getOutputStream());
+			this.entradaDatos = new DataInputStream(socket.getInputStream());
+			this.salidaDatos = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -36,8 +36,8 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				// Lee un mensaje enviado por el cliente
-				mensajeRecibido = entradaDatos.readUTF();
-				
+				mensajeRecibido = this.entradaDatos.readUTF();
+
 				String[] recepcion = mensajeRecibido.split(";");
 				int tipoMensaje = Integer.valueOf(recepcion[0]);
 				// Intento de login.
@@ -53,14 +53,14 @@ public class ConexionCliente extends Thread {
 //                	salidaDatos.writeUTF("0;" +((resultado)?"ok":"nok"));
 				}
 			} catch (IOException ex) {
-				String mensaje = "Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.";
+				String mensaje = ex.getMessage() + "Cliente con la IP " + socket.getInetAddress().getHostName() + " desconectado.";
 				System.out.println(mensaje);
 				conectado = false;
 				// Si se ha producido un error al recibir datos del cliente se cierra la
 				// conexion con el.
 				try {
-					entradaDatos.close();
-					salidaDatos.close();
+					this.entradaDatos.close();
+					this.salidaDatos.close();
 				} catch (IOException ex2) {
 					String mensajeError2 = "Error al cerrar los stream de entrada y salida :" + ex2.getMessage();
 					System.out.println(mensajeError2);

@@ -21,4 +21,5 @@ public abstract class Param {
 
 	public static final int PUERTO = 9000;
 	public static final int MAXIMASCONEXIONESIMULTANEAS = 100;
+	public static final String HOST = "localhost";
 }
