@@ -8,9 +8,12 @@ import core.mapa.Juego;
 
 public class Partida {
 	private int id;
-	private boolean enCurso = false;
-	private LinkedList<Juego> juegos = new LinkedList<Juego>();
-	private List<Jugador> jugadores = new LinkedList<Jugador>();
+	private boolean PartidaEnCurso = false;
+	private LinkedList<Juego> rondasJugadas = new LinkedList<Juego>();
+	private List<Jugador> jugadoresEnPartida = new LinkedList<Jugador>();
+	private Juego rondaEnCurso;
+	private int cantidadDeRondasAJugar;
+	private TipoJuego tipoDeJuegoDeLaPartida;
 
 	public Partida(final int id, final Jugador jugador) throws Exception {
 		this.id = id;
@@ -27,11 +30,27 @@ public class Partida {
 		if (!this.add(jugador)) {
 			throw new Exception("No se pudo agregar un jugador en el mapa");
 		}
-		this.jugadores.add(jugador);
+		this.jugadoresEnPartida.add(jugador);
 	}
 
-	public Partida(int i, List<Usuario> usuariosActivos, int cantidadDeRondasDePartida) {
-		// TODO Auto-generated constructor stub
+	public Partida(int idPartida, List<Usuario> usuariosActivos, int cantidadDeRondasDePartida, TipoJuego tipo) {
+		this.id = idPartida;
+		for (Usuario usr : usuariosActivos)
+			this.jugadoresEnPartida.add(new Jugador(usr));
+		this.cantidadDeRondasAJugar = cantidadDeRondasDePartida;
+		this.tipoDeJuegoDeLaPartida = tipo;
+	}
+
+	public void empezarPartida() {
+		for (int i = 0; i < this.cantidadDeRondasAJugar; i++) {
+			try {
+				this.crearJuego(this.tipoDeJuegoDeLaPartida);
+				this.agregarJugadoresAJuegoEnCurso();
+				this.comienzoDeJuego();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -40,8 +59,8 @@ public class Partida {
 	 * @param tipoJuego
 	 * @return Si puede agregarlo
 	 */
-	public boolean crearJuego(TipoJuego tipoJuego) {
-		return juegos.add(new Juego(this.jugadores, tipoJuego));
+	public void crearJuego(TipoJuego tipoJuego) {
+		this.rondaEnCurso = new Juego(this.jugadoresEnPartida, tipoJuego);
 	}
 
 	/**
@@ -49,28 +68,24 @@ public class Partida {
 	 * 
 	 * @return False si no puede empezar el juego.
 	 */
-	public boolean start() {
-
-		if (this.juegos.size() == 0) {
+	public boolean comienzoDeJuego() {
+		if (this.rondaEnCurso == null) {
 			return false;
 		}
-
-		Juego juego = this.juegos.getLast();
-
-		if (!juego.puedeEmpezar()) {
+		if (!this.rondaEnCurso.puedeEmpezar()) {
 			return false;
 		}
-		juego.start();
-		this.enCurso = true;
+		this.rondaEnCurso.start();
+		this.PartidaEnCurso = true;
 		return true;
 	}
 
 	/**
 	 * Para el juego que esta en curso
 	 */
-	public void stop() {
-		this.enCurso = false;
-		this.juegos.getLast().stop();
+	public void stopDeJuego() {
+		this.PartidaEnCurso = false;
+		this.rondasJugadas.getLast().stop();
 	}
 
 	/**
@@ -79,23 +94,26 @@ public class Partida {
 	 * @return
 	 */
 	public boolean enCurso() {
-		return this.enCurso;
+		return this.PartidaEnCurso;
 	}
 
-	/**
-	 * Agregar un jugador al juego que está en curso
-	 * 
-	 * @param jugador
-	 * 
-	 * @return True si puede agregar
-	 */
 	public boolean add(final Jugador jugador) {
 		// TODO: ver si no es necesario agregar el jugador en el juego en curso, por ahi
 		// es solo necesario agregarlo a la partida
-		if (this.juegos.getLast().add(jugador)) {
-			this.jugadores.add(jugador);
+		if (this.rondasJugadas.getLast().add(jugador)) {
+			this.jugadoresEnPartida.add(jugador);
 			return true;
 		}
 		return false;
+	} // BORRAR
+
+	// AGREGA JUGADORES A LA RONDA EN CURSO
+	public boolean agregarJugadoresAJuegoEnCurso() throws Exception {
+		for (Jugador jugador : this.jugadoresEnPartida) {
+			if (!rondaEnCurso.add(jugador)) {
+				throw new Exception("No se pudo agregar un jugador en el mapa.");
+			}
+		}
+		return true;
 	}
 }
