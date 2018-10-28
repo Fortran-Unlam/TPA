@@ -6,6 +6,10 @@ import java.util.List;
 import core.Jugador;
 import core.mapa.Juego;
 
+/**
+ * @author Joni
+ *
+ */
 public class Partida {
 	private int id;
 	private boolean enCurso = false;
@@ -14,16 +18,16 @@ public class Partida {
 
 	public Partida(final int id, final Jugador jugador) throws Exception {
 		this.id = id;
-		
+
 		// esto se puede borrar pero lo dejo para probar por ahora
 		TipoJuego tipoJuego = new TipoJuego();
 		tipoJuego = new TipoJuegoFruta(tipoJuego);
 		tipoJuego = new TipoJuegoTiempo(tipoJuego);
 		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
-		
+
 		tipoJuego.setFrutasMaximas(2);
 		System.out.println(tipoJuego.termina(2, 3, 3));
-		
+
 		this.crearJuego(new TipoJuego());
 		if (!this.add(jugador)) {
 			throw new Exception("No se pudo agregar un jugador en el mapa");
@@ -31,6 +35,12 @@ public class Partida {
 		this.jugadores.add(jugador);
 	}
 
+	/**
+	 * Crae un juego de acuerdo al tipo de dado y lo agrega al listado de juegos
+	 * 
+	 * @param tipoJuego
+	 * @return Si puede agregarlo
+	 */
 	public boolean crearJuego(TipoJuego tipoJuego) {
 		return juegos.add(new Juego(this.jugadores, tipoJuego));
 	}

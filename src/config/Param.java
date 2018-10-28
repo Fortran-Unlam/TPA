@@ -19,4 +19,6 @@ public abstract class Param {
 	public static final int MAPA_MAX_X = MAPA_WIDTH / PIXEL_RESIZE;
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
 
+	public static final int PUERTO = 9000;
+	public static final int MAXIMASCONEXIONESIMULTANEAS = 100;
 }

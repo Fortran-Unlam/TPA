@@ -24,9 +24,9 @@ public class Sala {
 		this.usuarios.add(usuarioAdministrador);
 	}
 
-	public boolean agregarJugadorASala(Usuario usrNuevo) {
+	public boolean agregarJugadorASala(Usuario usuario) {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
-			this.usuarios.add(usrNuevo);
+			this.usuarios.add(usuario);
 			this.cantidadUsuarioActuales++;
 			return true;
 		}
