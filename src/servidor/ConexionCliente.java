@@ -77,11 +77,14 @@ public class ConexionCliente extends Thread {
 						Query queryLogueo = session.createQuery(
 								"SELECT u FROM Usuario u WHERE u.username = " + username + "AND " + "u.password= " + password);
 						
-						List<Usuario> usuarios = queryLogueo.getResultList();
+						int res =0;
+						res = queryLogueo.getFirstResult();
 						
-						//Me fijo si me trajo el usuario
-						for (Usuario u : usuarios)
-							System.out.println(u);
+						if(res ==0)
+							System.out.println("Usuario y/o contraseña incorrectos");
+						else
+							System.out.println("ACCESO OK!!!");
+				
 						
 					} catch (HibernateException e) {
 						if (tx != null)
