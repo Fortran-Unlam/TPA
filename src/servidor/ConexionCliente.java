@@ -5,11 +5,17 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.Socket;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.persistence.Query;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import config.Param;
+import hibernateUtils.HibernateUtils;
 import looby.Usuario;
 
 public class ConexionCliente extends Thread {
@@ -17,6 +23,7 @@ public class ConexionCliente extends Thread {
 	private Socket socket;
 	private DataInputStream entradaDatos;
 	private DataOutputStream salidaDatos;
+	
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -48,8 +55,31 @@ public class ConexionCliente extends Thread {
 				switch (mensajeRecibido.get("request").toString()) {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
+					
+					// TODO: No funciona el hibernate, revisar las exceptions que tira. Query, username y password OK.
+					//Abro la sesión con Hibernate
+					Session session = HibernateUtils.getSessionFactory().openSession();
+					
+					Transaction tx = session.getTransaction();
+					String username = "'"  + mensajeRecibido.get("username").toString() + "'";
+					String password = "'" + mensajeRecibido.get("password").toString() + "'" ;
+					
+					
+					tx.commit();
+					
+					
+					Query queryLogueo = 
+							session.createQuery("SELECT * FROM Usuario WHERE username = " + username + "AND" + "password= " + password);
+					
+					List<Usuario> usuarios = queryLogueo.getResultList();
+					
+					for(Usuario u: usuarios)
+						System.out.println(u);
+					
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
+					
+					session.close();
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
 					this.salidaDatos.writeUTF(Servidor.requestgetAllSalas());
