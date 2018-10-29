@@ -101,10 +101,13 @@ public class ConexionServidor {
 				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
 				switch (mensajeRecibido.get("request").toString()) {
 				case Param.REQUEST_GET_ALL_SALAS:
-					JsonArrayBuilder arrayBuilder = (JsonArrayBuilder) mensajeRecibido.get("salas");
 					List<Sala> salas = new ArrayList<Sala>();
-					for (JsonValue jsonValue : arrayBuilder.build()) {
-						salas.add(new Sala((JsonObject)jsonValue));
+					System.out.println(mensajeRecibido.get("salas").toString());
+					if (!mensajeRecibido.get("salas").toString().equals("[]")) {
+						JsonArrayBuilder arrayBuilder = (JsonArrayBuilder) mensajeRecibido.get("salas");
+						for (JsonValue jsonValue : arrayBuilder.build()) {
+							salas.add(new Sala((JsonObject)jsonValue));
+						}
 					}
 					return salas;
 				default:

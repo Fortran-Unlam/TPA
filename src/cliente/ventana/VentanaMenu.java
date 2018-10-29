@@ -94,13 +94,9 @@ public class VentanaMenu extends JFrame {
 		jListSalas.setEnabled(true);
 		
 		contenedor.add(jListSalas);
-		System.out.println(pedirSalas());
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					System.out.println("a");
-					Thread.sleep(5000);
-					System.out.println("b");
 					jListSalas.setListData(pedirSalas());
 				} catch (Exception e) {
 					e.printStackTrace();
