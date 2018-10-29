@@ -11,6 +11,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.Query;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -23,7 +24,6 @@ public class ConexionCliente extends Thread {
 	private Socket socket;
 	private DataInputStream entradaDatos;
 	private DataOutputStream salidaDatos;
-	
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -55,31 +55,42 @@ public class ConexionCliente extends Thread {
 				switch (mensajeRecibido.get("request").toString()) {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
+
+					// TODO: No funciona el hibernate, revisar las exceptions que tira. Query,
+					// username y password OK.
+					// Abro la sesión con Hibernate
+
+//					String username = "'" + mensajeRecibido.get("username").toString() + "'";
+//					String password = "'" + mensajeRecibido.get("password").toString() + "'";
+//
+//					Session session = HibernateUtils.getSessionFactory().openSession();
+//					Transaction tx = null;
+//
+//					try {
+//						tx = session.beginTransaction();
+//						tx.commit();
+//						
+//						Query queryLogueo = session.createQuery(
+//								"SELECT * FROM Usuario WHERE username = " + username + "AND" + "password= " + password);
+//						
+//						List<Usuario> usuarios = queryLogueo.getResultList();
+//						
+//						//Me fijo si me trajo el usuario
+//						for (Usuario u : usuarios)
+//							System.out.println(u);
+//						
+//					} catch (HibernateException e) {
+//						if (tx != null)
+//							tx.rollback();
+//						e.printStackTrace();
+//					} finally {
+//						session.close();
+//					}
+
 					
-					// TODO: No funciona el hibernate, revisar las exceptions que tira. Query, username y password OK.
-					//Abro la sesión con Hibernate
-					Session session = HibernateUtils.getSessionFactory().openSession();
-					
-					Transaction tx = session.getTransaction();
-					String username = "'"  + mensajeRecibido.get("username").toString() + "'";
-					String password = "'" + mensajeRecibido.get("password").toString() + "'" ;
-					
-					
-					tx.commit();
-					
-					
-					Query queryLogueo = 
-							session.createQuery("SELECT * FROM Usuario WHERE username = " + username + "AND" + "password= " + password);
-					
-					List<Usuario> usuarios = queryLogueo.getResultList();
-					
-					for(Usuario u: usuarios)
-						System.out.println(u);
-					
+
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
-					
-					session.close();
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
 					this.salidaDatos.writeUTF(Servidor.requestgetAllSalas());

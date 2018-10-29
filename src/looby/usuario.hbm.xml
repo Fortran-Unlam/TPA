@@ -3,30 +3,14 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Oct 29, 2018 11:04:44 AM by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="looby.Usuario" table="USUARIO">
-        <id name="username" type="string" access="field">
-            <column name="username" />
-        </id>
-        <property name="password" type="string" access="field">
-            <column name="password" />
-        </property>
-        <property name="puntos" type="int" access="field">
-            <column name="puntos" />
-        </property>
-        <property name="cantidadFrutaComida" type="int" access="field">
-            <column name="cantidad_fruta_comida" />
-        </property>
-        <property name="asesinatos" type="int" access="field">
-            <column name="asesinatos" />
-        </property>
-        <property name="muertes" type="int" access="field">
-            <column name="muertes" />
-        </property>
-        <property name="partidasGanadas" type="int" access="field">
-            <column name="partidas_ganadas" />
-        </property>
-        <property name="rondasGanadas" type="int" access="field">
-            <column name="rondas_ganadas" />
-        </property>
+    <class name="looby.Usuario" table="Usuario">
+        <id column="username" name="username" type="string"/>
+        <property column="password" name="password" type="string"/>
+        <property column="puntos" name="puntos" type="int" />
+        <property column="cantidad_fruta_comida" name="cantidadFrutaComida" type="int" />
+        <property column="asesinatos" name="asesinatos" type="int" />
+        <property column="muertes" name="muetes" type="int" />
+        <property column="partidas_ganadas" name="partidasGanadas" type="int" />
+        <property column="rondas_ganadas" name="rondasGanadas" type="int" />
     </class>
 </hibernate-mapping>
