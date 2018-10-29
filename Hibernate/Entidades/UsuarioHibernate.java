@@ -25,7 +25,8 @@ public class UsuarioHibernate
 	{
 		Session s = Servidor.getSession();
 		Query<?> query = s.createQuery(
-		        "SELECT COUNT(*) from usuarios AS U WHERE U.apodo=:apodo and U.contrasena=:contrasena");
+		        //"SELECT COUNT(*) from usuarios AS U WHERE U.apodo=:apodo and U.contrasena=:contrasena");
+				"SELECT 1 from usuarios AS U WHERE U.apodo=:apodo and U.contrasena=:contrasena");
 		query.setString("apodo", u.getApodo());
 		query.setString("contrasena", u.getContrasena());
 		Long count = (Long)query.uniqueResult();
