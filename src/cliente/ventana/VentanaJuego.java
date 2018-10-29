@@ -41,7 +41,7 @@ public class VentanaJuego extends JFrame {
 		this.mapa = mapa;
 		
 		//this.juego = new Juego(jugadores, mapa, jListScore);
-		this.juego = new Juego(jugadores, mapa);
+		//this.juego = new Juego(jugadores, mapa);
 		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
