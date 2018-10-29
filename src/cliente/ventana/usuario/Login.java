@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import PasswordUtils.HashSalt;
+import PasswordUtils.PasswordUtil;
 import cliente.ConexionServidor;
 import cliente.ventana.VentanaMenu;
 import looby.Usuario;
@@ -67,9 +69,18 @@ public class Login extends JFrame {
 	 * 
 	 */
 	protected void iniciarSession() {
-		this.conexionServidor.loguear(this.username.getText(), this.password.getText());
+		HashSalt hsPassword = null;
+		try {
+			hsPassword = PasswordUtil.getHash(this.password.getText());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		this.conexionServidor.loguear(this.username.getText(), hsPassword);
 		Usuario usuario = this.conexionServidor.recibirLogueo();
 
+		
+		
 		if (usuario != null) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {

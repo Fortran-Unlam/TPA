@@ -60,13 +60,11 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
 
-					// TODO: No funciona el hibernate, revisar las exceptions que tira. Query,
-					// username y password OK.
-					// Abro la sesión con Hibernate
-
 					String username = "'" + mensajeRecibido.get("username").toString() + "'";
-					String password = "'" + mensajeRecibido.get("password").toString() + "'";
+					String password = "'" + mensajeRecibido.get("hsPassword").toString() + "'";
 
+					System.out.println(password);
+					
 					Session session = HibernateUtils.getSessionFactory().openSession();
 					Transaction tx = null;
 

@@ -13,6 +13,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
 
+import PasswordUtils.HashSalt;
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -33,10 +34,10 @@ public class ConexionServidor {
 		}
 	}
 
-	public void loguear(String username, String password) {
+	public void loguear(String username, HashSalt hsPassword) {
 		try {
 			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR)
-					.add("username", username).add("password", password).build();
+					.add("username", username).add("hsPassword", hsPassword).build();
 			System.err.println("envio loguear");
 			salidaDatos.writeUTF(jsonObject.toString());
 		} catch (IOException ex) {
