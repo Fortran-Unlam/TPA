@@ -1,11 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
                                    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 29-oct-2018 15:27:38 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
- <class name="looby.Usuario" table="USUARIO">
-  <id name="id" type="INTEGER">
-   <column name="ID" not-null="true"/>
+ <class name="looby.Usuario" table="Usuario">
+  <id name="id" type="int">
+   <column name="id" not-null="true"/>
    <generator class="assigned"/>
   </id>
   <property generated="never" lazy="false" name="username" type="java.lang.String">
