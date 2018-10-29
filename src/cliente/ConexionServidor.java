@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
@@ -21,6 +20,7 @@ import looby.Usuario;
 public class ConexionServidor {
 	private Socket socket;
 	private DataOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
 
 	public ConexionServidor(Socket socket) {
 		this.socket = socket;
@@ -45,7 +45,6 @@ public class ConexionServidor {
 	}
 
 	public Usuario recibirLogueo() {
-		DataInputStream entradaDatos = null;
 		try {
 			entradaDatos = new DataInputStream(socket.getInputStream());
 		} catch (IOException ex) {
@@ -79,10 +78,16 @@ public class ConexionServidor {
 		}
 	}
 
+	/**
+	 * Pide las salas al servidor y espera a que este le responda
+	 * @return
+	 */
 	public List<Sala> getAllSalas() {
-		DataInputStream entradaDatos = null;
 		try {
 			entradaDatos = new DataInputStream(socket.getInputStream());
+			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_GET_ALL_SALAS).build();
+			salidaDatos.writeUTF(jsonObject.toString());
+			
 		} catch (IOException ex) {
 			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
 			return null;

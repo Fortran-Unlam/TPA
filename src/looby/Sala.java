@@ -11,7 +11,15 @@ import javax.json.JsonObjectBuilder;
 import core.Jugador;
 
 public class Sala {
-	private String nombreSala;
+	private String nombre;
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas;
@@ -21,7 +29,7 @@ public class Sala {
 	private Partida partidaActual;
 
 	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioCreador) {
-		this.nombreSala = nombreSala;
+		this.nombre = nombreSala;
 		this.cantidadUsuarioActuales = 1;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.usuarioCreador = usuarioCreador;
@@ -29,7 +37,7 @@ public class Sala {
 	}
 	
 	public Sala(JsonObject jsonObject) {
-		this.nombreSala = jsonObject.get("nombreSala").toString();
+		this.nombre = jsonObject.get("nombreSala").toString();
 		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
 		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
 		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
@@ -98,10 +106,15 @@ public class Sala {
 	
 	public JsonObjectBuilder jsonify() {
 		return Json.createObjectBuilder()
-				.add("nombreSala", this.nombreSala)
+				.add("nombreSala", this.nombre)
 				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
 				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
 				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
 
+	}
+	
+	@Override
+	public String toString() {
+		return this.nombre;
 	}
 }
