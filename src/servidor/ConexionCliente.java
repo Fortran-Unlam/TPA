@@ -75,7 +75,7 @@ public class ConexionCliente extends Thread {
 						tx.commit();
 						
 						Query queryLogueo = session.createQuery(
-								"SELECT * FROM Usuario WHERE username = " + username + "AND " + "password= " + password);
+								"SELECT u FROM Usuario u WHERE u.username = " + username + "AND " + "u.password= " + password);
 						
 						List<Usuario> usuarios = queryLogueo.getResultList();
 						
