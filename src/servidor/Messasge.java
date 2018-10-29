@@ -1,7 +1,10 @@
 package servidor;
 
-public class Messasge {
+import java.io.Serializable;
 
+public class Messasge implements Serializable {
+
+	private static final long serialVersionUID = -4187638026720768019L;
 	private String type;
 	private Object data;
 
