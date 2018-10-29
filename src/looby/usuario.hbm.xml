@@ -1,16 +1,36 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 29, 2018 11:04:44 AM by Hibernate Tools 3.5.0.Final -->
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 29-oct-2018 15:27:38 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
-    <class name="looby.Usuario" table="Usuario">
-        <id column="username" name="username" type="string"/>
-        <property column="password" name="password" type="string"/>
-        <property column="puntos" name="puntos" type="int" />
-        <property column="cantidad_fruta_comida" name="cantidadFrutaComida" type="int" />
-        <property column="asesinatos" name="asesinatos" type="int" />
-        <property column="muertes" name="muetes" type="int" />
-        <property column="partidas_ganadas" name="partidasGanadas" type="int" />
-        <property column="rondas_ganadas" name="rondasGanadas" type="int" />
-    </class>
+ <class name="looby.Usuario" table="USUARIO">
+  <id name="id" type="INTEGER">
+   <column name="ID" not-null="true"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="username" type="java.lang.String">
+   <column name="username" not-null="true" sql-type="VARCHAR" unique="true"/>
+  </property>
+  <property generated="never" lazy="false" name="password" type="java.lang.String">
+   <column name="password" not-null="true" sql-type="VARCHAR"/>
+  </property>
+  <property generated="never" lazy="false" name="puntos" type="int">
+   <column name="puntos" not-null="true" sql-type="INTEGER"/>
+  </property>
+  <property generated="never" lazy="false" name="cantidadFrutaComida" type="int">
+   <column name="cantidad_fruta_comida" not-null="true" sql-type="INTEGER"/>
+  </property>
+  <property generated="never" lazy="false" name="asesinatos" type="int">
+   <column name="asesinatos" not-null="true" sql-type="INTEGER"/>
+  </property>
+  <property generated="never" lazy="false" name="muertes" type="int">
+   <column name="muertes" not-null="true" sql-type="INTEGER"/>
+  </property>
+  <property generated="never" lazy="false" name="partidasGanadas" type="int">
+   <column name="partidas_ganadas" not-null="true" sql-type="INTEGER"/>
+  </property>
+  <property generated="never" lazy="false" name="rondasGanadas" type="int">
+   <column name="rondas_ganadas" not-null="true" sql-type="INTEGER"/>
+  </property>
+ </class>
 </hibernate-mapping>

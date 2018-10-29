@@ -63,7 +63,6 @@ public class Usuario {
 		return this;
 	}
 
-	
 	public int getId() {
 		return id;
 	}
@@ -136,14 +135,6 @@ public class Usuario {
 		this.rondasGanadas = rondasGanadas;
 	}
 
-	public void setEnSala(boolean enSala) {
-		this.enSala = enSala;
-	}
-
-	public boolean isEnSala() {
-		return enSala;
-	}
-
 	public String getUsuarioLogueado() {
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
@@ -154,9 +145,9 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
 				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
-				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + ", enSala=" + enSala
-				+ "]";
+				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
 	}
+
 	
 	
 }

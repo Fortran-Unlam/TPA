@@ -10,14 +10,18 @@ import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import config.Param;
 import hibernateUtils.HibernateUtils;
 import looby.Usuario;
+
 
 public class ConexionCliente extends Thread {
 
@@ -60,32 +64,32 @@ public class ConexionCliente extends Thread {
 					// username y password OK.
 					// Abro la sesión con Hibernate
 
-//					String username = "'" + mensajeRecibido.get("username").toString() + "'";
-//					String password = "'" + mensajeRecibido.get("password").toString() + "'";
-//
-//					Session session = HibernateUtils.getSessionFactory().openSession();
-//					Transaction tx = null;
-//
-//					try {
-//						tx = session.beginTransaction();
-//						tx.commit();
-//						
-//						Query queryLogueo = session.createQuery(
-//								"SELECT * FROM Usuario WHERE username = " + username + "AND" + "password= " + password);
-//						
-//						List<Usuario> usuarios = queryLogueo.getResultList();
-//						
-//						//Me fijo si me trajo el usuario
-//						for (Usuario u : usuarios)
-//							System.out.println(u);
-//						
-//					} catch (HibernateException e) {
-//						if (tx != null)
-//							tx.rollback();
-//						e.printStackTrace();
-//					} finally {
-//						session.close();
-//					}
+					String username = "'" + mensajeRecibido.get("username").toString() + "'";
+					String password = "'" + mensajeRecibido.get("password").toString() + "'";
+
+					Session session = HibernateUtils.getSessionFactory().openSession();
+					Transaction tx = null;
+
+					try {
+						tx = session.beginTransaction();
+						tx.commit();
+						
+						Query queryLogueo = session.createQuery(
+								"SELECT * FROM Usuario WHERE username = " + username + "AND" + "password= " + password);
+						
+						List<Usuario> usuarios = queryLogueo.getResultList();
+						
+						//Me fijo si me trajo el usuario
+						for (Usuario u : usuarios)
+							System.out.println(u);
+						
+					} catch (HibernateException e) {
+						if (tx != null)
+							tx.rollback();
+						e.printStackTrace();
+					} finally {
+						session.close();
+					}
 
 					
 
