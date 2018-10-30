@@ -91,6 +91,11 @@ public class ConexionCliente extends Thread {
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					break;
+					
+				case Param.REQUEST_REGISTRARSE:
+					//logica para regsitrar nuevo usuario
+					break;
+					
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
