@@ -92,8 +92,33 @@ public class ConexionCliente extends Thread {
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					break;
 					
-				case Param.REQUEST_REGISTRARSE:
+				case Param.REQUEST_REGISTRAR:
 					//logica para regsitrar nuevo usuario
+					
+					String usernameNew = "'" + ((ArrayList)message.getData()).get(0) + "'";
+					String passwordNew = "'" + ((ArrayList)message.getData()).get(1) + "'";
+
+					System.out.println(password);
+					
+					Session sessionRegistrar = HibernateUtils.getSessionFactory().openSession();
+					Transaction txReg = null;
+
+					try {
+						txReg = sessionRegistrar.beginTransaction();
+						txReg.commit();
+						
+						Query queryRegistrar = sessionRegistrar.createQuery(
+								"SELECT COUNT(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
+						
+						int res = 0;
+						res = queryLogueo.getFirstResult();
+						
+						if(res == 0) {
+							System.out.println("Usuario y/o contraseña incorrectos");
+							return;
+						}
+						else
+							System.out.println("ACCESO OK!!!");
 					break;
 					
 				case Param.REQUEST_GET_ALL_SALAS:
