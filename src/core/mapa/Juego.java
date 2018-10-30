@@ -7,6 +7,7 @@ import javax.swing.JList;
 import core.Jugador;
 import core.Score;
 import looby.TipoJuego;
+import looby.TipoJuegoSupervivencia;
 
 public class Juego {
 
@@ -29,6 +30,7 @@ public class Juego {
 	}
 
 	public boolean add(Jugador jugador) {
+		System.out.println("NO DEBE LLEGAR");
 		if (!this.mapa.add(jugador)) {
 			System.out.println("No pudo agregar jugador");
 			return false;
@@ -58,8 +60,8 @@ public class Juego {
 		this.run = true;
 		try {
 			Thread.sleep(1000);
-
-			while (this.run) {
+			this.tipoJuego = new TipoJuego();
+			while (this.run && !this.tipoJuego.termina(this.mapa.jugadores.size(),100,10) ) {
 				this.mapa.actualizar();
 				System.out.println("jugando");
 				this.jListScore.setModel(score.ScoreToModel());

@@ -1,5 +1,6 @@
 package looby;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,29 +10,11 @@ import core.mapa.Juego;
 public class Partida {
 	private int id;
 	private boolean PartidaEnCurso = false;
-	private LinkedList<Juego> rondasJugadas = new LinkedList<Juego>();
-	private List<Jugador> jugadoresEnPartida = new LinkedList<Jugador>();
+	private List<Juego> rondasJugadas = new ArrayList<Juego>();
+	private List<Jugador> jugadoresEnPartida = new ArrayList<Jugador>();
 	private Juego rondaEnCurso;
 	private int cantidadDeRondasAJugar;
 	private TipoJuego tipoDeJuegoDeLaPartida;
-
-	public Partida(final int id, final Jugador jugador) throws Exception {
-		this.id = id;
-		// Esto se puede borrar pero lo dejo para probar por ahora
-		TipoJuego tipoJuego = new TipoJuego();
-		tipoJuego = new TipoJuegoFruta(tipoJuego);
-		tipoJuego = new TipoJuegoTiempo(tipoJuego);
-		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
-
-		tipoJuego.setFrutasMaximas(2);
-		System.out.println(tipoJuego.termina(2, 3, 3));
-
-		this.crearJuego(new TipoJuego());
-		if (!this.add(jugador)) {
-			throw new Exception("No se pudo agregar un jugador en el mapa");
-		}
-		this.jugadoresEnPartida.add(jugador);
-	}
 
 	public Partida(int idPartida, List<Usuario> usuariosActivos, int cantidadDeRondasDePartida, TipoJuego tipo) {
 		this.id = idPartida;
@@ -45,9 +28,11 @@ public class Partida {
 		for (int i = 0; i < this.cantidadDeRondasAJugar; i++) {
 			try {
 				this.PartidaEnCurso = true;
-				this.crearJuego(this.tipoDeJuegoDeLaPartida);
-				this.agregarJugadoresAJuegoEnCurso();
+				this.crearJuego();
+				// this.agregarJugadoresAJuegoEnCurso();
 				this.comienzoDeJuego();
+				this.rondasJugadas.add(this.rondaEnCurso);
+				this.rondaEnCurso = null;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -60,8 +45,8 @@ public class Partida {
 	 * @param tipoJuego
 	 * @return Si puede agregarlo
 	 */
-	public void crearJuego(TipoJuego tipoJuego) {
-		this.rondaEnCurso = new Juego(this.jugadoresEnPartida, tipoJuego);
+	public void crearJuego() {
+		this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
 	}
 
 	/**
@@ -77,7 +62,6 @@ public class Partida {
 			return false;
 		}
 		this.rondaEnCurso.start();
-		this.PartidaEnCurso = true;
 		return true;
 	}
 
@@ -86,7 +70,7 @@ public class Partida {
 	 */
 	public void pararJuegoEnCurso() {
 		this.PartidaEnCurso = false;
-		this.rondasJugadas.getLast().stop();
+		this.rondaEnCurso.stop();
 	}
 
 	/**
@@ -98,27 +82,18 @@ public class Partida {
 		return this.PartidaEnCurso;
 	}
 
-	public boolean add(final Jugador jugador) { //BORRARRRRRRRRRRRRRRRRRR
-		// TODO: ver si no es necesario agregar el jugador en el juego en curso, por ahi
-		// es solo necesario agregarlo a la partida
-		if (this.rondasJugadas.getLast().add(jugador)) {
-			this.jugadoresEnPartida.add(jugador);
-			return true;
-		}
-		return false;
-	}
-
 	// AGREGA JUGADORES A LA RONDA EN CURSO
-	public boolean agregarJugadoresAJuegoEnCurso(){
-		//for (Jugador jugador : this.jugadoresEnPartida) {
-			Jugador jugador1 = this.jugadoresEnPartida.get(0);
-			Jugador jugador2 = this.jugadoresEnPartida.get(1);
-			rondaEnCurso.add(jugador1);
-			rondaEnCurso.add(jugador2);
-			/*if (!rondaEnCurso.add(jugador)) {
-				//throw new Exception("No se pudo agregar un jugador en el mapa.");
-			}*/
-		//}
+	public boolean agregarJugadoresAJuegoEnCurso() {
+		// for (Jugador jugador : this.jugadoresEnPartida) {
+		Jugador jugador1 = this.jugadoresEnPartida.get(0);
+		Jugador jugador2 = this.jugadoresEnPartida.get(1);
+		rondaEnCurso.add(jugador1);
+		rondaEnCurso.add(jugador2);
+		/*
+		 * if (!rondaEnCurso.add(jugador)) { //throw new
+		 * Exception("No se pudo agregar un jugador en el mapa."); }
+		 */
+		// }
 		return true;
 	}
 }

@@ -12,6 +12,7 @@ import core.Jugador;
 
 public class Sala {
 	private String nombre;
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -24,8 +25,8 @@ public class Sala {
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas;
 	private Usuario usuarioCreador;
-	private ArrayList<Partida> partidasJugadas = new ArrayList<>();
-	private List<Usuario> usuariosActivos = new LinkedList<Usuario>();
+	private List<Partida> partidasJugadas = new ArrayList<>();
+	private List<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private Partida partidaActual;
 
 	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioCreador) {
@@ -35,13 +36,13 @@ public class Sala {
 		this.usuarioCreador = usuarioCreador;
 		this.usuariosActivos.add(usuarioCreador);
 	}
-	
+
 	public Sala(JsonObject jsonObject) {
 		this.nombre = jsonObject.get("nombreSala").toString();
 		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
 		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
 		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
-		
+
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
@@ -61,12 +62,6 @@ public class Sala {
 		}
 		return false;
 
-	}
-
-	public boolean agregarPartida(Usuario usuario) throws Exception { // BORRAR
-		Jugador jugador = new Jugador(usuario);
-		this.partidaActual = new Partida(++cantidadDePartidasJugadas, jugador);
-		return partidasJugadas.add(this.partidaActual);
 	}
 
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
@@ -103,16 +98,15 @@ public class Sala {
 	public Usuario getAdministrador() {
 		return this.usuarioCreador;
 	}
-	
+
 	public JsonObjectBuilder jsonify() {
-		return Json.createObjectBuilder()
-				.add("nombreSala", this.nombre)
+		return Json.createObjectBuilder().add("nombreSala", this.nombre)
 				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
 				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
 				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
 
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.nombre;
