@@ -113,7 +113,7 @@ public class ConexionCliente extends Thread {
 							sessionRegistrar.createQuery("INSERT INTO Usuario (username,password) VALUES ('usernameNew','hashPasswordNew')");		
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
-							System.out.println("Usuario no disponilbe");
+							System.out.println("Usuario no disponilbe, debe ingresar otro usuario");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, userReg.get(0)));
 						}
 
