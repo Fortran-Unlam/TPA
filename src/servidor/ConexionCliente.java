@@ -6,16 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.Query;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import config.Param;
-import hibernateUtils.HibernateUtils;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.Usuario;
@@ -51,7 +43,7 @@ public class ConexionCliente extends Thread {
 
 		Sala sala = null;
 		Usuario usuario = null;
-		
+
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
@@ -60,8 +52,9 @@ public class ConexionCliente extends Thread {
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					usuario = UsuarioDAO.loguear((String)((ArrayList) message.getData()).get(0), (String)((ArrayList) message.getData()).get(1));
-					
+					usuario = UsuarioDAO.loguear((String) ((ArrayList) message.getData()).get(0),
+							(String) ((ArrayList) message.getData()).get(1));
+
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, usuario));
@@ -77,37 +70,12 @@ public class ConexionCliente extends Thread {
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
 
-					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
-					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
-
-					Transaction txReg = null;
-
-					try {
-						txReg = Servidor.getSessionHibernate().beginTransaction();
-						txReg.commit();
-
-						Query queryRegistrar = Servidor.getSessionHibernate()
-								.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
-
-						List<Usuario> userReg = queryRegistrar.getResultList();
-
-						if (userReg.isEmpty()) {
-							System.out.println("Usuario disponible");
-							Servidor.getSessionHibernate().createQuery("INSERT INTO Usuario (username,password) VALUES ('"
-									+ usernameNew + "','" + hashPasswordNew + "')");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
-						} else {
-							System.out.println("Usuario no disponilbe, debe ingresar otro usuario");
-							this.salidaDatos
-									.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, userReg.get(0)));
-						}
-
-					} catch (HibernateException e) {
-						if (txReg != null)
-							txReg.rollback();
-						e.printStackTrace();
-					} finally {
-						Servidor.getSessionHibernate().close();
+					usuario = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
+							(String) ((ArrayList) message.getData()).get(1));
+					if (usuario == null ) {
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));						
+					} else {
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, usuario));
 					}
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:

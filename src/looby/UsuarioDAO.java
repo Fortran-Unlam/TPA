@@ -1,5 +1,6 @@
 package looby;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -7,6 +8,8 @@ import javax.persistence.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
+import config.Param;
+import servidor.Message;
 import servidor.Servidor;
 
 public class UsuarioDAO {
@@ -39,6 +42,40 @@ public class UsuarioDAO {
 			Servidor.getSessionHibernate().close();
 		}
 
+		return null;
+	}
+	
+	public static Usuario registrar(String username, String hashPassword) {
+		Transaction txReg = null;
+
+		try {
+			txReg = Servidor.getSessionHibernate().beginTransaction();
+			txReg.commit();
+
+			Query queryRegistrar = Servidor.getSessionHibernate()
+					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "'");
+
+			List<Usuario> resultList = queryRegistrar.getResultList();
+
+			if (resultList.isEmpty()) {
+				System.out.println("Usuario disponible");
+				
+				Servidor.getSessionHibernate().createQuery("INSERT INTO Usuario (username,password) VALUES ('"
+						+ username + "','" + hashPassword + "')");
+				// TODO: agregar id
+				return new Usuario(username, hashPassword);
+			} else {
+				System.out.println("Usuario no disponilbe, debe ingresar otro usuario");
+				return null;
+			}
+
+		} catch (HibernateException e) {
+			if (txReg != null)
+				txReg.rollback();
+			e.printStackTrace();
+		} finally {
+			Servidor.getSessionHibernate().close();
+		}
 		return null;
 	}
 }
