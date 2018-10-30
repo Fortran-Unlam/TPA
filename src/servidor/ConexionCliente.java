@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.JsonObject;
 import javax.persistence.Query;
@@ -54,32 +55,30 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
 
-					String username = "'" + ((ArrayList)message.getData()).get(0) + "'";
-					String password = "'" + ((ArrayList)message.getData()).get(1) + "'";
+					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
+					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
 
-					System.out.println(password);
-					
 					Session session = HibernateUtils.getSessionFactory().openSession();
 					Transaction tx = null;
 
 					try {
 						tx = session.beginTransaction();
 						tx.commit();
-						
-						Query queryLogueo = session.createQuery(
-								"SELECT COUNT(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
-						
-						int res = 0;
-						res = queryLogueo.getFirstResult();
-						
-						if(res == 0) {
+
+						Query queryLogueo = session.createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
+								+ "AND u.password = " + hashPassword);
+
+						List<Usuario> user = queryLogueo.getResultList();
+
+						if (user.isEmpty()) {
 							System.out.println("Usuario y/o contraseña incorrectos");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, user.get(0)));
 							return;
-						}
-						else
+						} else {
 							System.out.println("ACCESO OK!!!");
-				
-						
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
+						}
+
 					} catch (HibernateException e) {
 						if (tx != null)
 							tx.rollback();
@@ -88,9 +87,42 @@ public class ConexionCliente extends Thread {
 						session.close();
 					}
 
-					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					break;
+					
+				case Param.REQUEST_REGISTRAR:
+					//logica para registrar nuevo usuario
+					
+					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
+					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
+
+					Session sessionRegistrar = HibernateUtils.getSessionFactory().openSession();
+					Transaction txReg = null;
+
+					try {
+						txReg = sessionRegistrar.beginTransaction();
+						txReg.commit();
+
+						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
+
+						List<Usuario> user = queryRegistrar.getResultList();
+
+						if (user.isEmpty()) {
+							System.out.println("Usuario y/o contraseña incorrectos");
+						} else {
+							System.out.println("ACCESO OK!!!");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
+						}
+
+					} catch (HibernateException e) {
+						if (txReg != null)
+							txReg.rollback();
+						e.printStackTrace();
+					} finally {
+						sessionRegistrar.close();
+					}
+					
+					break;
+					
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
@@ -112,7 +144,6 @@ public class ConexionCliente extends Thread {
 					System.out.println(mensajeError2);
 				}
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

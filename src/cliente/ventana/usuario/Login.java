@@ -8,10 +8,11 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import PasswordUtils.HashSalt;
-import PasswordUtils.PasswordUtil;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import cliente.ConexionServidor;
 import cliente.ventana.VentanaMenu;
 import looby.Usuario;
@@ -79,17 +80,12 @@ public class Login extends JFrame {
 	 * 
 	 */
 	protected void iniciarSession() throws IOException {
-		HashSalt hsPassword = null;
-		try {
-			hsPassword = PasswordUtil.getHash(this.password.getText());
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		
-		this.conexionServidor.loguear(this.username.getText(), hsPassword);
-		Usuario usuario = this.conexionServidor.recibirLogueo();
 
+		//Calculo hash MD5
+		String hashPassword = DigestUtils.md5Hex(this.password.getText());
 		
+		this.conexionServidor.loguear(this.username.getText(), hashPassword);
+		Usuario usuario = this.conexionServidor.recibirLogueo();
 		
 		if (usuario != null) {
 			EventQueue.invokeLater(new Runnable() {
@@ -106,6 +102,7 @@ public class Login extends JFrame {
 			this.dispose();
 		} else {
 			//TODO: mostrar mensaje de error en login
+			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }
