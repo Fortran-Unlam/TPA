@@ -72,6 +72,8 @@ public class ConexionCliente extends Thread {
 
 						if (user.isEmpty()) {
 							System.out.println("Usuario y/o contraseña incorrectos");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, user.get(0)));
+							return;
 						} else {
 							System.out.println("ACCESO OK!!!");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
