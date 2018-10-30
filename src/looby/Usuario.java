@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	private boolean enSala = false;
+	boolean enSala = false;
 
 	public Usuario(String usrName, String password) {
 		this.username = usrName;
@@ -28,7 +28,6 @@ public class Usuario implements Serializable {
 
 	// Constructor necesario para el Hibernate
 	public Usuario() {
-
 	}
 
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
@@ -47,8 +46,8 @@ public class Usuario implements Serializable {
 	public Usuario(JsonObject jsonObject) {
 		this.id = Integer.valueOf(jsonObject.get("id").toString());
 		this.username = jsonObject.get("username").toString();
-		// this.password = jsonObject.get("password").toString();
-		// this.puntos = Integer.valueOf(jsonObject.get("password").toString());
+		this.password = jsonObject.get("password").toString();
+		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
 	}
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
@@ -141,7 +140,6 @@ public class Usuario implements Serializable {
 	public String getUsuarioLogueado() {
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
-
 	}
 
 	@Override

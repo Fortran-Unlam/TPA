@@ -26,6 +26,7 @@ public class Partida {
 	public void empezarPartida() {
 		for (int i = 0; i < this.cantidadDeRondasAJugar; i++) {
 			try {
+				System.out.println("Ronda " + (i+1));
 				this.PartidaEnCurso = true;
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
 				this.comienzoDeJuego();

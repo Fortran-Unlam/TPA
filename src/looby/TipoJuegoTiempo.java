@@ -15,7 +15,7 @@ public class TipoJuegoTiempo extends TipoDeJuegoDecorator {
 		if (tipoJuego.termina(cantidadJugadores, puntosMaximos, segundos)) {
 			return true;
 		}
-		if (segundos >= this.segundos) {
+		if (segundos >= this.segundosMaximos) {
 			return true;
 		}
 		return true;

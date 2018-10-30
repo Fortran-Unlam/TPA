@@ -64,16 +64,6 @@ public class Sala {
 		this.partidaActual = null;
 	}
 
-	public boolean partidaTerminada() { // VER DONDE PONER
-		if (this.partidaActual != null) {
-			this.partidasJugadas.add(this.partidaActual);
-			this.partidaActual = null;
-			return true;
-		}
-
-		return false; // NO HAY PARTIDA ACTUAL
-	}
-
 	public void stopPartida() {
 		this.partidaActual.pararJuegoEnCurso();
 	}

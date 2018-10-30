@@ -3,7 +3,7 @@ package looby;
 public class TipoJuego {
 
 	protected TipoJuego tipoJuego;
-	protected int segundos;
+	protected int segundosMaximos;
 	protected int frutasMaximas;
 
 	public TipoJuego() {
@@ -11,7 +11,6 @@ public class TipoJuego {
 	}
 
 	public boolean termina(int cantidadJugadores, int puntosMaximos, int segundos) {
-		System.out.println("tipo");
 		if (cantidadJugadores <= 1) {
 			return true;
 		}
@@ -31,10 +30,10 @@ public class TipoJuego {
 	}
 
 	public int getSegundos() {
-		return segundos;
+		return segundosMaximos;
 	}
 
 	public void setSegundos(int segundos) {
-		this.segundos = segundos;
+		this.segundosMaximos = segundos;
 	}
 }
