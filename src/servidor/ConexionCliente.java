@@ -26,7 +26,6 @@ public class ConexionCliente extends Thread {
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
 	private ObjectOutputStream salidaDatos;
-	Session sessionHibernate;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -41,7 +40,6 @@ public class ConexionCliente extends Thread {
 			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
 			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
 
-			this.sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -65,7 +63,7 @@ public class ConexionCliente extends Thread {
 					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
 					
-					usuario = UsuarioDAO.loguear(this.sessionHibernate, username, hashPassword);
+					usuario = UsuarioDAO.loguear(Servidor.getSessionHibernate(), username, hashPassword);
 					
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");
@@ -88,17 +86,17 @@ public class ConexionCliente extends Thread {
 					Transaction txReg = null;
 
 					try {
-						txReg = sessionHibernate.beginTransaction();
+						txReg = Servidor.getSessionHibernate().beginTransaction();
 						txReg.commit();
 
-						Query queryRegistrar = sessionHibernate
+						Query queryRegistrar = Servidor.getSessionHibernate()
 								.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
 
 						List<Usuario> userReg = queryRegistrar.getResultList();
 
 						if (userReg.isEmpty()) {
 							System.out.println("Usuario disponible");
-							sessionHibernate.createQuery("INSERT INTO Usuario (username,password) VALUES ('"
+							Servidor.getSessionHibernate().createQuery("INSERT INTO Usuario (username,password) VALUES ('"
 									+ usernameNew + "','" + hashPasswordNew + "')");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
@@ -112,7 +110,7 @@ public class ConexionCliente extends Thread {
 							txReg.rollback();
 						e.printStackTrace();
 					} finally {
-						sessionHibernate.close();
+						Servidor.getSessionHibernate().close();
 					}
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
