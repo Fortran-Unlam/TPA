@@ -5,25 +5,21 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.JsonObject;
 import javax.persistence.Query;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import cliente.ventana.VentanaMenu;
 import config.Param;
 import hibernateUtils.HibernateUtils;
-import looby.ManejadorSala;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.Usuario;
+import looby.UsuarioDAO;
 
 public class ConexionCliente extends Thread {
 
@@ -56,7 +52,8 @@ public class ConexionCliente extends Thread {
 		boolean conectado = true;
 
 		Sala sala = null;
-
+		Usuario usuario = null;
+		
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
@@ -67,37 +64,18 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_LOGUEAR:
 					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
+					
+					usuario = UsuarioDAO.loguear(this.sessionHibernate, username, hashPassword);
+					
+					if (usuario == null) {
+						System.out.println("Usuario y/o contrase�a incorrectos");
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, usuario));
+						return;
+					} else {
+						Servidor.usuariosActivos.add(usuario);
 
-					Transaction tx = null;
-
-					try {
-						tx = sessionHibernate.beginTransaction();
-						tx.commit();
-
-						Query queryLogueo = sessionHibernate.createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
-								+ "AND u.password = " + hashPassword);
-
-						List<Usuario> user = queryLogueo.getResultList();
-
-						if (user.isEmpty()) {
-							System.out.println("Usuario y/o contrase�a incorrectos");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, user.get(0)));
-							return;
-						} else {
-							// TODO: agregar todos los datos del usuario
-							Usuario usuario = new Usuario(username, hashPassword);
-							Servidor.usuariosActivos.add(usuario);
-
-							System.out.println("ACCESO OK!!!");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
-						}
-
-					} catch (HibernateException e) {
-						if (tx != null)
-							tx.rollback();
-						e.printStackTrace();
-					} finally {
-						sessionHibernate.close();
+						System.out.println("ACCESO OK!!!");
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					}
 
 					break;
@@ -144,7 +122,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_CREAR_SALA:
 
 					ArrayList data = ((ArrayList) message.getData());
-					Usuario usuario = (Usuario) data.get(2);
+					usuario = (Usuario) data.get(2);
 					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
 
 					Servidor.manejadorSala.agregarASalasActivas(sala);
