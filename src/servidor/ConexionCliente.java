@@ -60,10 +60,7 @@ public class ConexionCliente extends Thread {
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
-					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
-					
-					usuario = UsuarioDAO.loguear(username, hashPassword);
+					usuario = UsuarioDAO.loguear((String)((ArrayList) message.getData()).get(0), (String)((ArrayList) message.getData()).get(1));
 					
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");

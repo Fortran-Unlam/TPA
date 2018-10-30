@@ -18,15 +18,16 @@ public class UsuarioDAO {
 			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
 
-			Query queryLogueo = Servidor.getSessionHibernate().createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
-					+ "AND u.password = " + hashPassword);
+			Query queryLogueo = Servidor.getSessionHibernate()
+					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
+							+ hashPassword + "'");
 
 			List<Usuario> user = queryLogueo.getResultList();
 
 			if (user.isEmpty()) {
 				return null;
 			}
-			
+
 			// TODO: agregar todos los datos del usuario
 			return new Usuario(username, hashPassword);
 
@@ -37,7 +38,7 @@ public class UsuarioDAO {
 		} finally {
 			Servidor.getSessionHibernate().close();
 		}
-		
+
 		return null;
 	}
 }
