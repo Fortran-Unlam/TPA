@@ -45,7 +45,6 @@ public class ConexionCliente extends Thread {
 
 	@Override
 	public void run() {
-		JsonObject mensajeRecibido;
 		boolean conectado = true;
 
 		while (conectado) {
@@ -73,7 +72,7 @@ public class ConexionCliente extends Thread {
 						List<Usuario> user = queryLogueo.getResultList();
 
 						if (user.isEmpty()) {
-							System.out.println("Usuario y/o contraseña incorrectos");
+							System.out.println("Usuario y/o contraseï¿½a incorrectos");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, user.get(0)));
 							return;
 						} else {
@@ -90,10 +89,10 @@ public class ConexionCliente extends Thread {
 					}
 
 					break;
-					
+
 				case Param.REQUEST_REGISTRAR:
-					//logica para registrar nuevo usuario
-					
+					// logica para registrar nuevo usuario
+
 					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
 
@@ -104,17 +103,20 @@ public class ConexionCliente extends Thread {
 						txReg = sessionRegistrar.beginTransaction();
 						txReg.commit();
 
-						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
+						Query queryRegistrar = sessionRegistrar
+								.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
 
 						List<Usuario> userReg = queryRegistrar.getResultList();
-					
+
 						if (userReg.isEmpty()) {
 							System.out.println("Usuario disponible");
-							sessionRegistrar.createQuery("INSERT INTO Usuario (username,password) VALUES ('usernameNew','hashPasswordNew')");		
+							sessionRegistrar.createQuery("INSERT INTO Usuario (username,password) VALUES ('"
+									+ usernameNew + "','" + hashPasswordNew + "')");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
 							System.out.println("Usuario no disponilbe, debe ingresar otro usuario");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, userReg.get(0)));
+							this.salidaDatos
+									.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, userReg.get(0)));
 						}
 
 					} catch (HibernateException e) {
@@ -124,9 +126,9 @@ public class ConexionCliente extends Thread {
 					} finally {
 						sessionRegistrar.close();
 					}
-					
+
 					break;
-					
+
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
