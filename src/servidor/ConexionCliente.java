@@ -90,8 +90,7 @@ public class ConexionCliente extends Thread {
 					break;
 					
 				case Param.REQUEST_REGISTRAR:
-					//logica para regsitrar nuevo usuario
-					
+					//logica para registrar nuevo usuario
 					
 					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
