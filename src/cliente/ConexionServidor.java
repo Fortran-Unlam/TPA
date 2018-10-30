@@ -7,10 +7,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 
-import PasswordUtils.HashSalt;
+
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -45,12 +43,12 @@ public class ConexionServidor {
 		}
 	}
 
-	public void loguear(String username, HashSalt hsPassword) {
+	public void loguear(String username, String hashPassword) {
 		try {
 			System.err.println("antes envio loguear");
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
-			ret.add(hsPassword.toString());
+			ret.add(hashPassword);
 			salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 			System.out.println("envio loguear");
 		} catch (IOException ex) {
