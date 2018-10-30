@@ -84,8 +84,7 @@ public class Login extends JFrame {
 		//Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
 		
-		this.conexionServidor.loguear(this.username.getText(), hashPassword);
-		Usuario usuario = this.conexionServidor.recibirLogueo();
+		Usuario usuario = this.conexionServidor.loguear(this.username.getText(), hashPassword);
 		
 		if (usuario != null) {
 			EventQueue.invokeLater(new Runnable() {

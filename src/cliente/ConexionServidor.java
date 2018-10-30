@@ -19,69 +19,55 @@ public class ConexionServidor {
 	private Message message;
 	private Usuario usuario;
 
+	/**
+	 * A partir del socket prepara el stream de entrada y salida
+	 * 
+	 * @param socket
+	 */
 	public ConexionServidor(Socket socket) {
 		this.socket = socket;
 		try {
-			System.out.println("creando ObjectOutputStream");
 			this.salidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
-			System.out.println("creo ObjectOutputStream");
-		} catch (IOException ex) {
-			System.err.println("Error al crear el stream de salida : " + ex.getMessage());
-		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
-		}
 
-		try {
-			System.out.println("creando ObjectInputStream");
 			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			System.out.println("creo ObjectintputStream");
 		} catch (IOException ex) {
-			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+			System.err.println("Error al crear el stream: " + ex.getMessage());
 		} catch (NullPointerException ex) {
 			System.err.println("El socket no se creo correctamente. ");
 		}
 	}
 
-	public void loguear(String username, String hashPassword) {
+	/**
+	 * Envia peticion al servidor para loguear y espera la recepcion de la respuesta
+	 * 
+	 * @param username
+	 * @param hashPassword
+	 * 
+	 * @return Usuario null si no pudo loguear
+	 */
+	public Usuario loguear(String username, String hashPassword) {
 		try {
-			System.err.println("antes envio loguear");
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
-			System.out.println("envio loguear");
-		} catch (IOException ex) {
-			System.err.println("Error al intentar enviar un mensaje: " + ex.getMessage());
-		}
-	}
 
-	public Usuario recibirLogueo() throws IOException {
+			this.message = (Message) entradaDatos.readObject();
 
-		while (true) {
-			try {
-				this.message = (Message) entradaDatos.readObject();
-
-				switch (this.message.getType()) {
-				case Param.REQUEST_LOGUEO_CORRECTO:
-					this.usuario = (Usuario) message.getData();
-					return this.usuario;
-				case Param.REQUEST_LOGUEO_INCORRECTO:
-					System.out.println("no loguee");
-					return null;
-				default:
-					return null;
-				}
-
-			} catch (IOException ex) {
-				throw ex;
-			} catch (NullPointerException ex) {
-				System.err.println("El socket no se creo correctamente. ");
+			switch (this.message.getType()) {
+			case Param.REQUEST_LOGUEO_CORRECTO:
+				this.usuario = (Usuario) message.getData();
+				return this.usuario;
+			case Param.REQUEST_LOGUEO_INCORRECTO:
+				System.out.println("no loguee");
 				return null;
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			default:
+				return null;
 			}
+		} catch (Exception e) {
+			System.out.println("no pudo loguear " + e.getMessage());
 		}
+		return null;
 	}
 
 	/**
@@ -96,75 +82,62 @@ public class ConexionServidor {
 			System.out.println("envio");
 			this.salidaDatos.writeObject(message);
 
+			this.message = (Message) entradaDatos.readObject();
+			switch (this.message.getType()) {
+			case Param.REQUEST_GET_ALL_SALAS:
+				return (List<Sala>) this.message.getData();
+			default:
+				return null;
+			}
 		} catch (IOException ex) {
-			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+			System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
 			return null;
 		} catch (NullPointerException ex) {
 			System.err.println("El socket no se creo correctamente. ");
 			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		while (true) {
-			try {
-				this.message = (Message) entradaDatos.readObject();
-				switch (this.message.getType()) {
-				case Param.REQUEST_GET_ALL_SALAS:
-					return (List<Sala>) this.message.getData();
-				default:
-					return null;
-				}
-
-			} catch (IOException ex) {
-				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
-				return null;
-			} catch (NullPointerException ex) {
-				System.err.println("El socket no se creo correctamente. ");
-				return null;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		return null;
 	}
 
+	/**
+	 * Pide al servidor que cree una sala a partir de los datos y espera a que el
+	 * servidor responda
+	 * 
+	 * @param nombreSala
+	 * @param cantidadUsuariosMaximo
+	 * 
+	 * @return Sala, null si no la creo
+	 */
 	public Sala craerSala(String nombreSala, int cantidadUsuariosMaximo) {
 		try {
 			ArrayList data = new ArrayList<>();
 			data.add(nombreSala);
 			data.add(cantidadUsuariosMaximo);
 			data.add(this.usuario);
-			
+
 			this.message = new Message(Param.REQUEST_CREAR_SALA, data);
-			System.out.println("envio");
 			this.salidaDatos.writeObject(this.message);
 
-		} catch (IOException ex) {
-			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
-			return null;
-		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
-			return null;
-		}
-
-		while (true) {
-			try {
-				this.message = (Message) entradaDatos.readObject();
-				switch (this.message.getType()) {
+			this.message = (Message) entradaDatos.readObject();
+			switch (this.message.getType()) {
 				case Param.REQUEST_SALA_CREADA:
 					return (Sala) this.message.getData();
 				default:
 					return null;
-				}
-
-			} catch (IOException ex) {
-				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
-				return null;
-			} catch (NullPointerException ex) {
-				System.err.println("El socket no se creo correctamente. ");
-				return null;
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+
+		} catch (IOException ex) {
+			System.err.println("Error al leer del stream: " + ex.getMessage());
+			return null;
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return null;
 	}
 
 	public Usuario getUsuario() {

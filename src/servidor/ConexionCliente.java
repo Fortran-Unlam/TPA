@@ -30,6 +30,7 @@ public class ConexionCliente extends Thread {
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
 	private ObjectOutputStream salidaDatos;
+	Session sessionHibernate;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -43,6 +44,8 @@ public class ConexionCliente extends Thread {
 		try {
 			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
 			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
+
+			this.sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -51,27 +54,27 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		boolean conectado = true;
-		
+
 		Sala sala = null;
-		
+
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
 				Message message = (Message) this.entradaDatos.readObject();
 				System.out.println("El cliente solicita " + message.getType());
+
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
 					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
 
-					Session session = HibernateUtils.getSessionFactory().openSession();
 					Transaction tx = null;
 
 					try {
-						tx = session.beginTransaction();
+						tx = sessionHibernate.beginTransaction();
 						tx.commit();
 
-						Query queryLogueo = session.createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
+						Query queryLogueo = sessionHibernate.createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
 								+ "AND u.password = " + hashPassword);
 
 						List<Usuario> user = queryLogueo.getResultList();
@@ -84,7 +87,7 @@ public class ConexionCliente extends Thread {
 							// TODO: agregar todos los datos del usuario
 							Usuario usuario = new Usuario(username, hashPassword);
 							Servidor.usuariosActivos.add(usuario);
-							
+
 							System.out.println("ACCESO OK!!!");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
 						}
@@ -94,7 +97,7 @@ public class ConexionCliente extends Thread {
 							tx.rollback();
 						e.printStackTrace();
 					} finally {
-						session.close();
+						sessionHibernate.close();
 					}
 
 					break;
@@ -104,21 +107,20 @@ public class ConexionCliente extends Thread {
 					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
 
-					Session sessionRegistrar = HibernateUtils.getSessionFactory().openSession();
 					Transaction txReg = null;
 
 					try {
-						txReg = sessionRegistrar.beginTransaction();
+						txReg = sessionHibernate.beginTransaction();
 						txReg.commit();
 
-						Query queryRegistrar = sessionRegistrar
+						Query queryRegistrar = sessionHibernate
 								.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
 
 						List<Usuario> userReg = queryRegistrar.getResultList();
 
 						if (userReg.isEmpty()) {
 							System.out.println("Usuario disponible");
-							sessionRegistrar.createQuery("INSERT INTO Usuario (username,password) VALUES ('"
+							sessionHibernate.createQuery("INSERT INTO Usuario (username,password) VALUES ('"
 									+ usernameNew + "','" + hashPasswordNew + "')");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
@@ -132,7 +134,7 @@ public class ConexionCliente extends Thread {
 							txReg.rollback();
 						e.printStackTrace();
 					} finally {
-						sessionRegistrar.close();
+						sessionHibernate.close();
 					}
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
@@ -142,11 +144,11 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_CREAR_SALA:
 
 					ArrayList data = ((ArrayList) message.getData());
-					Usuario usuario = (Usuario)data.get(2);
-					sala = usuario.crearSala((String)data.get(0), (int)data.get(1));
-					
+					Usuario usuario = (Usuario) data.get(2);
+					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
+
 					Servidor.manejadorSala.agregarASalasActivas(sala);
-					
+
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
@@ -156,14 +158,15 @@ public class ConexionCliente extends Thread {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								// TODO: para empezar la partida hacer un metodo que llame a la sala y comience la partida
-//								sala.comenzarPartida();
+								// TODO: para empezar la partida hacer un metodo que llame a la sala y comience
+								// la partida
+								// sala.comenzarPartida();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
 					});
-										
+
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;
 				default:
