@@ -1,12 +1,15 @@
 package looby;
 
+import java.io.Serializable;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
 import config.Param;
 
+public class Usuario implements Serializable {
 
-public class Usuario {
+	private static final long serialVersionUID = -2637338189236421497L;
 	private int id;
 	private String username;
 	private String password;
@@ -22,10 +25,10 @@ public class Usuario {
 		this.username = usrName;
 		this.password = password;
 	}
-	
-	//Constructor necesario para el Hibernate
+
+	// Constructor necesario para el Hibernate
 	public Usuario() {
-	
+
 	}
 
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
@@ -148,6 +151,4 @@ public class Usuario {
 				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
 	}
 
-	
-	
 }

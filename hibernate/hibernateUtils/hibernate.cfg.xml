@@ -9,6 +9,6 @@
 			<property name="hibernate.connection.url">jdbc:sqlite:./DB/Usuarios.db</property>
 			<property name="hibernate.dialect">com.enigmabridge.hibernate.dialect.SQLiteDialect</property>
 			<property name="format_sql">true</property>
-			<mapping resource="looby/Usuario.hbm.xml"/>
+			<mapping resource="looby/usuario.hbm.xml"/>
 	 </session-factory>
 </hibernate-configuration>
