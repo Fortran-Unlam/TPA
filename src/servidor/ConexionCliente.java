@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,13 +106,14 @@ public class ConexionCliente extends Thread {
 
 						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
 
-						List<Usuario> user = queryRegistrar.getResultList();
-
-						if (user.isEmpty()) {
-							System.out.println("Usuario y/o contraseña incorrectos");
+						List<Usuario> userReg = queryRegistrar.getResultList();
+					
+						if (userReg.isEmpty()) {
+							System.out.println("Usuario disponible");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
-							System.out.println("ACCESO OK!!!");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
+							System.out.println("Usuario no disponilbe");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, userReg.get(0)));
 						}
 
 					} catch (HibernateException e) {
