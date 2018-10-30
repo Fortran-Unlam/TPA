@@ -25,8 +25,6 @@ public class ManejadorSala {
 		controlador.agregarASalasActivas(salaPrueba);
 		controlador.salasActivas.get(0).agregarUsuarioASala(usuarioPruebaInvitado.unirseASala());
 		
-		//salaPrueba.agregarPartida(usuarioPrueba);
-		
 		TipoJuego tipoJuego = new TipoJuego();
 		tipoJuego = new TipoJuegoFruta(tipoJuego);
 		tipoJuego = new TipoJuegoTiempo(tipoJuego);
@@ -35,6 +33,5 @@ public class ManejadorSala {
 		System.out.println(tipoJuego.termina(2, 3, 3));
 		
 		salaPrueba.crearPartida(1,tipoJuego);
-		salaPrueba.empezarPartida();
 	}
 }

@@ -1,48 +1,28 @@
 package looby;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import core.Jugador;
-
 public class Sala {
 	private String nombre;
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
+	private boolean salaLlena = false;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas;
-	private Usuario usuarioCreador;
-	private List<Partida> partidasJugadas = new ArrayList<>();
+	private List<Partida> partidasJugadas = new ArrayList<Partida>();
 	private List<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private Partida partidaActual;
+	private Usuario usuarioCreador;
 
 	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioCreador) {
 		this.nombre = nombreSala;
-		this.cantidadUsuarioActuales = 1;
+		this.cantidadUsuarioActuales++;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.usuarioCreador = usuarioCreador;
 		this.usuariosActivos.add(usuarioCreador);
-	}
-
-	public Sala(JsonObject jsonObject) {
-		this.nombre = jsonObject.get("nombreSala").toString();
-		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
-		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
-		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
-
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
@@ -51,31 +31,40 @@ public class Sala {
 			this.cantidadUsuarioActuales++;
 			return true;
 		}
+		this.salaLlena = true;
 		return false; // SALA LLENA
 	}
 
 	public boolean sacarUsuarioDeSala(Usuario usuario) { // VER TEMA SI SACAN AL ADMIN DE LA SALA
-
 		if (this.usuariosActivos.remove(usuario)) {
 			this.cantidadUsuarioActuales--;
 			return true;
 		}
+		if (this.salaLlena)
+			this.salaLlena = false;
 		return false;
 
 	}
 
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
-		if (partidaActual == null) {
+		if (partidaActual == null && this.cantidadUsuarioActuales > 1) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadDeRondasDePartida, tipo);
+			this.comenzarPartida();
 			return true;
 		}
-
-		return false;
-
+		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
 	}
 
-	public boolean partidaTerminada() {
+	public void comenzarPartida() {
+		if (this.partidaActual != null) {
+			this.partidaActual.empezarPartida();
+		}
+		this.partidasJugadas.add(this.partidaActual);
+		this.partidaActual = null;
+	}
+
+	public boolean partidaTerminada() { // VER DONDE PONER
 		if (this.partidaActual != null) {
 			this.partidasJugadas.add(this.partidaActual);
 			this.partidaActual = null;
@@ -83,12 +72,6 @@ public class Sala {
 		}
 
 		return false; // NO HAY PARTIDA ACTUAL
-	}
-
-	public void empezarPartida() {
-		if (this.partidaActual != null) {
-			this.partidaActual.empezarPartida();
-		}
 	}
 
 	public void stopPartida() {
@@ -99,12 +82,26 @@ public class Sala {
 		return this.usuarioCreador;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
 	public JsonObjectBuilder jsonify() {
 		return Json.createObjectBuilder().add("nombreSala", this.nombre)
 				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
 				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
 				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
+	}
 
+	public Sala(JsonObject jsonObject) {
+		this.nombre = jsonObject.get("nombreSala").toString();
+		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
+		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
+		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
 	}
 
 	@Override

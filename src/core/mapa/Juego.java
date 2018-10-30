@@ -1,71 +1,50 @@
 package core.mapa;
 
 import java.util.List;
-
 import javax.swing.JList;
-
 import core.Jugador;
 import core.Score;
 import looby.TipoJuego;
-import looby.TipoJuegoSupervivencia;
 
 public class Juego {
 
-	private List<Jugador> jugadores;
+	private List<Jugador> jugadoresEnJuego;
 	private Mapa mapa;
-	private JList jListScore;
+	// private JList jListScore;
 	private TipoJuego tipoJuego;
-	private boolean run = false;
+	private boolean juegoEnCurso = false;
 
 	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
-		this.jugadores = jugadores;
+		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
 		this.mapa = new MapaUno();
-
-		for (Jugador jugador : jugadores) {
+		for (Jugador jugador : this.jugadoresEnJuego) {
 			this.mapa.add(jugador);
 		}
-
-		this.jListScore = new JList<Jugador>();
+		// this.jListScore = new JList<Jugador>();
 		this.tipoJuego = tipoJuego;
 	}
 
-	public boolean add(Jugador jugador) {
-		System.out.println("NO DEBE LLEGAR");
-		if (!this.mapa.add(jugador)) {
-			System.out.println("No pudo agregar jugador");
-			return false;
-		}
-		this.jugadores.add(jugador);
-		return true;
-	}
-
-	/**
-	 * Verifica si puede empezar el juego
-	 * 
-	 * @return True si puede empezar, false si no
-	 */
 	public boolean puedeEmpezar() {
-		if (this.jugadores.size() > 1) {
+		if (this.jugadoresEnJuego.size() > 1) {
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * Le da comienzo a la ronda actualizando el mapa cada cierto tiempo
+	/*
+	 * COMIENZA EL JUEGO (RONDA) REFRESCANDO EL MAPA CADA CIERTO TIEMPO
 	 */
 	public void start() {
-		Score score = new Score();
-		score.add(this.mapa.getJugadores());
-		this.run = true;
+		// Score score = new Score();
+		// score.add(this.mapa.getJugadores());
+		this.juegoEnCurso = true;
 		try {
 			Thread.sleep(1000);
-			this.tipoJuego = new TipoJuego();
-			while (this.run && !this.tipoJuego.termina(this.mapa.jugadores.size(),100,10) ) {
+			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
+			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.jugadores.size(), 100, 10)) {
 				this.mapa.actualizar();
-				System.out.println("jugando");
-				this.jListScore.setModel(score.ScoreToModel());
-
+				System.out.println("J U G A N D O");
+				// this.jListScore.setModel(score.ScoreToModel());
 				Thread.sleep(150);
 			}
 		} catch (InterruptedException e) {
@@ -74,6 +53,6 @@ public class Juego {
 	}
 
 	public void stop() {
-		this.run = false;
+		this.juegoEnCurso = false;
 	}
 }

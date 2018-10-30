@@ -47,9 +47,9 @@ public class Mapa {
 	 * Agrega un jugador al mapa creando una vibora para ese jugador y estableciendo
 	 * su posicion
 	 * 
-	 * @param jugador
+	 * @param Jugador
 	 * 
-	 * @return True si lo agregar, False si no lo puede agregar.
+	 * @return true si lo agrega, false si no puede agregarlo
 	 */
 	public boolean add(final Jugador jugador) {
 		Vibora vibora = this.intentarCrearVibora();
@@ -58,7 +58,7 @@ public class Mapa {
 			this.jugadores.add(jugador);
 			return true;
 		}
-		return false;
+		return false; //RETONAR EXCEP PORQUE UN JUGADOR SE QUEDO SIN VIBORA
 	}
 
 	/**
@@ -209,16 +209,14 @@ public class Mapa {
 			Vibora vibora = this.jugadores.get(i).getVibora();
 			if (vibora.isDead()) {
 				this.jugadores.remove(i);
-				// despues de eliminar las viboras transformo sus cuerpos en fruta
+				// Despues de eliminar las viboras transformo sus cuerpos en fruta
 				for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 					this.add(new Fruta(cuerpo.getX(), cuerpo.getY()));
 				}
 			}
 		}
 
-		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que
-		// gana
-
+		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que gana
 	}
 
 	/**
