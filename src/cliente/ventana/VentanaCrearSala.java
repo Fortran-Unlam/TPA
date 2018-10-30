@@ -121,7 +121,7 @@ public class VentanaCrearSala extends JFrame {
 		Sala sala = this.conexionServidor.craerSala(this.nombreField.getText(),
 				Integer.valueOf(this.cantidadRondaField.getText()));
 		
-		new VentanaSala(this, sala, this.conexionServidor).setVisible(true);
+		new VentanaSala(this, sala).setVisible(true);
 
 	}
 }

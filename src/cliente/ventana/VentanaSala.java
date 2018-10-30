@@ -14,6 +14,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 import cliente.ConexionServidor;
+import cliente.Main;
 import config.Param;
 import looby.Sala;
 
@@ -27,13 +28,10 @@ public class VentanaSala extends JFrame {
 	//private VentanaUnirSala ventanaUnirSala;
 	private String nombreSala;
 	private Sala sala;
-	private ConexionServidor conexionServidor;
-
 		
-	public VentanaSala(JFrame ventanaPrevia, Sala sala, ConexionServidor conexionServidor) {
+	public VentanaSala(JFrame ventanaPrevia, Sala sala) {
 		this.ventanaPrevia = ventanaPrevia;
 		this.ventanaPrevia.setVisible(false);
-		this.conexionServidor = conexionServidor;
 		this.sala = sala;
 		this.nombreSala = sala.getNombre();
 		dibujarSala();
@@ -125,6 +123,6 @@ public class VentanaSala extends JFrame {
 	}
 	
 	protected void empezarJuego() {
-		this.conexionServidor.comenzarJuego(this.sala);
+		Main.getConexionServidor().comenzarJuego(this.sala);
 	}
 }

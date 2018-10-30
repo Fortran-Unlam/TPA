@@ -8,20 +8,29 @@ import config.Param;
 
 public class Main {
 
-	private Socket socket;
+	private static Socket socket;
+	private static ConexionServidor conexionServidor;
 
 	public Main() {
 		try {
-			this.socket = new Socket(Param.HOST, Param.PUERTO);
-			ConexionServidor cs = new ConexionServidor(this.socket);
+			socket = new Socket(Param.HOST, Param.PUERTO);
+			conexionServidor = new ConexionServidor(socket);
 
-			Login login = new Login(cs);
+			Login login = new Login(conexionServidor);
 			login.setVisible(true);
 			
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
 		}
 
+	}
+
+	public static ConexionServidor getConexionServidor() {
+		return conexionServidor;
+	}
+	
+	public static Socket getSocket() {
+		return socket;
 	}
 
 	public static void main(String[] args) {

@@ -1,15 +1,19 @@
 package core;
 
+import java.io.Serializable;
+
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 
-public abstract class Colisionador {
+public abstract class Colisionador implements Serializable {
+
+	private static final long serialVersionUID = -4900826847817515391L;
 
 	/**
 	 * Vibora colisiona con fruta
 	 * 
 	 * @param jugador Vibora que come fruta
-	 * @param fruta  La fruta a comer
+	 * @param fruta   La fruta a comer
 	 */
 	public static void colisionar(Jugador jugador, Fruta fruta) {
 		fruta.setFueComida();
@@ -51,8 +55,7 @@ public abstract class Colisionador {
 			}
 		}
 	}
-	
-	
+
 	public static void colisionar(Jugador jugador, Obstaculo obs) {
 		jugador.getVibora().matar();
 	}

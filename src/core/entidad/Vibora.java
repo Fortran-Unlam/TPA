@@ -3,6 +3,7 @@ package core.entidad;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -13,7 +14,7 @@ import config.Param;
 import config.Posicion;
 import core.Coordenada;
 
-public class Vibora extends JPanel {
+public class Vibora extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = -4700905402985527264L;
 	private String nombre;

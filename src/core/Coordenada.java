@@ -1,7 +1,10 @@
 package core;
 
-public class Coordenada {
+import java.io.Serializable;
 
+public class Coordenada implements Serializable {
+
+	private static final long serialVersionUID = -8552338515159103928L;
 	private int x;
 	private int y;
 

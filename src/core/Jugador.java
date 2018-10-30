@@ -1,10 +1,13 @@
 package core;
 
+import java.io.Serializable;
+
 import core.entidad.Vibora;
 import looby.Usuario;
 
-public class Jugador implements Comparable<Jugador> {
+public class Jugador implements Comparable<Jugador>, Serializable {
 
+	private static final long serialVersionUID = -1963732901425813952L;
 	private Vibora vibora;
 	private String nombre;
 	private int frutasComidasEnRonda;

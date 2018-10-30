@@ -1,12 +1,14 @@
 package core.mapa;
 
+import java.io.Serializable;
 import java.util.List;
 
 import core.Jugador;
 import looby.TipoJuego;
 
-public class Juego {
+public class Juego  implements Serializable {
 
+	private static final long serialVersionUID = -3765719165739391662L;
 	private List<Jugador> jugadoresEnJuego;
 	private Mapa mapa;
 	// private JList jListScore;

@@ -1,5 +1,6 @@
 package core.mapa;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -16,7 +17,9 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
 
-public class Mapa {
+public class Mapa implements Serializable {
+
+	private static final long serialVersionUID = -1620036966653910465L;
 
 	private Coordenada tamano;
 
@@ -58,7 +61,7 @@ public class Mapa {
 			this.jugadores.add(jugador);
 			return true;
 		}
-		return false; //RETONAR EXCEP PORQUE UN JUGADOR SE QUEDO SIN VIBORA
+		return false; // RETONAR EXCEP PORQUE UN JUGADOR SE QUEDO SIN VIBORA
 	}
 
 	/**
@@ -216,7 +219,8 @@ public class Mapa {
 			}
 		}
 
-		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que gana
+		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que
+		// gana
 	}
 
 	/**

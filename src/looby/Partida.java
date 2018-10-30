@@ -1,13 +1,16 @@
 package looby;
 
 import java.awt.EventQueue;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import core.Jugador;
 import core.mapa.Juego;
 
-public class Partida {
+public class Partida implements Serializable {
+
+	private static final long serialVersionUID = 5614028727088648640L;
 	int id;
 	private boolean PartidaEnCurso = false;
 	private List<Juego> rondasJugadas = new ArrayList<Juego>();
@@ -29,7 +32,7 @@ public class Partida {
 		// deberiamos decir que cuando termine el juego cree otro juego
 		for (int i = 0; i < this.cantidadDeRondasAJugar; i++) {
 			try {
-				System.out.println("Ronda " + (i+1));
+				System.out.println("Ronda " + (i + 1));
 				this.PartidaEnCurso = true;
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
 				this.comienzoDeJuego();
@@ -50,7 +53,7 @@ public class Partida {
 			this.rondaEnCurso = null;
 			return false;
 		}
-		//TODO: OJO al cambiar esto, hay que avisar cuando termina
+		// TODO: OJO al cambiar esto, hay que avisar cuando termina
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				rondaEnCurso.start();
@@ -68,7 +71,7 @@ public class Partida {
 		this.rondaEnCurso.stop();
 		this.rondaEnCurso = null;
 	}
-	
+
 	/*
 	 * public boolean agregarJugadoresAJuegoEnCurso() { // for (Jugador jugador :
 	 * this.jugadoresEnPartida) { Jugador jugador1 = this.jugadoresEnPartida.get(0);
