@@ -102,8 +102,7 @@ public class ConexionCliente extends Thread {
 						txReg = sessionRegistrar.beginTransaction();
 						txReg.commit();
 
-						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew
-								+ "AND u.password = " + hashPasswordNew);
+						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew);
 
 						List<Usuario> user = queryRegistrar.getResultList();
 
