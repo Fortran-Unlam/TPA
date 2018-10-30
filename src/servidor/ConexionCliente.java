@@ -1,5 +1,6 @@
 package servidor;
 
+import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,10 +17,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import cliente.ventana.VentanaMenu;
 import config.Param;
 import hibernateUtils.HibernateUtils;
 import looby.ManejadorSala;
 import looby.Sala;
+import looby.TipoJuego;
 import looby.Usuario;
 
 public class ConexionCliente extends Thread {
@@ -48,7 +51,9 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		boolean conectado = true;
-
+		
+		Sala sala = null;
+		
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
@@ -76,6 +81,10 @@ public class ConexionCliente extends Thread {
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, user.get(0)));
 							return;
 						} else {
+							// TODO: agregar todos los datos del usuario
+							Usuario usuario = new Usuario(username, hashPassword);
+							Servidor.usuariosActivos.add(usuario);
+							
 							System.out.println("ACCESO OK!!!");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
 						}
@@ -134,13 +143,29 @@ public class ConexionCliente extends Thread {
 
 					ArrayList data = ((ArrayList) message.getData());
 					Usuario usuario = (Usuario)data.get(2);
-					Sala sala = usuario.crearSala((String)data.get(0), (int)data.get(1));
+					sala = usuario.crearSala((String)data.get(0), (int)data.get(1));
 					
 					Servidor.manejadorSala.agregarASalasActivas(sala);
 					
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					break;
+				case Param.REQUEST_EMPEZAR_JUEGO:
 
+					sala = (Sala) message.getData();
+					sala.crearPartida(1, new TipoJuego());
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								// TODO: para empezar la partida hacer un metodo que llame a la sala y comience la partida
+//								sala.comenzarPartida();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+										
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
+					break;
 				default:
 					break;
 				}

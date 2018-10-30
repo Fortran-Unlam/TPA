@@ -18,7 +18,7 @@ import looby.Usuario;
 public class Servidor {
 
 	private static List<Sala> salasActivas = new ArrayList<>();
-	private static List<Usuario> usuariosActivos = new ArrayList<>();
+	public static List<Usuario> usuariosActivos = new ArrayList<>();
 	public static ManejadorSala manejadorSala = new ManejadorSala();
 	
 	public static void main(String[] args) {

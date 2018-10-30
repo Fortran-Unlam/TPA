@@ -72,9 +72,14 @@ public class VentanaSala extends JFrame {
 		btnCancelar.setBounds(213, 357, 168, 40);
 		getContentPane().add(btnCancelar);
 
-		JButton btnCrearPartida = new JButton("Empezar juego");
-		btnCrearPartida.setBounds(33, 357, 168, 40);
-		getContentPane().add(btnCrearPartida);
+		JButton btnEmpezarJuego = new JButton("Empezar juego");
+		btnEmpezarJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				empezarJuego();
+			}
+		});
+		btnEmpezarJuego.setBounds(33, 357, 168, 40);
+		getContentPane().add(btnEmpezarJuego);
 		
 		JLabel lblRondas = new JLabel("");
 		lblRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -111,5 +116,7 @@ public class VentanaSala extends JFrame {
 		
 	}
 	
-
+	protected void empezarJuego() {
+		
+	}
 }
