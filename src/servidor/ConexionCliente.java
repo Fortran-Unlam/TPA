@@ -63,7 +63,7 @@ public class ConexionCliente extends Thread {
 					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
 					
-					usuario = UsuarioDAO.loguear(Servidor.getSessionHibernate(), username, hashPassword);
+					usuario = UsuarioDAO.loguear(username, hashPassword);
 					
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");

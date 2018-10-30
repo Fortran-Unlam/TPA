@@ -5,19 +5,20 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import servidor.Servidor;
 
 public class UsuarioDAO {
 
-	public static Usuario loguear(Session sessionHibernate, String username, String hashPassword) {
+	public static Usuario loguear(String username, String hashPassword) {
 		Transaction tx = null;
 
 		try {
-			tx = sessionHibernate.beginTransaction();
+			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
 
-			Query queryLogueo = sessionHibernate.createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
+			Query queryLogueo = Servidor.getSessionHibernate().createQuery("SELECT u FROM Usuario u WHERE u.username = " + username
 					+ "AND u.password = " + hashPassword);
 
 			List<Usuario> user = queryLogueo.getResultList();
@@ -34,7 +35,7 @@ public class UsuarioDAO {
 				tx.rollback();
 			e.printStackTrace();
 		} finally {
-			sessionHibernate.close();
+			Servidor.getSessionHibernate().close();
 		}
 		
 		return null;
