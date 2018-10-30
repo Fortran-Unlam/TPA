@@ -110,6 +110,7 @@ public class ConexionCliente extends Thread {
 					
 						if (userReg.isEmpty()) {
 							System.out.println("Usuario disponible");
+							sessionRegistrar.createQuery("INSERT INTO Usuario (username,password) VALUES ('usernameNew','hashPasswordNew')");		
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, userReg.get(0)));
 						} else {
 							System.out.println("Usuario no disponilbe");
