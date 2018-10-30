@@ -25,22 +25,25 @@ public class Login extends JFrame {
 	public Login(ConexionServidor conexionServidor) {
 		this.conexionServidor = conexionServidor;
 
+		setTitle("Snake");
+		setResizable(false);
+		setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		JLabel usernameLabel = new JLabel("Nombre");
-		usernameLabel.setBounds(41, 50, 92, 14);
+		usernameLabel.setBounds(60, 64, 92, 14);
 		this.getContentPane().add(usernameLabel);
 
 		JLabel passwordLabel = new JLabel("Contrase\u00F1a");
-		passwordLabel.setBounds(41, 75, 92, 14);
+		passwordLabel.setBounds(60, 89, 92, 14);
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-		this.username.setBounds(143, 47, 86, 20);
+		this.username.setBounds(162, 61, 86, 20);
 		this.getContentPane().add(username);
 		this.username.setColumns(10);
 
 		this.password = new JTextField();
-		this.password.setBounds(143, 72, 86, 20);
+		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
 		this.password.setColumns(10);
 
@@ -50,15 +53,15 @@ public class Login extends JFrame {
 				iniciarSession();
 			}
 		});
-		btnCrearUsuario.setBounds(75, 103, 122, 23);
+		btnCrearUsuario.setBounds(96, 131, 122, 23);
 		this.getContentPane().add(btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
-		lblCrearUsuario.setBounds(75, 12, 122, 14);
+		lblCrearUsuario.setBounds(108, 25, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(0, 0, 286, 162);
+		this.setBounds(0, 0, 326, 230);
 		this.setLocationRelativeTo(null);
 	}
 
