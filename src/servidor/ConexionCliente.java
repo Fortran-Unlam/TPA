@@ -67,7 +67,7 @@ public class ConexionCliente extends Thread {
 						tx.commit();
 						
 						Query queryLogueo = session.createQuery(
-								"SELECT count(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
+								"SELECT COUNT(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
 						
 						int res = 0;
 						res = queryLogueo.getFirstResult();
