@@ -1,9 +1,8 @@
 package core.mapa;
 
 import java.util.List;
-import javax.swing.JList;
+
 import core.Jugador;
-import core.Score;
 import looby.TipoJuego;
 
 public class Juego {

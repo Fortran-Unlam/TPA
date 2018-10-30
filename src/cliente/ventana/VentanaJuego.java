@@ -25,7 +25,7 @@ public class VentanaJuego extends JFrame {
 
 	private JPanel contenedor;
 
-	private Mapa mapa;
+	public Mapa mapa;
 	private JLabel lblScore;
 	private JLabel lblVib;
 	private JLabel lblFrutas;

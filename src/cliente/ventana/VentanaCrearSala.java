@@ -100,7 +100,7 @@ public class VentanaCrearSala extends JFrame {
 		lblMapa.setBounds(86, 207, 165, 20);
 		contentPane.add(lblMapa);
 
-		JComboBox comboBox_1 = new JComboBox();
+		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
 		comboBox_1.setBounds(259, 207, 151, 25);
 		contentPane.add(comboBox_1);
 
@@ -120,6 +120,8 @@ public class VentanaCrearSala extends JFrame {
 		// Falta cantidad de usuarios
 		Sala sala = this.conexionServidor.craerSala(this.nombreField.getText(),
 				Integer.valueOf(this.cantidadRondaField.getText()));
+		System.out.println(sala);
+		//TODO: ver si el constructor de la ventana tiene que recibir la sala
 		new VentanaSala(this, this.nombreField.getText()).setVisible(true);
 
 	}
