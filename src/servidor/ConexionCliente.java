@@ -98,7 +98,7 @@ public class ConexionCliente extends Thread {
 					String usernameNew = "'" + ((ArrayList)message.getData()).get(0) + "'";
 					String passwordNew = "'" + ((ArrayList)message.getData()).get(1) + "'";
 
-					System.out.println(password);
+					System.out.println(passwordNew);
 					
 					Session sessionRegistrar = HibernateUtils.getSessionFactory().openSession();
 					Transaction txReg = null;
@@ -108,10 +108,10 @@ public class ConexionCliente extends Thread {
 						txReg.commit();
 						
 						Query queryRegistrar = sessionRegistrar.createQuery(
-								"SELECT COUNT(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
+								"SELECT COUNT(1) FROM Usuario WHERE username = " + username);
 						
 						int res = 0;
-						res = queryLogueo.getFirstResult();
+						res = queryRegistrar.getFirstResult();
 						
 						if(res == 0) {
 							System.out.println("Usuario y/o contraseña incorrectos");
