@@ -86,6 +86,43 @@ public class ConexionCliente extends Thread {
 					}
 
 					break;
+					
+				case Param.REQUEST_REGISTRAR:
+					//logica para regsitrar nuevo usuario
+					
+					
+					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
+					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
+
+					Session sessionRegistrar = HibernateUtils.getSessionFactory().openSession();
+					Transaction txReg = null;
+
+					try {
+						txReg = sessionRegistrar.beginTransaction();
+						txReg.commit();
+
+						Query queryLogueo = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew
+								+ "AND u.password = " + hashPasswordNew);
+
+						List<Usuario> user = queryLogueo.getResultList();
+
+						if (user.isEmpty()) {
+							System.out.println("Usuario y/o contraseña incorrectos");
+						} else {
+							System.out.println("ACCESO OK!!!");
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, user.get(0)));
+						}
+
+					} catch (HibernateException e) {
+						if (txReg != null)
+							txReg.rollback();
+						e.printStackTrace();
+					} finally {
+						sessionRegistrar.close();
+					}
+					
+					break;
+					
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
