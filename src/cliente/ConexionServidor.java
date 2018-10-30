@@ -58,7 +58,7 @@ public class ConexionServidor {
 		}
 	}
 
-	public Usuario recibirLogueo() {
+	public Usuario recibirLogueo() throws IOException {
 
 		while (true) {
 			try {
@@ -75,8 +75,7 @@ public class ConexionServidor {
 				}
 
 			} catch (IOException ex) {
-				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
-				return null;
+				throw ex;
 			} catch (NullPointerException ex) {
 				System.err.println("El socket no se creo correctamente. ");
 				return null;
@@ -95,7 +94,7 @@ public class ConexionServidor {
 	 */
 	public List<Sala> getAllSalas() throws ClassNotFoundException {
 		try {
-			message = new Message(Param.REQUEST_GET_ALL_SALAS, null);
+			message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
 			ObjectOutputStream salidaDatos = new ObjectOutputStream(socket.getOutputStream());
 			System.out.println("envio");
 			salidaDatos.writeObject(message);

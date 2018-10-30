@@ -86,8 +86,6 @@ public class ConexionCliente extends Thread {
 						session.close();
 					}
 
-					
-
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					break;

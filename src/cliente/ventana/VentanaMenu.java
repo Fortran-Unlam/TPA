@@ -119,7 +119,7 @@ public class VentanaMenu extends JFrame {
 		java.util.List<Sala> salas = this.conexionServidor.getAllSalas();
 		System.out.println(salas);
 		if (salas == null) {
-			return null;
+			return new String[0];
 		}
 		
 		String[] ret = new String[salas.size()];

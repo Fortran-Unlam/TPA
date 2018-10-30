@@ -3,6 +3,7 @@ package cliente.ventana.usuario;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,7 +51,12 @@ public class Login extends JFrame {
 		JButton btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				iniciarSession();
+				try {
+					iniciarSession();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnCrearUsuario.setBounds(96, 131, 122, 23);
@@ -69,9 +75,10 @@ public class Login extends JFrame {
 	 * Le dice al servidor que el usuario quiere loguearse. El servidor va a
 	 * responder en su debido tiempo y voy a crear un usuario el cual lo uso para
 	 * guardarlo y abro la ventana menu cuando este es distinto de null
+	 * @throws IOException 
 	 * 
 	 */
-	protected void iniciarSession() {
+	protected void iniciarSession() throws IOException {
 		HashSalt hsPassword = null;
 		try {
 			hsPassword = PasswordUtil.getHash(this.password.getText());
