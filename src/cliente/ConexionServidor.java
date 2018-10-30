@@ -1,66 +1,72 @@
 package cliente;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
 
+import PasswordUtils.HashSalt;
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
+import servidor.Message;
 
 public class ConexionServidor {
 	private Socket socket;
-	private DataOutputStream salidaDatos;
-	private DataInputStream entradaDatos;
+	private ObjectOutputStream salidaDatos;
+	private ObjectInputStream entradaDatos;
+	private Message message;
 
 	public ConexionServidor(Socket socket) {
 		this.socket = socket;
 		try {
-			this.salidaDatos = new DataOutputStream(this.socket.getOutputStream());
+			System.out.println("creando ObjectOutputStream");
+			this.salidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
+			System.out.println("creo ObjectOutputStream");
 		} catch (IOException ex) {
 			System.err.println("Error al crear el stream de salida : " + ex.getMessage());
 		} catch (NullPointerException ex) {
 			System.err.println("El socket no se creo correctamente. ");
 		}
+
+		try {
+			System.out.println("creando ObjectInputStream");
+			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
+			System.out.println("creo ObjectintputStream");
+		} catch (IOException ex) {
+			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+		}
 	}
 
-	public void loguear(String username, String password) {
+	public void loguear(String username, HashSalt hsPassword) {
 		try {
-			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEAR)
-					.add("username", username).add("password", password).build();
-			System.err.println("envio loguear");
-			salidaDatos.writeUTF(jsonObject.toString());
+			System.err.println("antes envio loguear");
+			ArrayList<String> ret = new ArrayList<String>();
+			ret.add(username);
+			ret.add(hsPassword.toString());
+			salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
+			System.out.println("envio loguear");
 		} catch (IOException ex) {
 			System.err.println("Error al intentar enviar un mensaje: " + ex.getMessage());
 		}
 	}
 
-	public Usuario recibirLogueo() {
-		try {
-			entradaDatos = new DataInputStream(socket.getInputStream());
-		} catch (IOException ex) {
-			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
-			return null;
-		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
-			return null;
-		}
+	public Usuario recibirLogueo() throws IOException {
 
 		while (true) {
 			try {
-				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
-				switch (mensajeRecibido.get("request").toString()) {
+				Message message = (Message) entradaDatos.readObject();
+
+				switch (message.getType()) {
 				case Param.REQUEST_LOGUEO_CORRECTO:
-					return new Usuario(mensajeRecibido);
+					return (Usuario) message.getData();
 				case Param.REQUEST_LOGUEO_INCORRECTO:
 					System.out.println("no loguee");
 					return null;
@@ -69,25 +75,30 @@ public class ConexionServidor {
 				}
 
 			} catch (IOException ex) {
-				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
-				return null;
+				throw ex;
 			} catch (NullPointerException ex) {
 				System.err.println("El socket no se creo correctamente. ");
 				return null;
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
 
 	/**
 	 * Pide las salas al servidor y espera a que este le responda
+	 * 
 	 * @return
+	 * @throws ClassNotFoundException
 	 */
-	public List<Sala> getAllSalas() {
+	public List<Sala> getAllSalas() throws ClassNotFoundException {
 		try {
-			entradaDatos = new DataInputStream(socket.getInputStream());
-			JsonObject jsonObject = Json.createObjectBuilder().add("request", Param.REQUEST_GET_ALL_SALAS).build();
-			salidaDatos.writeUTF(jsonObject.toString());
-			
+			message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
+			ObjectOutputStream salidaDatos = new ObjectOutputStream(socket.getOutputStream());
+			System.out.println("envio");
+			salidaDatos.writeObject(message);
+
 		} catch (IOException ex) {
 			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
 			return null;
@@ -98,18 +109,10 @@ public class ConexionServidor {
 
 		while (true) {
 			try {
-				JsonObject mensajeRecibido = Json.createReader(new StringReader(entradaDatos.readUTF())).readObject();
-				switch (mensajeRecibido.get("request").toString()) {
+				message = (Message) entradaDatos.readObject();
+				switch (message.getType()) {
 				case Param.REQUEST_GET_ALL_SALAS:
-					List<Sala> salas = new ArrayList<Sala>();
-					System.out.println(mensajeRecibido.get("salas").toString());
-					if (!mensajeRecibido.get("salas").toString().equals("[]")) {
-						JsonArrayBuilder arrayBuilder = (JsonArrayBuilder) mensajeRecibido.get("salas");
-						for (JsonValue jsonValue : arrayBuilder.build()) {
-							salas.add(new Sala((JsonObject)jsonValue));
-						}
-					}
-					return salas;
+					return (List<Sala>) message.getData();
 				default:
 					return null;
 				}
@@ -120,6 +123,8 @@ public class ConexionServidor {
 			} catch (NullPointerException ex) {
 				System.err.println("El socket no se creo correctamente. ");
 				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

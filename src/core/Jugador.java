@@ -27,7 +27,7 @@ public class Jugador implements Comparable<Jugador> {
 	 * @param nombre
 	 */
 	public Jugador(final Usuario usuario) {
-		this.nombre = usuario.getUsrName();
+		this.nombre = usuario.getUsername();
 		this.frutasComidasEnRonda = 0;
 	}
 

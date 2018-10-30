@@ -1,22 +1,27 @@
 package servidor;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
-import javax.json.Json;
 import javax.json.JsonObject;
+import javax.persistence.Query;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import config.Param;
+import hibernateUtils.HibernateUtils;
 import looby.Usuario;
 
 public class ConexionCliente extends Thread {
 
 	private Socket socket;
-	private DataInputStream entradaDatos;
-	private DataOutputStream salidaDatos;
+	private ObjectInputStream entradaDatos;
+	private ObjectOutputStream salidaDatos;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -28,8 +33,8 @@ public class ConexionCliente extends Thread {
 		this.socket = socket;
 
 		try {
-			this.entradaDatos = new DataInputStream(socket.getInputStream());
-			this.salidaDatos = new DataOutputStream(socket.getOutputStream());
+			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
+			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
@@ -43,16 +48,52 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				System.out.println("A la espera de un mensaje");
-				mensajeRecibido = Json.createReader(new StringReader(this.entradaDatos.readUTF())).readObject();
-				System.out.println("El cliente solicita " + mensajeRecibido.get("request"));
-				switch (mensajeRecibido.get("request").toString()) {
+				Message message = (Message) this.entradaDatos.readObject();
+				System.out.println("El cliente solicita " + message.getType());
+				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
 					// TODO: logica para loguear
+
+					String username = "'" + ((ArrayList)message.getData()).get(0) + "'";
+					String password = "'" + ((ArrayList)message.getData()).get(1) + "'";
+
+					System.out.println(password);
+					
+					Session session = HibernateUtils.getSessionFactory().openSession();
+					Transaction tx = null;
+
+					try {
+						tx = session.beginTransaction();
+						tx.commit();
+						
+						Query queryLogueo = session.createQuery(
+								"SELECT COUNT(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
+						
+						int res = 0;
+						res = queryLogueo.getFirstResult();
+						
+						if(res == 0) {
+							System.out.println("Usuario y/o contraseña incorrectos");
+							return;
+						}
+						else
+							System.out.println("ACCESO OK!!!");
+				
+						
+					} catch (HibernateException e) {
+						if (tx != null)
+							tx.rollback();
+						e.printStackTrace();
+					} finally {
+						session.close();
+					}
+
 					Usuario usuario = new Usuario(1, "a", "b", 0, 0, 0, 0, 0, 0);
-					this.salidaDatos.writeUTF(usuario.getUsuarioLogueado());
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
-					this.salidaDatos.writeUTF(Servidor.requestgetAllSalas());
+					System.out.println("envio las salas");
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
 				default:
 					break;
@@ -70,6 +111,9 @@ public class ConexionCliente extends Thread {
 					String mensajeError2 = "Error al cerrar los stream de entrada y salida :" + ex2.getMessage();
 					System.out.println(mensajeError2);
 				}
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 	}

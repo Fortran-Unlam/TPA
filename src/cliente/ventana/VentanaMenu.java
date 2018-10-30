@@ -114,9 +114,14 @@ public class VentanaMenu extends JFrame {
 		new VentanaCrearSala(this).setVisible(true);
 	}
 	
-	public String[] pedirSalas() {
+	public String[] pedirSalas() throws ClassNotFoundException {
+		System.out.println("va a pedir las salas");
 		java.util.List<Sala> salas = this.conexionServidor.getAllSalas();
 		System.out.println(salas);
+		if (salas == null) {
+			return new String[0];
+		}
+		
 		String[] ret = new String[salas.size()];
 		for (Iterator<Sala> iterator = salas.iterator(); iterator.hasNext();) {
 			Sala sala = (Sala) iterator.next();

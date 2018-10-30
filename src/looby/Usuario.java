@@ -1,11 +1,15 @@
 package looby;
 
+import java.io.Serializable;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
 import config.Param;
 
-public class Usuario {
+public class Usuario implements Serializable {
+
+	private static final long serialVersionUID = -2637338189236421497L;
 	private int id;
 	private String username;
 	private String password;
@@ -20,6 +24,11 @@ public class Usuario {
 	public Usuario(String usrName, String password) {
 		this.username = usrName;
 		this.password = password;
+	}
+
+	// Constructor necesario para el Hibernate
+	public Usuario() {
+
 	}
 
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
@@ -57,24 +66,76 @@ public class Usuario {
 		return this;
 	}
 
-	public int getIdUsuario() {
+	public int getId() {
 		return id;
 	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.id = idUsuario;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getUsrName() {
+	public String getUsername() {
 		return username;
 	}
 
-	public void setUsrName(String usrName) {
-		this.username = usrName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	
-	public boolean isEnSala() {
-		return enSala;
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+
+	public int getCantidadFrutaComida() {
+		return cantidadFrutaComida;
+	}
+
+	public void setCantidadFrutaComida(int cantidadFrutaComida) {
+		this.cantidadFrutaComida = cantidadFrutaComida;
+	}
+
+	public int getAsesinatos() {
+		return asesinatos;
+	}
+
+	public void setAsesinatos(int asesinatos) {
+		this.asesinatos = asesinatos;
+	}
+
+	public int getMuertes() {
+		return muertes;
+	}
+
+	public void setMuertes(int muertes) {
+		this.muertes = muertes;
+	}
+
+	public int getPartidasGanadas() {
+		return partidasGanadas;
+	}
+
+	public void setPartidasGanadas(int partidasGanadas) {
+		this.partidasGanadas = partidasGanadas;
+	}
+
+	public int getRondasGanadas() {
+		return rondasGanadas;
+	}
+
+	public void setRondasGanadas(int rondasGanadas) {
+		this.rondasGanadas = rondasGanadas;
 	}
 
 	public String getUsuarioLogueado() {
@@ -82,4 +143,12 @@ public class Usuario {
 				.add("username", this.username).add("password", this.password).build().toString();
 
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
+				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
+				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
+	}
+
 }
