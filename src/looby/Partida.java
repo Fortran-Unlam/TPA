@@ -1,5 +1,6 @@
 package looby;
 
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class Partida {
 	}
 
 	public void empezarPartida() {
+		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
+		// deberiamos decir que cuando termine el juego cree otro juego
 		for (int i = 0; i < this.cantidadDeRondasAJugar; i++) {
 			try {
 				System.out.println("Ronda " + (i+1));
@@ -47,7 +50,12 @@ public class Partida {
 			this.rondaEnCurso = null;
 			return false;
 		}
-		this.rondaEnCurso.start();
+		//TODO: OJO al cambiar esto, hay que avisar cuando termina
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				rondaEnCurso.start();
+			}
+		});
 		return true;
 	}
 

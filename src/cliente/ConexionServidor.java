@@ -123,10 +123,36 @@ public class ConexionServidor {
 
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
-				case Param.REQUEST_SALA_CREADA:
-					return (Sala) this.message.getData();
-				default:
-					return null;
+			case Param.REQUEST_SALA_CREADA:
+				return (Sala) this.message.getData();
+			default:
+				return null;
+			}
+
+		} catch (IOException ex) {
+			System.err.println("Error al leer del stream: " + ex.getMessage());
+			return null;
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Sala comenzarJuego(Sala sala) {
+		try {
+
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, sala);
+			this.salidaDatos.writeObject(this.message);
+
+			this.message = (Message) entradaDatos.readObject();
+			switch (this.message.getType()) {
+			case Param.REQUEST_JUEGO_EMPEZADO:
+				return (Sala) this.message.getData();
+			default:
+				return null;
 			}
 
 		} catch (IOException ex) {

@@ -59,12 +59,14 @@ public class Sala implements Serializable {
 		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
 	}
 
-	public void comenzarPartida() {
-		if (this.partidaActual != null) {
-			this.partidaActual.empezarPartida();
+	public boolean comenzarPartida() {
+		if (this.partidaActual == null) {
+			return false;
 		}
+		this.partidaActual.empezarPartida();
 		this.partidasJugadas.add(this.partidaActual);
 		this.partidaActual = null;
+		return true;
 	}
 
 	public void stopPartida() {

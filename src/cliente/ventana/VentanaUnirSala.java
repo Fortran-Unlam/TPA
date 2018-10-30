@@ -107,7 +107,7 @@ public class VentanaUnirSala extends JFrame {
 	}
 	
 	private void abrirVentanaSala(String salaSeleccionada) {
-		new VentanaSala(this,salaSeleccionada).setVisible(true);
+		new VentanaSala(this,null,null).setVisible(true);
 	}
 	
 }

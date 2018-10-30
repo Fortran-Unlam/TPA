@@ -120,9 +120,8 @@ public class VentanaCrearSala extends JFrame {
 		// Falta cantidad de usuarios
 		Sala sala = this.conexionServidor.craerSala(this.nombreField.getText(),
 				Integer.valueOf(this.cantidadRondaField.getText()));
-		System.out.println(sala);
-		//TODO: ver si el constructor de la ventana tiene que recibir la sala
-		new VentanaSala(this, this.nombreField.getText()).setVisible(true);
+		
+		new VentanaSala(this, sala, this.conexionServidor).setVisible(true);
 
 	}
 }

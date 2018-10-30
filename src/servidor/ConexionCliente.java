@@ -73,8 +73,8 @@ public class ConexionCliente extends Thread {
 
 					usuario = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
 							(String) ((ArrayList) message.getData()).get(1));
-					if (usuario == null ) {
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));						
+					if (usuario == null) {
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
 					} else {
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, usuario));
 					}
@@ -97,17 +97,7 @@ public class ConexionCliente extends Thread {
 
 					sala = (Sala) message.getData();
 					sala.crearPartida(1, new TipoJuego());
-					EventQueue.invokeLater(new Runnable() {
-						public void run() {
-							try {
-								// TODO: para empezar la partida hacer un metodo que llame a la sala y comience
-								// la partida
-								// sala.comenzarPartida();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					});
+					System.out.println(sala.comenzarPartida());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;

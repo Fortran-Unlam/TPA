@@ -1,18 +1,21 @@
 package cliente.ventana;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import cliente.ConexionServidor;
 import config.Param;
+import looby.Sala;
 
 public class VentanaSala extends JFrame {
 
@@ -23,11 +26,16 @@ public class VentanaSala extends JFrame {
 	private JFrame ventanaPrevia;
 	//private VentanaUnirSala ventanaUnirSala;
 	private String nombreSala;
+	private Sala sala;
+	private ConexionServidor conexionServidor;
+
 		
-	public VentanaSala(JFrame ventanaPrevia, String nombreSala) {
+	public VentanaSala(JFrame ventanaPrevia, Sala sala, ConexionServidor conexionServidor) {
 		this.ventanaPrevia = ventanaPrevia;
 		this.ventanaPrevia.setVisible(false);
-		this.nombreSala = nombreSala;
+		this.conexionServidor = conexionServidor;
+		this.sala = sala;
+		this.nombreSala = sala.getNombre();
 		dibujarSala();
 	}
 	
@@ -117,6 +125,6 @@ public class VentanaSala extends JFrame {
 	}
 	
 	protected void empezarJuego() {
-		
+		this.conexionServidor.comenzarJuego(this.sala);
 	}
 }
