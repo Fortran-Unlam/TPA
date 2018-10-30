@@ -76,6 +76,7 @@ public class ConexionServidor {
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
+	@SuppressWarnings("unchecked")
 	public List<Sala> getAllSalas() throws ClassNotFoundException {
 		try {
 			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
@@ -112,7 +113,7 @@ public class ConexionServidor {
 	 */
 	public Sala craerSala(String nombreSala, int cantidadUsuariosMaximo) {
 		try {
-			ArrayList data = new ArrayList<>();
+			ArrayList<Object> data = new ArrayList<>();
 			data.add(nombreSala);
 			data.add(cantidadUsuariosMaximo);
 			data.add(this.usuario);

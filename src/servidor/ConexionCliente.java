@@ -37,6 +37,7 @@ public class ConexionCliente extends Thread {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
 		boolean conectado = true;
