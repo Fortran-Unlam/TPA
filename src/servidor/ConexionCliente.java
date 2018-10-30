@@ -102,10 +102,10 @@ public class ConexionCliente extends Thread {
 						txReg = sessionRegistrar.beginTransaction();
 						txReg.commit();
 
-						Query queryLogueo = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew
+						Query queryRegistrar = sessionRegistrar.createQuery("SELECT u FROM Usuario u WHERE u.username = " + usernameNew
 								+ "AND u.password = " + hashPasswordNew);
 
-						List<Usuario> user = queryLogueo.getResultList();
+						List<Usuario> user = queryRegistrar.getResultList();
 
 						if (user.isEmpty()) {
 							System.out.println("Usuario y/o contraseña incorrectos");
