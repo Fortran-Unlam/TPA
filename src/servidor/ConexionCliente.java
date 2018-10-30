@@ -72,8 +72,10 @@ public class ConexionCliente extends Thread {
 						int res = 0;
 						res = queryLogueo.getFirstResult();
 						
-						if(res == 0)
+						if(res == 0) {
 							System.out.println("Usuario y/o contraseña incorrectos");
+							return;
+						}
 						else
 							System.out.println("ACCESO OK!!!");
 				
