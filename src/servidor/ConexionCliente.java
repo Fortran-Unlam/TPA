@@ -18,6 +18,8 @@ import org.hibernate.Transaction;
 
 import config.Param;
 import hibernateUtils.HibernateUtils;
+import looby.ManejadorSala;
+import looby.Sala;
 import looby.Usuario;
 
 public class ConexionCliente extends Thread {
@@ -54,8 +56,6 @@ public class ConexionCliente extends Thread {
 				System.out.println("El cliente solicita " + message.getType());
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					// TODO: logica para loguear
-
 					String username = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPassword = "'" + ((ArrayList) message.getData()).get(1) + "'";
 
@@ -90,8 +90,7 @@ public class ConexionCliente extends Thread {
 
 					break;
 
-				case Param.REQUEST_REGISTRAR:
-					// logica para registrar nuevo usuario
+				case Param.REQUEST_REGISTRAR_USUARIO:
 
 					String usernameNew = "'" + ((ArrayList) message.getData()).get(0) + "'";
 					String hashPasswordNew = "'" + ((ArrayList) message.getData()).get(1) + "'";
@@ -126,13 +125,22 @@ public class ConexionCliente extends Thread {
 					} finally {
 						sessionRegistrar.close();
 					}
-
 					break;
-
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
+				case Param.REQUEST_CREAR_SALA:
+
+					ArrayList data = ((ArrayList) message.getData());
+					Usuario usuario = (Usuario)data.get(2);
+					Sala sala = usuario.crearSala((String)data.get(0), (int)data.get(1));
+					
+					Servidor.manejadorSala.agregarASalasActivas(sala);
+					
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
+					break;
+
 				default:
 					break;
 				}

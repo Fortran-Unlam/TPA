@@ -30,8 +30,10 @@ public abstract class Param {
 	public static final String REQUEST_LOGUEO_CORRECTO = "logueoCorrecto";
 	public static final String REQUEST_LOGUEO_INCORRECTO = "logueoIncorrecto";
 	public static final String REQUEST_GET_ALL_SALAS = "getAllSalas";
-	public static final String REQUEST_REGISTRAR = "registrar";
+	public static final String REQUEST_REGISTRAR_USUARIO = "registrar";
 	public static final String REQUEST_REGISTRO_CORRECTO = "RegistroCorrecto";
 	public static final String REQUEST_REGISTRO_INCORRECTO = "RegistroIncorrecto";
+	public static final String REQUEST_CREAR_SALA = "CrearSala";
+	public static final String REQUEST_SALA_CREADA = "SalaCreada";
 	
 }

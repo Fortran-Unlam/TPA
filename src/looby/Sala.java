@@ -1,12 +1,15 @@
 package looby;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-public class Sala {
+public class Sala implements Serializable {
+
+	private static final long serialVersionUID = -3003995871552317389L;
 	private String nombre;
 	private boolean salaLlena = false;
 	private int cantidadUsuarioActuales;

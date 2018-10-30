@@ -31,6 +31,7 @@ public class VentanaMenu extends JFrame {
 	private JPanel contenedor;
 	private ConexionServidor conexionServidor;
 	private JList<String> jListSalas;
+	private JTextPane estadistica;
 
 	/**
 	 * Create the frame.
@@ -82,9 +83,9 @@ public class VentanaMenu extends JFrame {
 		lblTusEstadsticas.setBounds(10, 103, 145, 14);
 		contenedor.add(lblTusEstadsticas);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(10, 131, 476, 48);
-		contenedor.add(textPane);
+		estadistica = new JTextPane();
+		estadistica.setBounds(10, 131, 476, 48);
+		contenedor.add(estadistica);
 		
 		
 		jListSalas = new JList<String>();
@@ -93,6 +94,7 @@ public class VentanaMenu extends JFrame {
 		jListSalas.setBounds(10, 180, 100, 100);
 		jListSalas.setEnabled(true);
 		
+		// TODO: pasar esto a unir sala
 		contenedor.add(jListSalas);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -111,7 +113,7 @@ public class VentanaMenu extends JFrame {
 	}
 	
 	private void abrirVentanaCrearSala() {
-		new VentanaCrearSala(this).setVisible(true);
+		new VentanaCrearSala(this, this.conexionServidor).setVisible(true);
 	}
 	
 	public String[] pedirSalas() throws ClassNotFoundException {

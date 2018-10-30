@@ -11,6 +11,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
 import config.Param;
+import looby.ManejadorSala;
 import looby.Sala;
 import looby.Usuario;
 
@@ -18,6 +19,7 @@ public class Servidor {
 
 	private static List<Sala> salasActivas = new ArrayList<>();
 	private static List<Usuario> usuariosActivos = new ArrayList<>();
+	public static ManejadorSala manejadorSala = new ManejadorSala();
 	
 	public static void main(String[] args) {
 		

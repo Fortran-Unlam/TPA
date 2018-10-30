@@ -7,8 +7,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -19,6 +17,7 @@ public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
 	private Message message;
+	private Usuario usuario;
 
 	public ConexionServidor(Socket socket) {
 		this.socket = socket;
@@ -49,7 +48,7 @@ public class ConexionServidor {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
-			salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 			System.out.println("envio loguear");
 		} catch (IOException ex) {
 			System.err.println("Error al intentar enviar un mensaje: " + ex.getMessage());
@@ -60,11 +59,12 @@ public class ConexionServidor {
 
 		while (true) {
 			try {
-				Message message = (Message) entradaDatos.readObject();
+				this.message = (Message) entradaDatos.readObject();
 
-				switch (message.getType()) {
+				switch (this.message.getType()) {
 				case Param.REQUEST_LOGUEO_CORRECTO:
-					return (Usuario) message.getData();
+					this.usuario = (Usuario) message.getData();
+					return this.usuario;
 				case Param.REQUEST_LOGUEO_INCORRECTO:
 					System.out.println("no loguee");
 					return null;
@@ -92,10 +92,9 @@ public class ConexionServidor {
 	 */
 	public List<Sala> getAllSalas() throws ClassNotFoundException {
 		try {
-			message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
-			ObjectOutputStream salidaDatos = new ObjectOutputStream(socket.getOutputStream());
+			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
 			System.out.println("envio");
-			salidaDatos.writeObject(message);
+			this.salidaDatos.writeObject(message);
 
 		} catch (IOException ex) {
 			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
@@ -107,10 +106,10 @@ public class ConexionServidor {
 
 		while (true) {
 			try {
-				message = (Message) entradaDatos.readObject();
-				switch (message.getType()) {
+				this.message = (Message) entradaDatos.readObject();
+				switch (this.message.getType()) {
 				case Param.REQUEST_GET_ALL_SALAS:
-					return (List<Sala>) message.getData();
+					return (List<Sala>) this.message.getData();
 				default:
 					return null;
 				}
@@ -125,5 +124,54 @@ public class ConexionServidor {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public Sala craerSala(String nombreSala, int cantidadUsuariosMaximo) {
+		try {
+			ArrayList data = new ArrayList<>();
+			data.add(nombreSala);
+			data.add(cantidadUsuariosMaximo);
+			data.add(this.usuario);
+			
+			this.message = new Message(Param.REQUEST_CREAR_SALA, data);
+			System.out.println("envio");
+			this.salidaDatos.writeObject(this.message);
+
+		} catch (IOException ex) {
+			System.err.println("Error al crear el stream de entrada: " + ex.getMessage());
+			return null;
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+			return null;
+		}
+
+		while (true) {
+			try {
+				this.message = (Message) entradaDatos.readObject();
+				switch (this.message.getType()) {
+				case Param.REQUEST_SALA_CREADA:
+					return (Sala) this.message.getData();
+				default:
+					return null;
+				}
+
+			} catch (IOException ex) {
+				System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
+				return null;
+			} catch (NullPointerException ex) {
+				System.err.println("El socket no se creo correctamente. ");
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

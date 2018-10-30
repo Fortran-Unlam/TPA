@@ -3,7 +3,11 @@ package cliente.ventana;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import cliente.ConexionServidor;
 import config.Param;
+import looby.Sala;
+
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -18,12 +22,14 @@ public class VentanaCrearSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField txtNombre;
+	private JTextField cantidadRondaField;
+	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
 	public String nombreSala;
+	private ConexionServidor conexionServidor;
 	
-	public VentanaCrearSala(VentanaMenu ventanaMenu) {
+	public VentanaCrearSala(VentanaMenu ventanaMenu, ConexionServidor conexionServidor) {
+		this.conexionServidor = conexionServidor;
 		this.ventanaMenu = ventanaMenu;
 		this.ventanaMenu.setVisible(false);
 		
@@ -49,15 +55,18 @@ public class VentanaCrearSala extends JFrame {
 		lblTipoDeJugabilidad.setBounds(86, 163, 165, 33);
 		contentPane.add(lblTipoDeJugabilidad);
 		
-		JComboBox comboBox = new JComboBox();
+		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setBounds(259, 169, 151, 25);
+		comboBox.addItem("Supervivencia");
+		comboBox.addItem("Fruta");
+		comboBox.addItem("Tiempo");
 		contentPane.add(comboBox);
 		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				nombreSala = txtNombre.getText();
+				crearSala();
 				abrirVentanaSala();
 			}
 		});
@@ -74,11 +83,11 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textField.setBounds(259, 129, 40, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		cantidadRondaField = new JTextField();
+		cantidadRondaField.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cantidadRondaField.setBounds(259, 129, 40, 25);
+		contentPane.add(cantidadRondaField);
+		cantidadRondaField.setColumns(10);
 		
 		JLabel lblCreacionDeSala = new JLabel("Creacion de sala nueva");
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
@@ -101,13 +110,19 @@ public class VentanaCrearSala extends JFrame {
 		lblNewLabel.setBounds(86, 90, 175, 25);
 		contentPane.add(lblNewLabel);
 		
-		txtNombre = new JTextField();
-		txtNombre.setBounds(259, 90, 151, 25);
-		contentPane.add(txtNombre);
-		txtNombre.setColumns(10);
+		nombreField = new JTextField();
+		nombreField.setBounds(259, 90, 151, 25);
+		contentPane.add(nombreField);
+		nombreField.setColumns(10);
 		
 	}
 	
+	protected void crearSala() {
+		// Falta cantidad de usuarios
+		Sala sala = this.conexionServidor.craerSala(nombreField.getText(), Integer.valueOf(cantidadRondaField.getText()));
+		abrirVentanaSala();
+	}
+
 	private void abrirVentanaSala() {
 		new VentanaSala(this, nombreSala).setVisible(true);
 	}
