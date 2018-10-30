@@ -73,12 +73,12 @@ public class ConexionCliente extends Thread {
 						tx.commit();
 						
 						Query queryLogueo = session.createQuery(
-								"SELECT u FROM Usuario u WHERE u.username = " + username + "AND " + "u.password= " + password);
+								"SELECT count(1) FROM Usuario WHERE username = " + username + "AND password = " + password);
 						
-						int res =0;
+						int res = 0;
 						res = queryLogueo.getFirstResult();
 						
-						if(res ==0)
+						if(res == 0)
 							System.out.println("Usuario y/o contraseña incorrectos");
 						else
 							System.out.println("ACCESO OK!!!");
