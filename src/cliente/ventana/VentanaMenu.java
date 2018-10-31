@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import cliente.Main;
 import config.Param;
 import looby.Sala;
+import looby.Usuario;
 
 public class VentanaMenu extends JFrame {
 
@@ -25,11 +26,15 @@ public class VentanaMenu extends JFrame {
 	private JPanel contenedor;
 	private JList<String> jListSalas;
 	private JTextPane estadistica;
+	private Usuario usuario;
 
 	/**
 	 * Create the frame.
 	 */
 	public VentanaMenu() {
+		
+		usuario = Main.getConexionServidor().getUsuario();
+		
 		setTitle("Menu principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
@@ -60,9 +65,9 @@ public class VentanaMenu extends JFrame {
 		btnUnirSala.setBounds(167, 293, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contenedor.add(btnUnirSala);
 
-		JLabel lblBienvenidos = new JLabel("BIENVENIDOS !");
+		JLabel lblBienvenidos = new JLabel("Bienvenido/a: " + usuario.getUsername());
 		lblBienvenidos.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblBienvenidos.setBounds(158, 12, 138, 38);
+		lblBienvenidos.setBounds(141, 11, 258, 38);
 		contenedor.add(lblBienvenidos);
 
 		JLabel lblSnakeFortran = new JLabel("Snake - Fortran");
