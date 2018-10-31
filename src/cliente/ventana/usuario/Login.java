@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import cliente.ConexionServidor;
+import cliente.Main;
 import cliente.ventana.VentanaMenu;
 import looby.Usuario;
 
@@ -22,10 +22,8 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 6592698064274884489L;
 	private JTextField username;
 	private JTextField password;
-	private ConexionServidor conexionServidor;
 
-	public Login(ConexionServidor conexionServidor) {
-		this.conexionServidor = conexionServidor;
+	public Login() {
 
 		setTitle("Snake");
 		setResizable(false);
@@ -76,32 +74,33 @@ public class Login extends JFrame {
 	 * Le dice al servidor que el usuario quiere loguearse. El servidor va a
 	 * responder en su debido tiempo y voy a crear un usuario el cual lo uso para
 	 * guardarlo y abro la ventana menu cuando este es distinto de null
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 * 
 	 */
 	protected void iniciarSession() throws IOException {
 
-		//Calculo hash MD5
+		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-		
-		Usuario usuario = this.conexionServidor.loguear(this.username.getText(), hashPassword);
-		
+
+		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);
+
 		if (usuario != null) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
-						VentanaMenu frame = new VentanaMenu(conexionServidor);
+						VentanaMenu frame = new VentanaMenu();
 						frame.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
-			
+
 			this.dispose();
 		} else {
-			//TODO: mostrar mensaje de error en login
-			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login",
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }
