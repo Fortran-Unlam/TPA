@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
-import cliente.ConexionServidor;
 import cliente.Main;
 import config.Param;
 import looby.Sala;
@@ -124,7 +123,7 @@ public class VentanaSala extends JFrame {
 	
 	protected void empezarJuego() {
 		this.sala = Main.getConexionServidor().comenzarJuego(this.sala);
-		// TODO: ver por que tira null
+		
 		VentanaJuego ventanaJuego = new VentanaJuego(null, this.sala.getPartidaActual().getRondaEnCurso().getMapa());
 	}
 }

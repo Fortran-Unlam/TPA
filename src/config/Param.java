@@ -38,5 +38,6 @@ public abstract class Param {
 	
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";
+	public static final String REQUEST_MOSTRAR_MAPA = "MostrarMapa";
 	
 }

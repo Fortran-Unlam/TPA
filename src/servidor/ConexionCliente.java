@@ -95,9 +95,8 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_EMPEZAR_JUEGO:
 
 					sala = (Sala) message.getData();
-					System.out.println("agregarUsuarioASala " + sala.agregarUsuarioASala(new Usuario("j", "a").unirseASala()));
-					System.out.println("crearPartida " + sala.crearPartida(1, new TipoJuego()));
-//					System.out.println(sala.comenzarPartida());
+					System.out.println("agregarUsuarioASala " + sala.agregarUsuarioASala(new Usuario("j", "a")));
+					System.out.println("crearPartida " + sala.crearPartida(2, new TipoJuego()));
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;

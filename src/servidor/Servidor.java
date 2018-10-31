@@ -6,10 +6,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
-
 import org.hibernate.Session;
 
 import config.Param;
@@ -78,7 +74,7 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
-			conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, mapa));
+			conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
 		} catch (Exception e) {
 			System.out.println("no pudo enviar el mapa " + e.getMessage());
 		}

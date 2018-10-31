@@ -23,7 +23,7 @@ public class ManejadorSala {
 		controlador.agregarAUsuariosActivos(usuarioPruebaInvitado);
 		Sala salaPrueba = usuarioPruebaCreadorDeSala.crearSala("Sala 1", 4);
 		controlador.agregarASalasActivas(salaPrueba);
-		controlador.salasActivas.get(0).agregarUsuarioASala(usuarioPruebaInvitado.unirseASala());
+		controlador.salasActivas.get(0).agregarUsuarioASala(usuarioPruebaInvitado);
 		
 		TipoJuego tipoJuego = new TipoJuego();
 		tipoJuego = new TipoJuegoFruta(tipoJuego);

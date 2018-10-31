@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	boolean enSala = false;
+	private Sala sala;
 
 	public Usuario(String usrName, String password) {
 		this.username = usrName;
@@ -51,17 +51,20 @@ public class Usuario implements Serializable {
 	}
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
-		this.enSala = true;
-		return new Sala(nombreSala, cantDeUsrMaximos, this);
+		this.sala = new Sala(nombreSala, cantDeUsrMaximos, this);
+		return this.sala;
 	}
 
-	public Usuario unirseASala() {
-		this.enSala = true;
+	public Usuario unirseASala(Sala sala) {
+		this.sala = sala;
 		return this;
 	}
 
 	public Usuario salirDeSala() {
-		this.enSala = false;
+		if (this.sala != null) {
+			this.sala.quitarUsuario(this);
+			this.sala = null;
+		}
 		return this;
 	}
 

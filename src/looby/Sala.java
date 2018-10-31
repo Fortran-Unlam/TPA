@@ -33,6 +33,8 @@ public class Sala implements Serializable {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
 			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
+			
+			usuario.unirseASala(this);
 			return true;
 		}
 		this.salaLlena = true;
@@ -50,10 +52,19 @@ public class Sala implements Serializable {
 
 	}
 
-	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
+	/**
+	 * Crea la partida y la comienza
+	 * 
+	 * @param cantidadDeRondasDePartida
+	 * @param tipoJuego
+	 * 
+	 * @return
+	 */
+	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipoJuego) {
 		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
+			
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida, tipo);
+					cantidadDeRondasDePartida, tipoJuego);
 			this.comenzarPartida();
 			return true;
 		}
@@ -67,7 +78,6 @@ public class Sala implements Serializable {
 		}
 		this.partidaActual.empezarPartida();
 		this.partidasJugadas.add(this.partidaActual);
-		this.partidaActual = null;
 		return true;
 	}
 
@@ -108,5 +118,9 @@ public class Sala implements Serializable {
 	@Override
 	public String toString() {
 		return this.nombre;
+	}
+
+	public void quitarUsuario(Usuario usuarioOtro) {
+		this.usuariosActivos.remove(usuarioOtro);		
 	}
 }

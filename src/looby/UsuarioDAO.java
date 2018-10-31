@@ -20,7 +20,7 @@ public class UsuarioDAO {
 			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
 			
-			hashPassword = DigestUtils.md5Hex(hashPassword);
+//			hashPassword = DigestUtils.md5Hex(hashPassword);
 
 			Query queryLogueo = Servidor.getSessionHibernate()
 					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
