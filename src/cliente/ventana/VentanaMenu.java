@@ -52,7 +52,7 @@ public class VentanaMenu extends JFrame {
 			}
 		});
 
-		btnCrearSala.setBounds(167, 230, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnCrearSala.setBounds(166, 259, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contenedor.add(btnCrearSala);
 
 		JButton btnUnirSala = new JButton("Unirse a sala");
@@ -62,7 +62,7 @@ public class VentanaMenu extends JFrame {
 			}
 		});
 
-		btnUnirSala.setBounds(167, 293, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnUnirSala.setBounds(166, 310, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contenedor.add(btnUnirSala);
 
 		JLabel lblBienvenidos = new JLabel("Bienvenido/a: " + usuario.getUsername());
@@ -79,10 +79,30 @@ public class VentanaMenu extends JFrame {
 		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTusEstadsticas.setBounds(10, 103, 145, 14);
 		contenedor.add(lblTusEstadsticas);
-
-		estadistica = new JTextPane();
-		estadistica.setBounds(10, 131, 476, 48);
-		contenedor.add(estadistica);
+		
+		JLabel lblNewLabel = new JLabel("Puntaje hist\u00F3rico: " + usuario.getPuntos());
+		lblNewLabel.setBounds(20, 148, 135, 14);
+		contenedor.add(lblNewLabel);
+		
+		JLabel lblFrutasComidas = new JLabel("Frutas comidas: " + usuario.getCantidadFrutaComida());
+		lblFrutasComidas.setBounds(20, 173, 135, 14);
+		contenedor.add(lblFrutasComidas);
+		
+		JLabel lblAsesinatos = new JLabel("Asesinatos: " + usuario.getAsesinatos());
+		lblAsesinatos.setBounds(178, 148, 118, 14);
+		contenedor.add(lblAsesinatos);
+		
+		JLabel lblMuertes = new JLabel("Muertes: " + usuario.getMuertes());
+		lblMuertes.setBounds(178, 173, 118, 14);
+		contenedor.add(lblMuertes);
+		
+		JLabel lblTPartidasGanadas = new JLabel("T. Partidas Ganadas: " + usuario.getPartidasGanadas());
+		lblTPartidasGanadas.setBounds(318, 148, 150, 14);
+		contenedor.add(lblTPartidasGanadas);
+		
+		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
+		lblTRondasGanadas.setBounds(318, 173, 150, 14);
+		contenedor.add(lblTRondasGanadas);
 
 		jListSalas = new JList<String>();
 		jListSalas.setBackground(SystemColor.control);
