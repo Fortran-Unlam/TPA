@@ -54,7 +54,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_LOGUEAR:
 					usuario = UsuarioDAO.loguear((String) ((ArrayList) message.getData()).get(0),
 							(String) ((ArrayList) message.getData()).get(1));
-
+							
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, usuario));
