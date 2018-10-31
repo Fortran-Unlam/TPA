@@ -40,10 +40,6 @@ public class VentanaJuego extends JFrame {
 		super("Snake");
 		this.mapa = mapa;
 		
-		//this.juego = new Juego(jugadores, mapa, jListScore);
-		//this.juego = new Juego(jugadores, mapa);
-		
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_MAPA_WIDTH, Param.VENTANA_MAPA_HEIGHT);
 

@@ -11,6 +11,7 @@ public class Sala implements Serializable {
 
 	private static final long serialVersionUID = -3003995871552317389L;
 	private String nombre;
+
 	private boolean salaLlena = false;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
@@ -98,6 +99,10 @@ public class Sala implements Serializable {
 		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
 		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
 		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
+	}
+	
+	public Partida getPartidaActual() {
+		return partidaActual;
 	}
 
 	@Override

@@ -123,6 +123,8 @@ public class VentanaSala extends JFrame {
 	}
 	
 	protected void empezarJuego() {
-		Main.getConexionServidor().comenzarJuego(this.sala);
+		this.sala = Main.getConexionServidor().comenzarJuego(this.sala);
+		// TODO: ver por que tira null
+		VentanaJuego ventanaJuego = new VentanaJuego(null, this.sala.getPartidaActual().getRondaEnCurso().getMapa());
 	}
 }

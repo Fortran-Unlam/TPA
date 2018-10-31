@@ -12,6 +12,7 @@ public class Juego  implements Serializable {
 	private static final long serialVersionUID = -3765719165739391662L;
 	private List<Jugador> jugadoresEnJuego;
 	private Mapa mapa;
+
 	// private JList jListScore;
 	private TipoJuego tipoJuego;
 	private boolean juegoEnCurso = false;
@@ -57,5 +58,9 @@ public class Juego  implements Serializable {
 
 	public void stop() {
 		this.juegoEnCurso = false;
+	}
+	
+	public Mapa getMapa() {
+		return mapa;
 	}
 }
