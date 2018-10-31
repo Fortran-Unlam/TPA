@@ -45,20 +45,8 @@ public class VentanaCrearSala extends JFrame {
 
 		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
 		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCantidadDeRondas.setBounds(86, 126, 175, 33);
+		lblCantidadDeRondas.setBounds(66, 154, 175, 33);
 		contentPane.add(lblCantidadDeRondas);
-
-		JLabel lblTipoDeJugabilidad = new JLabel("Tipo de jugabilidad:");
-		lblTipoDeJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTipoDeJugabilidad.setBounds(86, 163, 165, 33);
-		contentPane.add(lblTipoDeJugabilidad);
-
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setBounds(259, 169, 151, 25);
-		comboBox.addItem("Supervivencia");
-		comboBox.addItem("Fruta");
-		comboBox.addItem("Tiempo");
-		contentPane.add(comboBox);
 
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
@@ -82,7 +70,7 @@ public class VentanaCrearSala extends JFrame {
 
 		cantidadRondaField = new JTextField();
 		cantidadRondaField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cantidadRondaField.setBounds(259, 129, 40, 25);
+		cantidadRondaField.setBounds(239, 157, 40, 25);
 		contentPane.add(cantidadRondaField);
 		cantidadRondaField.setColumns(10);
 
@@ -93,22 +81,13 @@ public class VentanaCrearSala extends JFrame {
 		lblCreacionDeSala.setBounds(56, 0, 384, 69);
 		contentPane.add(lblCreacionDeSala);
 
-		JLabel lblMapa = new JLabel("Mapa:");
-		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMapa.setBounds(86, 207, 165, 20);
-		contentPane.add(lblMapa);
-
-		JComboBox<Object> comboBox_1 = new JComboBox<Object>();
-		comboBox_1.setBounds(259, 207, 151, 25);
-		contentPane.add(comboBox_1);
-
 		JLabel lblNewLabel = new JLabel("Nombre de la sala:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(86, 90, 175, 25);
+		lblNewLabel.setBounds(66, 118, 175, 25);
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		nombreField.setBounds(259, 90, 151, 25);
+		nombreField.setBounds(239, 118, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
 
