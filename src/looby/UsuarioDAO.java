@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
@@ -18,6 +19,8 @@ public class UsuarioDAO {
 		try {
 			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
+			
+			hashPassword = DigestUtils.md5Hex(hashPassword);
 
 			Query queryLogueo = Servidor.getSessionHibernate()
 					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
