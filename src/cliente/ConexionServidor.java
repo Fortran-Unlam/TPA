@@ -72,6 +72,34 @@ public class ConexionServidor {
 		return null;
 	}
 
+	
+	public Usuario registrar(String username, String hashPassword) {
+		try {
+			ArrayList<String> ret = new ArrayList<String>();
+			ret.add(username);
+			ret.add(hashPassword);
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, ret));
+
+			this.message = (Message) entradaDatos.readObject();
+
+			switch (this.message.getType()) {
+			case Param.REQUEST_REGISTRO_CORRECTO:
+				this.usuario = (Usuario) message.getData();
+				return this.usuario;
+			case Param.REQUEST_REGISTRO_INCORRECTO:
+				return null;
+			default:
+				return null;
+			}
+		} catch (Exception e) {
+			System.out.println("no pudo registrar " + e.getMessage());
+		}
+		return null;
+	}
+	
+	
+	
+	
 	/**
 	 * Pide las salas al servidor y espera a que este le responda
 	 * 

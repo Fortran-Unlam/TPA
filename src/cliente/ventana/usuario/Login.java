@@ -76,12 +76,11 @@ public class Login extends JFrame {
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				registrarUsuario();
 			}
 		});
 		btnRegistrarse.setBounds(96, 165, 122, 23);
 		getContentPane().add(btnRegistrarse);
-		
-		btnRegistrarse.setEnabled(false);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
@@ -99,8 +98,7 @@ public class Login extends JFrame {
 	protected void iniciarSession() throws IOException {
 
 		// Calculo hash MD5
-		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-
+		String hashPassword = DigestUtils.md5Hex(this.password.getText());	
 		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);
 
 		if (usuario != null) {
@@ -121,4 +119,9 @@ public class Login extends JFrame {
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
+	
+	private void registrarUsuario() {
+		new Crear(this).setVisible(true);
+	}
+	
 }

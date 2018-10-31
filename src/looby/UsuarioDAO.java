@@ -1,9 +1,9 @@
 package looby;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Query;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -43,32 +43,27 @@ public class UsuarioDAO {
 
 		return null;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static Usuario registrar(String username, String hashPassword) {
 		Transaction txReg = null;
 
 		try {
 			txReg = Servidor.getSessionHibernate().beginTransaction();
-			txReg.commit();
 
-			Query queryRegistrar = Servidor.getSessionHibernate()
+			Query chequearDuplicado = Servidor.getSessionHibernate()
 					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "'");
 
-			List<Usuario> resultList = queryRegistrar.getResultList();
+			List<Usuario> resultList = chequearDuplicado.getResultList();
 
-			if (resultList.isEmpty()) {
-				System.out.println("Usuario disponible");
-				
-//				hashPassword = DigestUtils.md5Hex(hashPassword);
-				
-				Servidor.getSessionHibernate().createQuery("INSERT INTO Usuario (username,password) VALUES ('"
-						+ username + "','" + hashPassword + "')");
-				// TODO: agregar id
-				return new Usuario(username, hashPassword);
+			if (!resultList.isEmpty()) {
+				System.out.println("Ese nombre de usuario ya existe");
 			} else {
-				System.out.println("Usuario no disponilbe, debe ingresar otro usuario");
-				return null;
+				Usuario registrar = new Usuario(5, username, hashPassword, 0, 0, 0, 0, 0, 0);
+				Servidor.getSessionHibernate().save(registrar);
+				txReg.commit();
+				
+				return registrar;
 			}
 
 		} catch (HibernateException e) {
