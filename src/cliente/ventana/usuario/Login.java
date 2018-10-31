@@ -72,6 +72,14 @@ public class Login extends JFrame {
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
 		lblCrearUsuario.setBounds(108, 25, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
+		
+		JButton btnRegistrarse = new JButton("Registrarse");
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnRegistrarse.setBounds(96, 165, 122, 23);
+		getContentPane().add(btnRegistrarse);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
