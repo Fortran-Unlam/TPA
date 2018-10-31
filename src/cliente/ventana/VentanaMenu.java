@@ -96,7 +96,6 @@ public class VentanaMenu extends JFrame {
 				}
 			}
 		});
-		System.out.println("tendria que mostrar");
 	}
 
 	private void abrirVentanaUnirSala() {

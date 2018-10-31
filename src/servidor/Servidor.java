@@ -13,8 +13,8 @@ import javax.json.JsonObjectBuilder;
 import org.hibernate.Session;
 
 import config.Param;
+import core.mapa.Mapa;
 import hibernateUtils.HibernateUtils;
-import looby.ManejadorSala;
 import looby.Sala;
 import looby.Usuario;
 
@@ -22,8 +22,8 @@ public class Servidor {
 
 	private static List<Sala> salasActivas = new ArrayList<>();
 	public static List<Usuario> usuariosActivos = new ArrayList<>();
-	public static ManejadorSala manejadorSala = new ManejadorSala();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
+	private static ConexionCliente conexionCliente;
 
 	public static void main(String[] args) {
 
@@ -39,9 +39,9 @@ public class Servidor {
 
 				System.out.println("Cliente con la IP " + socket.getInetAddress().getHostAddress() + " conectado.");
 
-				ConexionCliente cc = new ConexionCliente(socket);
+				conexionCliente = new ConexionCliente(socket);
 
-				cc.start();
+				conexionCliente.start();
 
 			}
 		} catch (IOException ex) {
@@ -49,7 +49,7 @@ public class Servidor {
 		} finally {
 			try {
 				if (servidor != null) {
-					servidor.close();					
+					servidor.close();
 				}
 				if (socket != null) {
 					socket.close();
@@ -60,7 +60,7 @@ public class Servidor {
 		}
 	}
 
-	public boolean agregarASalasActivas(Sala sala) {
+	public static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
 
@@ -72,19 +72,16 @@ public class Servidor {
 		return Servidor.salasActivas;
 	}
 
-	public static String requestgetAllSalas() {
-		JsonObjectBuilder json = Json.createObjectBuilder().add("request", Param.REQUEST_GET_ALL_SALAS);
-		JsonArrayBuilder salas = Json.createArrayBuilder();
-		for (Sala sala : salasActivas) {
-			salas.add(sala.jsonify());
-		}
-		json.add("salas", salas);
-		return json.build().toString();
-
-	}
-	
 	public static Session getSessionHibernate() {
 		return sessionHibernate;
+	}
+
+	public static void actualizarMapa(Mapa mapa) {
+		try {
+			conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, mapa));
+		} catch (Exception e) {
+			System.out.println("no pudo enviar el mapa " + e.getMessage());
+		}
 	}
 
 }

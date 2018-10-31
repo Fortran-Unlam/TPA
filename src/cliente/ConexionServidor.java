@@ -80,7 +80,6 @@ public class ConexionServidor {
 	public List<Sala> getAllSalas() throws ClassNotFoundException {
 		try {
 			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
-			System.out.println("envio");
 			this.salidaDatos.writeObject(message);
 
 			this.message = (Message) entradaDatos.readObject();

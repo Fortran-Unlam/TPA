@@ -14,7 +14,7 @@ public class Sala implements Serializable {
 	private boolean salaLlena = false;
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
-	private int cantidadDePartidasJugadas;
+	private int cantidadDePartidasJugadas = 0;
 	private List<Partida> partidasJugadas = new ArrayList<Partida>();
 	private List<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private Partida partidaActual;
@@ -50,7 +50,7 @@ public class Sala implements Serializable {
 	}
 
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipo) {
-		if (partidaActual == null && this.cantidadUsuarioActuales > 1) {
+		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadDeRondasDePartida, tipo);
 			this.comenzarPartida();

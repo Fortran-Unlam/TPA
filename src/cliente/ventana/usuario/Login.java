@@ -43,6 +43,15 @@ public class Login extends JFrame {
 		this.username.setColumns(10);
 
 		this.password = new JTextField();
+		password.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					iniciarSession();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
 		this.password.setColumns(10);
@@ -53,7 +62,6 @@ public class Login extends JFrame {
 				try {
 					iniciarSession();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

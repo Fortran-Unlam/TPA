@@ -1,6 +1,5 @@
 package servidor;
 
-import java.awt.EventQueue;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,7 +16,7 @@ public class ConexionCliente extends Thread {
 
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
-	private ObjectOutputStream salidaDatos;
+	protected ObjectOutputStream salidaDatos;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -89,16 +88,16 @@ public class ConexionCliente extends Thread {
 					usuario = (Usuario) data.get(2);
 					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
 
-					Servidor.manejadorSala.agregarASalasActivas(sala);
+					Servidor.agregarASalasActivas(sala);
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 
 					sala = (Sala) message.getData();
-					sala.agregarUsuarioASala(new Usuario("j","a").unirseASala());
-					sala.crearPartida(1, new TipoJuego());
-					System.out.println(sala.comenzarPartida());
+					System.out.println("agregarUsuarioASala " + sala.agregarUsuarioASala(new Usuario("j", "a").unirseASala()));
+					System.out.println("crearPartida " + sala.crearPartida(1, new TipoJuego()));
+//					System.out.println(sala.comenzarPartida());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;
