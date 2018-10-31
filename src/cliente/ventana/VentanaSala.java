@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,10 +11,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Main;
 import config.Param;
 import looby.Sala;
+import javax.swing.JComboBox;
 
 public class VentanaSala extends JFrame {
 
@@ -64,18 +63,8 @@ public class VentanaSala extends JFrame {
 				dispose();
 			}
 		});
-		btnSalirDeSala.setBounds(399, 357, 162, 40);
+		btnSalirDeSala.setBounds(327, 357, 162, 40);
 		getContentPane().add(btnSalirDeSala);
-
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ventanaPrevia.setVisible(true);
-				dispose();
-			}
-		});
-		btnCancelar.setBounds(213, 357, 168, 40);
-		getContentPane().add(btnCancelar);
 
 		JButton btnEmpezarJuego = new JButton("Empezar juego");
 		btnEmpezarJuego.addActionListener(new ActionListener() {
@@ -83,8 +72,9 @@ public class VentanaSala extends JFrame {
 				empezarJuego();
 			}
 		});
-		btnEmpezarJuego.setBounds(33, 357, 168, 40);
+		btnEmpezarJuego.setBounds(110, 357, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
+		btnEmpezarJuego.setEnabled(false);
 		
 		JLabel lblRondas = new JLabel("");
 		lblRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -93,7 +83,7 @@ public class VentanaSala extends JFrame {
 		
 		this.listUsuarios = new JList<String>();
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		this.listUsuarios.setBounds(33, 83, 528, 169);
+		this.listUsuarios.setBounds(33, 83, 121, 215);
 		this.listUsuarios.setEnabled(false);
 		this.listUsuarios.setOpaque(false);
 		getContentPane().add(this.listUsuarios);
@@ -114,10 +104,44 @@ public class VentanaSala extends JFrame {
 		lblNewLabel.setBounds(249, 10, 69, 30);
 		getContentPane().add(lblNewLabel);
 		
-		JLabel lblJugabilidad = new JLabel("");
-		lblJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblJugabilidad.setBounds(327, 107, 155, 23);
-		getContentPane().add(lblJugabilidad);
+		JLabel label = new JLabel("Tipo de jugabilidad:");
+		label.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		label.setBounds(195, 90, 165, 33);
+		contentPane.add(label);
+		
+		JComboBox<String> tipoJugabilidad = new JComboBox<String>();
+		tipoJugabilidad.setBounds(368, 96, 151, 25);
+		tipoJugabilidad.addItem("Supervivencia");
+		tipoJugabilidad.addItem("Fruta");
+		tipoJugabilidad.addItem("Tiempo");
+		contentPane.add(tipoJugabilidad);
+		tipoJugabilidad.setEnabled(false);
+		
+		JLabel label_1 = new JLabel("Mapa:");
+		label_1.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		label_1.setBounds(195, 134, 165, 20);
+		contentPane.add(label_1);
+		
+		JComboBox<Object> mapa = new JComboBox<Object>();
+		mapa.setBounds(368, 134, 151, 25);
+		mapa.addItem("Mapa 1");
+		mapa.addItem("Mapa 2");
+		mapa.addItem("Mapa 3");
+		contentPane.add(mapa);
+		mapa.setEnabled(false);
+		
+		/*Visibilidad unica para el admin
+		 * 
+		 * Seleccionar tipo de jugabilidad
+		 * Seleccionar mapaa jugar
+		 * Empezar el juego
+		 * 
+		 */
+		if(sala.getAdministrador().getId() == (Main.getConexionServidor().getUsuario().getId())) {
+			tipoJugabilidad.setEnabled(true);
+			mapa.setEnabled(true);
+			btnEmpezarJuego.setEnabled(true);
+		}
 		
 	}
 	
