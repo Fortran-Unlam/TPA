@@ -74,9 +74,11 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
-			conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+			if (conexionCliente != null && conexionCliente.salidaDatos != null) {
+				conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+			}
 		} catch (Exception e) {
-			System.out.println("no pudo enviar el mapa " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

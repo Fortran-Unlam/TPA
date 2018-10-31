@@ -7,7 +7,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import cliente.ventana.VentanaJuego;
 import config.Param;
+import core.mapa.Mapa;
 import looby.Sala;
 import looby.Usuario;
 import servidor.Message;
@@ -164,6 +166,26 @@ public class ConexionServidor {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void recibirMapa(VentanaJuego juego) {
+		try {
+			while (true) {
+				this.message = (Message) entradaDatos.readObject();
+				switch (this.message.getType()) {
+				case Param.REQUEST_MOSTRAR_MAPA:
+					juego.dibujarMapa((Mapa) this.message.getData());
+				default:
+				}
+			}
+
+		} catch (IOException ex) {
+			System.err.println("Error al leer del stream: " + ex.getMessage());
+		} catch (NullPointerException ex) {
+			System.err.println("El socket no se creo correctamente. ");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Usuario getUsuario() {

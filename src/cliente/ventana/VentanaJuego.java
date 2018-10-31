@@ -1,11 +1,13 @@
 package cliente.ventana;
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,9 +15,13 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import cliente.Main;
 import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
+import core.Obstaculo;
+import core.entidad.Fruta;
+import core.entidad.Vibora;
 import core.mapa.Juego;
 import core.mapa.Mapa;
 
@@ -35,11 +41,12 @@ public class VentanaJuego extends JFrame {
 	private JButton button;
 	private Juego juego;
 	private JPanel panelMapa;
-	
-	public VentanaJuego(List<Jugador> jugadores, Mapa mapa) {
+	private VentanaJuego ventanaJuego = this;
+
+	public VentanaJuego(Juego juego) {
 		super("Snake");
-		this.mapa = mapa;
-		
+		this.juego = juego;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_MAPA_WIDTH, Param.VENTANA_MAPA_HEIGHT);
 
@@ -77,11 +84,11 @@ public class VentanaJuego extends JFrame {
 		contenedor.add(lblFrutas);
 
 //		contenedor().add(mapa);
-		
+
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//stop();
+				// stop();
 			}
 		});
 		btnNewButton.setBounds(0, 312, 100, 25);
@@ -95,7 +102,7 @@ public class VentanaJuego extends JFrame {
 		});
 		button.setBounds(0, 350, 100, 25);
 		contenedor.add(button);
-		
+
 		panelMapa = new JPanel();
 		panelMapa.setBounds(Param.VENTANA_MAPA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		contenedor.add(panelMapa);
@@ -103,7 +110,42 @@ public class VentanaJuego extends JFrame {
 		addKeyListener(GestorInput.teclado);
 		setFocusable(true);
 		setVisible(true);
+
+		// this.juego.start(); //EMPIEZA EL JUEGO!!!
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				Main.getConexionServidor().recibirMapa(ventanaJuego);
+			}
+		});
+	}
+
+	public void dibujarMapa(Mapa mapa) {
+		this.add(mapa);
+		this.mapa = mapa;
 		
-		this.juego.start();  //EMPIEZA EL JUEGO!!!
+		paint(getGraphics());
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLACK);
+		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		if (this.mapa != null) {
+			
+			System.out.println("dibujando mapa");
+			for (Fruta fruta : this.mapa.frutas) {
+				fruta.paint(g2d);
+			}
+			
+			for (Jugador jugador: this.mapa.jugadores) {
+				jugador.getVibora().paint(g2d);
+			}
+			
+			for (Obstaculo obstaculo : this.mapa.obstaculos) {
+				obstaculo.paint(g2d);
+			}
+		}
 	}
 }

@@ -1,9 +1,14 @@
 package core.mapa;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+
+import javax.swing.JPanel;
 
 import config.Param;
 import config.Posicion;
@@ -17,15 +22,15 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
 
-public class Mapa implements Serializable {
+public class Mapa extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = -1620036966653910465L;
 
 	private Coordenada tamano;
 
-	protected ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-	private ArrayList<Fruta> frutas = new ArrayList<>();
-	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
+	public ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+	public ArrayList<Fruta> frutas = new ArrayList<>();
+	public ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
 
 	private Fruta[][] posicionesDeFrutas;
@@ -35,6 +40,8 @@ public class Mapa implements Serializable {
 	private boolean cambioEnFrutas;
 	private boolean cambioEnVibora;
 	private boolean cambioEnObstaculos;
+
+	public Object viboras;
 
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.

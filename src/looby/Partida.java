@@ -16,10 +16,6 @@ public class Partida implements Serializable {
 	private List<Juego> rondasJugadas = new ArrayList<Juego>();
 	private List<Jugador> jugadoresEnPartida = new ArrayList<Jugador>();
 	private Juego rondaEnCurso;
-	public Juego getRondaEnCurso() {
-		return rondaEnCurso;
-	}
-
 	private TipoJuego tipoDeJuegoDeLaPartida;
 	private int cantidadDeRondasAJugar;
 	private int numeroRonda = 0;
@@ -76,4 +72,8 @@ public class Partida implements Serializable {
 		this.rondaEnCurso = null;
 	}
 
+	public Juego getRondaEnCurso() {
+		return rondaEnCurso;
+	}
 }
+

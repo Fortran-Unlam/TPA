@@ -46,6 +46,7 @@ public class Juego  implements Serializable {
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
 			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.jugadores.size(), 100, 10)) {
 				this.mapa.actualizar();
+				
 				Servidor.actualizarMapa(this.mapa);
 				System.out.println("J U G A N D O");
 				// this.jListScore.setModel(score.ScoreToModel());

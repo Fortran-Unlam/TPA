@@ -124,6 +124,6 @@ public class VentanaSala extends JFrame {
 	protected void empezarJuego() {
 		this.sala = Main.getConexionServidor().comenzarJuego(this.sala);
 		
-		VentanaJuego ventanaJuego = new VentanaJuego(null, this.sala.getPartidaActual().getRondaEnCurso().getMapa());
+		VentanaJuego ventanaJuego = new VentanaJuego(this.sala.getPartidaActual().getRondaEnCurso());
 	}
 }
