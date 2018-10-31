@@ -19,8 +19,6 @@ public class UsuarioDAO {
 		try {
 			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
-			
-//			hashPassword = DigestUtils.md5Hex(hashPassword);
 
 			Query queryLogueo = Servidor.getSessionHibernate()
 					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
@@ -61,6 +59,8 @@ public class UsuarioDAO {
 
 			if (resultList.isEmpty()) {
 				System.out.println("Usuario disponible");
+				
+//				hashPassword = DigestUtils.md5Hex(hashPassword);
 				
 				Servidor.getSessionHibernate().createQuery("INSERT INTO Usuario (username,password) VALUES ('"
 						+ username + "','" + hashPassword + "')");

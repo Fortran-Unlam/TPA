@@ -80,6 +80,8 @@ public class Login extends JFrame {
 		});
 		btnRegistrarse.setBounds(96, 165, 122, 23);
 		getContentPane().add(btnRegistrarse);
+		
+		btnRegistrarse.setEnabled(false);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
