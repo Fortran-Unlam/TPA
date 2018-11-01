@@ -12,6 +12,7 @@ import config.Posicion;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.Usuario;
+import looby.UsuarioBot;
 import looby.UsuarioDAO;
 
 public class ConexionCliente extends Thread {
@@ -94,7 +95,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_EMPEZAR_JUEGO:
 
 					sala = (Sala) message.getData();
-					sala.agregarUsuarioASala(new Usuario("j", "a"));
+					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
 					sala.crearPartida(2, new TipoJuego());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));

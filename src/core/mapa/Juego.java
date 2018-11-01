@@ -1,10 +1,10 @@
 package core.mapa;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import core.Jugador;
+import core.JugadorBot;
 import looby.TipoJuego;
 import servidor.Servidor;
 
@@ -22,7 +22,7 @@ public class Juego  implements Serializable {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
 		this.mapa = new MapaUno();
 		for (Jugador jugador : this.jugadoresEnJuego) {
-			this.mapa.add(jugador);
+			this.mapa.add(jugador, jugador instanceof JugadorBot);
 		}
 		// this.jListScore = new JList<Jugador>();
 		this.tipoJuego = tipoJuego;

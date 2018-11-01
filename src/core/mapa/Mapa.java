@@ -1,14 +1,9 @@
 package core.mapa;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
-
-import javax.swing.JPanel;
 
 import config.Param;
 import config.Posicion;
@@ -21,6 +16,7 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
 import core.entidad.Vibora;
+import core.entidad.ViboraBot;
 
 public class Mapa implements Serializable {
 
@@ -61,8 +57,9 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return true si lo agrega, false si no puede agregarlo
 	 */
-	public boolean add(final Jugador jugador) {
-		Vibora vibora = this.intentarCrearVibora();
+	public boolean add(final Jugador jugador, boolean bot) {
+		Vibora vibora = this.intentarCrearVibora(bot);
+		
 		if (vibora != null) {
 			jugador.setVibora(vibora);
 			this.jugadores.add(jugador);
@@ -103,13 +100,18 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return Si no puede return null
 	 */
-	public Vibora intentarCrearVibora() {
+	public Vibora intentarCrearVibora(boolean bot) {
 		Vibora vibora = null;
 		Random random = new Random();
 
 		for (int intento = 0; intento < 20; intento++) {
-			vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
-					Posicion.ESTE);
+			if (bot) {
+				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
+						Posicion.ESTE);
+			} else {
+				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+			}
+			
 			if (this.add(vibora)) {
 				return vibora;
 			}

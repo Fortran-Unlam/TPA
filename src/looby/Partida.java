@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.Jugador;
+import core.JugadorBot;
 import core.mapa.Juego;
 
 public class Partida implements Serializable {
@@ -22,8 +23,12 @@ public class Partida implements Serializable {
 
 	public Partida(int id, List<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo) {
 		this.id = id;
-		for (Usuario usr : usuariosActivosEnSala) {
-			this.jugadoresEnPartida.add(new Jugador(usr));
+		for (Usuario usuario : usuariosActivosEnSala) {
+			if (usuario instanceof UsuarioBot) {
+				this.jugadoresEnPartida.add(new JugadorBot(usuario));
+			} else {
+				this.jugadoresEnPartida.add(new Jugador(usuario));				
+			}
 		}
 		this.cantidadDeRondasAJugar = cantidadDeRondasDePartida;
 		this.tipoDeJuegoDeLaPartida = tipo;
