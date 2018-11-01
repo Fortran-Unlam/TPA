@@ -1,22 +1,16 @@
 package core.entidad;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 
-import javax.swing.JPanel;
-
-import config.Param;
 import core.Coordenada;
 
-public class Fruta extends JPanel implements Serializable {
+public class Fruta implements Serializable {
 
 	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
 	private boolean fueComida = false;
 
- 	public Fruta(Coordenada ubicacion) {
+	public Fruta(Coordenada ubicacion) {
 		this.coordenada = ubicacion;
 	}
 
@@ -42,12 +36,5 @@ public class Fruta extends JPanel implements Serializable {
 
 	public boolean getFueComida() {
 		return this.fueComida;
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.RED);
-		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 	}
 }

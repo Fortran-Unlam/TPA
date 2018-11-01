@@ -119,7 +119,22 @@ public class VentanaJuego extends JFrame {
 		this.mapa = mapa;
 
 		if (this.mapa != null) {
-			this.mapa.paint(this.panelMapa.getGraphics());
+			Graphics2D g2d = (Graphics2D) this.panelMapa.getGraphics();
+			g2d.setColor(Color.BLACK);
+			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+			
+			for (Fruta fruta : this.mapa.frutas) {
+				g2d.setColor(Color.RED);
+				g2d.fillRect(fruta.getX() * Param.PIXEL_RESIZE, fruta.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+			}
+			
+			for (Jugador jugador : this.mapa.jugadores) {
+				jugador.getVibora().paint(g2d);
+			}
+			
+			for (Obstaculo obstaculo : this.mapa.obstaculos) {
+				obstaculo.paint(g2d);
+			}
 		}
 	}
 }

@@ -22,7 +22,7 @@ import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Vibora;
 
-public class Mapa extends JPanel implements Serializable {
+public class Mapa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -364,25 +364,5 @@ public class Mapa extends JPanel implements Serializable {
 
 	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-
-		for (Fruta fruta : this.frutas) {
-			fruta.paint(g2d);
-		}
-
-		for (Jugador jugador : this.jugadores) {
-			jugador.getVibora().paint(g2d);
-		}
-
-		for (Obstaculo obstaculo : this.obstaculos) {
-			obstaculo.paint(g2d);
-		}
 	}
 }
