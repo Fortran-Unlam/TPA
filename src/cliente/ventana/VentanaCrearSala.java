@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import cliente.Main;
 import config.Param;
 import looby.Sala;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaCrearSala extends JFrame {
 
@@ -47,6 +49,14 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblCantidadDeRondas);
 
 		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					crearSala();
+				}
+			}
+		});
 		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -71,6 +81,11 @@ public class VentanaCrearSala extends JFrame {
 		cantidadRondaField.setBounds(239, 157, 40, 25);
 		contentPane.add(cantidadRondaField);
 		cantidadRondaField.setColumns(10);
+		cantidadRondaField.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				crearSala();
+			}
+		});
 
 		JLabel lblCreacionDeSala = new JLabel("Creacion de sala nueva");
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
@@ -95,7 +110,7 @@ public class VentanaCrearSala extends JFrame {
 		// Falta cantidad de usuarios
 		Sala sala = Main.getConexionServidor().craerSala(this.nombreField.getText(),
 				Integer.valueOf(this.cantidadRondaField.getText()));
-		
+
 		new VentanaSala(this, sala).setVisible(true);
 
 	}

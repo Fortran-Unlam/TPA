@@ -96,6 +96,7 @@ public class ConexionCliente extends Thread {
 
 					sala = (Sala) message.getData();
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
+					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
 					sala.crearPartida(2, new TipoJuego());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
