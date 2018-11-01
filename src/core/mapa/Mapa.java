@@ -1,8 +1,5 @@
 package core.mapa;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,7 +21,7 @@ import core.entidad.Vibora;
 
 public class Mapa extends JPanel implements Serializable {
 
-	private static final long serialVersionUID = -1620036966653910465L;
+	private static final long serialVersionUID = 1L;
 
 	private Coordenada tamano;
 

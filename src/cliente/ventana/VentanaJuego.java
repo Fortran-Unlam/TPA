@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,7 +22,6 @@ import config.Param;
 import core.Jugador;
 import core.Obstaculo;
 import core.entidad.Fruta;
-import core.entidad.Vibora;
 import core.mapa.Juego;
 import core.mapa.Mapa;
 
@@ -134,7 +134,6 @@ public class VentanaJuego extends JFrame {
 		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		if (this.mapa != null) {
 			
-			System.out.println("dibujando mapa");
 			for (Fruta fruta : this.mapa.frutas) {
 				fruta.paint(g2d);
 			}
