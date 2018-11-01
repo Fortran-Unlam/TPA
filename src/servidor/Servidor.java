@@ -75,6 +75,7 @@ public class Servidor {
 	public static void actualizarMapa(Mapa mapa) {
 		try {
 			if (conexionCliente != null && conexionCliente.salidaDatos != null) {
+				
 				conexionCliente.salidaDatos.reset();
 				conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
 			}

@@ -106,40 +106,20 @@ public class VentanaJuego extends JFrame {
 		this.addKeyListener(GestorInput.teclado);
 		this.setFocusable(true);
 		this.setVisible(true);
-
-		// this.juego.start(); //EMPIEZA EL JUEGO!!!
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+		
+		Thread thread = new Thread() {
+			public synchronized void run() {
 				Main.getConexionServidor().recibirMapa(ventanaJuego);
 			}
-		});
+		};
+		thread.start();
 	}
 
 	public void dibujarMapa(Mapa mapa) {
 		this.mapa = mapa;
-		super.paint(super.getGraphics());
-		this.paint(this.panelMapa.getGraphics());
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.BLACK);
-		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+
 		if (this.mapa != null) {
-			
-			for (Fruta fruta : this.mapa.frutas) {
-				fruta.paint(g2d);
-			}
-			
-			for (Jugador jugador: this.mapa.jugadores) {
-				jugador.getVibora().paint(g2d);
-			}
-			
-			for (Obstaculo obstaculo : this.mapa.obstaculos) {
-				obstaculo.paint(g2d);
-			}
+			this.mapa.paint(this.panelMapa.getGraphics());
 		}
 	}
 }

@@ -3,7 +3,7 @@ package config;
 public abstract class Param {
 
 	public static final int VENTANA_JUEGO_WIDTH = 800;
-	public static final int VENTANA_JUEGO_HEIGHT = 700;
+	public static final int VENTANA_JUEGO_HEIGHT = 600;
 	
 	public static final int BOTON_WIDTH = 130;
 	public static final int BOTON_HEIGHT = 40;

@@ -16,25 +16,21 @@ public class Teclado implements KeyListener {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
 			ultimaPulsada = Posicion.SUR;
-			System.out.println("aprete");
 			Main.getConexionServidor().enviarTecla(Posicion.SUR);
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			ultimaPulsada = Posicion.NORTE;
-			System.out.println("aprete");
 			Main.getConexionServidor().enviarTecla(Posicion.NORTE);
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			ultimaPulsada = Posicion.OESTE;
-			System.out.println("aprete");
 			Main.getConexionServidor().enviarTecla(Posicion.OESTE);
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			ultimaPulsada = Posicion.ESTE;
-			System.out.println("aprete");
 			Main.getConexionServidor().enviarTecla(Posicion.ESTE);
 			break;
 		case KeyEvent.VK_ESCAPE:

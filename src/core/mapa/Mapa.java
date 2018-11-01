@@ -1,5 +1,8 @@
 package core.mapa;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -363,4 +366,23 @@ public class Mapa extends JPanel implements Serializable {
 		return this.jugadores;
 	}
 
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.BLACK);
+		g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+
+		for (Fruta fruta : this.frutas) {
+			fruta.paint(g2d);
+		}
+
+		for (Jugador jugador : this.jugadores) {
+			jugador.getVibora().paint(g2d);
+		}
+
+		for (Obstaculo obstaculo : this.obstaculos) {
+			obstaculo.paint(g2d);
+		}
+	}
 }

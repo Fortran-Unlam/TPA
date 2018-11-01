@@ -43,7 +43,10 @@ public class Juego  implements Serializable {
 		// score.add(this.mapa.getJugadores());
 		this.juegoEnCurso = true;
 		try {
+			
+			Servidor.actualizarMapa(this.mapa);
 			Thread.sleep(1000);
+			
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
 			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.jugadores.size(), 100, 10)) {
 				this.mapa.actualizar();
@@ -51,7 +54,7 @@ public class Juego  implements Serializable {
 				Servidor.actualizarMapa(this.mapa);
 				System.out.println("J U G A N D O");
 				// this.jListScore.setModel(score.ScoreToModel());
-				Thread.sleep(150);
+				Thread.sleep(50);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
