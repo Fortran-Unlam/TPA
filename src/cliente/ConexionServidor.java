@@ -197,13 +197,13 @@ public class ConexionServidor {
 		return null;
 	}
 
-	public void recibirMapa(VentanaJuego juego) {
+	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
 			while (true) {
 				this.message = (Message) entradaDatos.readObject();
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
-					juego.dibujarMapa((Mapa) this.message.getData());
+					ventanaJuego.dibujarMapa((Mapa) this.message.getData());
 				default:
 				}
 			}

@@ -48,7 +48,6 @@ public class ConexionCliente extends Thread {
 
 		while (conectado) {
 			try {
-				System.out.println("A la espera de un mensaje");
 				Message message = (Message) this.entradaDatos.readObject();
 				System.out.println("El cliente solicita " + message.getType());
 
@@ -64,7 +63,6 @@ public class ConexionCliente extends Thread {
 					} else {
 						Servidor.usuariosActivos.add(usuario);
 
-						System.out.println("ACCESO OK!!!");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					}
 
@@ -81,7 +79,6 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_GET_ALL_SALAS:
-					System.out.println("envio las salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
 				case Param.REQUEST_CREAR_SALA:
@@ -97,8 +94,8 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_EMPEZAR_JUEGO:
 
 					sala = (Sala) message.getData();
-					System.out.println("agregarUsuarioASala " + sala.agregarUsuarioASala(new Usuario("j", "a")));
-					System.out.println("crearPartida " + sala.crearPartida(2, new TipoJuego()));
+					sala.agregarUsuarioASala(new Usuario("j", "a"));
+					sala.crearPartida(2, new TipoJuego());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;
@@ -106,23 +103,20 @@ public class ConexionCliente extends Thread {
 
 					Posicion posicion = (Posicion) message.getData();
 					GestorInput.teclado.ultimaPulsada = posicion;
-					System.out.println("recibi " + posicion);
 					break;
 				default:
 					break;
 				}
 
 			} catch (IOException ex) {
-				String mensaje = ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
-						+ " desconectado.";
-				System.out.println(mensaje);
+				System.out.println(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
+						+ " desconectado.");
 				conectado = false;
 				try {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
 				} catch (IOException ex2) {
-					String mensajeError2 = "Error al cerrar los stream de entrada y salida :" + ex2.getMessage();
-					System.out.println(mensajeError2);
+					System.out.println("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
 				}
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
