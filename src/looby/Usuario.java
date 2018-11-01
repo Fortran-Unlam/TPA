@@ -21,8 +21,8 @@ public class Usuario implements Serializable {
 	private int rondasGanadas;
 	private Sala sala;
 
-	public Usuario(String usrName, String password) {
-		this.username = usrName;
+	public Usuario(String username, String password) {
+		this.username = username;
 		this.password = password;
 	}
 

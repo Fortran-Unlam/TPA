@@ -24,9 +24,9 @@ public class Mapa implements Serializable {
 
 	private Coordenada tamano;
 
-	public ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-	public ArrayList<Fruta> frutas = new ArrayList<>();
-	public ArrayList<Obstaculo> obstaculos = new ArrayList<>();
+	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+	private ArrayList<Fruta> frutas = new ArrayList<>();
+	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
 	private ArrayList<Puntaje> score = new ArrayList<>();
 
 	private Fruta[][] posicionesDeFrutas;
@@ -366,5 +366,13 @@ public class Mapa implements Serializable {
 
 	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
+	}
+
+	public ArrayList<Fruta> getfrutas() {
+		return this.frutas;
+	}
+
+	public ArrayList<Obstaculo> getObstaculos() {
+		return this.obstaculos;
 	}
 }

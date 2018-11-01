@@ -48,7 +48,7 @@ public class Juego  implements Serializable {
 			Thread.sleep(1000);
 			
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
-			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.jugadores.size(), 100, 10)) {
+			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores().size(), 100, 10)) {
 				this.mapa.actualizar();
 
 				Servidor.actualizarMapa(this.mapa);

@@ -16,7 +16,7 @@ public class MapaStub extends Mapa {
 		Jugador jugador = new Jugador(vibora, String.valueOf(numeroJugador));
 		MapaStub.numeroJugador++;
 		if (super.add(vibora)) {
-			super.jugadores.add(jugador);
+			super.getJugadores().add(jugador);
 			return true;
 		}
 		return false;

@@ -124,13 +124,13 @@ public class VentanaJuego extends JFrame {
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
-			for (Fruta fruta : this.mapa.frutas) {
+			for (Fruta fruta : this.mapa.getfrutas()) {
 				g2d.setColor(Color.RED);
 				g2d.fillRect(fruta.getX() * Param.PIXEL_RESIZE, fruta.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
 						Param.PIXEL_RESIZE);
 			}
 
-			for (Jugador jugador : this.mapa.jugadores) {
+			for (Jugador jugador : this.mapa.getJugadores()) {
 				g2d.setColor(Color.YELLOW);
 				g2d.fillRect(jugador.getVibora().getX() * Param.PIXEL_RESIZE,
 						jugador.getVibora().getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
@@ -142,7 +142,7 @@ public class VentanaJuego extends JFrame {
 				}
 			}
 
-			for (Obstaculo obstaculo : this.mapa.obstaculos) {
+			for (Obstaculo obstaculo : this.mapa.getObstaculos()) {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
