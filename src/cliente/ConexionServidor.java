@@ -230,7 +230,6 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos.reset();
 			this.salidaDatos.writeObject(this.message);
-			System.out.println("manda " + sur);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

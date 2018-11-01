@@ -52,9 +52,8 @@ public class Juego  implements Serializable {
 				this.mapa.actualizar();
 
 				Servidor.actualizarMapa(this.mapa);
-				System.out.println("J U G A N D O");
 				// this.jListScore.setModel(score.ScoreToModel());
-				Thread.sleep(50);
+				Thread.sleep(1000/60);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
