@@ -2,8 +2,8 @@ package config;
 
 public abstract class Param {
 
-	public static final int VENTANA_MAPA_WIDTH = 600;
-	public static final int VENTANA_MAPA_HEIGHT = 700;
+	public static final int VENTANA_JUEGO_WIDTH = 800;
+	public static final int VENTANA_JUEGO_HEIGHT = 700;
 	
 	public static final int BOTON_WIDTH = 130;
 	public static final int BOTON_HEIGHT = 40;
@@ -39,5 +39,6 @@ public abstract class Param {
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";
 	public static final String REQUEST_MOSTRAR_MAPA = "MostrarMapa";
+	public static final String REQUEST_ENVIAR_TECLA = "enviarTecla";
 	
 }

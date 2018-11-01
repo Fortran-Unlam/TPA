@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,16 +46,16 @@ public class VentanaJuego extends JFrame {
 		super("Snake");
 		this.juego = juego;
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, Param.VENTANA_MAPA_WIDTH, Param.VENTANA_MAPA_HEIGHT);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
 		contenedor = new JPanel();
 		contenedor.setBackground(SystemColor.control);
 		contenedor.setBorder(null);
-		setUndecorated(true);
-		setContentPane(contenedor);
-		setLocationRelativeTo(null);
-		setBackground(Color.black);
+		this.setUndecorated(true);
+		this.setContentPane(contenedor);
+		this.setLocationRelativeTo(null);
+//		setBackground(Color.black);
 		contenedor.setLayout(null);
 
 		lblScore = new JLabel("SCORE");
@@ -81,9 +80,7 @@ public class VentanaJuego extends JFrame {
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblFrutas.setBounds(51, 35, 42, 21);
-		contenedor.add(lblFrutas);
-
-//		contenedor().add(mapa);
+		this.contenedor.add(lblFrutas);
 
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -92,24 +89,23 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(0, 312, 100, 25);
-		contenedor.add(btnNewButton);
+		this.contenedor.add(btnNewButton);
 
-		button = new JButton("Exit");
-		button.addActionListener(new ActionListener() {
+		this.button = new JButton("Exit");
+		this.button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
 		button.setBounds(0, 350, 100, 25);
-		contenedor.add(button);
+		this.contenedor.add(button);
 
-		panelMapa = new JPanel();
-		panelMapa.setBounds(Param.VENTANA_MAPA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-		contenedor.add(panelMapa);
-
-		addKeyListener(GestorInput.teclado);
-		setFocusable(true);
-		setVisible(true);
+		this.panelMapa = new JPanel();
+		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+		this.contenedor.add(panelMapa);
+		this.addKeyListener(GestorInput.teclado);
+		this.setFocusable(true);
+		this.setVisible(true);
 
 		// this.juego.start(); //EMPIEZA EL JUEGO!!!
 		EventQueue.invokeLater(new Runnable() {
@@ -120,10 +116,9 @@ public class VentanaJuego extends JFrame {
 	}
 
 	public void dibujarMapa(Mapa mapa) {
-		this.add(mapa);
 		this.mapa = mapa;
-		
-		paint(getGraphics());
+		super.paint(super.getGraphics());
+		this.paint(this.panelMapa.getGraphics());
 	}
 	
 	@Override

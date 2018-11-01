@@ -9,6 +9,7 @@ import java.util.List;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
+import config.Posicion;
 import core.mapa.Mapa;
 import looby.Sala;
 import looby.Usuario;
@@ -222,5 +223,17 @@ public class ConexionServidor {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public void enviarTecla(Posicion sur) {
+		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, sur);
+		try {
+			this.salidaDatos.reset();
+			this.salidaDatos.writeObject(this.message);
+			System.out.println("manda " + sur);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

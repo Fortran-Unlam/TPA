@@ -6,7 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import cliente.input.GestorInput;
 import config.Param;
+import config.Posicion;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.Usuario;
@@ -99,6 +101,12 @@ public class ConexionCliente extends Thread {
 					System.out.println("crearPartida " + sala.crearPartida(2, new TipoJuego()));
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
+					break;
+				case Param.REQUEST_ENVIAR_TECLA:
+
+					Posicion posicion = (Posicion) message.getData();
+					GestorInput.teclado.ultimaPulsada = posicion;
+					System.out.println("recibi " + posicion);
 					break;
 				default:
 					break;
