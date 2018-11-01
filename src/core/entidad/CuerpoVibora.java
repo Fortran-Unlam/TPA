@@ -1,15 +1,10 @@
 package core.entidad;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.Serializable;
 
-import javax.swing.JPanel;
-
-import config.Param;
 import core.Coordenada;
 
-public class CuerpoVibora extends JPanel {
+public class CuerpoVibora implements Serializable {
 
 	private static final long serialVersionUID = 2485552979729067616L;
 	private Coordenada coordenada;
@@ -90,12 +85,5 @@ public class CuerpoVibora extends JPanel {
 		} else if (!coordenada.equals(other.coordenada))
 			return false;
 		return true;
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.GREEN);
-		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 	}
 }

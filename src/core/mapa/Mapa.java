@@ -16,10 +16,10 @@ import core.Colisionador;
 import core.Coordenada;
 import core.Jugador;
 import core.Muro;
-import core.Obstaculo;
 import core.Puntaje;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 
 public class Mapa implements Serializable {

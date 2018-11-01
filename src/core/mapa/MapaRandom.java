@@ -6,8 +6,8 @@ import java.util.Random;
 import config.Param;
 import core.Coordenada;
 import core.Muro;
-import core.Obstaculo;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 
 public class MapaRandom extends Mapa {
 

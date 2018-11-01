@@ -19,8 +19,9 @@ import cliente.Main;
 import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
-import core.Obstaculo;
+import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 import core.mapa.Juego;
 import core.mapa.Mapa;
 
@@ -106,7 +107,7 @@ public class VentanaJuego extends JFrame {
 		this.addKeyListener(GestorInput.teclado);
 		this.setFocusable(true);
 		this.setVisible(true);
-		
+
 		Thread thread = new Thread() {
 			public synchronized void run() {
 				Main.getConexionServidor().recibirMapa(ventanaJuego);
@@ -122,18 +123,28 @@ public class VentanaJuego extends JFrame {
 			Graphics2D g2d = (Graphics2D) this.panelMapa.getGraphics();
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-			
+
 			for (Fruta fruta : this.mapa.frutas) {
 				g2d.setColor(Color.RED);
-				g2d.fillRect(fruta.getX() * Param.PIXEL_RESIZE, fruta.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+				g2d.fillRect(fruta.getX() * Param.PIXEL_RESIZE, fruta.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE);
 			}
-			
+
 			for (Jugador jugador : this.mapa.jugadores) {
-				jugador.getVibora().paint(g2d);
+				g2d.setColor(Color.YELLOW);
+				g2d.fillRect(jugador.getVibora().getX() * Param.PIXEL_RESIZE,
+						jugador.getVibora().getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+
+				for (CuerpoVibora cuerpoVibora : jugador.getVibora().getCuerpos()) {
+					g2d.setColor(Color.GREEN);
+					g2d.fillRect(cuerpoVibora.getX() * Param.PIXEL_RESIZE, cuerpoVibora.getY() * Param.PIXEL_RESIZE,
+							Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+				}
 			}
-			
+
 			for (Obstaculo obstaculo : this.mapa.obstaculos) {
-				obstaculo.paint(g2d);
+				g2d.setColor(Color.WHITE);
+				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
 		}
 	}

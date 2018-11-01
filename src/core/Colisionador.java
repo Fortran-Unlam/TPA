@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 
 public abstract class Colisionador implements Serializable {
 

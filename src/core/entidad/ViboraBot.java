@@ -30,7 +30,7 @@ public class ViboraBot extends Vibora {
 	/**
 	 * Dibuja la cabeza y luego el cuerpo
 	 */
-	@Override
+/*	@Override
 	public void paint(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLUE);
@@ -41,4 +41,5 @@ public class ViboraBot extends Vibora {
 			cuerpoVibora.paint(g2d);
 		}
 	}
+	*/
 }

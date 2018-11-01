@@ -1,17 +1,15 @@
-package core;
+package core.entidad;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.io.Serializable;
 
-import javax.swing.JPanel;
+import core.Coordenada;
 
-public class Obstaculo extends JPanel {
-	
+public class Obstaculo implements Serializable {
+
 	private static final long serialVersionUID = 1628026311474738784L;
-	
+
 	private Coordenada ubicacion;
-	
+
 	public Obstaculo(Coordenada ubicacion) {
 		this.ubicacion = ubicacion;
 	}
@@ -19,16 +17,15 @@ public class Obstaculo extends JPanel {
 	public Obstaculo(int x, int y) {
 		this.ubicacion = new Coordenada(x, y);
 	}
-	
+
 	public int getX() {
 		return this.ubicacion.getX();
 	}
-	
+
 	public int getY() {
 		return this.ubicacion.getY();
 	}
-	
-	
+
 	public Coordenada getUbicacion() {
 		return ubicacion;
 	}
@@ -57,15 +54,4 @@ public class Obstaculo extends JPanel {
 			return false;
 		return true;
 	}
-	
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.WHITE);
-		g2d.fillRect(this.getX() * 5, this.getY() * 5, 5, 5);
-	}
-
-	
-	
-
 }

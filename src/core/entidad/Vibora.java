@@ -1,20 +1,14 @@
 package core.entidad;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.swing.JPanel;
-
 import cliente.input.GestorInput;
-import config.Param;
 import config.Posicion;
 import core.Coordenada;
 
-public class Vibora extends JPanel implements Serializable {
+public class Vibora implements Serializable {
 
 	private static final long serialVersionUID = -4700905402985527264L;
 	private String nombre;
@@ -282,22 +276,7 @@ public class Vibora extends JPanel implements Serializable {
 	public Coordenada getCoordenada() {
 		return this.head.getCoordenada();
 	}
-
-	/**
-	 * Dibuja la cabeza y luego el cuerpo
-	 */
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.YELLOW);
-		g2d.fillRect(this.getX() * Param.PIXEL_RESIZE, this.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-				Param.PIXEL_RESIZE);
-
-		for (CuerpoVibora cuerpoVibora : this.bodies) {
-			cuerpoVibora.paint(g2d);
-		}
-	}
-
+	
 	public void determinarMovimiento() {
 		if (GestorInput.teclado.ultimaPulsada != null) {
 			this.setSentido(GestorInput.teclado.ultimaPulsada);

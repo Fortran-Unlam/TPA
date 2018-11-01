@@ -2,6 +2,8 @@ package core;
 
 import java.util.LinkedList;
 
+import core.entidad.Obstaculo;
+
 public class Muro {
 	
 	private LinkedList<Obstaculo> piedras = new LinkedList<>();

@@ -9,10 +9,10 @@ import org.junit.Test;
 import config.Posicion;
 import core.Coordenada;
 import core.Muro;
-import core.Obstaculo;
 import core.Puntaje;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.mapa.Mapa;
 

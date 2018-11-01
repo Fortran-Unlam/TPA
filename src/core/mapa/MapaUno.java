@@ -3,8 +3,8 @@ package core.mapa;
 import java.util.Random;
 
 import config.Param;
-import core.Obstaculo;
 import core.entidad.Fruta;
+import core.entidad.Obstaculo;
 
 public class MapaUno extends Mapa {
 
