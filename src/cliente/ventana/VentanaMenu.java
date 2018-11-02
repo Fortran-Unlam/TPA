@@ -106,7 +106,6 @@ public class VentanaMenu extends JFrame {
 		});
 		btnAtras.setBounds(354, 310, 130, 40);
 		contenedor.add(btnAtras);
-
 	}
 
 	private void abrirVentanaUnirSala() {

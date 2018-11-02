@@ -146,8 +146,11 @@ public class VentanaSala extends JFrame {
 	}
 	
 	protected void empezarJuego() {
-		this.sala = Main.getConexionServidor().comenzarJuego(this.sala);
+		if (Main.getConexionServidor().comenzarJuego(this.sala) == false) {
+			System.out.println("no pudo crear el juego");
+			return;
+		}
 		
-		VentanaJuego ventanaJuego = new VentanaJuego(null);
+		new VentanaJuego(null);
 	}
 }

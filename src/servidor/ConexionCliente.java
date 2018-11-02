@@ -111,10 +111,6 @@ public class ConexionCliente extends Thread {
 					sala.agregarUsuarioASala(new UsuarioBot("j0", "a"));
 					sala.agregarUsuarioASala(new UsuarioBot("j0n", "a"));
 					sala.crearPartida(2, new TipoJuego());
-					System.out.println("usuario " + this.usuario);
-
-//					this.usuario = sala.getUsuariosActivos().get(0);
-					System.out.println("usuario seteado " + this.usuario);
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, true));
 					break;
