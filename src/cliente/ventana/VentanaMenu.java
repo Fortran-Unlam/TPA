@@ -1,32 +1,23 @@
 package cliente.ventana;
 
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Main;
 import cliente.ventana.usuario.Login;
 import config.Param;
-import looby.Sala;
 import looby.Usuario;
 
 public class VentanaMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contenedor;
-	private JList<String> jListSalas;
-	private JTextPane estadistica;
 	private Usuario usuario;
 
 	/**
@@ -104,7 +95,6 @@ public class VentanaMenu extends JFrame {
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
-<<<<<<< HEAD
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
@@ -117,25 +107,6 @@ public class VentanaMenu extends JFrame {
 		btnAtras.setBounds(354, 310, 130, 40);
 		contenedor.add(btnAtras);
 
-//		jListSalas = new JList<String>();
-//		jListSalas.setBackground(SystemColor.control);
-//		jListSalas.setBorder(null);
-//		jListSalas.setBounds(10, 180, 100, 100);
-//		jListSalas.setEnabled(true);
-
-//		// TODO: pasar esto a unir sala
-//		contenedor.add(jListSalas);
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					jListSalas.setListData(pedirSalas());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-=======
->>>>>>> b9dcc7c0df3db16a8dcfb00a3ae41d4877d94e39
 	}
 
 	private void abrirVentanaUnirSala() {
