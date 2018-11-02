@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.apache.commons.codec.digest.DigestUtils;
 import cliente.Main;
@@ -48,12 +49,12 @@ public class Crear extends JFrame {
 		getContentPane().add(username);
 		username.setColumns(10);
 
-		password = new JTextField();
+		password = new JPasswordField();
 		password.setBounds(193, 72, 86, 20);
 		getContentPane().add(password);
 		password.setColumns(10);
 
-		confirmPassword = new JTextField();
+		confirmPassword = new JPasswordField();
 		confirmPassword.setBounds(193, 97, 86, 20);
 		getContentPane().add(confirmPassword);
 		confirmPassword.setColumns(10);
