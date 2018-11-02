@@ -43,7 +43,7 @@ public class VentanaJuego extends JFrame {
 
 	public VentanaJuego(Juego juego) {
 		super("Snake");
-		this.juego = juego;
+//		this.juego = juego;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);

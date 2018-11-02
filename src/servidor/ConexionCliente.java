@@ -85,24 +85,24 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_CREAR_SALA:
 
 					ArrayList data = ((ArrayList) message.getData());
-					usuario = (Usuario) data.get(2);
+//					usuario = (Usuario) data.get(2);
 					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
 
 					Servidor.agregarASalasActivas(sala);
-					this.usuario = usuario;
+//					this.usuario = usuario;
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
-
-					sala = (Sala) message.getData();
+					// TODO: no es necesario mandar la sala ya que referencia a una posicion de
+					// memoria en el cliente y no de este lado que es el servidor
+//					sala = (Sala) message.getData();
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
 					sala.agregarUsuarioASala(new UsuarioBot("jo", "an"));
 					sala.crearPartida(2, new TipoJuego());
 					System.out.println("usuario " + this.usuario);
-					
-					
-					this.usuario = sala.getUsuariosActivos().get(0);
+
+//					this.usuario = sala.getUsuariosActivos().get(0);
 					System.out.println("usuario seteado " + this.usuario);
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
