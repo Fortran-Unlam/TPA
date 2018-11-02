@@ -16,6 +16,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Main;
+import cliente.ventana.usuario.Login;
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -103,6 +104,17 @@ public class VentanaMenu extends JFrame {
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
+		
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+		btnAtras.setBounds(354, 310, 130, 40);
+		contenedor.add(btnAtras);
 
 //		jListSalas = new JList<String>();
 //		jListSalas.setBackground(SystemColor.control);
