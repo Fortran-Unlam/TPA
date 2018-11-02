@@ -1,9 +1,12 @@
 package cliente.input;
 
+import java.io.Serializable;
+
 import config.Posicion;
 
-public class GestorInput {
+public class GestorInput implements Serializable {
 
+	private static final long serialVersionUID = 7550591053335557972L;
 	public Teclado teclado = new Teclado();
 	
 	public Posicion getUltimaTecla() {

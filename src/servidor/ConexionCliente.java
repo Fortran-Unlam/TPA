@@ -56,7 +56,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_LOGUEAR:
 					usuario = UsuarioDAO.loguear((String) ((ArrayList) message.getData()).get(0),
 							(String) ((ArrayList) message.getData()).get(1));
-							
+
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrase�a incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, usuario));
@@ -99,6 +99,11 @@ public class ConexionCliente extends Thread {
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
 					sala.agregarUsuarioASala(new UsuarioBot("jo", "an"));
 					sala.crearPartida(2, new TipoJuego());
+					System.out.println("usuario " + this.usuario);
+					
+					
+					this.usuario = sala.getUsuariosActivos().get(0);
+					System.out.println("usuario seteado " + this.usuario);
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
 					break;
@@ -131,8 +136,13 @@ public class ConexionCliente extends Thread {
 	public ObjectOutputStream getSalidaDatos() {
 		return this.salidaDatos;
 	}
-	
 
+	/**
+	 * Return el usuario de la conexion pero ojo porque no es el mismo que el del
+	 * lado del cliente
+	 * 
+	 * @return
+	 */
 	public Usuario getUsuario() {
 		return this.usuario;
 	}

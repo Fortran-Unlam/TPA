@@ -146,13 +146,13 @@ public class Usuario implements Serializable {
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
 	}
-
+/*
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
 				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
 				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
-	}
+	}*/
 
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;

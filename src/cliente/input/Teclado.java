@@ -2,12 +2,14 @@ package cliente.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serializable;
 
 import cliente.Main;
 import config.Posicion;
 
-public class Teclado implements KeyListener {
+public class Teclado implements KeyListener, Serializable {
 
+	private static final long serialVersionUID = 4497479950513572684L;
 	public Posicion ultimaPulsada = null;
 
 	@Override

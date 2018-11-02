@@ -25,6 +25,7 @@ public class Partida implements Serializable {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
+			System.out.println("partida " + usuario);
 			Jugador jugador;
 			if (usuario instanceof UsuarioBot) {
 				jugador = new JugadorBot(usuario);

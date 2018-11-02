@@ -13,7 +13,7 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 	private Vibora vibora;
 	private String nombre;
 	private int frutasComidasEnRonda;
-	private GestorInput teclado;
+	private GestorInput teclado = new GestorInput();
 	
 	/**
 	 * 
