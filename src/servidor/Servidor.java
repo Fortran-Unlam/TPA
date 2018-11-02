@@ -65,12 +65,8 @@ public class Servidor {
 	public boolean agregarAUsuariosActivos(Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
 	}
-
-	public static List<Sala> getAllSalas() {
-		return Servidor.salasActivas;
-	}
 	
-	public static ArrayList<String> getTodasLasSalas(){
+	public static ArrayList<String> getAllSalas(){
 		ArrayList<String> salas = new ArrayList<>();
 		
 		for(Sala s: Servidor.salasActivas) {
