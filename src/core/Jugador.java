@@ -5,6 +5,7 @@ import java.io.Serializable;
 import cliente.input.GestorInput;
 import config.Posicion;
 import core.entidad.Vibora;
+import core.mapa.Mapa;
 import looby.Usuario;
 
 public class Jugador implements Comparable<Jugador>, Serializable {
@@ -72,7 +73,7 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 		return null;
 	}
 	
-	public void determinarMovimiento() {
+	public void determinarMovimiento(Mapa mapa) {
 		if (this.getTecla() != null) {
 			if (this.getVibora() != null) {
 				this.getVibora().setSentido(this.getTecla());				

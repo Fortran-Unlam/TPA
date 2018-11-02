@@ -2,8 +2,11 @@ package core;
 
 import java.util.Random;
 
+import config.Param;
 import config.Posicion;
+import core.entidad.CuerpoVibora;
 import core.entidad.Vibora;
+import core.mapa.Mapa;
 import looby.Usuario;
 
 public class JugadorBot extends Jugador {
@@ -23,10 +26,35 @@ public class JugadorBot extends Jugador {
 	 * sentido
 	 */
 	@Override
-	public void determinarMovimiento() {
+	public void determinarMovimiento(Mapa mapa) {
 		if (new Random().nextFloat() > 0.65) {
 			if (this.getVibora() != null) {
-				this.getVibora().setSentido(Posicion.values()[new Random().nextInt(Posicion.values().length)]);
+				Posicion sentido = Posicion.values()[new Random().nextInt(Posicion.values().length)];
+				this.getVibora().setSentido(sentido);
+				int x = 0;
+				int y = 0;
+				switch (sentido) {
+				case ESTE:
+					x = this.getVibora().getX() + 1;
+					y = this.getVibora().getY();
+					break;
+				case OESTE:
+					x = this.getVibora().getX() - 1;
+					y = this.getVibora().getY();
+					break;
+				case NORTE:
+					x = this.getVibora().getX();
+					y = this.getVibora().getY() + 1;
+					break;
+				case SUR:
+					x = this.getVibora().getX();
+					y = this.getVibora().getY() - 1;
+					break;
+				}
+				if (mapa.getObstaculo(x, y) != null || x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0) {
+					sentido = Posicion.values()[new Random().nextInt(Posicion.values().length)];
+					this.getVibora().setSentido(sentido);
+				}
 			}
 		}
 	}
