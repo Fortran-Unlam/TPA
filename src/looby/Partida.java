@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import cliente.Main;
 import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
@@ -58,12 +59,15 @@ public class Partida implements Serializable {
 			this.rondaEnCurso = null;
 			return false;
 		}
+		
 		// TODO: OJO al cambiar esto, hay que avisar cuando termina
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+		Thread thread = new Thread() {
+			public synchronized void run() {
 				rondaEnCurso.start();
 			}
-		});
+		};
+		thread.start();
+		
 		return true;
 	}
 

@@ -20,6 +20,7 @@ public class ConexionCliente extends Thread {
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
 	private ObjectOutputStream salidaDatos;
+	private Usuario usuario;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -63,7 +64,7 @@ public class ConexionCliente extends Thread {
 						return;
 					} else {
 						Servidor.usuariosActivos.add(usuario);
-
+						this.usuario = usuario;
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					}
 
@@ -124,9 +125,15 @@ public class ConexionCliente extends Thread {
 				e1.printStackTrace();
 			}
 		}
+		Servidor.desconectar(this);
 	}
 
 	public ObjectOutputStream getSalidaDatos() {
 		return this.salidaDatos;
+	}
+	
+
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 }

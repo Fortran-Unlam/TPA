@@ -72,7 +72,6 @@ public class Sala implements Serializable {
 	}
 
 	public boolean comenzarPartida() {
-		System.out.println("esto llega null ... " + this.partidaActual);
 		if (this.partidaActual == null) {
 			return false;
 		}

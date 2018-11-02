@@ -19,7 +19,7 @@ public class Servidor {
 	private static List<Sala> salasActivas = new ArrayList<>();
 	public static List<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
-	private static ConexionCliente conexionCliente;
+	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 
 	public static void main(String[] args) {
 
@@ -35,7 +35,9 @@ public class Servidor {
 
 				System.out.println("Cliente con la IP " + socket.getInetAddress().getHostAddress() + " conectado.");
 
-				conexionCliente = new ConexionCliente(socket);
+				ConexionCliente conexionCliente = new ConexionCliente(socket);
+				
+				conexionClientes.add(conexionCliente);
 
 				conexionCliente.start();
 
@@ -74,14 +76,21 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
-			if (conexionCliente != null && conexionCliente.getSalidaDatos() != null) {
-				
-				conexionCliente.getSalidaDatos().reset();
-				conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+			for (ConexionCliente conexionCliente : conexionClientes) {				
+				if (conexionCliente != null && conexionCliente.getSalidaDatos() != null) {
+					
+					conexionCliente.getSalidaDatos().reset();
+					conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	public static void desconectar(ConexionCliente conexionCliente) {
+		conexionCliente.interrupt();
+		conexionClientes.remove(conexionCliente);
+	}
+	
 }
