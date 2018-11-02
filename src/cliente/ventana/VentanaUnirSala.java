@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Main;
 import config.Param;
-import looby.Sala;
 
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -21,8 +20,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.awt.event.ActionEvent;
 
 
@@ -34,7 +31,6 @@ public class VentanaUnirSala extends JFrame {
 	private JList<String> listSalas;
 	public String salaSeleccionada;
 	
-	@SuppressWarnings({ "rawtypes" })
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
 		ventanaMenu.setVisible(false);
@@ -49,6 +45,24 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.setLayout(null);
 		setResizable(false);
 		setLocationRelativeTo(null);
+		
+			this.listSalas = new JList<>();
+			listSalas.setBackground(SystemColor.control);
+			listSalas.setBorder(null);
+			listSalas.setBounds(10, 98, 438, 209);
+			listSalas.setEnabled(true);
+			contentPane.add(listSalas);
+			
+			
+			
+			listSalas.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					if (arg0.getClickCount() == 1) {
+						salaSeleccionada = ((String) listSalas.getSelectedValue());
+					}
+				}
+			});
 		
 		JLabel lblSalasDisponibles = new JLabel("Salas disponibles:");
 		lblSalasDisponibles.setForeground(Color.MAGENTA);
@@ -74,22 +88,6 @@ public class VentanaUnirSala extends JFrame {
 		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
-		
-		listSalas = new JList();
-		listSalas.setBackground(SystemColor.control);
-		listSalas.setBorder(null);
-		listSalas.setBounds(10, 180, 100, 100);
-		listSalas.setEnabled(true);
-		
-		
-		listSalas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getClickCount() == 1) {
-					salaSeleccionada = ((String) listSalas.getSelectedValue());
-				}
-			}
-		});
 		
 		btnRefrescarSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -118,8 +116,10 @@ public class VentanaUnirSala extends JFrame {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
 			noHaySalas.addElement("No hay niguna sala");
 			this.listSalas.setModel(noHaySalas);
+			this.listSalas.setEnabled(false);
 		}else {
 			this.listSalas.setModel(modelDeSalasActivasQueMeDioElServer);
+			this.listSalas.setEnabled(true);
 		}
 		
 		this.setVisible(true);

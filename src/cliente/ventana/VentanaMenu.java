@@ -103,24 +103,6 @@ public class VentanaMenu extends JFrame {
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
-
-//		jListSalas = new JList<String>();
-//		jListSalas.setBackground(SystemColor.control);
-//		jListSalas.setBorder(null);
-//		jListSalas.setBounds(10, 180, 100, 100);
-//		jListSalas.setEnabled(true);
-
-//		// TODO: pasar esto a unir sala
-//		contenedor.add(jListSalas);
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					jListSalas.setListData(pedirSalas());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
 	}
 
 	private void abrirVentanaUnirSala() {
