@@ -72,29 +72,36 @@ public class ConexionCliente extends Thread {
 
 					int resultado = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
 							(String) ((ArrayList) message.getData()).get(1));
-					
-					switch(resultado) {
-						case -1 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null)); break;
-						case  0 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null)); break;
-						case  1 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null)); break;
-					}	
-					
+
+					switch (resultado) {
+					case -1:
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
+						break;
+					case 0:
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null));
+						break;
+					case 1:
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null));
+						break;
+					}
+
 					break;
-					
+
 				case Param.REQUEST_GET_ALL_SALAS:
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
-					
+
 				case Param.REQUEST_CREAR_SALA:
 
 					ArrayList data = ((ArrayList) message.getData());
-//					usuario = (Usuario) data.get(2);
-					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
-
-					Servidor.agregarASalasActivas(sala);
-//					this.usuario = usuario;
-
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
+					if (!Servidor.existeSala((String) data.get(0))) { // me fijo si existe
+						sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
+						Servidor.agregarASalasActivas(sala);
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
+					}else {
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, sala));
+					}
+					
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					// TODO: no es necesario mandar la sala ya que referencia a una posicion de
@@ -112,7 +119,7 @@ public class ConexionCliente extends Thread {
 					Posicion posicion = (Posicion) message.getData();
 					if (posicion != null) {
 						System.out.println("recibe " + posicion.ordinal());
-						this.usuario.getJugador().setTecla(posicion);						
+						this.usuario.getJugador().setTecla(posicion);
 					}
 					break;
 				default:

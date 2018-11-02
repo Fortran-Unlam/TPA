@@ -61,6 +61,14 @@ public class Servidor {
 	public static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
+	
+	public static boolean existeSala(String nameRoom) {
+		for(Sala s: Servidor.salasActivas) {
+			if(s.getNombre() == nameRoom)
+				return true;
+		}
+		return false;
+	}
 
 	public boolean agregarAUsuariosActivos(Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
