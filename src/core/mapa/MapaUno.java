@@ -15,7 +15,7 @@ public class MapaUno extends Mapa {
 //		this.setBounds(Param.VENTANA_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
 		Random random = new Random();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < Param.CANTIDAD_FRUTA_MINIMAS; i++) {
 			this.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
 		}
 

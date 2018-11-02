@@ -231,7 +231,7 @@ public class Mapa implements Serializable {
 			}
 		}
 
-		while (this.frutas.size() < 100) {
+		while (this.frutas.size() < Param.CANTIDAD_FRUTA_MINIMAS) {
 			Random random = new Random();
 			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
