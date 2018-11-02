@@ -101,19 +101,23 @@ public class ConexionCliente extends Thread {
 					// memoria en el cliente y no de este lado que es el servidor
 //					sala = (Sala) message.getData();
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
-					sala.agregarUsuarioASala(new UsuarioBot("jo", "an"));
+					sala.agregarUsuarioASala(new UsuarioBot("j0", "a"));
+					sala.agregarUsuarioASala(new UsuarioBot("j0n", "a"));
 					sala.crearPartida(2, new TipoJuego());
 					System.out.println("usuario " + this.usuario);
 
 //					this.usuario = sala.getUsuariosActivos().get(0);
 					System.out.println("usuario seteado " + this.usuario);
 
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, true));
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
 					Posicion posicion = (Posicion) message.getData();
-					this.usuario.getJugador().setTecla(posicion);
+					if (posicion != null) {
+						System.out.println("recibe " + posicion.ordinal());
+						this.usuario.getJugador().setTecla(posicion);						
+					}
 					break;
 				default:
 					break;

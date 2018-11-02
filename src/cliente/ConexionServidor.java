@@ -167,13 +167,13 @@ public class ConexionServidor {
 	public Sala comenzarJuego(Sala sala) {
 		try {
 
-			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, sala);
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);
 			this.salidaDatos.writeObject(this.message);
 
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_JUEGO_EMPEZADO:
-				return (Sala) this.message.getData();
+				return null;
 			default:
 				return null;
 			}
@@ -218,8 +218,8 @@ public class ConexionServidor {
 		this.usuario = usuario;
 	}
 
-	public void enviarTecla(Posicion sur) {
-		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, sur);
+	public void enviarTecla(Posicion posicion) {
+		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
 		try {
 			this.salidaDatos.reset();
 			this.salidaDatos.writeObject(this.message);
