@@ -104,7 +104,6 @@ public class VentanaMenu extends JFrame {
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
-<<<<<<< HEAD
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
@@ -134,8 +133,6 @@ public class VentanaMenu extends JFrame {
 //				}
 //			}
 //		});
-=======
->>>>>>> b9dcc7c0df3db16a8dcfb00a3ae41d4877d94e39
 	}
 
 	private void abrirVentanaUnirSala() {

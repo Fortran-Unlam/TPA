@@ -164,7 +164,7 @@ public class ConexionServidor {
 		return null;
 	}
 
-	public Sala comenzarJuego(Sala sala) {
+	public boolean comenzarJuego(Sala sala) {
 		try {
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);
@@ -173,21 +173,21 @@ public class ConexionServidor {
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_JUEGO_EMPEZADO:
-				return null;
+				return (boolean)this.message.getData();
 			default:
-				return null;
+				return false;
 			}
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			return null;
+			return false;
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
-			return null;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
