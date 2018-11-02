@@ -35,8 +35,6 @@ public class UsuarioDAO {
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-		} finally {
-			Servidor.getSessionHibernate().close();
 		}
 
 		return null;
@@ -74,7 +72,6 @@ public class UsuarioDAO {
 			e.printStackTrace();
 		} finally {
 			txReg.commit();
-			Servidor.getSessionHibernate().close();
 		}
 		return null;
 	}
