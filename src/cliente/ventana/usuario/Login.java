@@ -29,7 +29,7 @@ public class Login extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
-		JLabel usernameLabel = new JLabel("Nombre");
+		JLabel usernameLabel = new JLabel("Usuario");
 		usernameLabel.setBounds(60, 64, 92, 14);
 		this.getContentPane().add(usernameLabel);
 
@@ -117,6 +117,9 @@ public class Login extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login",
 					JOptionPane.WARNING_MESSAGE);
+			this.username.setText("");
+			this.password.setText("");
+			this.username.setFocusable(true);
 		}
 	}
 	
