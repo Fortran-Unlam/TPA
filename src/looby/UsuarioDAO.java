@@ -1,10 +1,7 @@
 package looby;
 
 import java.util.List;
-import java.util.Random;
-
 import javax.persistence.Query;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
@@ -30,8 +27,9 @@ public class UsuarioDAO {
 				return null;
 			}
 
-			// TODO: agregar todos los datos del usuario
-			return new Usuario(username, hashPassword);
+			return new Usuario(user.get(0).getId(), username, hashPassword, user.get(0).getPuntos(),
+					user.get(0).getCantidadFrutaComida(), user.get(0).getAsesinatos(), user.get(0).getMuertes(),
+					user.get(0).getPartidasGanadas(), user.get(0).getRondasGanadas());
 
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -57,12 +55,16 @@ public class UsuarioDAO {
 			List<Usuario> resultList = chequearDuplicado.getResultList();
 
 			if (!resultList.isEmpty()) {
+
 				System.out.println("Ese nombre de usuario ya existe");
-			} else {
-				Usuario registrar = new Usuario(5, username, hashPassword, 0, 0, 0, 0, 0, 0);
-				Servidor.getSessionHibernate().save(registrar);
-				txReg.commit();
+				return null;
 				
+			} else {
+
+				Query queryMaxID = Servidor.getSessionHibernate().createQuery("SELECT max(u.id) FROM Usuario u");
+				List<Integer> id = queryMaxID.getResultList();
+				Usuario registrar = new Usuario(id.get(0).intValue() + 1, username, hashPassword, 0, 0, 0, 0, 0, 0);
+				Servidor.getSessionHibernate().save(registrar);
 				return registrar;
 			}
 
@@ -71,6 +73,7 @@ public class UsuarioDAO {
 				txReg.rollback();
 			e.printStackTrace();
 		} finally {
+			txReg.commit();
 			Servidor.getSessionHibernate().close();
 		}
 		return null;
