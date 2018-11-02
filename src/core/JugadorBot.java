@@ -51,9 +51,18 @@ public class JugadorBot extends Jugador {
 					y = this.getVibora().getY() - 1;
 					break;
 				}
+				boolean cambiar = false;
+				for (CuerpoVibora cuerpoVibora : this.getVibora().getCuerpos()) {
+					if (x == cuerpoVibora.getX() && y == cuerpoVibora.getY()) {
+						cambiar = true;
+					}
+				}
 				if (mapa.getObstaculo(x, y) != null || x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0) {
+					cambiar = true;
+				}
+				if (cambiar) {
 					sentido = Posicion.values()[new Random().nextInt(Posicion.values().length)];
-					this.getVibora().setSentido(sentido);
+					this.getVibora().setSentido(sentido);					
 				}
 			}
 		}
