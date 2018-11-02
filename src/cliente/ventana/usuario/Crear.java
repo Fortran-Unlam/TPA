@@ -79,6 +79,8 @@ public class Crear extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				ventanaLogin.setVisible(true);
 			}
 		});
 		btnAtras.setBounds(119, 157, 122, 23);

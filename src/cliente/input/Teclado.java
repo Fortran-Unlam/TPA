@@ -18,22 +18,19 @@ public class Teclado implements KeyListener, Serializable {
 		case KeyEvent.VK_W:
 		case KeyEvent.VK_UP:
 			ultimaPulsada = Posicion.SUR;
-			Main.getConexionServidor().enviarTecla(Posicion.SUR);
 			break;
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			ultimaPulsada = Posicion.NORTE;
-			Main.getConexionServidor().enviarTecla(Posicion.NORTE);
+			
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:
 			ultimaPulsada = Posicion.OESTE;
-			Main.getConexionServidor().enviarTecla(Posicion.OESTE);
 			break;
 		case KeyEvent.VK_D:
 		case KeyEvent.VK_RIGHT:
 			ultimaPulsada = Posicion.ESTE;
-			Main.getConexionServidor().enviarTecla(Posicion.ESTE);
 			break;
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
@@ -41,6 +38,8 @@ public class Teclado implements KeyListener, Serializable {
 		default:
 			System.out.print(e.getKeyCode() + " " + KeyEvent.getKeyText(e.getKeyCode()) + "\n");
 		}
+		
+		Main.getConexionServidor().enviarTecla(ultimaPulsada);
 	}
 
 	@Override

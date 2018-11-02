@@ -105,11 +105,11 @@ public class Mapa implements Serializable {
 		Vibora vibora = null;
 		Random random = new Random();
 
-		for (int intento = 0; intento < 20; intento++) {
+		for (int intento = 0; intento < 100; intento++) {
 			if (bot) {
-				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)));
 			} else {
-				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
+				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)), 10,
 						Posicion.ESTE);
 			}
 			
@@ -231,6 +231,11 @@ public class Mapa implements Serializable {
 			}
 		}
 
+		while (this.frutas.size() < Param.CANTIDAD_FRUTA_MINIMAS) {
+			Random random = new Random();
+			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+		}
+		
 		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que
 		// gana
 	}

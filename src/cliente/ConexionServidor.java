@@ -32,11 +32,11 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
 
-			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
+			this.entradaDatos = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException ex) {
-			System.err.println("Error al crear el stream: " + ex.getMessage());
+			ex.printStackTrace();
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 		}
 	}
 
@@ -114,10 +114,10 @@ public class ConexionServidor {
 				return null;
 			}
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,10 +153,10 @@ public class ConexionServidor {
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -167,22 +167,22 @@ public class ConexionServidor {
 	public Sala comenzarJuego(Sala sala) {
 		try {
 
-			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, sala);
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);
 			this.salidaDatos.writeObject(this.message);
 
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_JUEGO_EMPEZADO:
-				return (Sala) this.message.getData();
+				return null;
 			default:
 				return null;
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,9 +202,9 @@ public class ConexionServidor {
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -218,8 +218,8 @@ public class ConexionServidor {
 		this.usuario = usuario;
 	}
 
-	public void enviarTecla(Posicion sur) {
-		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, sur);
+	public void enviarTecla(Posicion posicion) {
+		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
 		try {
 			this.salidaDatos.reset();
 			this.salidaDatos.writeObject(this.message);
