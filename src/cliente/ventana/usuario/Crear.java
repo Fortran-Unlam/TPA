@@ -59,8 +59,8 @@ public class Crear extends JFrame {
 		getContentPane().add(confirmPassword);
 		confirmPassword.setColumns(10);
 
-		JButton btnCrearUsuario = new JButton("Crear Usuario");
-		btnCrearUsuario.setBounds(109, 146, 122, 23);
+		JButton btnCrearUsuario = new JButton("Crear Cuenta");
+		btnCrearUsuario.setBounds(119, 128, 122, 23);
 		getContentPane().add(btnCrearUsuario);
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -72,9 +72,17 @@ public class Crear extends JFrame {
 			}
 		});
 
-		JLabel lblCrearUsuario = new JLabel("Crear Usuario");
+		JLabel lblCrearUsuario = new JLabel("Crear Cuenta");
 		lblCrearUsuario.setBounds(119, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
+		
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnAtras.setBounds(119, 157, 122, 23);
+		getContentPane().add(btnAtras);
 	}
 
 	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
