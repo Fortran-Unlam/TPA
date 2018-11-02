@@ -117,6 +117,9 @@ public class Login extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login",
 					JOptionPane.WARNING_MESSAGE);
+			this.username.setText("");
+			this.password.setText("");
+			this.username.setFocusable(true);
 		}
 	}
 	
