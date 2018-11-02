@@ -103,8 +103,6 @@ public class Vibora implements Serializable {
 	public void cabecear() {
 		CuerpoVibora newHead = new CuerpoVibora(null, true);
 
-		this.determinarMovimiento();
-
 		switch (this.sentido) {
 		case ESTE:
 			newHead = new CuerpoVibora(new Coordenada(this.head.getX() + 1, this.head.getY()));
@@ -275,12 +273,6 @@ public class Vibora implements Serializable {
 
 	public Coordenada getCoordenada() {
 		return this.head.getCoordenada();
-	}
-	
-	public void determinarMovimiento() {
-		if (GestorInput.teclado.ultimaPulsada != null) {
-			this.setSentido(GestorInput.teclado.ultimaPulsada);
-		}
 	}
 
 	public void setId(int id) {

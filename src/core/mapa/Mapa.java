@@ -191,6 +191,9 @@ public class Mapa implements Serializable {
 		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
 
 		for (Jugador jugador : this.jugadores) {
+			
+			jugador.determinarMovimiento();
+			
 			jugador.getVibora().cabecear();
 
 			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(),

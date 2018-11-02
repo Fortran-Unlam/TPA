@@ -2,6 +2,7 @@ package core;
 
 import java.io.Serializable;
 
+import cliente.input.GestorInput;
 import core.entidad.Vibora;
 import looby.Usuario;
 
@@ -58,6 +59,14 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 		return this.frutasComidasEnRonda;
 	}
 
+	public void determinarMovimiento() {
+		if (GestorInput.teclado.ultimaPulsada != null) {
+			if (this.getVibora() != null) {
+				this.getVibora().setSentido(GestorInput.teclado.ultimaPulsada);				
+			}
+		}
+	}
+	
 	@Override
 	public int compareTo(Jugador otro) {
 		return otro.frutasComidasEnRonda - this.frutasComidasEnRonda;
