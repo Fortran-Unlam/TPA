@@ -26,6 +26,7 @@ public class VentanaCrearSala extends JFrame {
 	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
 	public String nombreSala;
+	private JTextField txtMaxUsuarios;
 
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -45,7 +46,7 @@ public class VentanaCrearSala extends JFrame {
 
 		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
 		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCantidadDeRondas.setBounds(66, 154, 175, 33);
+		lblCantidadDeRondas.setBounds(45, 156, 175, 33);
 		contentPane.add(lblCantidadDeRondas);
 
 		JButton btnAceptar = new JButton("Aceptar");
@@ -78,7 +79,7 @@ public class VentanaCrearSala extends JFrame {
 
 		cantidadRondaField = new JTextField();
 		cantidadRondaField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cantidadRondaField.setBounds(239, 157, 40, 25);
+		cantidadRondaField.setBounds(241, 156, 40, 25);
 		contentPane.add(cantidadRondaField);
 		cantidadRondaField.setColumns(10);
 		cantidadRondaField.addActionListener(new ActionListener() {
@@ -100,9 +101,19 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		nombreField.setBounds(239, 118, 151, 25);
+		nombreField.setBounds(239, 119, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
+		
+		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
+		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMaxUsuarios.setBounds(16, 198, 218, 33);
+		contentPane.add(lblMaxUsuarios);
+		
+		txtMaxUsuarios = new JTextField();
+		txtMaxUsuarios.setBounds(241, 198, 40, 26);
+		contentPane.add(txtMaxUsuarios);
+		txtMaxUsuarios.setColumns(10);
 
 	}
 
