@@ -4,7 +4,6 @@ import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
-
 import servidor.Servidor;
 
 public class UsuarioDAO {
@@ -41,7 +40,7 @@ public class UsuarioDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Usuario registrar(String username, String hashPassword) {
+	public static int registrar(String username, String hashPassword) {
 		Transaction txReg = null;
 
 		try {
@@ -55,7 +54,7 @@ public class UsuarioDAO {
 			if (!resultList.isEmpty()) {
 
 				System.out.println("Ese nombre de usuario ya existe");
-				return null;
+				return 1;
 				
 			} else {
 
@@ -63,7 +62,7 @@ public class UsuarioDAO {
 				List<Integer> id = queryMaxID.getResultList();
 				Usuario registrar = new Usuario(id.get(0).intValue() + 1, username, hashPassword, 0, 0, 0, 0, 0, 0);
 				Servidor.getSessionHibernate().save(registrar);
-				return registrar;
+				return 0;
 			}
 
 		} catch (HibernateException e) {
@@ -73,6 +72,6 @@ public class UsuarioDAO {
 		} finally {
 			txReg.commit();
 		}
-		return null;
+		return -1;
 	}
 }

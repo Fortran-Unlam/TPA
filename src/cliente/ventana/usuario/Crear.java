@@ -1,21 +1,17 @@
 package cliente.ventana.usuario;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import org.apache.commons.codec.digest.DigestUtils;
-
 import cliente.Main;
-import cliente.ventana.VentanaMenu;
-import looby.Usuario;
+import config.Param;
+import servidor.Message;
 
 public class Crear extends JFrame {
 
@@ -68,7 +64,7 @@ public class Crear extends JFrame {
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					registrarUsuario();
+					registrarUsuario(ventanaLogin);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -80,33 +76,46 @@ public class Crear extends JFrame {
 		getContentPane().add(lblCrearUsuario);
 	}
 
-	protected void registrarUsuario() throws IOException {
+	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
 
 		if (this.password.getText().equals(this.confirmPassword.getText())) {
 
 			String hashPassword = DigestUtils.md5Hex(this.password.getText());
-			Usuario usuario = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+			Message usuario = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
 
-			if (usuario != null) {
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							VentanaMenu frame = new VentanaMenu();
-							frame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-
-				this.dispose();
-			} else {
-				JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
-						"Error login", JOptionPane.WARNING_MESSAGE);
-			}
+			switch(usuario.getType()) {
+				case Param.REQUEST_REGISTRO_INCORRECTO : 
+						JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
+								"Error login", JOptionPane.WARNING_MESSAGE); 
+						this.username.setText("");
+						this.password.setText("");
+						this.confirmPassword.setText("");
+						this.username.setFocusable(true);
+						break;
+				case  Param.REQUEST_REGISTRO_CORRECTO : 
+						JOptionPane.showMessageDialog(null, "El usuario se ha registrado exitosamente..",
+								"Aviso", JOptionPane.WARNING_MESSAGE);
+						this.dispose();
+						ventanaLogin.setVisible(true);
+						break;
+						
+				case  Param.REQUEST_REGISTRO_DUPLICADO : 
+						JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe, intentelo nuevamente",
+								"Aviso", JOptionPane.WARNING_MESSAGE); 
+						this.username.setText("");
+						this.password.setText("");
+						this.confirmPassword.setText("");
+						this.username.setFocusable(true);
+						break; 
+			}	
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, por favor intentelo nuevamente.",
 					"Error login", JOptionPane.WARNING_MESSAGE);
+			this.username.setText("");
+			this.password.setText("");
+			this.confirmPassword.setText("");
+			this.username.setFocusable(true);
 		}
 	}
 }

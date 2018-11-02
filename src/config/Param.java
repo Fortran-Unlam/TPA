@@ -33,6 +33,7 @@ public abstract class Param {
 	public static final String REQUEST_REGISTRAR_USUARIO = "registrar";
 	public static final String REQUEST_REGISTRO_CORRECTO = "RegistroCorrecto";
 	public static final String REQUEST_REGISTRO_INCORRECTO = "RegistroIncorrecto";
+	public static final String REQUEST_REGISTRO_DUPLICADO = "RegistroDuplicado";
 	public static final String REQUEST_CREAR_SALA = "CrearSala";
 	public static final String REQUEST_SALA_CREADA = "SalaCreada";
 	

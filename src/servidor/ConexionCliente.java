@@ -70,17 +70,21 @@ public class ConexionCliente extends Thread {
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
 
-					usuario = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
+					int resultado = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
 							(String) ((ArrayList) message.getData()).get(1));
-					if (usuario == null) {
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
-					} else {
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, usuario));
-					}
+					
+					switch(resultado) {
+						case -1 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null)); break;
+						case  0 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null)); break;
+						case  1 : this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null)); break;
+					}	
+					
 					break;
+					
 				case Param.REQUEST_GET_ALL_SALAS:
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
+					
 				case Param.REQUEST_CREAR_SALA:
 
 					ArrayList data = ((ArrayList) message.getData());

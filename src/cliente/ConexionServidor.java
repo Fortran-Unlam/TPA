@@ -74,7 +74,7 @@ public class ConexionServidor {
 	}
 
 	
-	public Usuario registrar(String username, String hashPassword) {
+	public Message registrar(String username, String hashPassword) {
 		try {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
@@ -82,20 +82,13 @@ public class ConexionServidor {
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, ret));
 
 			this.message = (Message) entradaDatos.readObject();
+			return this.message;
 
-			switch (this.message.getType()) {
-			case Param.REQUEST_REGISTRO_CORRECTO:
-				this.usuario = (Usuario) message.getData();
-				return this.usuario;
-			case Param.REQUEST_REGISTRO_INCORRECTO:
-				return null;
-			default:
-				return null;
-			}
+			
 		} catch (Exception e) {
 			System.out.println("no pudo registrar " + e.getMessage());
 		}
-		return null;
+		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
 	
 	
