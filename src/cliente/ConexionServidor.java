@@ -32,11 +32,11 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
 
-			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
+			this.entradaDatos = new ObjectInputStream(this.socket.getInputStream());
 		} catch (IOException ex) {
-			System.err.println("Error al crear el stream: " + ex.getMessage());
+			ex.printStackTrace();
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 		}
 	}
 
@@ -114,10 +114,10 @@ public class ConexionServidor {
 				return null;
 			}
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream de entrada: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,10 +153,10 @@ public class ConexionServidor {
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,10 +179,10 @@ public class ConexionServidor {
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 			return null;
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -202,9 +202,9 @@ public class ConexionServidor {
 			}
 
 		} catch (IOException ex) {
-			System.err.println("Error al leer del stream: " + ex.getMessage());
+			ex.printStackTrace();
 		} catch (NullPointerException ex) {
-			System.err.println("El socket no se creo correctamente. ");
+			ex.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

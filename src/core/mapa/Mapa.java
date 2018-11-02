@@ -107,9 +107,9 @@ public class Mapa implements Serializable {
 
 		for (int intento = 0; intento < 20; intento++) {
 			if (bot) {
-				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)));
 			} else {
-				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)), 10,
+				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)), 10,
 						Posicion.ESTE);
 			}
 			
