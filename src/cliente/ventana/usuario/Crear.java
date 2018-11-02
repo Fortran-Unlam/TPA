@@ -79,7 +79,7 @@ public class Crear extends JFrame {
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				dispose();
 				ventanaLogin.setVisible(true);
 			}
 		});
