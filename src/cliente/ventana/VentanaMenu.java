@@ -104,45 +104,31 @@ public class VentanaMenu extends JFrame {
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
 
-		jListSalas = new JList<String>();
-		jListSalas.setBackground(SystemColor.control);
-		jListSalas.setBorder(null);
-		jListSalas.setBounds(10, 180, 100, 100);
-		jListSalas.setEnabled(true);
+//		jListSalas = new JList<String>();
+//		jListSalas.setBackground(SystemColor.control);
+//		jListSalas.setBorder(null);
+//		jListSalas.setBounds(10, 180, 100, 100);
+//		jListSalas.setEnabled(true);
 
-		// TODO: pasar esto a unir sala
-		contenedor.add(jListSalas);
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					jListSalas.setListData(pedirSalas());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//		// TODO: pasar esto a unir sala
+//		contenedor.add(jListSalas);
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					jListSalas.setListData(pedirSalas());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	private void abrirVentanaUnirSala() {
-		new VentanaUnirSala(this).setVisible(true);
+		new VentanaUnirSala(this);
 	}
 
 	private void abrirVentanaCrearSala() {
 		new VentanaCrearSala(this).setVisible(true);
 	}
 
-	public String[] pedirSalas() throws ClassNotFoundException {
-		java.util.List<Sala> salas = Main.getConexionServidor().getAllSalas();
-
-		if (salas == null) {
-			return new String[0];
-		}
-
-		String[] ret = new String[salas.size()];
-		for (Iterator<Sala> iterator = salas.iterator(); iterator.hasNext();) {
-			Sala sala = (Sala) iterator.next();
-			ret[ret.length + 1] = sala.getNombre();
-		}
-		return ret;
-	}
 }

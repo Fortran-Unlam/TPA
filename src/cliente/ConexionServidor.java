@@ -95,13 +95,13 @@ public class ConexionServidor {
 	
 	
 	/**
-	 * Pide las salas al servidor y espera a que este le responda
+	 * Pide las salas al servidor (solo trae los nombres) y espera a que este le responda
 	 * 
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Sala> getAllSalas() throws ClassNotFoundException {
+	public ArrayList<String> getAllSalas() {
 		try {
 			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
 			this.salidaDatos.writeObject(message);
@@ -109,7 +109,7 @@ public class ConexionServidor {
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_GET_ALL_SALAS:
-				return (List<Sala>) this.message.getData();
+				return (ArrayList<String>) this.message.getData();
 			default:
 				return null;
 			}

@@ -69,6 +69,16 @@ public class Servidor {
 	public static List<Sala> getAllSalas() {
 		return Servidor.salasActivas;
 	}
+	
+	public static ArrayList<String> getTodasLasSalas(){
+		ArrayList<String> salas = new ArrayList<>();
+		
+		for(Sala s: Servidor.salasActivas) {
+			salas.add(s.getNombre());
+		}
+		
+		return salas;
+	}
 
 	public static Session getSessionHibernate() {
 		return sessionHibernate;

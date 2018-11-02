@@ -5,9 +5,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
+
+import cliente.Main;
 import config.Param;
+import looby.Sala;
+
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
@@ -15,6 +20,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 
@@ -23,11 +31,10 @@ public class VentanaUnirSala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
-	@SuppressWarnings("rawtypes")
-	private JList list;
+	private JList<String> listSalas;
 	public String salaSeleccionada;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "rawtypes" })
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
 		ventanaMenu.setVisible(false);
@@ -55,59 +62,83 @@ public class VentanaUnirSala extends JFrame {
 		scrollPane.setBounds(12, 98, 454, 209);
 		contentPane.add(scrollPane);
 		
-		
-		list = new JList();
-		list.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getClickCount() == 1) {
-					salaSeleccionada = ((String) list.getSelectedValue());
-				}
-			}
-		});
-		
-		DefaultListModel salas = new DefaultListModel();
-		salas.addElement("Sala 1");
-		salas.addElement("Sala 2");
-		salas.addElement("Sala 3");
-		
-		list.setModel(salas);		
-		scrollPane.setViewportView(list);
-		//Agregar lista de salas. Ver de donde viene la lista.
-		
 		JButton btnRefrescarSalas = new JButton("Refrescar");
-		btnRefrescarSalas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//Ver como refrescar salas cuando tengamos eso listo.
-			}
-		});
 		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnRefrescarSalas);
 		
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnUnirse);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnVolver);
+		setLocationRelativeTo(this.ventanaMenu);
+		
+		listSalas = new JList();
+		listSalas.setBackground(SystemColor.control);
+		listSalas.setBorder(null);
+		listSalas.setBounds(10, 180, 100, 100);
+		listSalas.setEnabled(true);
+		
+		
+		listSalas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 1) {
+					salaSeleccionada = ((String) listSalas.getSelectedValue());
+				}
+			}
+		});
+		
+		btnRefrescarSalas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//Ver como refrescar salas cuando tengamos eso listo.
+			}
+		});
+		
+		
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				abrirVentanaSala(salaSeleccionada);
 			}
 		});
-		contentPane.add(btnUnirse);
 		
-		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ventanaMenu.setVisible(true);
 				dispose();	
 			}
 		});
-		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnVolver);
-		setLocationRelativeTo(this.ventanaMenu);
+		
+		//Apenas se construye, mando a pedir las salas al server.
+		DefaultListModel<String> modelDeSalasActivasQueMeDioElServer = pedirSalas();
+		
+		if(modelDeSalasActivasQueMeDioElServer.isEmpty()) {
+			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
+			noHaySalas.addElement("No hay niguna sala");
+			this.listSalas.setModel(noHaySalas);
+		}else {
+			this.listSalas.setModel(modelDeSalasActivasQueMeDioElServer);
+		}
+		
+		this.setVisible(true);
 		
 	}
 	
 	private void abrirVentanaSala(String salaSeleccionada) {
 		new VentanaSala(this,null).setVisible(true);
+	}
+	
+	public DefaultListModel<String> pedirSalas() {
+		ArrayList<String> salas = Main.getConexionServidor().getAllSalas();
+		DefaultListModel<String> modelSalasActivas = new DefaultListModel<>();
+		
+		for(String s: salas) {
+			modelSalasActivas.addElement(s);
+		}
+		
+		return modelSalasActivas;
 	}
 	
 }
