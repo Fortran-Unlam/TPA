@@ -100,22 +100,23 @@ public class Vibora implements Serializable {
 	 * posici�n de la lista de cuerpos de vibora.
 	 */
 	public void cabecear() {
-		CuerpoVibora newHead = new CuerpoVibora(null, true);
-
+		int x = this.head.getX();
+		int y = this.head.getY();
 		switch (this.sentido) {
 		case ESTE:
-			newHead = new CuerpoVibora(new Coordenada(this.head.getX() + 1, this.head.getY()));
+			x++;
 			break;
 		case OESTE:
-			newHead = new CuerpoVibora(new Coordenada(this.head.getX() - 1, this.head.getY()));
+			x--;
 			break;
 		case NORTE:
-			newHead = new CuerpoVibora(new Coordenada(this.head.getX(), this.head.getY() + 1));
+			y++;
 			break;
 		case SUR:
-			newHead = new CuerpoVibora(new Coordenada(this.head.getX(), this.head.getY() - 1));
+			y--;
 			break;
 		}
+		CuerpoVibora newHead = new CuerpoVibora(new Coordenada(x, y));
 
 		this.head.setHead(false); // ya no va a ser mas la cabeza
 		this.bodies.addFirst(this.head); // ahora es un cuerpo

@@ -29,40 +29,42 @@ public class JugadorBot extends Jugador {
 	public void determinarMovimiento(Mapa mapa) {
 		if (new Random().nextFloat() > 0.65) {
 			if (this.getVibora() != null) {
-				Posicion sentido = Posicion.values()[new Random().nextInt(Posicion.values().length)];
-				this.getVibora().setSentido(sentido);
-				int x = 0;
-				int y = 0;
-				switch (sentido) {
-				case ESTE:
-					x = this.getVibora().getX() + 1;
-					y = this.getVibora().getY();
-					break;
-				case OESTE:
-					x = this.getVibora().getX() - 1;
-					y = this.getVibora().getY();
-					break;
-				case NORTE:
-					x = this.getVibora().getX();
-					y = this.getVibora().getY() + 1;
-					break;
-				case SUR:
-					x = this.getVibora().getX();
-					y = this.getVibora().getY() - 1;
-					break;
-				}
-				boolean cambiar = false;
-				for (CuerpoVibora cuerpoVibora : this.getVibora().getCuerpos()) {
-					if (x == cuerpoVibora.getX() && y == cuerpoVibora.getY()) {
+				Random random = new Random(System.currentTimeMillis());
+				boolean cambiar = true;
+				while (cambiar) {
+					cambiar = false;
+					Posicion sentido = Posicion.values()[random.nextInt(Posicion.values().length)];
+					this.getVibora().setSentido(sentido);
+
+					int x = this.getVibora().getX();
+					int y = this.getVibora().getY();
+
+					switch (sentido) {
+					case ESTE:
+						x++;
+						break;
+					case OESTE:
+						x--;
+						break;
+					case NORTE:
+						y++;
+						break;
+					case SUR:
+						y--;
+						break;
+					}
+					
+					for (CuerpoVibora cuerpoVibora : this.getVibora().getCuerpos()) {
+						if (x == cuerpoVibora.getX() && y == cuerpoVibora.getY()) {
+							cambiar = true;
+							break;
+						}
+					}
+					
+					if (x >= Param.MAPA_MAX_X || y >= Param.MAPA_MAX_Y || y <= 0
+							|| x <= 0 || mapa.getObstaculo(x, y) != null) {
 						cambiar = true;
 					}
-				}
-				if (mapa.getObstaculo(x, y) != null || x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0) {
-					cambiar = true;
-				}
-				if (cambiar) {
-					sentido = Posicion.values()[new Random().nextInt(Posicion.values().length)];
-					this.getVibora().setSentido(sentido);					
 				}
 			}
 		}
