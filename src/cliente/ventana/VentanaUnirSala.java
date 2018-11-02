@@ -45,22 +45,6 @@ public class VentanaUnirSala extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		this.listSalas = new JList<>();
-		listSalas.setBackground(SystemColor.control);
-		listSalas.setBorder(null);
-		listSalas.setBounds(10, 98, 438, 209);
-		listSalas.setEnabled(true);
-		contentPane.add(listSalas);
-
-		listSalas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getClickCount() == 1) {
-					salaSeleccionada = ((String) listSalas.getSelectedValue());
-				}
-			}
-		});
-
 		JLabel lblSalasDisponibles = new JLabel("Salas disponibles:");
 		lblSalasDisponibles.setForeground(Color.MAGENTA);
 		lblSalasDisponibles.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -72,18 +56,24 @@ public class VentanaUnirSala extends JFrame {
 		scrollPane.setBounds(12, 98, 454, 209);
 		contentPane.add(scrollPane);
 
+		this.listSalas = new JList<>();
+		scrollPane.setViewportView(listSalas);
+		listSalas.setBackground(SystemColor.control);
+		listSalas.setBorder(null);
+		listSalas.setEnabled(true);
+
+		listSalas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 1) {
+					salaSeleccionada = ((String) listSalas.getSelectedValue());
+				}
+			}
+		});
+
 		JButton btnRefrescarSalas = new JButton("Refrescar");
 		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnRefrescarSalas);
-
-		JButton btnUnirse = new JButton("Unirse");
-		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnUnirse);
-
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnVolver);
-		setLocationRelativeTo(this.ventanaMenu);
 
 		btnRefrescarSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -91,12 +81,19 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
+		JButton btnUnirse = new JButton("Unirse");
+		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnUnirse);
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				abrirVentanaSala(salaSeleccionada);
 			}
 		});
 
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnVolver);
+		setLocationRelativeTo(this.ventanaMenu);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ventanaMenu.setVisible(true);
