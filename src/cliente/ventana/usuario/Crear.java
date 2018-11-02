@@ -25,14 +25,14 @@ public class Crear extends JFrame {
 	private JTextField confirmPassword;
 
 	public Crear(JFrame ventanaLogin) {
-		
+
 		ventanaLogin.setVisible(false);
-		
+
 		this.setTitle("Registrarse");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
 		this.setLocationRelativeTo(null);
-		
+
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Usuario");
@@ -79,30 +79,34 @@ public class Crear extends JFrame {
 		lblCrearUsuario.setBounds(119, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
 	}
-	
 
 	protected void registrarUsuario() throws IOException {
 
-		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-		Usuario usuario = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+		if (this.password.getText().equals(this.confirmPassword.getText())) {
 
-		if (usuario != null) {
-			EventQueue.invokeLater(new Runnable() {
-				public void run() {
-					try {
-						VentanaMenu frame = new VentanaMenu();
-						frame.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
+			String hashPassword = DigestUtils.md5Hex(this.password.getText());
+			Usuario usuario = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+
+			if (usuario != null) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							VentanaMenu frame = new VentanaMenu();
+							frame.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
-				}
-			});
+				});
 
-			this.dispose();
+				this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
+						"Error login", JOptionPane.WARNING_MESSAGE);
+			}
 		} else {
-			JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente", "Error login",
-					JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, por favor intentelo nuevamente.",
+					"Error login", JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	
 }
