@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -42,7 +43,7 @@ public class Login extends JFrame {
 		this.getContentPane().add(username);
 		this.username.setColumns(10);
 
-		this.password = new JTextField();
+		this.password = new JPasswordField();
 		password.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
