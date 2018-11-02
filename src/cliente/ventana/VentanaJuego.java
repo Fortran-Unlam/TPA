@@ -1,9 +1,7 @@
 package cliente.ventana;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -104,7 +102,7 @@ public class VentanaJuego extends JFrame {
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		this.contenedor.add(panelMapa);
-		this.addKeyListener(GestorInput.teclado);
+		this.addKeyListener(new GestorInput().teclado);
 		this.setFocusable(true);
 		this.setVisible(true);
 

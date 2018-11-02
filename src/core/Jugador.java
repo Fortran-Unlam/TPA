@@ -3,6 +3,7 @@ package core;
 import java.io.Serializable;
 
 import cliente.input.GestorInput;
+import config.Posicion;
 import core.entidad.Vibora;
 import looby.Usuario;
 
@@ -12,7 +13,8 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 	private Vibora vibora;
 	private String nombre;
 	private int frutasComidasEnRonda;
-
+	private GestorInput teclado;
+	
 	/**
 	 * 
 	 * @param vibora
@@ -59,14 +61,25 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 		return this.frutasComidasEnRonda;
 	}
 
+	public void setTecla(Posicion posicion) {
+		this.teclado.setUltimaTecla(posicion);
+	}
+
+	public Posicion getTecla() {
+		if (this.teclado != null) {
+			return this.teclado.getUltimaTecla();			
+		}
+		return null;
+	}
+	
 	public void determinarMovimiento() {
-		if (GestorInput.teclado.ultimaPulsada != null) {
+		if (this.getTecla() != null) {
 			if (this.getVibora() != null) {
-				this.getVibora().setSentido(GestorInput.teclado.ultimaPulsada);				
+				this.getVibora().setSentido(this.getTecla());				
 			}
 		}
 	}
-	
+
 	@Override
 	public int compareTo(Jugador otro) {
 		return otro.frutasComidasEnRonda - this.frutasComidasEnRonda;

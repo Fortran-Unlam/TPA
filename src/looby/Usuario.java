@@ -6,6 +6,7 @@ import javax.json.Json;
 import javax.json.JsonObject;
 
 import config.Param;
+import core.Jugador;
 
 public class Usuario implements Serializable {
 
@@ -20,6 +21,7 @@ public class Usuario implements Serializable {
 	private int partidasGanadas;
 	private int rondasGanadas;
 	private Sala sala;
+	private Jugador jugador;
 
 	public Usuario(String username, String password) {
 		this.username = username;
@@ -152,4 +154,15 @@ public class Usuario implements Serializable {
 				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
 	}
 
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
+	}
+
+	public Jugador getJugador() {
+		if (this.jugador != null) {
+			return this.jugador;			
+		}
+		
+		return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
+	}
 }

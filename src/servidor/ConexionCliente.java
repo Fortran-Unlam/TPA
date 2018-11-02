@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
 import looby.Sala;
@@ -90,6 +89,7 @@ public class ConexionCliente extends Thread {
 					sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
 
 					Servidor.agregarASalasActivas(sala);
+					this.usuario = usuario;
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					break;
@@ -97,7 +97,7 @@ public class ConexionCliente extends Thread {
 
 					sala = (Sala) message.getData();
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
-					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
+					sala.agregarUsuarioASala(new UsuarioBot("jo", "an"));
 					sala.crearPartida(2, new TipoJuego());
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala));
@@ -105,7 +105,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_ENVIAR_TECLA:
 
 					Posicion posicion = (Posicion) message.getData();
-					GestorInput.teclado.ultimaPulsada = posicion;
+					this.usuario.getJugador().setTecla(posicion);
 					break;
 				default:
 					break;

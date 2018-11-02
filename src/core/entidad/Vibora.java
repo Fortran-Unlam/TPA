@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
-import cliente.input.GestorInput;
 import config.Posicion;
 import core.Coordenada;
 

@@ -16,8 +16,8 @@ public class Sala implements Serializable {
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas = 0;
-	private List<Partida> partidasJugadas = new ArrayList<Partida>();
-	private List<Usuario> usuariosActivos = new ArrayList<Usuario>();
+	private ArrayList<Partida> partidasJugadas = new ArrayList<Partida>();
+	private ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private Partida partidaActual;
 	private Usuario usuarioCreador;
 
@@ -121,5 +121,9 @@ public class Sala implements Serializable {
 
 	public void quitarUsuario(Usuario usuarioOtro) {
 		this.usuariosActivos.remove(usuarioOtro);		
+	}
+	
+	public ArrayList<Usuario> getUsuariosActivos() {
+		return this.usuariosActivos;
 	}
 }

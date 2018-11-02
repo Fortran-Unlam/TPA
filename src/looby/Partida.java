@@ -1,11 +1,9 @@
 package looby;
 
-import java.awt.EventQueue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import cliente.Main;
 import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
@@ -15,21 +13,27 @@ public class Partida implements Serializable {
 	private static final long serialVersionUID = 5614028727088648640L;
 	private int id;
 	private boolean partidaEnCurso = false;
-	private List<Juego> rondasJugadas = new ArrayList<Juego>();
-	private List<Jugador> jugadoresEnPartida = new ArrayList<Jugador>();
+	private ArrayList<Juego> rondasJugadas = new ArrayList<Juego>();
+	private ArrayList<Jugador> jugadoresEnPartida = new ArrayList<Jugador>();
 	private Juego rondaEnCurso;
 	private TipoJuego tipoDeJuegoDeLaPartida;
 	private int cantidadDeRondasAJugar;
 	private int numeroRonda = 0;
+	private ArrayList<Usuario> usuariosActivosEnSala;
 
-	public Partida(int id, List<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo) {
+	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo) {
 		this.id = id;
+		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
+			Jugador jugador;
 			if (usuario instanceof UsuarioBot) {
-				this.jugadoresEnPartida.add(new JugadorBot(usuario));
+				jugador = new JugadorBot(usuario);
+				this.jugadoresEnPartida.add(jugador);
 			} else {
-				this.jugadoresEnPartida.add(new Jugador(usuario));				
+				jugador = new Jugador(usuario);
+				this.jugadoresEnPartida.add(jugador);				
 			}
+			usuario.setJugador(jugador);
 		}
 		this.cantidadDeRondasAJugar = cantidadDeRondasDePartida;
 		this.tipoDeJuegoDeLaPartida = tipo;
@@ -83,6 +87,10 @@ public class Partida implements Serializable {
 
 	public Juego getRondaEnCurso() {
 		return rondaEnCurso;
+	}
+	
+	public ArrayList<Usuario> getUsuariosActivosEnSala() {
+		return this.usuariosActivosEnSala;
 	}
 }
 

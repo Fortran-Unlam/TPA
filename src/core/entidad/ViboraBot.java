@@ -1,8 +1,5 @@
 package core.entidad;
 
-import java.util.Random;
-
-import config.Posicion;
 import core.Coordenada;
 
 public class ViboraBot extends Vibora {

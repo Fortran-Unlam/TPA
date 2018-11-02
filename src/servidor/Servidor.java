@@ -77,10 +77,14 @@ public class Servidor {
 	public static void actualizarMapa(Mapa mapa) {
 		try {
 			for (ConexionCliente conexionCliente : conexionClientes) {				
-				if (conexionCliente != null && conexionCliente.getSalidaDatos() != null) {
-					
-					conexionCliente.getSalidaDatos().reset();
-					conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+				if (conexionCliente != null && conexionCliente.getSalidaDatos() != null && mapa != null) {
+					try {
+						conexionCliente.getSalidaDatos().reset();
+						conexionCliente.getSalidaDatos().flush();
+						conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+					} catch(IOException e) {
+						System.out.println("sucede porque todavia no envie un mapa");
+					}
 				}
 			}
 		} catch (Exception e) {

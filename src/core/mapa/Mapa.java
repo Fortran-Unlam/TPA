@@ -17,6 +17,7 @@ import core.entidad.Fruta;
 import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
+import looby.Usuario;
 
 public class Mapa implements Serializable {
 
@@ -191,7 +192,6 @@ public class Mapa implements Serializable {
 		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
 
 		for (Jugador jugador : this.jugadores) {
-			
 			jugador.determinarMovimiento();
 			
 			jugador.getVibora().cabecear();

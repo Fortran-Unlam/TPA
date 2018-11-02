@@ -30,5 +30,4 @@ public class JugadorBot extends Jugador {
 			}
 		}
 	}
-
 }
