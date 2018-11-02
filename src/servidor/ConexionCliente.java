@@ -19,7 +19,7 @@ public class ConexionCliente extends Thread {
 
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
-	protected ObjectOutputStream salidaDatos;
+	private ObjectOutputStream salidaDatos;
 
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
@@ -124,5 +124,9 @@ public class ConexionCliente extends Thread {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	public ObjectOutputStream getSalidaDatos() {
+		return this.salidaDatos;
 	}
 }

@@ -74,10 +74,10 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
-			if (conexionCliente != null && conexionCliente.salidaDatos != null) {
+			if (conexionCliente != null && conexionCliente.getSalidaDatos() != null) {
 				
-				conexionCliente.salidaDatos.reset();
-				conexionCliente.salidaDatos.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+				conexionCliente.getSalidaDatos().reset();
+				conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
