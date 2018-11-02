@@ -58,7 +58,7 @@ public class ConexionCliente extends Thread {
 							(String) ((ArrayList) message.getData()).get(1));
 
 					if (usuario == null) {
-						System.out.println("Usuario y/o contrase�a incorrectos");
+						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
 					} else {
 						Servidor.usuariosActivos.add(usuario);
