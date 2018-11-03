@@ -59,7 +59,7 @@ public class ConexionServidor {
 
 			this.message = (Message) entradaDatos.readObject();
 			this.usuario = new Usuario(username, hashPassword);
-			
+
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
 				// TODO: deberia dar mas info como puntos
@@ -197,7 +197,7 @@ public class ConexionServidor {
 
 				Object ret = entradaDatos.readObject();
 				if (ret instanceof Boolean == false && ret instanceof String == false) {
-					//TODO: preguntar al profe
+					// TODO: preguntar al profe
 					this.message = (Message) ret;
 
 					switch (this.message.getType()) {
@@ -237,16 +237,18 @@ public class ConexionServidor {
 		}
 
 	}
-	
-	public void recibirActualizacionDeSala() {
-		while(true) {
-			try {
-				//se quieda esperando que el server envíe algún tipo de actualizacion;
-				Object loQueMeDaElServer = this.entradaDatos.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+
+	public ArrayList<String> recibirActualizacionDeSala() {
+		try {
+			// se queda esperando que el server envíe algún tipo de actualizacion;
+			Message loQueMeDaElServer = (Message) this.entradaDatos.readObject();
+			if (loQueMeDaElServer.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
+				return (ArrayList<String>) loQueMeDaElServer.getData();
 			}
-			
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
 		}
+		return null;
+
 	}
 }

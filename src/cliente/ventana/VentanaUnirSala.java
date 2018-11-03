@@ -6,6 +6,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
+import cliente.ConexionServidor;
 import cliente.Main;
 import config.Param;
 
@@ -29,6 +30,7 @@ public class VentanaUnirSala extends JFrame {
 	private VentanaMenu ventanaMenu;
 	private JList<String> listSalas;
 	private String salaSeleccionada;
+	private boolean ingresoaSalaOSeFue = false;
 
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -86,6 +88,7 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(btnUnirse);
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ingresoaSalaOSeFue = true;
 				abrirVentanaSala(salaSeleccionada);
 			}
 		});
@@ -96,6 +99,7 @@ public class VentanaUnirSala extends JFrame {
 		setLocationRelativeTo(this.ventanaMenu);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ingresoaSalaOSeFue = true;
 				ventanaMenu.setVisible(true);
 				dispose();
 			}
@@ -117,14 +121,17 @@ public class VentanaUnirSala extends JFrame {
 		this.setVisible(true);
 		
 		//Acá debemos crear el thread de sincronizacion para refrescar las salas
-//		Thread threadSync = new Thread() {
-//			public void run() {
-//
-//				
-//			}
-//		};
-//		threadSync.start();
-//		
+		Thread threadSync = new Thread() {
+			public void run() {
+				
+				while(true && !ingresoaSalaOSeFue) {
+					Main.getConexionServidor().recibirActualizacionDeSala();
+				}
+				//Segun jony de acá adentro puedo ver lo de afuera.... mmmmmm
+			}
+		};
+		threadSync.start();
+		
 
 	}
 
