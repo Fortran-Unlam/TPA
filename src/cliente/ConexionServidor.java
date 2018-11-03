@@ -195,6 +195,7 @@ public class ConexionServidor {
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
 			while (true) {
+				Object ent = entradaDatos.readObject();
 				this.message = (Message) entradaDatos.readObject();
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
