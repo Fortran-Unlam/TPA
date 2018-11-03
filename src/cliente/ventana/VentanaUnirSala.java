@@ -128,8 +128,10 @@ public class VentanaUnirSala extends JFrame {
 		ArrayList<String> salas = Main.getConexionServidor().getAllSalas();
 		DefaultListModel<String> modelSalasActivas = new DefaultListModel<String>();
 
-		for (int i = 0; i < salas.size(); i++) {
-			modelSalasActivas.addElement(salas.get(i));
+		for (String s : salas) {
+			String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
+			String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
+			modelSalasActivas.addElement(salida);
 		}
 
 		return modelSalasActivas;
