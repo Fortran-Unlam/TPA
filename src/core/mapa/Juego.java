@@ -55,6 +55,7 @@ public class Juego  implements Serializable {
 				// this.jListScore.setModel(score.ScoreToModel());
 				Thread.sleep(1000/10);
 			}
+			Servidor.avisarFinJuego();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

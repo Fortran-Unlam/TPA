@@ -6,7 +6,7 @@ public abstract class Param implements Serializable {
 	
 	private static final long serialVersionUID = 6653691337938229625L;
 	public static final int VENTANA_JUEGO_WIDTH = 1000;
-	public static final int VENTANA_JUEGO_HEIGHT = 800;
+	public static final int VENTANA_JUEGO_HEIGHT = 700;
 	
 	public static final int BOTON_WIDTH = 130;
 	public static final int BOTON_HEIGHT = 40;
@@ -18,7 +18,7 @@ public abstract class Param implements Serializable {
 	public static final int VENTANA_SALA_HEIGHT = 450;
 
 	public static final int MAPA_WIDTH = 800;
-	public static final int MAPA_HEIGHT = 800;
+	public static final int MAPA_HEIGHT = 700;
 
 	public static final int PIXEL_RESIZE = 5;
 

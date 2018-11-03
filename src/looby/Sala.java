@@ -34,7 +34,6 @@ public class Sala implements Serializable {
 			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
 			
-			usuario.unirseASala(this);
 			return true;
 		}
 		this.salaLlena = true;

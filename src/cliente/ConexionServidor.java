@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
@@ -164,7 +163,7 @@ public class ConexionServidor {
 		return null;
 	}
 
-	public boolean comenzarJuego(Sala sala) {
+	public boolean comenzarJuego() {
 		try {
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);

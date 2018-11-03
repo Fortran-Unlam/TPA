@@ -53,13 +53,9 @@ public class Usuario implements Serializable {
 	}
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
-		this.sala = new Sala(nombreSala, cantDeUsrMaximos, this);
-		return this.sala;
-	}
-
-	public Usuario unirseASala(Sala sala) {
-		this.sala = sala;
-		return this;
+		Sala sala = new Sala(nombreSala, cantDeUsrMaximos, this);
+		sala.agregarUsuarioASala(this);
+		return sala;
 	}
 
 	public Usuario salirDeSala() {

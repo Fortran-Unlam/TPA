@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.hibernate.Session;
 
@@ -16,8 +15,8 @@ import looby.Usuario;
 
 public class Servidor {
 
-	private static List<Sala> salasActivas = new ArrayList<>();
-	public static List<Usuario> usuariosActivos = new ArrayList<>();
+	private static ArrayList<Sala> salasActivas = new ArrayList<>();
+	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 
@@ -109,6 +108,10 @@ public class Servidor {
 	public static void desconectar(ConexionCliente conexionCliente) {
 		conexionCliente.interrupt();
 		conexionClientes.remove(conexionCliente);
+	}
+
+	public static void avisarFinJuego() {
+		
 	}
 	
 }

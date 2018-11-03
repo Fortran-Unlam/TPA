@@ -95,7 +95,9 @@ public class ConexionCliente extends Thread {
 
 					ArrayList data = ((ArrayList) message.getData());
 					if (!Servidor.existeSala((String) data.get(0))) { // me fijo si existe
+						
 						sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
+						
 						Servidor.agregarASalasActivas(sala);
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
 					}else {

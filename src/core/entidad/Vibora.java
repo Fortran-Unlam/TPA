@@ -134,12 +134,15 @@ public class Vibora implements Serializable {
 	 * 
 	 * @param sentido
 	 */
-
 	public void setSentido(final Posicion sentido) {
 
 		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
+	}
+	
+	public Posicion getSentido() {
+		return this.sentido;
 	}
 
 	private void generaCuerpo(final int largo) {
