@@ -76,17 +76,14 @@ public class ConexionCliente extends Thread {
 
 					switch (resultado) {
 					case -1:
-						System.out.println("resultado -1");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
 						break;
 					case 0:
 
-						System.out.println("resultado 0");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null));
 						break;
 					case 1:
 
-						System.out.println("resultado 1");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null));
 						break;
 					}
