@@ -64,10 +64,14 @@ public class ConexionServidor {
 			case Param.REQUEST_LOGUEO_CORRECTO:
 				// TODO: deberia dar mas info como puntos
 				this.usuario.setId((int) message.getData());
+				System.out.println("id de usuario " + this.usuario.getId());
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");
 				return null;
+			case Param.REQUEST_LOGUEO_DUPLICADO:
+				System.out.println("no loguee, usuario ya logeado.");
+				return new Usuario(-1);
 			default:
 				return null;
 			}
@@ -191,7 +195,8 @@ public class ConexionServidor {
 		try {
 			while (true) {
 				Object ret = entradaDatos.readObject();
-				if (ret instanceof Boolean == false) {
+				if (ret instanceof Boolean == false && ret instanceof String == false) {
+					//TODO: preguntar al profe
 					this.message = (Message) ret;
 
 					switch (this.message.getType()) {
@@ -199,6 +204,8 @@ public class ConexionServidor {
 						ventanaJuego.dibujarMapa((Mapa) this.message.getData());
 					default:
 					}
+				} else {
+					System.err.println("FANTASMIN::: " + ret);					
 				}
 			}
 

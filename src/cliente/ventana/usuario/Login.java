@@ -102,7 +102,7 @@ public class Login extends JFrame {
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());	
 		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);
 
-		if (usuario != null) {
+		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					try {
@@ -115,7 +115,17 @@ public class Login extends JFrame {
 			});
 
 			this.dispose();
-		} else {
+		//Usuario duplicado.
+		} else if (usuario != null && usuario.getId() == -1)
+		{
+			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login",
+					JOptionPane.WARNING_MESSAGE);
+			this.username.setText("");
+			this.password.setText("");
+			this.username.setFocusable(true);
+		}
+		else
+		{
 			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 			this.username.setText("");
