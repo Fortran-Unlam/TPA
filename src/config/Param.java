@@ -51,4 +51,5 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_MOSTRAR_MAPA = "MostrarMapa";
 	public static final String REQUEST_ENVIAR_TECLA = "enviarTecla";
 	public static final int CANTIDAD_FRUTA_MINIMAS = 25;
+	public static final String SEPARADOR_EN_STRING = "|";
 }

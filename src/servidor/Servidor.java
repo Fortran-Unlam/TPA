@@ -23,25 +23,25 @@ public class Servidor {
 
 	public static void main(String[] args) {
 
-		ServerSocket servidor = null;
+		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
 		Socket socketIn = null;
 		Socket socketOut = null;
 
 		try {
-			servidor = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
 			System.out.println("Corriendo en " + Param.PORT_1);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			
+
 			while (true) {
-				socketIn = servidor.accept();
+				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
 
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
-				
+
 				conexionClientes.add(conexionCliente);
 
 				conexionCliente.start();
@@ -51,8 +51,8 @@ public class Servidor {
 			System.out.println(ex.getMessage());
 		} finally {
 			try {
-				if (servidor != null) {
-					servidor.close();
+				if (servidorIn != null) {
+					servidorIn.close();
 				}
 				if (socketIn != null) {
 					socketIn.close();
@@ -66,10 +66,10 @@ public class Servidor {
 	public static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
-	
+
 	public static boolean existeSala(String nameRoom) {
-		for(Sala s: Servidor.salasActivas) {
-			if(s.getNombre() == nameRoom)
+		for (Sala s : Servidor.salasActivas) {
+			if (s.getNombre() == nameRoom)
 				return true;
 		}
 		return false;
@@ -78,14 +78,17 @@ public class Servidor {
 	public boolean agregarAUsuariosActivos(Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
 	}
-	
-	public static ArrayList<String> getAllSalas(){
+
+	public static ArrayList<String> getAllSalas() {
 		ArrayList<String> salas = new ArrayList<>();
-		
-		for(Sala s: Servidor.salasActivas) {
-			salas.add(s.getNombre());
+
+		for (Sala s : Servidor.salasActivas) {
+			String sala = "";
+			sala = s.getNombre() + Param.SEPARADOR_EN_STRING + s.getCantidadUsuarioActuales()
+					+ Param.SEPARADOR_EN_STRING + s.getCantidadUsuarioMaximos();
+			salas.add(sala);
 		}
-		
+
 		return salas;
 	}
 
@@ -99,19 +102,20 @@ public class Servidor {
 				if (usuario != null && usuario.getConexion().getSalidaDatos() != null && mapa != null) {
 					try {
 						for (Jugador jugadorMapa : mapa.getJugadores()) {
-							
+
 							if (usuario.getJugador().equals(jugadorMapa)) {
 								usuario.getConexion().getSalidaDatos().reset();
 								usuario.getConexion().getSalidaDatos().flush();
-								usuario.getConexion().getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+								usuario.getConexion().getSalidaDatos()
+										.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
 							}
 						}
-						
-					} catch(IOException e) {
+
+					} catch (IOException e) {
 						System.out.println("sucede porque todavia no envie un mapa");
 					}
 				}
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,7 +128,7 @@ public class Servidor {
 	}
 
 	public static void avisarFinJuego() {
-		
+
 	}
-	
+
 }

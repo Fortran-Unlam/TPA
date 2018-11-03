@@ -13,6 +13,7 @@ public class Sala implements Serializable {
 	private String nombre;
 
 	private boolean salaLlena = false;
+
 	private int cantidadUsuarioActuales;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas = 0;
@@ -33,7 +34,7 @@ public class Sala implements Serializable {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
 			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
-			
+
 			return true;
 		}
 		this.salaLlena = true;
@@ -61,7 +62,7 @@ public class Sala implements Serializable {
 	 */
 	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipoJuego) {
 		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
-			
+
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadDeRondasDePartida, tipoJuego);
 			this.comenzarPartida();
@@ -108,7 +109,7 @@ public class Sala implements Serializable {
 		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
 		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
 	}
-	
+
 	public Partida getPartidaActual() {
 		return partidaActual;
 	}
@@ -119,10 +120,18 @@ public class Sala implements Serializable {
 	}
 
 	public void quitarUsuario(Usuario usuarioOtro) {
-		this.usuariosActivos.remove(usuarioOtro);		
+		this.usuariosActivos.remove(usuarioOtro);
 	}
-	
+
 	public ArrayList<Usuario> getUsuariosActivos() {
 		return this.usuariosActivos;
+	}
+
+	public int getCantidadUsuarioActuales() {
+		return cantidadUsuarioActuales;
+	}
+
+	public int getCantidadUsuarioMaximos() {
+		return cantidadUsuarioMaximos;
 	}
 }

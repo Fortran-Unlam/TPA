@@ -194,14 +194,7 @@ public class ConexionServidor {
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
 			while (true) {
-<<<<<<< HEAD
-				Object ent = entradaDatos.readObject();
-				this.message = (Message) entradaDatos.readObject();
-				switch (this.message.getType()) {
-				case Param.REQUEST_MOSTRAR_MAPA:
-					ventanaJuego.dibujarMapa((Mapa) this.message.getData());
-				default:
-=======
+
 				Object ret = entradaDatos.readObject();
 				if (ret instanceof Boolean == false && ret instanceof String == false) {
 					//TODO: preguntar al profe
@@ -213,8 +206,7 @@ public class ConexionServidor {
 					default:
 					}
 				} else {
-					System.err.println("FANTASMIN::: " + ret);					
->>>>>>> 9f9094009fdaf09c84ce5161ea4f973c26e201db
+					System.err.println("FANTASMIN::: " + ret);
 				}
 			}
 
