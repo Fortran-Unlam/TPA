@@ -46,6 +46,9 @@ public class ConexionCliente extends Thread {
 	public void run() {
 		boolean conectado = true;
 
+		Sala sala = null;
+		Usuario usuario = null;
+
 		while (conectado) {
 			try {
 				Message message = (Message) this.entradaDatos.readObject();
@@ -60,13 +63,24 @@ public class ConexionCliente extends Thread {
 						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
 					} else {
-						Servidor.usuariosActivos.add(usuario);
-						this.usuario = usuario;
-						System.out.println("mada el usuario " + usuario.getUsername());
-						this.salidaDatos.flush();
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
+						int bandera = 0;
+						for(int i = 0; i < Servidor.usuariosActivos.size(); i++)
+						{
+							if(Servidor.usuariosActivos.get(i).getId() == usuario.getId())
+							{
+								System.out.println("Usuario ya logeado");
+								this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null));
+								bandera++;
+								break;
+							}
+						}
+						if(bandera == 0)
+						{
+							Servidor.usuariosActivos.add(usuario);
+							this.usuario = usuario;
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
+						}
 					}
-
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
