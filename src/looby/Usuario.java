@@ -31,6 +31,12 @@ public class Usuario implements Serializable {
 	// Constructor necesario para el Hibernate
 	public Usuario() {
 	}
+	
+	//Constructor de usuario solamente utilizando el Id
+	public Usuario(int id) 
+	{
+		this.id = id;
+	}
 
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
 			int muertes, int partidasGanadas, int rondasGanadas) {
