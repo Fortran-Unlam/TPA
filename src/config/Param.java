@@ -36,6 +36,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_LOGUEAR = "loguear";
 	public static final String REQUEST_LOGUEO_CORRECTO = "logueoCorrecto";
 	public static final String REQUEST_LOGUEO_INCORRECTO = "logueoIncorrecto";
+	public static final String REQUEST_LOGUEO_DUPLICADO = "errorYaLogeado";
 	public static final String REQUEST_GET_ALL_SALAS = "getAllSalas";
 	public static final String REQUEST_REGISTRAR_USUARIO = "registrar";
 	public static final String REQUEST_REGISTRO_CORRECTO = "RegistroCorrecto";
