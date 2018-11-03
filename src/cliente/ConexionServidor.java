@@ -241,9 +241,9 @@ public class ConexionServidor {
 	public void recibirActualizacionDeSala() {
 		while(true) {
 			try {
+				//se quieda esperando que el server envíe algún tipo de actualizacion;
 				Object loQueMeDaElServer = this.entradaDatos.readObject();
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
