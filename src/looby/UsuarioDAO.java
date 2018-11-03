@@ -21,15 +21,15 @@ public class UsuarioDAO {
 			Query queryLogueo = Servidor.getSessionHibernate()
 					.createQuery(query);
 
-			List<Usuario> user = queryLogueo.getResultList();
+			Usuario user = (Usuario) queryLogueo.getSingleResult();
 
-			if (user.isEmpty()) {
+			if (user == null) {
 				return null;
 			}
 
-			return new Usuario(user.get(0).getId(), username, hashPassword, user.get(0).getPuntos(),
-					user.get(0).getCantidadFrutaComida(), user.get(0).getAsesinatos(), user.get(0).getMuertes(),
-					user.get(0).getPartidasGanadas(), user.get(0).getRondasGanadas());
+			return new Usuario(user.getId(), username, hashPassword, user.getPuntos(),
+					user.getCantidadFrutaComida(), user.getAsesinatos(), user.getMuertes(),
+					user.getPartidasGanadas(), user.getRondasGanadas());
 
 		} catch (HibernateException e) {
 			if (tx != null)
