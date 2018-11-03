@@ -92,9 +92,9 @@ public class Crear extends JFrame {
 		if (this.password.getText().equals(this.confirmPassword.getText())) {
 
 			String hashPassword = DigestUtils.md5Hex(this.password.getText());
-			Message usuario = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+			Message message = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
 
-			switch(usuario.getType()) {
+			switch(message.getType()) {
 				case Param.REQUEST_REGISTRO_INCORRECTO : 
 						JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
 								"Error login", JOptionPane.WARNING_MESSAGE); 

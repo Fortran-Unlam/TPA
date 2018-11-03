@@ -23,18 +23,23 @@ public class Servidor {
 	public static void main(String[] args) {
 
 		ServerSocket servidor = null;
-		Socket socket = null;
+		ServerSocket servidorOut = null;
+		Socket socketIn = null;
+		Socket socketOut = null;
 
 		try {
-			servidor = new ServerSocket(Param.PUERTO, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Corriendo en " + Param.PUERTO);
+			servidor = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			System.out.println("Corriendo en " + Param.PORT_1);
 
+			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			
 			while (true) {
-				socket = servidor.accept();
+				socketIn = servidor.accept();
+				socketOut = servidorOut.accept();
 
-				System.out.println("Cliente con la IP " + socket.getInetAddress().getHostAddress() + " conectado.");
+				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
-				ConexionCliente conexionCliente = new ConexionCliente(socket);
+				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
 				
 				conexionClientes.add(conexionCliente);
 
@@ -48,8 +53,8 @@ public class Servidor {
 				if (servidor != null) {
 					servidor.close();
 				}
-				if (socket != null) {
-					socket.close();
+				if (socketIn != null) {
+					socketIn.close();
 				}
 			} catch (IOException ex) {
 				System.out.println(ex.getMessage());

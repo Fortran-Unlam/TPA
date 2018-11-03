@@ -30,7 +30,6 @@ public class JugadorBot extends Jugador {
 		Random random = new Random(System.nanoTime());
 
 		if (this.getVibora() != null) {
-			System.out.println(random.nextFloat());
 			if (this.chocara(mapa) || random.nextFloat() < 0.2) {
 				int nuevoSentido = this.getVibora().getSentido().ordinal();
 				int intentos = 0;

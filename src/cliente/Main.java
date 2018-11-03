@@ -8,7 +8,8 @@ import config.Param;
 
 public class Main {
 
-	private static Socket socket;
+	private static Socket socketOut;
+	private static Socket socketIn;
 	private static ConexionServidor conexionServidor;
 
 	public static void main(String[] args) {
@@ -17,8 +18,9 @@ public class Main {
 	
 	public Main() {
 		try {
-			socket = new Socket(Param.HOST, Param.PUERTO);
-			conexionServidor = new ConexionServidor(socket);
+			socketOut = new Socket(Param.HOST, Param.PORT_1);
+			socketIn = new Socket(Param.HOST, Param.PORT_2);
+			conexionServidor = new ConexionServidor(socketOut, socketIn);
 
 			Login login = new Login();
 			login.setVisible(true);
@@ -33,7 +35,7 @@ public class Main {
 	}
 	
 	public static Socket getSocket() {
-		return socket;
+		return socketOut;
 	}
 
 }

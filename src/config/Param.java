@@ -25,7 +25,8 @@ public abstract class Param implements Serializable {
 	public static final int MAPA_MAX_X = MAPA_WIDTH / PIXEL_RESIZE;
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
 
-	public static final int PUERTO = 9001;
+	public static final int PORT_1 = 9001;
+	public static final int PORT_2 = 9002;
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
 	public static final String HOST = "localhost";
 	

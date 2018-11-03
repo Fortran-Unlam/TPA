@@ -33,16 +33,6 @@ public class VentanaSala extends JFrame {
 		this.ventanaMenu.setVisible(false);
 		this.creacionUnionSala = creacionUnionSala;
 		
-		this.nombreSala = datosSala.get(0);
-		
-		if(creacionUnionSala == Param.CREACION_SALA_ADMIN) {
-			this.lblMaxUsuarios.setText(datosSala.get(1));
-		}
-		
-		dibujarSala();
-	}
-	
-	public void dibujarSala() {
 		setTitle("Sala: " + this.nombreSala);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +119,11 @@ public class VentanaSala extends JFrame {
 		label_1.setBounds(195, 134, 165, 20);
 		contentPane.add(label_1);
 		
+		this.nombreSala = datosSala.get(0);
+		
+		if(creacionUnionSala == Param.CREACION_SALA_ADMIN) {
+			this.lblMaxUsuarios.setText(datosSala.get(1));
+		}
 		JComboBox<Object> mapa = new JComboBox<Object>();
 		mapa.setBounds(368, 134, 151, 25);
 		mapa.addItem("Mapa 1");

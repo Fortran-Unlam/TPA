@@ -14,23 +14,27 @@ import looby.Usuario;
 import servidor.Message;
 
 public class ConexionServidor {
-	private Socket socket;
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
 	private Message message;
 	private Usuario usuario;
+	
+	private Socket socketIn;
+	private Socket socketOut;
 
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
 	 * 
-	 * @param socket
+	 * @param socketOut
+	 * @param socketIn 
 	 */
-	public ConexionServidor(Socket socket) {
-		this.socket = socket;
+	public ConexionServidor(Socket socketOut, Socket socketIn) {
+		this.socketOut = socketOut;
+		this.socketIn = socketIn;
 		try {
-			this.salidaDatos = new ObjectOutputStream(this.socket.getOutputStream());
+			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
 
-			this.entradaDatos = new ObjectInputStream(this.socket.getInputStream());
+			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {
@@ -66,6 +70,7 @@ public class ConexionServidor {
 				return null;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println("no pudo loguear " + e.getMessage());
 		}
 		return null;

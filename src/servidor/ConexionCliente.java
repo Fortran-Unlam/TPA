@@ -27,13 +27,14 @@ public class ConexionCliente extends Thread {
 	 * 
 	 * @param socket Un socket ya creado por una conexion recibida por
 	 *               ServerSocket.accept();
+	 * @param socketOut 
 	 */
-	public ConexionCliente(Socket socket) {
+	public ConexionCliente(Socket socket, Socket socketOut) {
 		this.socket = socket;
 
 		try {
 			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			this.salidaDatos = new ObjectOutputStream(socket.getOutputStream());
+			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
 			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
@@ -61,6 +62,8 @@ public class ConexionCliente extends Thread {
 					} else {
 						Servidor.usuariosActivos.add(usuario);
 						this.usuario = usuario;
+						System.out.println("mada el usuario " + usuario.getUsername());
+						this.salidaDatos.flush();
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
 					}
 
@@ -73,12 +76,17 @@ public class ConexionCliente extends Thread {
 
 					switch (resultado) {
 					case -1:
+						System.out.println("resultado -1");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
 						break;
 					case 0:
+
+						System.out.println("resultado 0");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null));
 						break;
 					case 1:
+
+						System.out.println("resultado 1");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null));
 						break;
 					}

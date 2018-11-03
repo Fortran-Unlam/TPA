@@ -15,10 +15,11 @@ public class UsuarioDAO {
 		try {
 			tx = Servidor.getSessionHibernate().beginTransaction();
 			tx.commit();
-
+			String query = "SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
+					+ hashPassword + "'";
+			System.out.println(query);
 			Query queryLogueo = Servidor.getSessionHibernate()
-					.createQuery("SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
-							+ hashPassword + "'");
+					.createQuery(query);
 
 			List<Usuario> user = queryLogueo.getResultList();
 

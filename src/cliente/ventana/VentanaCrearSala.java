@@ -25,7 +25,7 @@ public class VentanaCrearSala extends JFrame {
 	private JPanel contentPane;
 	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
-	private JTextField txtMaxUsuarios;
+	private JTextField maxUsuarioField;
 	private VentanaSala ventanaSala;
 	
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
@@ -94,18 +94,18 @@ public class VentanaCrearSala extends JFrame {
 		lblMaxUsuarios.setBounds(10, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
 		
-		txtMaxUsuarios = new JTextField();
-		txtMaxUsuarios.setBounds(239, 155, 40, 26);
-		contentPane.add(txtMaxUsuarios);
-		txtMaxUsuarios.setColumns(10);
+		maxUsuarioField = new JTextField();
+		maxUsuarioField.setBounds(239, 155, 40, 26);
+		contentPane.add(maxUsuarioField);
+		maxUsuarioField.setColumns(10);
 
 	}
 
 	protected void crearSala() {
-		ArrayList<String> datosSala = new ArrayList<>();
+		ArrayList<String> datosSala = new ArrayList<String>();
 		//0: nombre, 1: cantUsuariosMax
 		datosSala.add(this.nombreField.getText());
-		datosSala.add(this.txtMaxUsuarios.getText());
+		datosSala.add(this.maxUsuarioField.getText());
 		
 		if(Main.getConexionServidor().crearSala(datosSala)) {
 			//Aguante boca
