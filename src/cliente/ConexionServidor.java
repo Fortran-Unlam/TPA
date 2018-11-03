@@ -66,6 +66,9 @@ public class ConexionServidor {
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");
 				return null;
+			case Param.REQUEST_LOGUEO_DUPLICADO:
+				System.out.println("no loguee, usuario ya logeado.");
+				return new Usuario(-1);
 			default:
 				return null;
 			}
