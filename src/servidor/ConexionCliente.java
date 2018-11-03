@@ -60,11 +60,11 @@ public class ConexionCliente extends Thread {
 						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
 					} else {
+						usuario.setConexion(this);
 						Servidor.usuariosActivos.add(usuario);
-						this.usuario = usuario;
 						System.out.println("mada el usuario " + usuario.getUsername());
 						this.salidaDatos.flush();
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
 					}
 
 					break;

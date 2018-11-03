@@ -58,10 +58,12 @@ public class ConexionServidor {
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 
 			this.message = (Message) entradaDatos.readObject();
-
+			this.usuario = new Usuario(username, hashPassword);
+			
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
-				this.usuario = (Usuario) message.getData();
+				// TODO: deberia dar mas info como puntos
+				this.usuario.setId((int) message.getData());
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");
