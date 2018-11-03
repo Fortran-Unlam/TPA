@@ -31,7 +31,8 @@ public class VentanaUnirSala extends JFrame {
 	private JList<String> listSalas;
 	private String salaSeleccionada;
 	private boolean ingresoaSalaOSeFue = false;
-
+	private DefaultListModel<String> modelDeListas;
+	
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
 		ventanaMenu.setVisible(false);
@@ -105,32 +106,40 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
-		// Apenas se construye, mando a pedir las salas al server.
-		DefaultListModel<String> modelDeSalasActivasQueMeDioElServer = pedirSalas();
 
-		if (modelDeSalasActivasQueMeDioElServer.isEmpty()) {
+		this.modelDeListas = pedirSalas();
+
+		if (this.modelDeListas.isEmpty()) {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
 			noHaySalas.addElement("No hay niguna sala");
 			this.listSalas.setModel(noHaySalas);
 			this.listSalas.setEnabled(false);
 		} else {
-			this.listSalas.setModel(modelDeSalasActivasQueMeDioElServer);
+			this.listSalas.setModel(this.modelDeListas);
 			this.listSalas.setEnabled(true);
 		}
 		
 		this.setVisible(true);
 		
 		//Acá debemos crear el thread de sincronizacion para refrescar las salas
-		Thread threadSync = new Thread() {
-			public void run() {
-				
-				while(true && !ingresoaSalaOSeFue) {
-					Main.getConexionServidor().recibirActualizacionDeSala();
-				}
-				//Segun jony de acá adentro puedo ver lo de afuera.... mmmmmm
-			}
-		};
-		threadSync.start();
+//		Thread threadSync = new Thread() {
+//			public void run() {
+//
+//				String salaNueva;
+//				while(true && !ingresoaSalaOSeFue) {
+//					salaNueva = Main.getConexionServidor().recibirActualizacionDeSala();
+//					if(salaNueva != null) {
+//						String[] datosSalaNueva =  salaNueva.split(Param.SEPARADOR_EN_MENSAJES);
+//						String estoVaAlModelDelList = datosSalaNueva[0] + "(" + datosSalaNueva[1] + "/" + datosSalaNueva[2] + ")";
+//						modelDeListas.addElement(estoVaAlModelDelList);	
+//						System.out.println("Che me enteré que crearon una sala nueva");
+//						System.out.println("Fue: " + estoVaAlModelDelList);
+//					}
+//						
+//				}
+//			}
+//		};
+//		threadSync.start();
 		
 
 	}

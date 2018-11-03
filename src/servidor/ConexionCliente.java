@@ -119,11 +119,12 @@ public class ConexionCliente extends Thread {
 						
 						//Envio a los clientes que estaban en "unir sala" la actualización de la nueva sala
 						//Esto debería mandarse por el canal de syncro pero por ahora va.
-						ArrayList<String> datosSalaNueva = new ArrayList<>();
-						datosSalaNueva.add(sala.getNombre() + Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioActuales()
-						+ Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioMaximos());
+						String datosSalaNueva;
 						
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, true));
+						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioActuales()
+						+ Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioMaximos();
+						
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva));
 					} else {
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false));
 					}
