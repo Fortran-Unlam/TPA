@@ -5,13 +5,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.List;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
 import core.mapa.Mapa;
-import looby.Sala;
 import looby.Usuario;
 import servidor.Message;
 
@@ -134,37 +132,33 @@ public class ConexionServidor {
 	 * 
 	 * @return Sala, null si no la creo
 	 */
-	public Sala craerSala(String nombreSala, int cantidadUsuariosMaximo) {
+	public boolean crearSala(ArrayList<String> datosSala) {
 		try {
-			ArrayList<Object> data = new ArrayList<>();
-			data.add(nombreSala);
-			data.add(cantidadUsuariosMaximo);
-			data.add(this.usuario);
 
-			this.message = new Message(Param.REQUEST_CREAR_SALA, data);
+			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
 			this.salidaDatos.writeObject(this.message);
 
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_SALA_CREADA:
-				return (Sala) this.message.getData();
-			default:
-				return null;
+				return true;
+			case Param.REQUEST_ERROR_CREAR_SALA:
+				return false;
 			}
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			return null;
+			return false;
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
-			return null;
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
-	public boolean comenzarJuego(Sala sala) {
+	public boolean comenzarJuego(String nameRoom) {
 		try {
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);

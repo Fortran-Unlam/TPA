@@ -92,16 +92,16 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_CREAR_SALA:
+					ArrayList<String> dataSala = (ArrayList<String>) message.getData();
+					if (!Servidor.existeSala(dataSala.get(0))) { // me fijo si existe
+						sala = usuario.crearSala(dataSala.get(0), Integer.valueOf(dataSala.get(1)));
 
-					ArrayList data = ((ArrayList) message.getData());
-					if (!Servidor.existeSala((String) data.get(0))) { // me fijo si existe
-						sala = usuario.crearSala((String) data.get(0), (int) data.get(1));
 						Servidor.agregarASalasActivas(sala);
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, sala));
-					}else {
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, sala));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
+					} else {
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false));
 					}
-					
+
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					// TODO: no es necesario mandar la sala ya que referencia a una posicion de

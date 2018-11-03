@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,16 +24,21 @@ public class VentanaSala extends JFrame {
 	private JList<String> listUsuarios;
 	private JLabel lblMaxUsuarios;
 	private JPanel contentPane;
-	private JFrame ventanaPrevia;
-	//private VentanaUnirSala ventanaUnirSala;
+	private JFrame ventanaMenu;
 	private String nombreSala;
-	private Sala sala;
+	private String creacionUnionSala;
 		
-	public VentanaSala(JFrame ventanaPrevia, Sala sala) {
-		this.ventanaPrevia = ventanaPrevia;
-		this.ventanaPrevia.setVisible(false);
-		this.sala = sala;
-		this.nombreSala = sala.getNombre();
+	public VentanaSala(JFrame ventanaMenu, ArrayList<String> datosSala, String creacionUnionSala) {
+		this.ventanaMenu = ventanaMenu;
+		this.ventanaMenu.setVisible(false);
+		this.creacionUnionSala = creacionUnionSala;
+		
+		this.nombreSala = datosSala.get(0);
+		
+		if(creacionUnionSala == Param.CREACION_SALA_ADMIN) {
+			this.lblMaxUsuarios.setText(datosSala.get(1));
+		}
+		
 		dibujarSala();
 	}
 	
@@ -59,7 +66,7 @@ public class VentanaSala extends JFrame {
 		JButton btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ventanaPrevia.setVisible(true);
+				ventanaMenu.setVisible(true);
 				dispose();
 			}
 		});
@@ -98,11 +105,11 @@ public class VentanaSala extends JFrame {
 		this.lblMaxUsuarios.setBounds(327, 51, 192, 23);
 		getContentPane().add(this.lblMaxUsuarios);
 		
-		JLabel lblNewLabel = new JLabel("Sala");
-		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel.setBounds(249, 10, 69, 30);
-		getContentPane().add(lblNewLabel);
+		JLabel lblSala = new JLabel("");
+		lblSala.setForeground(Color.RED);
+		lblSala.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblSala.setBounds(249, 10, 162, 30);
+		getContentPane().add(lblSala);
 		
 		JLabel label = new JLabel("Tipo de jugabilidad:");
 		label.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -137,7 +144,7 @@ public class VentanaSala extends JFrame {
 		 * Empezar el juego
 		 * 
 		 */
-		if(sala.getAdministrador().getId() == (Main.getConexionServidor().getUsuario().getId())) {
+		if(this.creacionUnionSala == Param.CREACION_SALA_ADMIN) {
 			tipoJugabilidad.setEnabled(true);
 			mapa.setEnabled(true);
 			btnEmpezarJuego.setEnabled(true);
@@ -146,7 +153,7 @@ public class VentanaSala extends JFrame {
 	}
 	
 	protected void empezarJuego() {
-		if (Main.getConexionServidor().comenzarJuego(this.sala) == false) {
+		if (Main.getConexionServidor().comenzarJuego(this.nombreSala) == false) {
 			System.out.println("no pudo crear el juego");
 			return;
 		}

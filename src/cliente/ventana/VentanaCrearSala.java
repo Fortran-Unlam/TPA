@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -14,20 +15,19 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Main;
 import config.Param;
-import looby.Sala;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class VentanaCrearSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField cantidadRondaField;
 	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
-	public String nombreSala;
 	private JTextField txtMaxUsuarios;
-
+	private VentanaSala ventanaSala;
+	
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
 		this.ventanaMenu.setVisible(false);
@@ -43,11 +43,6 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.setLayout(null);
 		setResizable(false);
 		setLocationRelativeTo(null);
-
-		JLabel lblCantidadDeRondas = new JLabel("Cantidad de rondas:");
-		lblCantidadDeRondas.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblCantidadDeRondas.setBounds(45, 156, 175, 33);
-		contentPane.add(lblCantidadDeRondas);
 
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addKeyListener(new KeyAdapter() {
@@ -77,17 +72,6 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 
-		cantidadRondaField = new JTextField();
-		cantidadRondaField.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cantidadRondaField.setBounds(241, 156, 40, 25);
-		contentPane.add(cantidadRondaField);
-		cantidadRondaField.setColumns(10);
-		cantidadRondaField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				crearSala();
-			}
-		});
-
 		JLabel lblCreacionDeSala = new JLabel("Creacion de sala nueva");
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCreacionDeSala.setForeground(Color.ORANGE);
@@ -107,22 +91,31 @@ public class VentanaCrearSala extends JFrame {
 		
 		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
 		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMaxUsuarios.setBounds(16, 198, 218, 33);
+		lblMaxUsuarios.setBounds(10, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
 		
 		txtMaxUsuarios = new JTextField();
-		txtMaxUsuarios.setBounds(241, 198, 40, 26);
+		txtMaxUsuarios.setBounds(239, 155, 40, 26);
 		contentPane.add(txtMaxUsuarios);
 		txtMaxUsuarios.setColumns(10);
 
 	}
 
 	protected void crearSala() {
-		// Falta cantidad de usuarios
-		Sala sala = Main.getConexionServidor().craerSala(this.nombreField.getText(),
-				Integer.valueOf(this.cantidadRondaField.getText()));
-
-		new VentanaSala(this, sala).setVisible(true);
+		ArrayList<String> datosSala = new ArrayList<>();
+		//0: nombre, 1: cantUsuariosMax
+		datosSala.add(this.nombreField.getText());
+		datosSala.add(this.txtMaxUsuarios.getText());
+		
+		if(Main.getConexionServidor().crearSala(datosSala)) {
+			//Aguante boca
+			this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
+			this.dispose();
+		}else {
+			JOptionPane.showMessageDialog(null, "Hubo un error en la creacion de la sala. Puede que el nombre ya exista", "Error creacion sala",
+					JOptionPane.WARNING_MESSAGE);
+		}
+			
 
 	}
 }
