@@ -18,7 +18,7 @@ public class ConexionServidor {
 	private ObjectInputStream entradaDatos;
 	private Message message;
 	private Usuario usuario;
-	
+
 	private Socket socketIn;
 	private Socket socketOut;
 
@@ -26,7 +26,7 @@ public class ConexionServidor {
 	 * A partir del socket prepara el stream de entrada y salida
 	 * 
 	 * @param socketOut
-	 * @param socketIn 
+	 * @param socketIn
 	 */
 	public ConexionServidor(Socket socketOut, Socket socketIn) {
 		this.socketOut = socketOut;
@@ -76,7 +76,6 @@ public class ConexionServidor {
 		return null;
 	}
 
-	
 	public Message registrar(String username, String hashPassword) {
 		try {
 			ArrayList<String> ret = new ArrayList<String>();
@@ -87,18 +86,15 @@ public class ConexionServidor {
 			this.message = (Message) entradaDatos.readObject();
 			return this.message;
 
-			
 		} catch (Exception e) {
 			System.out.println("no pudo registrar " + e.getMessage());
 		}
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
-	
-	
-	
-	
+
 	/**
-	 * Pide las salas al servidor (solo trae los nombres) y espera a que este le responda
+	 * Pide las salas al servidor (solo trae los nombres) y espera a que este le
+	 * responda
 	 * 
 	 * @return
 	 * @throws ClassNotFoundException
@@ -172,7 +168,7 @@ public class ConexionServidor {
 			this.message = (Message) entradaDatos.readObject();
 			switch (this.message.getType()) {
 			case Param.REQUEST_JUEGO_EMPEZADO:
-				return (boolean)this.message.getData();
+				return (boolean) this.message.getData();
 			default:
 				return false;
 			}
@@ -192,11 +188,15 @@ public class ConexionServidor {
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
 			while (true) {
-				this.message = (Message) entradaDatos.readObject();
-				switch (this.message.getType()) {
-				case Param.REQUEST_MOSTRAR_MAPA:
-					ventanaJuego.dibujarMapa((Mapa) this.message.getData());
-				default:
+				Object ret = entradaDatos.readObject();
+				if (ret instanceof Boolean == false) {
+					this.message = (Message) ret;
+
+					switch (this.message.getType()) {
+					case Param.REQUEST_MOSTRAR_MAPA:
+						ventanaJuego.dibujarMapa((Mapa) this.message.getData());
+					default:
+					}
 				}
 			}
 
@@ -225,6 +225,6 @@ public class ConexionServidor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
