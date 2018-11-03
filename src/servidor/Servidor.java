@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 
 import config.Param;
+import core.Jugador;
 import core.mapa.Mapa;
 import hibernateUtils.HibernateUtils;
 import looby.Sala;
@@ -94,16 +95,23 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
-			for (ConexionCliente conexionCliente : conexionClientes) {				
-				if (conexionCliente != null && conexionCliente.getSalidaDatos() != null && mapa != null) {
+			for (Usuario usuario : usuariosActivos) {
+				if (usuario != null && usuario.getConexion().getSalidaDatos() != null && mapa != null) {
 					try {
-						conexionCliente.getSalidaDatos().reset();
-						conexionCliente.getSalidaDatos().flush();
-						conexionCliente.getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+						for (Jugador jugadorMapa : mapa.getJugadores()) {
+							
+							if (usuario.getJugador().equals(jugadorMapa)) {
+								usuario.getConexion().getSalidaDatos().reset();
+								usuario.getConexion().getSalidaDatos().flush();
+								usuario.getConexion().getSalidaDatos().writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+							}
+						}
+						
 					} catch(IOException e) {
 						System.out.println("sucede porque todavia no envie un mapa");
 					}
 				}
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

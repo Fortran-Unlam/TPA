@@ -1,9 +1,13 @@
 package looby;
 
 import java.util.List;
+
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
+
 import servidor.Servidor;
 
 public class UsuarioDAO {
@@ -18,18 +22,15 @@ public class UsuarioDAO {
 			String query = "SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
 					+ hashPassword + "'";
 			System.out.println(query);
-			Query queryLogueo = Servidor.getSessionHibernate()
-					.createQuery(query);
-
-			Usuario user = (Usuario) queryLogueo.getSingleResult();
-
-			if (user == null) {
+			Query queryLogueo = Servidor.getSessionHibernate().createQuery(query);
+			try {
+				Usuario user = (Usuario) queryLogueo.getSingleResult();
+				return new Usuario(user.getId(), username, hashPassword, user.getPuntos(),
+						user.getCantidadFrutaComida(), user.getAsesinatos(), user.getMuertes(),
+						user.getPartidasGanadas(), user.getRondasGanadas());
+			} catch (NoResultException e) {
 				return null;
 			}
-
-			return new Usuario(user.getId(), username, hashPassword, user.getPuntos(),
-					user.getCantidadFrutaComida(), user.getAsesinatos(), user.getMuertes(),
-					user.getPartidasGanadas(), user.getRondasGanadas());
 
 		} catch (HibernateException e) {
 			if (tx != null)
@@ -56,7 +57,7 @@ public class UsuarioDAO {
 
 				System.out.println("Ese nombre de usuario ya existe");
 				return 1;
-				
+
 			} else {
 
 				Query queryMaxID = Servidor.getSessionHibernate().createQuery("SELECT max(u.id) FROM Usuario u");

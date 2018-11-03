@@ -25,9 +25,9 @@ public class ConexionCliente extends Thread {
 	/**
 	 * Es el constructor de la clase ConexionCliente, recibe un socket
 	 * 
-	 * @param socket Un socket ya creado por una conexion recibida por
-	 *               ServerSocket.accept();
-	 * @param socketOut 
+	 * @param socket    Un socket ya creado por una conexion recibida por
+	 *                  ServerSocket.accept();
+	 * @param socketOut
 	 */
 	public ConexionCliente(Socket socket, Socket socketOut) {
 		this.socket = socket;
@@ -46,8 +46,8 @@ public class ConexionCliente extends Thread {
 	public void run() {
 		boolean conectado = true;
 
-		Sala sala = null;
-		Usuario usuario = null;
+//		Sala sala = null;
+//		Usuario usuario = null;
 
 		while (conectado) {
 			try {
@@ -63,22 +63,22 @@ public class ConexionCliente extends Thread {
 						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
 					} else {
-						int bandera = 0;
-						for(int i = 0; i < Servidor.usuariosActivos.size(); i++)
-						{
-							if(Servidor.usuariosActivos.get(i).getId() == usuario.getId())
-							{
+						boolean usuarioInexistente = true;
+						for (Usuario usuarioActivo : Servidor.usuariosActivos) {
+
+							if (usuarioActivo.getId() == usuario.getId()) {
 								System.out.println("Usuario ya logeado");
 								this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null));
-								bandera++;
+								usuarioInexistente = false;
 								break;
 							}
+
 						}
-						if(bandera == 0)
-						{
+						if (usuarioInexistente) {
 							Servidor.usuariosActivos.add(usuario);
-							this.usuario = usuario;
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario));
+							usuario.setConexion(this);
+							this.salidaDatos.flush();
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
 						}
 					}
 					break;
