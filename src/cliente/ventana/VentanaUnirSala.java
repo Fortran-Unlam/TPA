@@ -113,8 +113,17 @@ public class VentanaUnirSala extends JFrame {
 			this.listSalas.setModel(modelDeSalasActivasQueMeDioElServer);
 			this.listSalas.setEnabled(true);
 		}
-
+		
 		this.setVisible(true);
+		
+		//Acá debemos crear el thread de sincronizacion para refrescar las salas
+		Thread threadSync = new Thread() {
+			public void run() {
+				
+			}
+		};
+		threadSync.start();
+		
 
 	}
 

@@ -237,4 +237,16 @@ public class ConexionServidor {
 		}
 
 	}
+	
+	public void recibirActualizacionDeSala() {
+		while(true) {
+			try {
+				Object loQueMeDaElServer = this.entradaDatos.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+	}
 }
