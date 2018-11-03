@@ -96,7 +96,7 @@ public class VentanaMenu extends JFrame {
 		lblTRondasGanadas.setBounds(318, 173, 150, 14);
 		contenedor.add(lblTRondasGanadas);
 		
-		JButton btnAtras = new JButton("Atras");
+		JButton btnAtras = new JButton("Cerrar sesi\u00F3n");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();

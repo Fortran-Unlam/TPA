@@ -28,7 +28,7 @@ public class VentanaUnirSala extends JFrame {
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
 	private JList<String> listSalas;
-	public String salaSeleccionada;
+	private String salaSeleccionada;
 
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -119,7 +119,9 @@ public class VentanaUnirSala extends JFrame {
 	}
 
 	private void abrirVentanaSala(String salaSeleccionada) {
-		new VentanaSala(this, null).setVisible(true);
+		ArrayList<String> datosSala = new ArrayList<>();
+		datosSala.add(salaSeleccionada);
+		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
 
 	public DefaultListModel<String> pedirSalas() {

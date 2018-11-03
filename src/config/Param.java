@@ -29,6 +29,9 @@ public abstract class Param implements Serializable {
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
 	public static final String HOST = "localhost";
 	
+	public static final String CREACION_SALA_ADMIN = "admin";
+	public static final String UNION_SALA = "unionUsuarioSala";
+	
 	public static final String REQUEST_LOGUEAR = "loguear";
 	public static final String REQUEST_LOGUEO_CORRECTO = "logueoCorrecto";
 	public static final String REQUEST_LOGUEO_INCORRECTO = "logueoIncorrecto";
