@@ -133,4 +133,17 @@ public class Sala implements Serializable {
 	public int getCantidadUsuarioMaximos() {
 		return cantidadUsuarioMaximos;
 	}
+	
+	/*Obtengo los usuarios activos en la sala separados por coma
+	esto se utiliza por ejemplo para devolver los usuarios a la vista
+	en forma de String.*/
+	public String getUsuariosSeparadosporComa()
+	{
+		String retorno = "";
+		for(Usuario u : this.getUsuariosActivos())
+			retorno+=u.getUsername()+",";
+		//Elimino la ultima coma.
+		retorno=retorno.substring(0, retorno.length()-1);
+		return retorno;
+	}
 }

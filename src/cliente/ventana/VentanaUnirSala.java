@@ -98,6 +98,13 @@ public class VentanaUnirSala extends JFrame {
 				}catch(Exception e){
 					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala","Sala no seleccionada",JOptionPane.WARNING_MESSAGE);
 				}
+				//Pequeno fix, porque el titulo de la sala es nombresala no nombresala(1/5) por ejemplo.
+				/*El formateo del dato debe ser responsabilidad del controlador, o de la vista, no del modelo
+				en este caso el modelo seria el servidor.*/
+				salaSeleccionada = salaSeleccionada.substring(0, salaSeleccionada.indexOf('('));
+				String datos = ingresarASala(salaSeleccionada); //Envio peticion de ingreso a la sala.
+				ingresoaSalaOSeFue = true;
+				abrirVentanaSala(datos, salaSeleccionada);
 			}
 		});
 
@@ -161,6 +168,23 @@ public class VentanaUnirSala extends JFrame {
 //		threadSync.start();
 		
 
+	}
+	
+	private String ingresarASala(String salaSeleccionada)
+	{
+		return Main.getConexionServidor().unirseASala(salaSeleccionada);
+	}
+	
+	//Creo otro metodo por si las dudas.
+	//Datos es la respuesta que contiene "cantidadUsuariosSala;CantidadUsuariosMaximoSala;usuario1,usuario2,usuario3.
+	private void abrirVentanaSala(String datos, String salaSeleccionada) {
+		String[] datosArray = datos.split(";");
+		ArrayList<String> datosSala = new ArrayList<>();
+		datosSala.add(salaSeleccionada);
+		datosSala.add(datosArray[0]);
+		datosSala.add(datosArray[1]);
+		datosSala.add(datosArray[2]);
+		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
 
 	private void abrirVentanaSala(String salaSeleccionada) {

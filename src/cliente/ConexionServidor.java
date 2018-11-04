@@ -10,6 +10,7 @@ import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
 import core.mapa.Mapa;
+import looby.Sala;
 import looby.Usuario;
 import servidor.Message;
 
@@ -288,5 +289,23 @@ public class ConexionServidor {
 
 	}
 
-	
+	/** Le envio un mensaje al servidor indicando que me voy a unir a la salaSeleccionada.
+	 *  La representancion del usuario no es necesario mandarla, ya que se encuentra
+	 *  implicito en el Socket.
+	 */
+	public String unirseASala(String salaSeleccionada) 
+	{
+		try {
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada));
+			Message retorno = (Message)this.entradaDatos.readObject();
+			return (String)retorno.getData();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

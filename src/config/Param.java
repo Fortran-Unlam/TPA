@@ -47,6 +47,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_CREAR_SALA = "CrearSala";
 	public static final String REQUEST_SALIR_SALA = "SalirSala";
 	public static final String REQUEST_SALA_CREADA = "SalaCreada";
+	public static final String REQUEST_INGRESO_SALA = "IngresoSala";
 	public static final String REQUEST_ERROR_CREAR_SALA = "ErrorCreacionSala";
 	public static final String REQUEST_ACTUALIZAR_SALAS = "SeActualizaronSalas";
 	
@@ -56,6 +57,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_ENVIAR_TECLA = "enviarTecla";
 	public static final int CANTIDAD_FRUTA_MINIMAS = 25;
 	public static final String SEPARADOR_EN_MENSAJES =";";
+	public static final String DATOS_SALA = "DatosSala";
 	
 	//Mensaje para cerrar ventana.
 	public static final String MENSAJE_CERRAR_VENTANA ="¿Esta seguro que desea salir de la Viborita?";

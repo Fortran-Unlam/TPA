@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +25,7 @@ public class VentanaSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;	
 	private JList<String> listUsuarios;
+	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
 	private JLabel lblMaxUsuarios;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
@@ -71,7 +74,8 @@ public class VentanaSala extends JFrame {
 		getContentPane().add(btnEmpezarJuego);
 		btnEmpezarJuego.setEnabled(false);
 		
-		this.listUsuarios = new JList<String>();
+		//La lista esta relacionado a un datosLista que cuando cambian, la lista cambia.
+		this.listUsuarios = new JList<String>(datosLista);
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		this.listUsuarios.setBounds(33, 83, 121, 215);
 		this.listUsuarios.setEnabled(false);
@@ -85,9 +89,18 @@ public class VentanaSala extends JFrame {
 		
 		this.lblMaxUsuarios = new JLabel("");
 		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		//Reflejo 04/11 pinchaba por el 1, iria un size-1?
-		this.lblMaxUsuarios.setText("(X/" + datosSala.get(datosSala.size()-1) + ")");
-		//this.lblMaxUsuarios.setText("(X/" + datosSala.get(1) + ")");
+		/*Si la cantidad de parametros del datosSala es solo 2, quiere decir 
+		que vengo de un crearSala, en realidad se deberia crear otro constructor
+		no poner un IF que condicione al constructor*/
+		if(datosSala.size()==2)
+			this.lblMaxUsuarios.setText("(1/" + datosSala.get(1) + ")");
+		else
+		{
+			this.lblMaxUsuarios.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
+			for(String s : datosSala.get(3).split(","))
+				datosLista.addElement(s);
+		}
+			
 		this.lblMaxUsuarios.setBounds(159, 48, 39, 23);
 		getContentPane().add(this.lblMaxUsuarios);
 		
