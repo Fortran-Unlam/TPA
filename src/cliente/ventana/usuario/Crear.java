@@ -75,7 +75,7 @@ public class Crear extends JFrame {
 		JLabel lblCrearUsuario = new JLabel("Crear Cuenta");
 		lblCrearUsuario.setBounds(110, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
-		
+
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -89,45 +89,86 @@ public class Crear extends JFrame {
 
 	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
 
-		if (this.password.getText().equals(this.confirmPassword.getText())) {
+		if (this.password.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "¡Te falto ingresar la contraseña!", "Error",
+					JOptionPane.WARNING_MESSAGE);
+			this.password.setFocusable(true);
+			return;
+		}
 
-			String hashPassword = DigestUtils.md5Hex(this.password.getText());
-			Message message = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+		if (this.confirmPassword.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "¡Te falto confirmar la contraseña!", "Error",
+					JOptionPane.WARNING_MESSAGE);
+			this.username.setFocusable(true);
+			this.confirmPassword.setFocusable(true);
+			this.password.setFocusable(true);
+			this.password.setText("");
+			this.confirmPassword.setText("");
+			return;
+		}
 
-			switch(message.getType()) {
-				case Param.REQUEST_REGISTRO_INCORRECTO : 
-						JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
-								"Error login", JOptionPane.ERROR_MESSAGE); 
-						this.username.setText("");
-						this.password.setText("");
-						this.confirmPassword.setText("");
-						this.username.setFocusable(true);
-						break;
-						
-				case  Param.REQUEST_REGISTRO_CORRECTO : 
-						JOptionPane.showMessageDialog(null, "El usuario se ha registrado exitosamente..",
-								"Aviso", JOptionPane.INFORMATION_MESSAGE);
-						this.dispose();
-						ventanaLogin.setVisible(true);
-						break;
-						
-				case  Param.REQUEST_REGISTRO_DUPLICADO : 
-						JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe, intentelo nuevamente",
-								"Aviso", JOptionPane.WARNING_MESSAGE); 
-						this.username.setText("");
-						this.password.setText("");
-						this.confirmPassword.setText("");
-						this.username.setFocusable(true);
-						break; 
-			}	
-			
-		} else {
+		if (this.username.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "¡Te falto ingresar el usuario!", "Error", JOptionPane.WARNING_MESSAGE);
+			this.username.setFocusable(true);
+			this.confirmPassword.setFocusable(true);
+			this.password.setFocusable(true);
+			this.password.setText("");
+			this.confirmPassword.setText("");
+			return;
+		}
+
+		if (!this.username.getText().matches("[a-zA-Z0-9]+")) {
+			JOptionPane.showMessageDialog(null, "Los nombres de usuario solo pueden contener letras y numeros.",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.username.setText("");
+			this.confirmPassword.setFocusable(true);
+			this.password.setFocusable(true);
+			this.password.setText("");
+			this.confirmPassword.setText("");
+			this.username.setFocusable(true);
+			return;
+		}
+
+		if (!this.password.getText().equals(this.confirmPassword.getText())) {
 			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, por favor intentelo nuevamente.",
-					"Error login", JOptionPane.WARNING_MESSAGE);
+					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.username.setText("");
 			this.password.setText("");
 			this.confirmPassword.setText("");
 			this.username.setFocusable(true);
+			this.confirmPassword.setFocusable(true);
+			this.password.setFocusable(true);
+			return;
+		}
+
+		String hashPassword = DigestUtils.md5Hex(this.password.getText());
+		Message message = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+
+		switch (message.getType()) {
+			case Param.REQUEST_REGISTRO_INCORRECTO:
+				JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
+						"Error login", JOptionPane.ERROR_MESSAGE);
+				this.username.setText("");
+				this.password.setText("");
+				this.confirmPassword.setText("");
+				this.username.setFocusable(true);
+				break;
+	
+			case Param.REQUEST_REGISTRO_CORRECTO:
+				JOptionPane.showMessageDialog(null, "¡El usuario se ha registrado exitosamente!", "Aviso",
+						JOptionPane.INFORMATION_MESSAGE);
+				this.dispose();
+				ventanaLogin.setVisible(true);
+				break;
+	
+			case Param.REQUEST_REGISTRO_DUPLICADO:
+				JOptionPane.showMessageDialog(null, "El nombre de usuario ya existe, intentelo nuevamente", "Aviso",
+						JOptionPane.WARNING_MESSAGE);
+				this.username.setText("");
+				this.password.setText("");
+				this.confirmPassword.setText("");
+				this.username.setFocusable(true);
+				break;
 		}
 	}
 }

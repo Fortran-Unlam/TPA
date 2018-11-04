@@ -34,7 +34,6 @@ public class VentanaCrearSala extends JFrame {
 
 		setTitle("Nueva Sala");
 
-		// Ver evento WindowListener para poder hacer un DISPOSE_ON_CLOSED
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
@@ -102,20 +101,49 @@ public class VentanaCrearSala extends JFrame {
 	}
 
 	protected void crearSala() {
-		ArrayList<String> datosSala = new ArrayList<String>();
-		//0: nombre, 1: cantUsuariosMax
-		datosSala.add(this.nombreField.getText());
-		datosSala.add(this.maxUsuarioField.getText());
-		
-		if(Main.getConexionServidor().crearSala(datosSala)) {
-			//Aguante boca
-			this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
-			this.dispose();
-		}else {
-			JOptionPane.showMessageDialog(null, "Hubo un error en la creacion de la sala. Puede que el nombre ya exista", "Error creacion sala",
-					JOptionPane.WARNING_MESSAGE);
-		}
-			
 
+		if(this.nombreField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "El nombre de la sala no puede estar vacio.",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.nombreField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+			return;
+		}
+		
+		if(this.maxUsuarioField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.maxUsuarioField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+			return;
+		}
+		
+		if (this.nombreField.getText().matches("[a-zA-Z0-9]+")) {
+
+			ArrayList<String> datosSala = new ArrayList<String>();
+			// 0: nombre, 1: cantUsuariosMax
+			datosSala.add(this.nombreField.getText());
+			datosSala.add(this.maxUsuarioField.getText());
+
+			if (Main.getConexionServidor().crearSala(datosSala)) {
+				// Aguante boca
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
+				this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Hubo un error en la creacion de la sala. Puede que el nombre ya exista", "Error creacion sala",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Los nombres de sala solo pueden contener letras y numeros (sin espacios).",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.nombreField.setText("");
+			this.maxUsuarioField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+		}
 	}
 }
