@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -110,6 +111,18 @@ public class VentanaMenu extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 128, 462, 2);
 		contenedor.add(separator);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(contenedor, "¿Está seguro que desea salir de la viborita?", "¿Dejar de jugar?", 
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		    	Main.getConexionServidor().cerrarSesionUsuario(usuario);
+		    	}
+		    }
+		});
+		
 	}
 
 	private void abrirVentanaUnirSala() {
@@ -119,4 +132,9 @@ public class VentanaMenu extends JFrame {
 	private void abrirVentanaCrearSala() {
 		new VentanaCrearSala(this).setVisible(true);
 	}
+	
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+	
 }

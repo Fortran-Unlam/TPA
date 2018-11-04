@@ -96,6 +96,17 @@ public class VentanaCrearSala extends JFrame {
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(contentPane, "¿Está seguro que desea salir de la viborita?", "¿Dejar de jugar?", 
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		    	Main.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+		    	}
+		    }
+		});
 
 	}
 

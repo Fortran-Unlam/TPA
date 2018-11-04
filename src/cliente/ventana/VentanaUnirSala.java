@@ -15,6 +15,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -120,6 +121,17 @@ public class VentanaUnirSala extends JFrame {
 		}
 		
 		this.setVisible(true);
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(contentPane, "¿Está seguro que desea salir de la viborita?", "¿Dejar de jugar?", 
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		    	Main.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+		    	}
+		    }
+		});
 		
 		//Acï¿½ debemos crear el thread de sincronizacion para refrescar las salas
 //		Thread threadSync = new Thread() {

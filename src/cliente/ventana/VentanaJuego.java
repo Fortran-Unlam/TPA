@@ -27,7 +27,7 @@ public class VentanaJuego extends JFrame {
 
 	private static final long serialVersionUID = 595619242686756871L;
 
-	private JPanel contenedor;
+	private JPanel contentPane;
 
 	public Mapa mapa;
 	private JLabel lblScore;
@@ -48,19 +48,19 @@ public class VentanaJuego extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
-		contenedor = new JPanel();
-		contenedor.setBackground(SystemColor.control);
-		contenedor.setBorder(null);
+		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.control);
+		contentPane.setBorder(null);
 		this.setUndecorated(true);
-		this.setContentPane(contenedor);
+		this.setContentPane(contentPane);
 		this.setLocationRelativeTo(null);
 //		setBackground(Color.black);
-		contenedor.setLayout(null);
+		contentPane.setLayout(null);
 
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblScore.setBounds(16, 7, 67, 21);
-		contenedor.add(lblScore);
+		contentPane.add(lblScore);
 
 		jListScore = new JList<String>();
 		jListScore.setBackground(SystemColor.control);
@@ -69,17 +69,17 @@ public class VentanaJuego extends JFrame {
 		jListScore.setOpaque(false);
 		jListScore.setEnabled(false);
 
-		contenedor.add(jListScore);
+		contentPane.add(jListScore);
 
 		lblVib = new JLabel("Vib");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblVib.setBounds(10, 39, 22, 14);
-		contenedor.add(lblVib);
+		contentPane.add(lblVib);
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblFrutas.setBounds(51, 35, 42, 21);
-		this.contenedor.add(lblFrutas);
+		this.contentPane.add(lblFrutas);
 
 		JButton btnNewButton = new JButton("Stop");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -88,7 +88,7 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		btnNewButton.setBounds(0, 312, 100, 25);
-		this.contenedor.add(btnNewButton);
+		this.contentPane.add(btnNewButton);
 
 		this.button = new JButton("Exit");
 		this.button.addActionListener(new ActionListener() {
@@ -97,11 +97,11 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 		button.setBounds(0, 350, 100, 25);
-		this.contenedor.add(button);
+		this.contentPane.add(button);
 
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
-		this.contenedor.add(panelMapa);
+		this.contentPane.add(panelMapa);
 		this.addKeyListener(new GestorInput().teclado);
 		this.setFocusable(true);
 		this.setVisible(true);
