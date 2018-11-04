@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Main;
 import config.Param;
 import java.awt.event.KeyAdapter;
@@ -52,7 +51,7 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnAceptar.setBounds(98, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				crearSala();
@@ -67,34 +66,34 @@ public class VentanaCrearSala extends JFrame {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(259, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnVolver.setBounds(259, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 
 		JLabel lblCreacionDeSala = new JLabel("Creacion de sala nueva");
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreacionDeSala.setForeground(Color.ORANGE);
-		lblCreacionDeSala.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblCreacionDeSala.setBounds(56, 0, 384, 69);
+		lblCreacionDeSala.setForeground(Color.GRAY);
+		lblCreacionDeSala.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		lblCreacionDeSala.setBounds(49, 23, 384, 52);
 		contentPane.add(lblCreacionDeSala);
 
 		JLabel lblNewLabel = new JLabel("Nombre de la sala:");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(66, 118, 175, 25);
+		lblNewLabel.setBounds(27, 118, 175, 25);
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		nombreField.setBounds(239, 119, 151, 25);
+		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
 		
 		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
 		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMaxUsuarios.setBounds(10, 154, 218, 33);
+		lblMaxUsuarios.setBounds(27, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
-		maxUsuarioField.setBounds(239, 155, 40, 26);
+		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
 
