@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -36,7 +37,7 @@ public class VentanaSala extends JFrame {
 		
 		setTitle("Sala de juego");
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
 		
 		contentPane = new JPanel();
@@ -141,6 +142,19 @@ public class VentanaSala extends JFrame {
 			mapa.setEnabled(true);
 			btnEmpezarJuego.setEnabled(true);
 		}
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		    	salirSala();
+		    	Main.getConexionServidor().cerrarSesionUsuario(((VentanaMenu)ventanaMenu).getUsuario());
+		    	System.exit(0);
+		    	}
+		    }
+		});
 		
 	}
 	

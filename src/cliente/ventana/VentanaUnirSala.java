@@ -90,8 +90,14 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(btnUnirse);
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ingresoaSalaOSeFue = true;
-				abrirVentanaSala(salaSeleccionada);
+				try{
+					if (!salaSeleccionada.equals(null)) {
+						ingresoaSalaOSeFue = true;
+						abrirVentanaSala(salaSeleccionada);
+					}
+				}catch(Exception e){
+					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala","Sala no seleccionada",JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 
