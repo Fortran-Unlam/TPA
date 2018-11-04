@@ -98,6 +98,23 @@ public class Login extends JFrame {
 	 */
 	protected void iniciarSession() throws IOException {
 
+		
+		if(this.password.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "¡Te falto ingresar la contraseña!", "Error login",
+					JOptionPane.WARNING_MESSAGE);
+			this.password.setFocusable(true);
+			return;
+		}
+		
+		if(this.username.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "¡Te falto ingresar el usuario!", "Error login",
+					JOptionPane.WARNING_MESSAGE);
+			this.username.setFocusable(true);
+			this.password.setText("");
+			return;
+		}
+		
+		
 		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());	
 		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);

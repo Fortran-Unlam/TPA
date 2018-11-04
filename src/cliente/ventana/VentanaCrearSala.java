@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Main;
 import config.Param;
 import java.awt.event.KeyAdapter;
@@ -34,7 +33,6 @@ public class VentanaCrearSala extends JFrame {
 
 		setTitle("Nueva Sala");
 
-		// Ver evento WindowListener para poder hacer un DISPOSE_ON_CLOSED
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
@@ -53,7 +51,7 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		btnAceptar.setBounds(98, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnAceptar.setBounds(98, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				crearSala();
@@ -68,54 +66,93 @@ public class VentanaCrearSala extends JFrame {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(259, 294, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnVolver.setBounds(259, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
 
 		JLabel lblCreacionDeSala = new JLabel("Creacion de sala nueva");
 		lblCreacionDeSala.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreacionDeSala.setForeground(Color.ORANGE);
-		lblCreacionDeSala.setFont(new Font("Tahoma", Font.BOLD, 25));
-		lblCreacionDeSala.setBounds(56, 0, 384, 69);
+		lblCreacionDeSala.setForeground(Color.GRAY);
+		lblCreacionDeSala.setFont(new Font("Tahoma", Font.PLAIN, 23));
+		lblCreacionDeSala.setBounds(49, 23, 384, 52);
 		contentPane.add(lblCreacionDeSala);
 
 		JLabel lblNewLabel = new JLabel("Nombre de la sala:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel.setBounds(66, 118, 175, 25);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBounds(27, 118, 175, 25);
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		nombreField.setBounds(239, 119, 151, 25);
+		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
 		
 		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
-		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMaxUsuarios.setBounds(10, 154, 218, 33);
+		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblMaxUsuarios.setBounds(27, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
-		maxUsuarioField.setBounds(239, 155, 40, 26);
+		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
 
 	}
 
 	protected void crearSala() {
-		ArrayList<String> datosSala = new ArrayList<String>();
-		//0: nombre, 1: cantUsuariosMax
-		datosSala.add(this.nombreField.getText());
-		datosSala.add(this.maxUsuarioField.getText());
-		
-		if(Main.getConexionServidor().crearSala(datosSala)) {
-			//Aguante boca
-			this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
-			this.dispose();
-		}else {
-			JOptionPane.showMessageDialog(null, "Hubo un error en la creacion de la sala. Puede que el nombre ya exista", "Error creacion sala",
-					JOptionPane.WARNING_MESSAGE);
-		}
-			
 
+		if(this.nombreField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "El nombre de la sala no puede estar vacio.",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.nombreField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+			return;
+		}
+		
+		if(this.maxUsuarioField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.maxUsuarioField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+			return;
+		}
+		
+		if(!this.maxUsuarioField.getText().matches("[0-9]+")) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.maxUsuarioField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+			return;
+		}
+		
+		
+		if (this.nombreField.getText().matches("[a-zA-Z0-9]+")) {
+
+			ArrayList<String> datosSala = new ArrayList<String>();
+			// 0: nombre, 1: cantUsuariosMax
+			datosSala.add(this.nombreField.getText());
+			datosSala.add(this.maxUsuarioField.getText());
+
+			if (Main.getConexionServidor().crearSala(datosSala)) {
+				// Aguante boca
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
+				this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Hubo un error en la creacion de la sala. Puede que el nombre ya exista", "Error creacion sala",
+						JOptionPane.WARNING_MESSAGE);
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Los nombres de sala solo pueden contener letras y numeros (sin espacios).",
+					"Aviso", JOptionPane.WARNING_MESSAGE);
+			this.nombreField.setText("");
+			this.maxUsuarioField.setText("");
+			this.nombreField.setFocusable(true);
+			this.maxUsuarioField.setFocusable(true);
+		}
 	}
 }

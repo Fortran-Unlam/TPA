@@ -14,7 +14,7 @@ public class Sala implements Serializable {
 
 	private boolean salaLlena = false;
 
-	private int cantidadUsuarioActuales;
+	private int cantidadUsuarioActuales =0;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas = 0;
 	private ArrayList<Partida> partidasJugadas = new ArrayList<Partida>();
@@ -24,7 +24,6 @@ public class Sala implements Serializable {
 
 	public Sala(String nombreSala, int cantidadUsuarioMaximos, Usuario usuarioCreador) {
 		this.nombre = nombreSala;
-		this.cantidadUsuarioActuales++;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.usuarioCreador = usuarioCreador;
 		this.usuariosActivos.add(usuarioCreador);

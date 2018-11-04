@@ -16,12 +16,12 @@ import servidor.Message;
 public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
+	
 	private Message message;
 	private Usuario usuario;
 
 	private Socket socketIn;
 	private Socket socketOut;
-
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
 	 * 
@@ -35,6 +35,7 @@ public class ConexionServidor {
 			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
 
 			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
+			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {
@@ -59,7 +60,7 @@ public class ConexionServidor {
 
 			this.message = (Message) entradaDatos.readObject();
 			this.usuario = new Usuario(username, hashPassword);
-			
+
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
 				// TODO: deberia dar mas info como puntos
@@ -197,7 +198,7 @@ public class ConexionServidor {
 
 				Object ret = entradaDatos.readObject();
 				if (ret instanceof Boolean == false && ret instanceof String == false) {
-					//TODO: preguntar al profe
+					// TODO: preguntar al profe
 					this.message = (Message) ret;
 
 					switch (this.message.getType()) {
@@ -235,6 +236,22 @@ public class ConexionServidor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+	}
+
+	public String recibirActualizacionDeSala() {
+		try {
+			// se queda esperando que el server envíe algún tipo de actualizacion;
+			Object ret = this.entradaDatos.readObject();
+			message = (Message) ret;
+			
+			if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
+				return (String) message.getData();
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 
 	}
 }
