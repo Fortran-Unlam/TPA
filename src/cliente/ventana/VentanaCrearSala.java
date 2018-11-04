@@ -33,7 +33,7 @@ public class VentanaCrearSala extends JFrame {
 
 		setTitle("Nueva Sala");
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,10 +100,11 @@ public class VentanaCrearSala extends JFrame {
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(contentPane, "¿Está seguro que desea salir de la viborita?", "¿Dejar de jugar?", 
+		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
 		                JOptionPane.YES_NO_OPTION,
 		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
 		    	Main.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+		    	System.exit(0);
 		    	}
 		    }
 		});

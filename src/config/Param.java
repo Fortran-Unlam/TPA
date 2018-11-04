@@ -57,5 +57,10 @@ public abstract class Param implements Serializable {
 	public static final int CANTIDAD_FRUTA_MINIMAS = 25;
 	public static final String SEPARADOR_EN_MENSAJES =";";
 	
+	//Mensaje para cerrar ventana.
+	public static final String MENSAJE_CERRAR_VENTANA ="¿Esta seguro que desea salir de la Viborita?";
+	public static final String TITLE_CERRAR_VENTANA ="¿Salir del juego?";
+	
+	
 	
 }

@@ -20,7 +20,7 @@ import javax.swing.JSeparator;
 public class VentanaMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contenedor;
+	private JPanel contentPane;
 	private Usuario usuario;
 
 	public VentanaMenu() {
@@ -28,12 +28,12 @@ public class VentanaMenu extends JFrame {
 		usuario = Main.getConexionServidor().getUsuario();
 		
 		setTitle("Menu principal");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
-		contenedor = new JPanel();
-		contenedor.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contenedor.setLayout(null);
-		setContentPane(contenedor);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(null);
+		setContentPane(contentPane);
 		setResizable(false);
 		setLocationRelativeTo(null);
 
@@ -45,7 +45,7 @@ public class VentanaMenu extends JFrame {
 		});
 
 		btnCrearSala.setBounds(21, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contenedor.add(btnCrearSala);
+		contentPane.add(btnCrearSala);
 
 		JButton btnUnirSala = new JButton("Unirse a sala");
 		btnUnirSala.addActionListener(new ActionListener() {
@@ -55,46 +55,46 @@ public class VentanaMenu extends JFrame {
 		});
 
 		btnUnirSala.setBounds(177, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contenedor.add(btnUnirSala);
+		contentPane.add(btnUnirSala);
 
 		JLabel lblBienvenidos = new JLabel("Bienvenido/a: " + usuario.getUsername(), SwingConstants.CENTER);
 		lblBienvenidos.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblBienvenidos.setBounds(21, 11, 451, 38);
-		contenedor.add(lblBienvenidos);
+		contentPane.add(lblBienvenidos);
 
 		JLabel lblSnakeFortran = new JLabel("Snake by Fortran", SwingConstants.CENTER);
 		lblSnakeFortran.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblSnakeFortran.setBounds(21, 48, 451, 38);
-		contenedor.add(lblSnakeFortran);
+		contentPane.add(lblSnakeFortran);
 
 		JLabel lblTusEstadsticas = new JLabel("Tus estad\u00EDsticas");
 		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTusEstadsticas.setBounds(10, 103, 145, 14);
-		contenedor.add(lblTusEstadsticas);
+		contentPane.add(lblTusEstadsticas);
 		
 		JLabel lblNewLabel = new JLabel("Puntaje hist\u00F3rico: " + usuario.getPuntos());
 		lblNewLabel.setBounds(24, 141, 135, 14);
-		contenedor.add(lblNewLabel);
+		contentPane.add(lblNewLabel);
 		
 		JLabel lblFrutasComidas = new JLabel("Frutas comidas: " + usuario.getCantidadFrutaComida());
 		lblFrutasComidas.setBounds(24, 166, 135, 14);
-		contenedor.add(lblFrutasComidas);
+		contentPane.add(lblFrutasComidas);
 		
 		JLabel lblAsesinatos = new JLabel("Asesinatos: " + usuario.getAsesinatos());
 		lblAsesinatos.setBounds(182, 141, 118, 14);
-		contenedor.add(lblAsesinatos);
+		contentPane.add(lblAsesinatos);
 		
 		JLabel lblMuertes = new JLabel("Muertes: " + usuario.getMuertes());
 		lblMuertes.setBounds(182, 166, 118, 14);
-		contenedor.add(lblMuertes);
+		contentPane.add(lblMuertes);
 		
 		JLabel lblTPartidasGanadas = new JLabel("T. Partidas Ganadas: " + usuario.getPartidasGanadas());
 		lblTPartidasGanadas.setBounds(322, 141, 150, 14);
-		contenedor.add(lblTPartidasGanadas);
+		contentPane.add(lblTPartidasGanadas);
 		
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(322, 166, 150, 14);
-		contenedor.add(lblTRondasGanadas);
+		contentPane.add(lblTRondasGanadas);
 		
 		JButton btnAtras = new JButton("Cerrar sesi\u00F3n");
 		btnAtras.addActionListener(new ActionListener() {
@@ -106,19 +106,20 @@ public class VentanaMenu extends JFrame {
 			}
 		});
 		btnAtras.setBounds(338, 284, 130, 40);
-		contenedor.add(btnAtras);
+		contentPane.add(btnAtras);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 128, 462, 2);
-		contenedor.add(separator);
+		contentPane.add(separator);
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
 		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(contenedor, "¿Está seguro que desea salir de la viborita?", "¿Dejar de jugar?", 
+		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
 		                JOptionPane.YES_NO_OPTION,
 		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
 		    	Main.getConexionServidor().cerrarSesionUsuario(usuario);
+		    	System.exit(0);
 		    	}
 		    }
 		});
