@@ -97,15 +97,16 @@ public class Crear extends JFrame {
 			switch(message.getType()) {
 				case Param.REQUEST_REGISTRO_INCORRECTO : 
 						JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario, intentelo nuevamente",
-								"Error login", JOptionPane.WARNING_MESSAGE); 
+								"Error login", JOptionPane.ERROR_MESSAGE); 
 						this.username.setText("");
 						this.password.setText("");
 						this.confirmPassword.setText("");
 						this.username.setFocusable(true);
 						break;
+						
 				case  Param.REQUEST_REGISTRO_CORRECTO : 
 						JOptionPane.showMessageDialog(null, "El usuario se ha registrado exitosamente..",
-								"Aviso", JOptionPane.WARNING_MESSAGE);
+								"Aviso", JOptionPane.INFORMATION_MESSAGE);
 						this.dispose();
 						ventanaLogin.setVisible(true);
 						break;
