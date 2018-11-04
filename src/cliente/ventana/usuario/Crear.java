@@ -33,34 +33,34 @@ public class Crear extends JFrame {
 		getContentPane().setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(29, 50, 122, 14);
+		lblNewLabel.setBounds(29, 39, 122, 14);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("Contrase\u00F1a");
-		lblNewLabel_1.setBounds(29, 75, 132, 14);
+		lblNewLabel_1.setBounds(29, 64, 132, 14);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("Confirmar contrase\u00F1a");
-		lblNewLabel_2.setBounds(29, 100, 142, 14);
+		lblNewLabel_2.setBounds(29, 89, 142, 14);
 		getContentPane().add(lblNewLabel_2);
 
 		username = new JTextField();
-		username.setBounds(193, 47, 86, 20);
+		username.setBounds(193, 36, 86, 20);
 		getContentPane().add(username);
 		username.setColumns(10);
 
 		password = new JPasswordField();
-		password.setBounds(193, 72, 86, 20);
+		password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
 		password.setColumns(10);
 
 		confirmPassword = new JPasswordField();
-		confirmPassword.setBounds(193, 97, 86, 20);
+		confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
 		confirmPassword.setColumns(10);
 
 		JButton btnCrearUsuario = new JButton("Crear Cuenta");
-		btnCrearUsuario.setBounds(119, 128, 122, 23);
+		btnCrearUsuario.setBounds(92, 125, 122, 23);
 		getContentPane().add(btnCrearUsuario);
 		btnCrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -73,7 +73,7 @@ public class Crear extends JFrame {
 		});
 
 		JLabel lblCrearUsuario = new JLabel("Crear Cuenta");
-		lblCrearUsuario.setBounds(119, 11, 86, 14);
+		lblCrearUsuario.setBounds(110, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
 		
 		JButton btnAtras = new JButton("Atras");
@@ -83,7 +83,7 @@ public class Crear extends JFrame {
 				ventanaLogin.setVisible(true);
 			}
 		});
-		btnAtras.setBounds(119, 157, 122, 23);
+		btnAtras.setBounds(92, 157, 122, 23);
 		getContentPane().add(btnAtras);
 	}
 
