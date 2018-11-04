@@ -117,8 +117,8 @@ public class ConexionCliente extends Thread {
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
 						
 						
-						//Envio a los clientes que estaban en "unir sala" la actualización de la nueva sala
-						//Esto debería mandarse por el canal de syncro pero por ahora va.
+						//Envio a los clientes que estaban en "unir sala" la actualizaciï¿½n de la nueva sala
+						//Esto deberï¿½a mandarse por el canal de syncro pero por ahora va.
 						String datosSalaNueva;
 						
 						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioActuales()
@@ -129,6 +129,17 @@ public class ConexionCliente extends Thread {
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false));
 					}
 
+					break;
+				case Param.REQUEST_SALIR_SALA:
+					usuario.salirDeSala();
+					String nombreSala = (String) message.getData();
+					Sala s = Servidor.getSalaPorNombre(nombreSala);
+					s.sacarUsuarioDeSala(usuario);
+					//Debug para comprobar verdaderamente la cantidad de usuarios con los que quedo la sala.
+					//System.out.println("ASD:"+s.getCantidadUsuarioActuales());
+					//Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe eliminarse de las salas activas.
+					if(s.getCantidadUsuarioActuales()==0)
+						Servidor.removerDeSalasActivas(s);
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					// TODO: no es necesario mandar la sala ya que referencia a una posicion de

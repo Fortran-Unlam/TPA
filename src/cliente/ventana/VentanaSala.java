@@ -53,6 +53,7 @@ public class VentanaSala extends JFrame {
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ventanaMenu.setVisible(true);
+				salirSala();
 				dispose();
 			}
 		});
@@ -83,7 +84,9 @@ public class VentanaSala extends JFrame {
 		
 		this.lblMaxUsuarios = new JLabel("");
 		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		this.lblMaxUsuarios.setText("(X/" + datosSala.get(1) + ")");
+		//Reflejo 04/11 pinchaba por el 1, iria un size-1?
+		this.lblMaxUsuarios.setText("(X/" + datosSala.get(datosSala.size()-1) + ")");
+		//this.lblMaxUsuarios.setText("(X/" + datosSala.get(1) + ")");
 		this.lblMaxUsuarios.setBounds(159, 48, 39, 23);
 		getContentPane().add(this.lblMaxUsuarios);
 		
@@ -139,6 +142,11 @@ public class VentanaSala extends JFrame {
 			btnEmpezarJuego.setEnabled(true);
 		}
 		
+	}
+	
+	protected void salirSala() 
+	{
+		Main.getConexionServidor().SalirSala(this.nombreSala);
 	}
 	
 	protected void empezarJuego() {

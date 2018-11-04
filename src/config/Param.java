@@ -45,6 +45,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_REGISTRO_INCORRECTO = "RegistroIncorrecto";
 	public static final String REQUEST_REGISTRO_DUPLICADO = "RegistroDuplicado";
 	public static final String REQUEST_CREAR_SALA = "CrearSala";
+	public static final String REQUEST_SALIR_SALA = "SalirSala";
 	public static final String REQUEST_SALA_CREADA = "SalaCreada";
 	public static final String REQUEST_ERROR_CREAR_SALA = "ErrorCreacionSala";
 	public static final String REQUEST_ACTUALIZAR_SALAS = "SeActualizaronSalas";

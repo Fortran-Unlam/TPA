@@ -66,6 +66,10 @@ public class Servidor {
 	public static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
+	
+	public static void removerDeSalasActivas(Sala sala) {
+		Servidor.salasActivas.remove(sala);
+	}
 
 	public static boolean existeSala(String nameRoom) {
 		for (Sala s : Servidor.salasActivas) {
@@ -129,6 +133,17 @@ public class Servidor {
 
 	public static void avisarFinJuego() {
 
+	}
+	
+	/*Metodo para encontrar la sala por nombre, ya que en las ventanas, se maneja el nombre de la sala.
+	 * no el id, y la informacion que envia el cliente sobre la sala, esta basado en los datos de las ventanas.
+	 */
+	public static Sala getSalaPorNombre(String Nombre)
+	{
+		for(int i = 0; i < salasActivas.size(); i++)
+			if(salasActivas.get(i).getNombre().equals(Nombre))
+				return salasActivas.get(i);
+		return null;
 	}
 
 }

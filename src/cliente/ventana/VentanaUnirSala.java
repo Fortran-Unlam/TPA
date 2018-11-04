@@ -121,7 +121,7 @@ public class VentanaUnirSala extends JFrame {
 		
 		this.setVisible(true);
 		
-		//Acá debemos crear el thread de sincronizacion para refrescar las salas
+		//Acï¿½ debemos crear el thread de sincronizacion para refrescar las salas
 //		Thread threadSync = new Thread() {
 //			public void run() {
 //
@@ -132,7 +132,7 @@ public class VentanaUnirSala extends JFrame {
 //						String[] datosSalaNueva =  salaNueva.split(Param.SEPARADOR_EN_MENSAJES);
 //						String estoVaAlModelDelList = datosSalaNueva[0] + "(" + datosSalaNueva[1] + "/" + datosSalaNueva[2] + ")";
 //						modelDeListas.addElement(estoVaAlModelDelList);	
-//						System.out.println("Che me enteré que crearon una sala nueva");
+//						System.out.println("Che me enterï¿½ que crearon una sala nueva");
 //						System.out.println("Fue: " + estoVaAlModelDelList);
 //					}
 //						
@@ -154,11 +154,22 @@ public class VentanaUnirSala extends JFrame {
 		ArrayList<String> salas = Main.getConexionServidor().getAllSalas();
 		DefaultListModel<String> modelSalasActivas = new DefaultListModel<String>();
 
-		for (String s : salas) {
-			String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
-			String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
-			modelSalasActivas.addElement(salida);
+		/* Reflejo 04/11 si se hace la secuencia crear una sala, salir de la sala e intentar
+		 * unirse a una sala, todo esto con un mismo usuario, salta la excepcion
+		 * java.lang.NullPointerException se tiene que comprobar al momento de pedirSalas
+		 * que realmente existan salas, antes de iterar por ellas.
+		 * Quiza esta mal solucionado el error, revisar.
+		 */
+		if(salas!=null)
+		{
+			for (String s : salas) 
+			{
+				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
+				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
+				modelSalasActivas.addElement(salida);
+			}
 		}
+		
 
 		return modelSalasActivas;
 	}

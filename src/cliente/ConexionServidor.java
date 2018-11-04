@@ -180,6 +180,24 @@ public class ConexionServidor {
 		}
 		return false;
 	}
+	
+	/** Se informa al servidor que voy a salir de la sala y quiza, si soy el unico que esta en la sala
+	 * y salgo la sala debe borrarse. O directamente eliminar la sala si el usuario creador sale de la misma.
+	 * 
+	 */
+	public void SalirSala(String nombreSala)
+	{
+		try {
+			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
+			this.salidaDatos.writeObject(this.message);
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (NullPointerException ex) {
+			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public boolean comenzarJuego() {
 		try {
@@ -256,7 +274,7 @@ public class ConexionServidor {
 
 	public String recibirActualizacionDeSala() {
 		try {
-			// se queda esperando que el server envíe algún tipo de actualizacion;
+			// se queda esperando que el server envï¿½e algï¿½n tipo de actualizacion;
 			Object ret = this.entradaDatos.readObject();
 			message = (Message) ret;
 			
