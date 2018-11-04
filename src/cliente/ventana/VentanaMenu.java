@@ -67,7 +67,7 @@ public class VentanaMenu extends JFrame {
 		contenedor.add(lblSnakeFortran);
 
 		JLabel lblTusEstadsticas = new JLabel("Tus estad\u00EDsticas");
-		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTusEstadsticas.setBounds(10, 103, 145, 14);
 		contenedor.add(lblTusEstadsticas);
 		

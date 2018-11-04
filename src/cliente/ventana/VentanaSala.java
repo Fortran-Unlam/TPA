@@ -56,7 +56,7 @@ public class VentanaSala extends JFrame {
 				dispose();
 			}
 		});
-		btnSalirDeSala.setBounds(327, 357, 162, 40);
+		btnSalirDeSala.setBounds(326, 346, 162, 40);
 		getContentPane().add(btnSalirDeSala);
 
 		JButton btnEmpezarJuego = new JButton("Empezar juego");
@@ -65,7 +65,7 @@ public class VentanaSala extends JFrame {
 				empezarJuego();
 			}
 		});
-		btnEmpezarJuego.setBounds(110, 357, 168, 40);
+		btnEmpezarJuego.setBounds(111, 346, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
 		btnEmpezarJuego.setEnabled(false);
 		

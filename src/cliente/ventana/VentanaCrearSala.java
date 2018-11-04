@@ -78,7 +78,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblCreacionDeSala);
 
 		JLabel lblNewLabel = new JLabel("Nombre de la sala:");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(27, 118, 175, 25);
 		contentPane.add(lblNewLabel);
 
@@ -88,7 +88,7 @@ public class VentanaCrearSala extends JFrame {
 		nombreField.setColumns(10);
 		
 		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
-		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblMaxUsuarios.setBounds(27, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
 		
