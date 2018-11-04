@@ -149,6 +149,19 @@ public class ConexionCliente extends Thread {
 						this.usuario.getJugador().setTecla(posicion);
 					}
 					break;
+				case Param.REQUEST_CERRAR_SESION:
+					Usuario usuarioActivo = (Usuario) message.getData();
+					
+					for (Usuario u : Servidor.usuariosActivos) {
+						if (u.getId() == usuarioActivo.getId()) {
+							Servidor.usuariosActivos.remove(Servidor.usuariosActivos.indexOf(u));
+							break;
+						}
+					}
+					
+					this.salidaDatos.flush();
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null));
+					break;
 				default:
 					break;
 				}

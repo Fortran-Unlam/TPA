@@ -98,6 +98,21 @@ public class ConexionServidor {
 		}
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
+	
+	public Message cerrarSesionUsuario(Usuario usuario) {		
+		try {
+			Object ret = usuario;			
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, ret));
+			
+			this.message = (Message) entradaDatos.readObject();
+			return this.message;
+			
+		} catch (Exception e) {
+			System.out.println("No se pudo cerrar sesion" + e.getMessage());
+			e.printStackTrace();
+		}
+		return new Message(Param.REQUEST_CERRAR_SESION, null);
+	}
 
 	/**
 	 * Pide las salas al servidor (solo trae los nombres) y espera a que este le
@@ -254,4 +269,6 @@ public class ConexionServidor {
 		return null;
 
 	}
+
+	
 }

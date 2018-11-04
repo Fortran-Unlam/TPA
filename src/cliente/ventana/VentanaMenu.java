@@ -98,6 +98,7 @@ public class VentanaMenu extends JFrame {
 		JButton btnAtras = new JButton("Cerrar sesi\u00F3n");
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Main.getConexionServidor().cerrarSesionUsuario(usuario);
 				dispose();
 				Login login = new Login();
 				login.setVisible(true);
