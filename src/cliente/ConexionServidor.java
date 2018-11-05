@@ -213,7 +213,7 @@ public class ConexionServidor {
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message);
 
-			while(true) {				
+			while(socketIn.isClosed() == false) {				
 				this.message = (Message) entradaDatos.readObject();
 				String ret = this.message.getType();
 				System.out.println(ret);
