@@ -47,8 +47,9 @@ public class Partida implements Serializable {
 			System.out.println("Ronda " + (numeroRonda + 1));
 			this.partidaEnCurso = true;
 			this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
-			this.comienzoDeJuego();
-			this.rondasJugadas.add(this.rondaEnCurso);
+			if (this.comienzoDeJuego()) {				
+				this.rondasJugadas.add(this.rondaEnCurso);
+			}
 //			this.rondaEnCurso = null;
 		} catch (Exception e) {
 			e.printStackTrace();

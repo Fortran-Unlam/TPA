@@ -57,6 +57,7 @@ public class ConexionServidor {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
+			System.err.println("loguear");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 
 			this.message = (Message) entradaDatos.readObject();
@@ -89,6 +90,7 @@ public class ConexionServidor {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
+			System.err.println("registrar usuario");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, ret));
 
 			this.message = (Message) entradaDatos.readObject();
@@ -103,6 +105,7 @@ public class ConexionServidor {
 	public Message cerrarSesionUsuario(Usuario usuario) {		
 		try {
 			Object ret = usuario;			
+			System.err.println("cerrar sesion");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, ret));
 			
 			this.message = (Message) entradaDatos.readObject();
@@ -126,6 +129,7 @@ public class ConexionServidor {
 	public ArrayList<String> getAllSalas() {
 		try {
 			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
+			System.err.println("all salas");
 			this.salidaDatos.writeObject(message);
 
 			this.message = (Message) entradaDatos.readObject();
@@ -160,6 +164,7 @@ public class ConexionServidor {
 		try {
 
 			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
+			System.err.println("crear sala");
 			this.salidaDatos.writeObject(this.message);
 
 			this.message = (Message) entradaDatos.readObject();
@@ -190,6 +195,7 @@ public class ConexionServidor {
 	{
 		try {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
+			System.err.println("salir sala");
 			this.salidaDatos.writeObject(this.message);
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -204,14 +210,17 @@ public class ConexionServidor {
 		try {
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);
+			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message);
 
-			this.message = (Message) entradaDatos.readObject();
-			switch (this.message.getType()) {
-			case Param.REQUEST_JUEGO_EMPEZADO:
-				return (boolean) this.message.getData();
-			default:
-				return false;
+			while(true) {				
+				this.message = (Message) entradaDatos.readObject();
+				String ret = this.message.getType();
+				System.out.println(ret);
+				switch (ret) {
+				case Param.REQUEST_JUEGO_EMPEZADO:
+					return (boolean) this.message.getData();
+				}
 			}
 
 		} catch (IOException ex) {
@@ -266,6 +275,7 @@ public class ConexionServidor {
 		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
 		try {
 			this.salidaDatos.reset();
+			System.err.println("enviar tecla");
 			this.salidaDatos.writeObject(this.message);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -296,6 +306,7 @@ public class ConexionServidor {
 	public String unirseASala(String salaSeleccionada) 
 	{
 		try {
+			System.err.println("ingreso sala");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada));
 			Message retorno = (Message)this.entradaDatos.readObject();
 			return (String)retorno.getData();

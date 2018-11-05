@@ -78,6 +78,7 @@ public class ConexionCliente extends Thread {
 							Servidor.usuariosActivos.add(usuario);
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
+							System.err.println("logeo correcto");
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
 						}
 					}
@@ -90,14 +91,15 @@ public class ConexionCliente extends Thread {
 
 					switch (resultado) {
 					case -1:
+						System.err.println("registro incorrecto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
 						break;
 					case 0:
-
+						System.err.println("registro correcto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null));
 						break;
 					case 1:
-
+						System.err.println("registro duplicado");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null));
 						break;
 					}
@@ -105,6 +107,7 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_GET_ALL_SALAS:
+					System.err.println("all salas");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
 					break;
 
@@ -114,6 +117,7 @@ public class ConexionCliente extends Thread {
 						sala = usuario.crearSala(dataSala.get(0), Integer.valueOf(dataSala.get(1)));
 
 						Servidor.agregarASalasActivas(sala);
+						System.err.println("sala cdreada");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
 						
 						
@@ -124,8 +128,10 @@ public class ConexionCliente extends Thread {
 						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioActuales()
 						+ Param.SEPARADOR_EN_MENSAJES + sala.getCantidadUsuarioMaximos();
 						
+						System.err.println("actualizar salas");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva));
 					} else {
+						System.err.println("crear sala");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false));
 					}
 
@@ -154,6 +160,7 @@ public class ConexionCliente extends Thread {
 					int ux = s1.getCantidadUsuarioActuales();
 					int uxx = s1.getCantidadUsuarioMaximos();
 					String usuariosActivos = s1.getUsuariosSeparadosporComa();
+					System.err.println("datos sala");
 					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA, ux+";"+uxx+";"+usuariosActivos));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
@@ -163,9 +170,9 @@ public class ConexionCliente extends Thread {
 					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
 					sala.agregarUsuarioASala(new UsuarioBot("j0", "a"));
 					sala.agregarUsuarioASala(new UsuarioBot("j0n", "a"));
-					sala.crearPartida(2, new TipoJuego());
 
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, true));
+					System.err.println("juego empezado");
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(2, new TipoJuego())));
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
@@ -186,6 +193,7 @@ public class ConexionCliente extends Thread {
 					}
 					
 					this.salidaDatos.flush();
+					System.err.println("cerrar sesion");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null));
 					break;
 				default:

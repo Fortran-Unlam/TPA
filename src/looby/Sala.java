@@ -64,8 +64,8 @@ public class Sala implements Serializable {
 
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadDeRondasDePartida, tipoJuego);
-			this.comenzarPartida();
-			return true;
+			
+			return this.comenzarPartida();
 		}
 		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
 	}
