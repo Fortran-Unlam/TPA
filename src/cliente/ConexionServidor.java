@@ -208,8 +208,14 @@ public class ConexionServidor {
 
 	public boolean comenzarJuego() {
 		try {
-
-			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, null);
+			//TODO: pasarlo a JSON
+			String[] tipoJuegos = new String[3];
+			tipoJuegos[0] = "4";// cantidad de jugadores
+			tipoJuegos[1] = Param.TIPO_JUEGO_FRUTA; //de aca en mas es tipo de juego
+			tipoJuegos[2] = Param.TIPO_JUEGO_SUPERVIVENCIA;
+			
+			
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, tipoJuegos);
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message);
 

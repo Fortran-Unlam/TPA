@@ -32,7 +32,7 @@ public class Partida implements Serializable {
 				this.jugadoresEnPartida.add(jugador);
 			} else {
 				jugador = new Jugador(usuario);
-				this.jugadoresEnPartida.add(jugador);				
+				this.jugadoresEnPartida.add(jugador);
 			}
 			usuario.setJugador(jugador);
 		}
@@ -47,7 +47,7 @@ public class Partida implements Serializable {
 			System.out.println("Ronda " + (numeroRonda + 1));
 			this.partidaEnCurso = true;
 			this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
-			if (this.comienzoDeJuego()) {				
+			if (this.comienzoDeJuego()) {
 				this.rondasJugadas.add(this.rondaEnCurso);
 			}
 //			this.rondaEnCurso = null;
@@ -65,15 +65,25 @@ public class Partida implements Serializable {
 			this.rondaEnCurso = null;
 			return false;
 		}
-		
+
 		// TODO: OJO al cambiar esto, hay que avisar cuando termina
 		Thread thread = new Thread() {
 			public synchronized void run() {
+				try {
+					/*
+					 * Espero un segundo porque al mismo tiempo que creamos la partida, le estamos
+					 * enviando el mapa. Entonces tendria que avisar que empezo el juego y luego
+					 * enviar el mapa a dibujar
+					 */
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				rondaEnCurso.start();
 			}
 		};
 		thread.start();
-		
+
 		return true;
 	}
 
@@ -90,9 +100,8 @@ public class Partida implements Serializable {
 	public Juego getRondaEnCurso() {
 		return rondaEnCurso;
 	}
-	
+
 	public ArrayList<Usuario> getUsuariosActivosEnSala() {
 		return this.usuariosActivosEnSala;
 	}
 }
-
