@@ -66,7 +66,7 @@ public class Servidor {
 	public static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
-	
+
 	public static void removerDeSalasActivas(Sala sala) {
 		Servidor.salasActivas.remove(sala);
 	}
@@ -102,18 +102,31 @@ public class Servidor {
 
 	public static void actualizarMapa(Mapa mapa) {
 		try {
+			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
+				enviar = false;
 				if (usuario != null && usuario.getConexion().getSalidaDatos() != null && mapa != null) {
 					try {
 						for (Jugador jugadorMapa : mapa.getJugadores()) {
 
 							if (usuario.getJugador().equals(jugadorMapa)) {
-								usuario.getConexion().getSalidaDatos().reset();
-								usuario.getConexion().getSalidaDatos().flush();
-								System.err.println("mostrar mapa");
-								usuario.getConexion().getSalidaDatos()
-										.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+								enviar = true;
+								break;
 							}
+						}
+						for (Jugador espectador : mapa.getEspectadores()) {
+							if (usuario.getJugador().equals(espectador)) {
+								enviar = true;
+								break;
+							}
+						}
+						
+						if (enviar) {
+							usuario.getConexion().getSalidaDatos().reset();
+							usuario.getConexion().getSalidaDatos().flush();
+							System.err.println("mostrar mapa");
+							usuario.getConexion().getSalidaDatos()
+									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
 						}
 
 					} catch (IOException e) {
@@ -135,14 +148,15 @@ public class Servidor {
 	public static void avisarFinJuego() {
 
 	}
-	
-	/*Metodo para encontrar la sala por nombre, ya que en las ventanas, se maneja el nombre de la sala.
-	 * no el id, y la informacion que envia el cliente sobre la sala, esta basado en los datos de las ventanas.
+
+	/*
+	 * Metodo para encontrar la sala por nombre, ya que en las ventanas, se maneja
+	 * el nombre de la sala. no el id, y la informacion que envia el cliente sobre
+	 * la sala, esta basado en los datos de las ventanas.
 	 */
-	public static Sala getSalaPorNombre(String Nombre)
-	{
-		for(int i = 0; i < salasActivas.size(); i++)
-			if(salasActivas.get(i).getNombre().equals(Nombre))
+	public static Sala getSalaPorNombre(String Nombre) {
+		for (int i = 0; i < salasActivas.size(); i++)
+			if (salasActivas.get(i).getNombre().equals(Nombre))
 				return salasActivas.get(i);
 		return null;
 	}

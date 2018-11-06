@@ -40,6 +40,8 @@ public class Mapa implements Serializable {
 
 	public Object viboras;
 
+	private ArrayList<Jugador> espectadores = new ArrayList<Jugador>();
+
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
 	 * 
@@ -223,6 +225,7 @@ public class Mapa implements Serializable {
 		for (int i = 0; i < this.jugadores.size(); i++) {
 			Vibora vibora = this.jugadores.get(i).getVibora();
 			if (vibora.isDead()) {
+				this.espectadores.add(this.jugadores.get(i));
 				this.jugadores.remove(i);
 				// Despues de eliminar las viboras transformo sus cuerpos en fruta
 				for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
@@ -382,5 +385,9 @@ public class Mapa implements Serializable {
 
 	public ArrayList<Obstaculo> getObstaculos() {
 		return this.obstaculos;
+	}
+
+	public ArrayList<Jugador> getEspectadores() {
+		return this.espectadores;
 	}
 }
