@@ -3,6 +3,9 @@ package cliente.ventana;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,11 +42,20 @@ public class VentanaMenu extends JFrame {
 
 		JButton btnCrearSala = new JButton("Crear sala");
 		btnCrearSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent a) {
 				abrirVentanaCrearSala();
 			}
 		});
 
+		btnCrearSala.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					abrirVentanaCrearSala();
+				}
+			}
+		});
+		
 		btnCrearSala.setBounds(21, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnCrearSala);
 
@@ -54,6 +66,15 @@ public class VentanaMenu extends JFrame {
 			}
 		});
 
+		btnUnirSala.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					abrirVentanaUnirSala();
+				}
+			}
+		});
+		
 		btnUnirSala.setBounds(177, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirSala);
 
