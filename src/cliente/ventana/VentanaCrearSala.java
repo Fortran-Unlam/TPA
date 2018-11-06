@@ -83,6 +83,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
+		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios).");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
@@ -93,6 +94,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
+		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
