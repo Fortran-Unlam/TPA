@@ -79,15 +79,15 @@ public class Crear extends JFrame {
 		lblCrearUsuario.setBounds(110, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
 
-		JButton btnAtras = new JButton("Atras");
-		btnAtras.addActionListener(new ActionListener() {
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 				ventanaLogin.setVisible(true);
 			}
 		});
-		btnAtras.setBounds(92, 157, 122, 23);
-		getContentPane().add(btnAtras);
+		btnVolver.setBounds(92, 157, 122, 23);
+		getContentPane().add(btnVolver);
 	}
 
 	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
