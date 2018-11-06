@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -116,9 +117,10 @@ public class VentanaJuego extends JFrame {
 
 	public void dibujarMapa(Mapa mapa) {
 		this.mapa = mapa;
-
+		BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = (Graphics2D) bi.getGraphics();
+		
 		if (this.mapa != null) {
-			Graphics2D g2d = (Graphics2D) this.panelMapa.getGraphics();
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
@@ -144,6 +146,7 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
+			this.panelMapa.getGraphics().drawImage(bi, 0, 0, null);
 		}
 	}
 }
