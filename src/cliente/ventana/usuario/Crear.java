@@ -45,19 +45,19 @@ public class Crear extends JFrame {
 		getContentPane().add(lblNewLabel_2);
 
 		username = new JTextField();
-		username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros");
+		username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros.");
 		username.setBounds(193, 36, 86, 20);
 		getContentPane().add(username);
 		username.setColumns(10);
 
 		password = new JPasswordField();
-		password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros");
+		password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros.");
 		password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
 		password.setColumns(10);
 
 		confirmPassword = new JPasswordField();
-		confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente");
+		confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente.");
 		confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
 		confirmPassword.setColumns(10);

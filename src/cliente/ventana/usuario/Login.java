@@ -40,13 +40,13 @@ public class Login extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-		username.setToolTipText("Ingrese su usuario aqu\u00ED");
+		username.setToolTipText("Ingrese su usuario aqu\u00ED.");
 		this.username.setBounds(162, 61, 86, 20);
 		this.getContentPane().add(username);
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
-		password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED");
+		password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
 		password.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {

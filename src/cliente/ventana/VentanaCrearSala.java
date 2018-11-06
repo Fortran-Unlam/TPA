@@ -94,7 +94,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
-		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico");
+		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico.");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
