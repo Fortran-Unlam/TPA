@@ -139,7 +139,7 @@ public class Login extends JFrame {
 		} else if (usuario != null && usuario.getId() == -1)
 		{
 			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login",
-					JOptionPane.WARNING_MESSAGE);
+					JOptionPane.ERROR_MESSAGE);
 			this.username.setText("");
 			this.password.setText("");
 			this.username.setFocusable(true);
