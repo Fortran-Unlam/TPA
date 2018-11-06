@@ -1,11 +1,11 @@
 package core;
 
 public class Puntaje implements Comparable<Puntaje> {
-	private int idVibora;
+	private String nombre;
 	private int frutasComidas;
 	
-	public Puntaje(int idVibora, int frutasComidas) {
-		this.idVibora = idVibora;
+	public Puntaje(String nombre, int frutasComidas) {
+		this.nombre = nombre;
 		this.frutasComidas = frutasComidas;
 	}
 
@@ -16,7 +16,7 @@ public class Puntaje implements Comparable<Puntaje> {
 
 	@Override
 	public String toString() {
-		return idVibora + "            " + frutasComidas;
+		return nombre + "            " + frutasComidas;
 	}
 	
 	

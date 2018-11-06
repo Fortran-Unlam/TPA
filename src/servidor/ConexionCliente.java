@@ -175,9 +175,9 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					String[] data = (String[]) message.getData();
-					sala.agregarUsuarioASala(new UsuarioBot("j", "a"));
-					sala.agregarUsuarioASala(new UsuarioBot("j0", "a"));
-					sala.agregarUsuarioASala(new UsuarioBot("j0n", "a"));
+					sala.agregarUsuarioASala(new UsuarioBot());
+					sala.agregarUsuarioASala(new UsuarioBot());
+					sala.agregarUsuarioASala(new UsuarioBot());
 
 					System.err.println("juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();

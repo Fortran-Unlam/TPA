@@ -7,6 +7,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import cliente.Main;
 import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
+import core.Puntaje;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
@@ -146,7 +149,13 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
+			
 			this.panelMapa.getGraphics().drawImage(bi, 0, 0, null);
+			ArrayList<Puntaje> score = this.mapa.getScore();
+			score.sort(null);
+			for (Puntaje puntaje : score) {
+				System.out.println(puntaje);
+			}
 		}
 	}
 }

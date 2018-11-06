@@ -17,7 +17,6 @@ import core.entidad.Fruta;
 import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
-import looby.Usuario;
 
 public class Mapa implements Serializable {
 
@@ -26,9 +25,9 @@ public class Mapa implements Serializable {
 	private Coordenada tamano;
 
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-	private ArrayList<Fruta> frutas = new ArrayList<>();
-	private ArrayList<Obstaculo> obstaculos = new ArrayList<>();
-	private ArrayList<Puntaje> score = new ArrayList<>();
+	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
+	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
+	private ArrayList<Puntaje> score = new ArrayList<Puntaje>();
 
 	private Fruta[][] posicionesDeFrutas;
 	private Jugador[][] posicionesDeJugadores;
@@ -372,6 +371,13 @@ public class Mapa implements Serializable {
 	}
 
 	public ArrayList<Puntaje> getScore() {
+		this.score.clear();
+		for (Jugador jugador : this.jugadores) {
+			Vibora vibora = jugador.getVibora();
+			if (vibora != null) {
+				this.score.add(new Puntaje(jugador.getNombre(), vibora.getFrutasComidas()));
+			}
+		}
 		return score;
 	}
 
