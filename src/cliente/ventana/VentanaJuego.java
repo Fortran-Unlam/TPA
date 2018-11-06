@@ -120,8 +120,8 @@ public class VentanaJuego extends JFrame {
 
 	public void dibujarMapa(Mapa mapa) {
 		this.mapa = mapa;
-		BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-		Graphics2D g2d = (Graphics2D) bi.getGraphics();
+		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
 		
 		if (this.mapa != null) {
 			g2d.setColor(Color.BLACK);
@@ -150,7 +150,7 @@ public class VentanaJuego extends JFrame {
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
 			
-			this.panelMapa.getGraphics().drawImage(bi, 0, 0, null);
+			this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 			ArrayList<Puntaje> score = this.mapa.getScore();
 			score.sort(null);
 			for (Puntaje puntaje : score) {
