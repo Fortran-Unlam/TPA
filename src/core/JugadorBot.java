@@ -30,19 +30,21 @@ public class JugadorBot extends Jugador {
 		Random random = new Random(System.nanoTime());
 
 		if (this.getVibora() != null) {
-			if (this.chocara(mapa) || random.nextFloat() < 0.2) {
+			Float numberRandom = random.nextFloat();
+			
+			if (this.chocara(mapa) || numberRandom < 0.2) {
 				int nuevoSentido = this.getVibora().getSentido().ordinal();
 				int intentos = 0;
 				do {
-					nuevoSentido++;
-					if (random.nextFloat() < 0.5) {
+					if (numberRandom < 0.5) {
 						nuevoSentido--;
+					} else {
+						nuevoSentido++;						
 					}
-					
 					intentos++;
-					Posicion sentido = Posicion.values()[nuevoSentido % Posicion.values().length];
+					Posicion sentido = Posicion.values()[Math.abs(nuevoSentido) % Posicion.values().length];
 					this.getVibora().setSentido(sentido);
-				} while (this.chocara(mapa) && intentos < Posicion.values().length);
+				} while (this.chocara(mapa) && intentos <= Posicion.values().length);
 			}
 		}
 	}
@@ -67,11 +69,18 @@ public class JugadorBot extends Jugador {
 		}
 
 		if (x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0 || mapa.getObstaculo(x, y) != null) {
+			System.out.println("choca con mapa u obs");
 			return true;
 		}
 
+		if (x == this.getVibora().getX() && y == this.getVibora().getY()) {
+			System.out.println("choca con su cabeza");
+			return true;
+		}
+		
 		for (CuerpoVibora cuerpoVibora : this.getVibora().getCuerpos()) {
 			if (x == cuerpoVibora.getX() && y == cuerpoVibora.getY()) {
+				System.out.println("choca con su cuerpo");
 				return true;
 			}
 		}
