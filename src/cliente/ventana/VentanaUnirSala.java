@@ -146,27 +146,6 @@ public class VentanaUnirSala extends JFrame {
 		    	}
 		    }
 		});
-		
-		//Ac� debemos crear el thread de sincronizacion para refrescar las salas
-//		Thread threadSync = new Thread() {
-//			public void run() {
-//
-//				String salaNueva;
-//				while(true && !ingresoaSalaOSeFue) {
-//					salaNueva = Main.getConexionServidor().recibirActualizacionDeSala();
-//					if(salaNueva != null) {
-//						String[] datosSalaNueva =  salaNueva.split(Param.SEPARADOR_EN_MENSAJES);
-//						String estoVaAlModelDelList = datosSalaNueva[0] + "(" + datosSalaNueva[1] + "/" + datosSalaNueva[2] + ")";
-//						modelDeListas.addElement(estoVaAlModelDelList);	
-//						System.out.println("Che me enter� que crearon una sala nueva");
-//						System.out.println("Fue: " + estoVaAlModelDelList);
-//					}
-//						
-//				}
-//			}
-//		};
-//		threadSync.start();
-		
 
 	}
 	

@@ -35,7 +35,8 @@ public class ConexionClienteBackOff extends Thread {
 				System.out.println("El cliente solicita " + message.getType());
 				String tipoDeMensaje = message.getType();
 				
-				if(tipoDeMensaje.equals(Param.REQUEST_ACTUALIZAR_SALAS)){
+				if(tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) ||
+						tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)){
 					Servidor.enviarActualizacionSalasALosClientes();
 				}
 

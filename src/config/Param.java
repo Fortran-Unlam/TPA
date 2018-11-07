@@ -75,5 +75,6 @@ public abstract class Param implements Serializable {
 	
 	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
+	public static final String NOTICE_ACTUALIZAR_SALAS = "ClienteActualizaTusSalas";
 	
 }

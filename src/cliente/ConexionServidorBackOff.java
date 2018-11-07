@@ -42,7 +42,7 @@ public class ConexionServidorBackOff extends Thread {
 			try {
 				message = (Message) this.entradaDatos.readObject();
 				
-				if(message.getType().equals(Param.REQUEST_ACTUALIZAR_SALAS)){
+				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)){
 					Main.setDatosDeSalas((ArrayList<String>) message.getData());
 				}
 				
