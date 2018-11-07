@@ -119,19 +119,42 @@ public class JugadorBot extends Jugador {
 
 		if (y == fruta.getY()) {
 			if (x <= fruta.getX()) {
+				if (this.getVibora().getSentido() == Posicion.OESTE) {
+					return Posicion.NORTE;
+				}
 				return Posicion.ESTE;
 			} else {
+				if (this.getVibora().getSentido() == Posicion.ESTE) {
+					return Posicion.SUR;
+				}
+				return Posicion.OESTE;
+			}
+		} else if (x == fruta.getX()) {
+			if (y <= fruta.getY()) {
+				if (this.getVibora().getSentido() == Posicion.SUR) {
+					return Posicion.ESTE;
+				}
+				return Posicion.NORTE;
+			} else {
+				if (this.getVibora().getSentido() == Posicion.NORTE) {
+					return Posicion.OESTE;
+				}
+				return Posicion.SUR;
+			}
+		} else {
+			if (x <= fruta.getX()) {
+				if (this.getVibora().getSentido() == Posicion.OESTE) {
+					return Posicion.NORTE;
+				}
+				return Posicion.ESTE;
+			} else {
+				if (this.getVibora().getSentido() == Posicion.ESTE) {
+					return Posicion.SUR;
+				}
 				return Posicion.OESTE;
 			}
 		}
-		if (x == fruta.getX()) {
-			if (y <= fruta.getY()) {
-				return Posicion.NORTE;
-			} else {
-				return Posicion.SUR;
-			}
-		}
-		Random rand = new Random(System.nanoTime());
-		return Posicion.values()[Math.abs(rand.nextInt()) % Posicion.values().length];
+//		Random rand = new Random(System.nanoTime());
+//		return Posicion.values()[Math.abs(rand.nextInt()) % Posicion.values().length];
 	}
 }
