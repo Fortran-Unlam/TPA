@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 import cliente.Main;
+import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
@@ -117,6 +118,9 @@ public class VentanaJuego extends JFrame {
 			}
 		};
 		thread.start();
+		
+		Sonido musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
+		musicaFondo.repetir();
 	}
 
 	public void dibujarMapa(Mapa mapa) {

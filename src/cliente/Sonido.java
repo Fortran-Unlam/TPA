@@ -10,7 +10,7 @@ import javax.sound.sampled.DataLine;
 
 public class Sonido {
 
-	Clip sonido;
+	private Clip sonido;
 	
 	public Sonido(final String ruta) {
 		

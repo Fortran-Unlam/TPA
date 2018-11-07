@@ -70,5 +70,7 @@ public abstract class Param implements Serializable {
 	public static final String TIPO_JUEGO_TIEMPO = "tipoJuegoTiempo";
 	
 	
+	public static final String SONIDO_PATH = "/sonido/";
 	
+	public static final String MUSICA_FONDO_PATH = SONIDO_PATH + "musica.wav";
 }
