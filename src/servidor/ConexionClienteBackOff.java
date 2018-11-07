@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
+import config.Param;
 import looby.Sala;
 import looby.Usuario;
-
+import looby.UsuarioDAO;
 
 public class ConexionClienteBackOff extends Thread {
 
@@ -39,6 +41,14 @@ public class ConexionClienteBackOff extends Thread {
 				Message message = (Message) this.entradaDatos.readObject();
 				System.out.println("El cliente solicita " + message.getType());
 
+				switch (message.getType()) {
+				case Param.REQUEST_LOGUEAR:
+					ArrayList <String> datosDeSalas = Servidor.getAllSalas();
+					Message messageConActualizacionDeSalas = new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosDeSalas);
+					this.salidaDatos.writeObject(messageConActualizacionDeSalas);
+					break;
+				}
+
 			} catch (IOException ex) {
 				System.out.println(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
 						+ " desconectado del backOff.");
@@ -47,7 +57,8 @@ public class ConexionClienteBackOff extends Thread {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
 				} catch (IOException ex2) {
-					System.out.println("Error al cerrar los stream de entrada y salida del backoff:" + ex2.getMessage());
+					System.out
+							.println("Error al cerrar los stream de entrada y salida del backoff:" + ex2.getMessage());
 				}
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();

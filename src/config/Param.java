@@ -52,7 +52,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_SALA_CREADA = "SalaCreada";
 	public static final String REQUEST_INGRESO_SALA = "IngresoSala";
 	public static final String REQUEST_ERROR_CREAR_SALA = "ErrorCreacionSala";
-	public static final String REQUEST_ACTUALIZAR_SALAS = "SeActualizaronSalas";
+	public static final String REQUEST_ACTUALIZAR_SALAS = "ActualizacionSalas";
 	
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";

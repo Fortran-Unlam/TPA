@@ -14,7 +14,6 @@ public class ConexionServidorBackOff {
 	private ObjectInputStream entradaDatos;
 	
 	private Message message;
-	private Usuario usuario;
 
 	private Socket socketIn;
 	private Socket socketOut;
