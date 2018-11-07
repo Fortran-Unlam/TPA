@@ -26,7 +26,7 @@ public class Sala implements Serializable {
 		this.nombre = nombreSala;
 		this.cantidadUsuarioMaximos = cantidadUsuarioMaximos;
 		this.usuarioCreador = usuarioCreador;
-		this.usuariosActivos.add(usuarioCreador);
+//		this.usuariosActivos.add(usuarioCreador);
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {

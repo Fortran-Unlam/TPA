@@ -34,14 +34,10 @@ public class JugadorBot extends Jugador {
 			Float numberRandom = random.nextFloat();
 			int nuevoSentido = this.cambiarDireccion(mapa).ordinal();
 			boolean cambiar = nuevoSentido != this.getVibora().getSentido().ordinal();
-			System.err.println("cambiar " + cambiar);
 			if (this.chocara(mapa) || cambiar) {
 				int intentos = 0;
-				System.out.println("mi sentido " + this.getVibora().getSentido());
 				this.getVibora().setSentido(Posicion.values()[nuevoSentido]);
-				System.out.println("mi nuevo sentido " + this.getVibora().getSentido());
 				while (this.chocara(mapa) && intentos <= Posicion.values().length) {
-					System.out.println("intento cambio sentido");
 					if (numberRandom < 0.5) {
 						nuevoSentido--;
 					} else {
@@ -95,7 +91,6 @@ public class JugadorBot extends Jugador {
 		float distancia = 0;
 		float distanciaActual;
 		Fruta frutaCercana = mapa.getfrutas().get(0);
-		System.out.println(this.getVibora().getX() + " " + this.getVibora().getY());
 		for (Fruta fruta : mapa.getfrutas()) {
 			distanciaActual = this.getVibora().getCoordenada().distancia(fruta.getCoordenada());
 
@@ -107,7 +102,6 @@ public class JugadorBot extends Jugador {
 				frutaCercana = fruta;
 			}
 		}
-		System.out.println("frutaCercana " + frutaCercana.getX() + " " + frutaCercana.getY());
 		return frutaCercana;
 	}
 
@@ -154,7 +148,5 @@ public class JugadorBot extends Jugador {
 				return Posicion.OESTE;
 			}
 		}
-//		Random rand = new Random(System.nanoTime());
-//		return Posicion.values()[Math.abs(rand.nextInt()) % Posicion.values().length];
 	}
 }

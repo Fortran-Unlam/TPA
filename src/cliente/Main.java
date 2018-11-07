@@ -21,7 +21,6 @@ public class Main {
 
 	public Main() {
 		try {
-			//Ayuda jony, no anda
 			socketOut = new Socket(Param.HOST, Param.PORT_1);
 			socketIn = new Socket(Param.HOST, Param.PORT_2);
 
