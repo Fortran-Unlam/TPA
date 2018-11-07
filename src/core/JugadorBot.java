@@ -32,11 +32,16 @@ public class JugadorBot extends Jugador {
 
 		if (this.getVibora() != null) {
 			Float numberRandom = random.nextFloat();
-
-			if (this.chocara(mapa) || this.cambiarDireccion(mapa)) {
-				int nuevoSentido = this.getVibora().getSentido().ordinal();
+			int nuevoSentido = this.cambiarDireccion(mapa).ordinal();
+			boolean cambiar = nuevoSentido != this.getVibora().getSentido().ordinal();
+			System.err.println("cambiar " + cambiar);
+			if (this.chocara(mapa) || cambiar) {
 				int intentos = 0;
-				do {
+				System.out.println("mi sentido " + this.getVibora().getSentido());
+				this.getVibora().setSentido(Posicion.values()[nuevoSentido]);
+				System.out.println("mi nuevo sentido " + this.getVibora().getSentido());
+				while (this.chocara(mapa) && intentos <= Posicion.values().length) {
+					System.out.println("intento cambio sentido");
 					if (numberRandom < 0.5) {
 						nuevoSentido--;
 					} else {
@@ -45,7 +50,7 @@ public class JugadorBot extends Jugador {
 					intentos++;
 					Posicion sentido = Posicion.values()[Math.abs(nuevoSentido) % Posicion.values().length];
 					this.getVibora().setSentido(sentido);
-				} while (this.chocara(mapa) && intentos <= Posicion.values().length);
+				}
 			}
 		}
 	}
@@ -89,7 +94,7 @@ public class JugadorBot extends Jugador {
 	public Fruta frutaMasCercana(Mapa mapa) {
 		float distancia = 0;
 		float distanciaActual;
-		Fruta frutaCercana = null;
+		Fruta frutaCercana = mapa.getfrutas().get(0);
 		System.out.println(this.getVibora().getX() + " " + this.getVibora().getY());
 		for (Fruta fruta : mapa.getfrutas()) {
 			distanciaActual = this.getVibora().getCoordenada().distancia(fruta.getCoordenada());
@@ -106,35 +111,27 @@ public class JugadorBot extends Jugador {
 		return frutaCercana;
 	}
 
-	public boolean cambiarDireccion(Mapa mapa) {
+	public Posicion cambiarDireccion(Mapa mapa) {
 		Fruta fruta = this.frutaMasCercana(mapa);
-		// TODO:la posicion en la que voy es igual a una posicion de la fruta mas
-		// cercana la dejo que vaya por ese camino
+		
 		int x = this.getVibora().getX();
 		int y = this.getVibora().getY();
 
-		if (this.getVibora().getY() == fruta.getY()) {
-			if (this.getVibora().getX() <= fruta.getX()) {
-				if (this.getVibora().getSentido() == Posicion.ESTE) {
-					return false;
-				}
+		if (y == fruta.getY()) {
+			if (x <= fruta.getX()) {
+				return Posicion.ESTE;
 			} else {
-				if (this.getVibora().getSentido() == Posicion.OESTE) {
-					return false;
-				}
+				return Posicion.OESTE;
 			}
 		}
-		if (this.getVibora().getX() == fruta.getX()) {
-			if (this.getVibora().getY() <= fruta.getY()) {
-				if (this.getVibora().getSentido() == Posicion.NORTE) {
-					return false;
-				}
+		if (x == fruta.getX()) {
+			if (y <= fruta.getY()) {
+				return Posicion.NORTE;
 			} else {
-				if (this.getVibora().getSentido() == Posicion.SUR) {
-					return false;
-				}
+				return Posicion.SUR;
 			}
 		}
-		return true;
+		Random rand = new Random(System.nanoTime());
+		return Posicion.values()[Math.abs(rand.nextInt()) % Posicion.values().length];
 	}
 }
