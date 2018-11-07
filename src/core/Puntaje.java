@@ -1,6 +1,10 @@
 package core;
 
-public class Puntaje implements Comparable<Puntaje> {
+import java.io.Serializable;
+
+public class Puntaje implements Comparable<Puntaje>, Serializable {
+	
+	private static final long serialVersionUID = 3730006646350110115L;
 	private String nombre;
 	private int frutasComidas;
 	

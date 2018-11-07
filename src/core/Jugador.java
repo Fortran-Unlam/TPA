@@ -56,6 +56,10 @@ public class Jugador implements Comparable<Jugador>, Serializable {
 
 	public void aumentarFrutasComidas() {
 		this.frutasComidasEnRonda++;
+		if (this.getVibora() != null) {
+			this.getVibora().comer();
+			this.getVibora().marcarCrecimiento();			
+		}
 	}
 
 	public int getFrutasComidas() {

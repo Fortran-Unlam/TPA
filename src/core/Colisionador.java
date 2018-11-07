@@ -18,8 +18,7 @@ public abstract class Colisionador implements Serializable {
 	 */
 	public static void colisionar(Jugador jugador, Fruta fruta) {
 		fruta.setFueComida();
-		jugador.getVibora().comer();
-		jugador.getVibora().marcarCrecimiento();
+		jugador.aumentarFrutasComidas();
 	}
 
 	/**

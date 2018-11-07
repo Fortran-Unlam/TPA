@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -122,7 +122,7 @@ public class VentanaJuego extends JFrame {
 		this.mapa = mapa;
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
-		
+
 		if (this.mapa != null) {
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
@@ -149,13 +149,16 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
-			
+
 			this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+
 			ArrayList<Puntaje> score = this.mapa.getScore();
 			score.sort(null);
-			for (Puntaje puntaje : score) {
-				System.out.println(puntaje);
+			String[] listModel = new String[score.size()];
+			for (int i = 0; i < score.size(); i++) {
+				listModel[i] = score.get(i).toString();
 			}
+			jListScore.setListData(listModel);
 		}
 	}
 }

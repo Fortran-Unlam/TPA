@@ -373,10 +373,10 @@ public class Mapa implements Serializable {
 	public ArrayList<Puntaje> getScore() {
 		this.score.clear();
 		for (Jugador jugador : this.jugadores) {
-			Vibora vibora = jugador.getVibora();
-			if (vibora != null) {
-				this.score.add(new Puntaje(jugador.getNombre(), vibora.getFrutasComidas()));
-			}
+			this.score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
+		}
+		for (Jugador jugador : this.espectadores) {
+			this.score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
 		}
 		return score;
 	}
