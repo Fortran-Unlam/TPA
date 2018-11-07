@@ -20,6 +20,7 @@ import cliente.Main;
 import cliente.input.GestorInput;
 import config.Param;
 import core.Jugador;
+import core.JugadorBot;
 import core.Puntaje;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
@@ -138,8 +139,11 @@ public class VentanaJuego extends JFrame {
 				g2d.fillRect(jugador.getVibora().getX() * Param.PIXEL_RESIZE,
 						jugador.getVibora().getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 
+				g2d.setColor(Color.BLUE);
+				if (jugador instanceof JugadorBot) {
+					g2d.setColor(Color.GREEN);					
+				}
 				for (CuerpoVibora cuerpoVibora : jugador.getVibora().getCuerpos()) {
-					g2d.setColor(Color.GREEN);
 					g2d.fillRect(cuerpoVibora.getX() * Param.PIXEL_RESIZE, cuerpoVibora.getY() * Param.PIXEL_RESIZE,
 							Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 				}

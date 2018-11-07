@@ -33,7 +33,7 @@ public class JugadorBot extends Jugador {
 		if (this.getVibora() != null) {
 			Float numberRandom = random.nextFloat();
 
-			if (this.chocara(mapa) || numberRandom < 0.3) {
+			if (this.chocara(mapa) || this.cambiarDireccion(mapa)) {
 				int nuevoSentido = this.getVibora().getSentido().ordinal();
 				int intentos = 0;
 				do {
@@ -90,20 +90,51 @@ public class JugadorBot extends Jugador {
 		float distancia = 0;
 		float distanciaActual;
 		Fruta frutaCercana = null;
+		System.out.println(this.getVibora().getX() + " " + this.getVibora().getY());
 		for (Fruta fruta : mapa.getfrutas()) {
 			distanciaActual = this.getVibora().getCoordenada().distancia(fruta.getCoordenada());
-			if (distancia != 0 && distanciaActual < distancia) {
+
+			if (distancia == 0) {
+				distancia = distanciaActual;
+			}
+			if (distanciaActual < distancia) {
 				distancia = distanciaActual;
 				frutaCercana = fruta;
 			}
 		}
+		System.out.println("frutaCercana " + frutaCercana.getX() + " " + frutaCercana.getY());
 		return frutaCercana;
 	}
 
-	public Posicion nuevaDireccion(Mapa mapa) {
+	public boolean cambiarDireccion(Mapa mapa) {
 		Fruta fruta = this.frutaMasCercana(mapa);
 		// TODO:la posicion en la que voy es igual a una posicion de la fruta mas
 		// cercana la dejo que vaya por ese camino
-		return Posicion.ESTE;
+		int x = this.getVibora().getX();
+		int y = this.getVibora().getY();
+
+		if (this.getVibora().getY() == fruta.getY()) {
+			if (this.getVibora().getX() <= fruta.getX()) {
+				if (this.getVibora().getSentido() == Posicion.ESTE) {
+					return false;
+				}
+			} else {
+				if (this.getVibora().getSentido() == Posicion.OESTE) {
+					return false;
+				}
+			}
+		}
+		if (this.getVibora().getX() == fruta.getX()) {
+			if (this.getVibora().getY() <= fruta.getY()) {
+				if (this.getVibora().getSentido() == Posicion.NORTE) {
+					return false;
+				}
+			} else {
+				if (this.getVibora().getSentido() == Posicion.SUR) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
