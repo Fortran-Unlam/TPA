@@ -152,6 +152,7 @@ public class VentanaCrearSala extends JFrame {
 
 			if (Main.getConexionServidor().crearSala(datosSala)) {
 				// Aguante boca
+				Main.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.NOTICE_CREACION_SALA);
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
 				this.dispose();
 			} else {

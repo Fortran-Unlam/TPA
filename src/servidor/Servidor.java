@@ -187,7 +187,8 @@ public class Servidor {
 		return null;
 	}
 
-	public static void actualizarSalas() {
+	public static void enviarActualizacionSalasALosClientes() {
+		//Pido los datos de las salas
 		ArrayList <String> datosDeSalas = Servidor.getAllSalas();
 		
 		for(ConexionClienteBackOff c: Servidor.conexionClientesBackOff) {
