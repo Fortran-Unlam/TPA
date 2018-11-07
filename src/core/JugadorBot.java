@@ -5,6 +5,7 @@ import java.util.Random;
 import config.Param;
 import config.Posicion;
 import core.entidad.CuerpoVibora;
+import core.entidad.Fruta;
 import core.entidad.Vibora;
 import core.mapa.Mapa;
 import looby.Usuario;
@@ -31,15 +32,15 @@ public class JugadorBot extends Jugador {
 
 		if (this.getVibora() != null) {
 			Float numberRandom = random.nextFloat();
-			
-			if (this.chocara(mapa) || numberRandom < 0.2) {
+
+			if (this.chocara(mapa) || numberRandom < 0.3) {
 				int nuevoSentido = this.getVibora().getSentido().ordinal();
 				int intentos = 0;
 				do {
 					if (numberRandom < 0.5) {
 						nuevoSentido--;
 					} else {
-						nuevoSentido++;						
+						nuevoSentido++;
 					}
 					intentos++;
 					Posicion sentido = Posicion.values()[Math.abs(nuevoSentido) % Posicion.values().length];
@@ -69,22 +70,40 @@ public class JugadorBot extends Jugador {
 		}
 
 		if (x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0 || mapa.getObstaculo(x, y) != null) {
-			System.out.println("choca con mapa u obs");
 			return true;
 		}
 
 		if (x == this.getVibora().getX() && y == this.getVibora().getY()) {
-			System.out.println("choca con su cabeza");
 			return true;
 		}
-		
+
 		for (CuerpoVibora cuerpoVibora : this.getVibora().getCuerpos()) {
 			if (x == cuerpoVibora.getX() && y == cuerpoVibora.getY()) {
-				System.out.println("choca con su cuerpo");
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public Fruta frutaMasCercana(Mapa mapa) {
+		float distancia = 0;
+		float distanciaActual;
+		Fruta frutaCercana = null;
+		for (Fruta fruta : mapa.getfrutas()) {
+			distanciaActual = this.getVibora().getCoordenada().distancia(fruta.getCoordenada());
+			if (distancia != 0 && distanciaActual < distancia) {
+				distancia = distanciaActual;
+				frutaCercana = fruta;
+			}
+		}
+		return frutaCercana;
+	}
+
+	public Posicion nuevaDireccion(Mapa mapa) {
+		Fruta fruta = this.frutaMasCercana(mapa);
+		// TODO:la posicion en la que voy es igual a una posicion de la fruta mas
+		// cercana la dejo que vaya por ese camino
+		return Posicion.ESTE;
 	}
 }
