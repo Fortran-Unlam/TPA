@@ -50,20 +50,22 @@ public class Servidor {
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
+				
+				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
+				conexionCliente.start();
+				conexionClientes.add(conexionCliente);
+				
 				socketBackOffIn = servidorBackOffIn.accept();
 				socketBackOffOut = servidorBackOffOut.accept();
 
-				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
-				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
 				ConexionClienteBackOff conexionClienteBackOff = new ConexionClienteBackOff(socketBackOffIn,
 						socketBackOffOut);
 
-				conexionClientes.add(conexionCliente);
-				conexionClientesBackOff.add(conexionClienteBackOff);
-
-				conexionCliente.start();
 				conexionClienteBackOff.start();
+				conexionClientesBackOff.add(conexionClienteBackOff);
+				
+				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
 			}
 		} catch (IOException ex) {
