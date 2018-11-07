@@ -20,13 +20,18 @@ public class Servidor {
 	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
+	private static ArrayList<ConexionClienteBackOff> conexionClientesBackOff = new ArrayList<ConexionClienteBackOff>();
 
 	public static void main(String[] args) {
 
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
+		ServerSocket servidorBackOffIn = null;
+		ServerSocket servidorBackOffOut = null;
 		Socket socketIn = null;
 		Socket socketOut = null;
+		Socket socketBackOffIn = null;
+		Socket socketBackOffOut = null;
 
 		try {
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
@@ -37,14 +42,20 @@ public class Servidor {
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
+				socketBackOffIn = servidorBackOffIn.accept();
+				socketBackOffOut = servidorBackOffOut.accept();
 
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
+				ConexionClienteBackOff conexionClienteBackOff = new ConexionClienteBackOff(socketBackOffIn,
+						socketBackOffOut);
 
 				conexionClientes.add(conexionCliente);
+				conexionClientesBackOff.add(conexionClienteBackOff);
 
 				conexionCliente.start();
+				conexionClienteBackOff.start();
 
 			}
 		} catch (IOException ex) {
@@ -120,7 +131,7 @@ public class Servidor {
 								break;
 							}
 						}
-						
+
 						if (enviar) {
 							usuario.getConexion().getSalidaDatos().reset();
 							usuario.getConexion().getSalidaDatos().flush();
@@ -143,6 +154,11 @@ public class Servidor {
 	public static void desconectar(ConexionCliente conexionCliente) {
 		conexionCliente.interrupt();
 		conexionClientes.remove(conexionCliente);
+	}
+
+	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
+		conexionClienteBackOff.interrupt();
+		conexionClientesBackOff.remove(conexionClienteBackOff);
 	}
 
 	public static void avisarFinJuego() {

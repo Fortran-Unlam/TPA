@@ -27,6 +27,7 @@ public abstract class Param implements Serializable {
 
 	public static final int PORT_1 = 9001;
 	public static final int PORT_2 = 9002;
+	public static final int PORT_3 = 9003;
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
 	public static final String HOST = "localhost";
 	
