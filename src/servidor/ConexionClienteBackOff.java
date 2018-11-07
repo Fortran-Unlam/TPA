@@ -4,20 +4,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-
 import config.Param;
-import looby.Sala;
-import looby.Usuario;
-import looby.UsuarioDAO;
 
 public class ConexionClienteBackOff extends Thread {
 
 	private Socket socket;
 	private ObjectInputStream entradaDatos;
 	private ObjectOutputStream salidaDatos;
-	private Usuario usuario;
-	private Sala sala;
 
 	public ConexionClienteBackOff(Socket socket, Socket socketOut) {
 		this.socket = socket;
@@ -40,13 +33,11 @@ public class ConexionClienteBackOff extends Thread {
 			try {
 				Message message = (Message) this.entradaDatos.readObject();
 				System.out.println("El cliente solicita " + message.getType());
-
-				switch (message.getType()) {
-				case Param.REQUEST_LOGUEAR:
-					ArrayList <String> datosDeSalas = Servidor.getAllSalas();
-					Message messageConActualizacionDeSalas = new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosDeSalas);
-					this.salidaDatos.writeObject(messageConActualizacionDeSalas);
-					break;
+				String tipoDeMensaje = message.getType();
+				
+				if(tipoDeMensaje.equals(Param.REQUEST_INGRESO_SALA)
+						|| tipoDeMensaje.equals(Param.REQUEST_CREAR_SALA)){
+					Servidor.actualizarSalas();
 				}
 
 			} catch (IOException ex) {
@@ -65,6 +56,9 @@ public class ConexionClienteBackOff extends Thread {
 			}
 		}
 		Servidor.desconectarBackOff(this);
-
+	}
+	
+	public ObjectOutputStream getSalidaDatos() {
+		return this.salidaDatos;
 	}
 }

@@ -187,4 +187,19 @@ public class Servidor {
 		return null;
 	}
 
+	public static void actualizarSalas() {
+		ArrayList <String> datosDeSalas = Servidor.getAllSalas();
+		
+		for(ConexionClienteBackOff c: Servidor.conexionClientesBackOff) {
+			//Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las salas actualizadas
+			Message messageConActualizacionDeSalas = new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosDeSalas);
+			try {
+				c.getSalidaDatos().writeObject(messageConActualizacionDeSalas);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
 }

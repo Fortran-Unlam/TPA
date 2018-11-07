@@ -24,7 +24,6 @@ public class ConexionServidorBackOff {
 		this.socketIn = socketIn;
 		try {
 			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
-
 			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
 			
 		} catch (IOException ex) {
@@ -33,6 +32,5 @@ public class ConexionServidorBackOff {
 			ex.printStackTrace();
 		}
 	}
-
-	
+		
 }
