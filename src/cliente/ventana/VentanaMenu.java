@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Main;
+import cliente.Sonido;
 import cliente.ventana.usuario.Login;
 import config.Param;
 import looby.Usuario;
@@ -148,10 +149,14 @@ public class VentanaMenu extends JFrame {
 	}
 
 	private void abrirVentanaUnirSala() {
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
 		new VentanaUnirSala(this);
 	}
 
 	private void abrirVentanaCrearSala() {
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
 		new VentanaCrearSala(this).setVisible(true);
 	}
 	

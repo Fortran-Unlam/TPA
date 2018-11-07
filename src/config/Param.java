@@ -73,4 +73,5 @@ public abstract class Param implements Serializable {
 	public static final String SONIDO_PATH = "/sonido/";
 	
 	public static final String MUSICA_FONDO_PATH = SONIDO_PATH + "musica.wav";
+	public static final String GOLPE_PATH = SONIDO_PATH + "golpe.wav";
 }

@@ -15,7 +15,9 @@ import javax.swing.JTextField;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import cliente.Main;
+import cliente.Sonido;
 import cliente.ventana.VentanaMenu;
+import config.Param;
 import looby.Usuario;
 
 public class Login extends JFrame {
@@ -76,7 +78,7 @@ public class Login extends JFrame {
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
 		lblCrearUsuario.setBounds(108, 25, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
-		
+
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -101,30 +103,30 @@ public class Login extends JFrame {
 	 */
 	protected void iniciarSession() throws IOException {
 
-		
-		if(this.password.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "¡Te falto ingresar la contraseña!", "Error login",
+		if (this.password.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "ï¿½Te falto ingresar la contraseï¿½a!", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 			this.password.setFocusable(true);
 			return;
 		}
-		
-		if(this.username.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "¡Te falto ingresar el usuario!", "Error login",
+
+		if (this.username.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "ï¿½Te falto ingresar el usuario!", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 			this.username.setFocusable(true);
 			this.password.setText("");
 			return;
 		}
-		
-		
+
 		// Calculo hash MD5
-		String hashPassword = DigestUtils.md5Hex(this.password.getText());	
+		String hashPassword = DigestUtils.md5Hex(this.password.getText());
 		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);
 
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
+					Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+					musicaFondo.reproducir();
 					try {
 						VentanaMenu frame = new VentanaMenu();
 						frame.setVisible(true);
@@ -135,17 +137,13 @@ public class Login extends JFrame {
 			});
 
 			this.dispose();
-		//Usuario duplicado.
-		} else if (usuario != null && usuario.getId() == -1)
-		{
-			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login",
-					JOptionPane.ERROR_MESSAGE);
+			// Usuario duplicado.
+		} else if (usuario != null && usuario.getId() == -1) {
+			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login", JOptionPane.ERROR_MESSAGE);
 			this.username.setText("");
 			this.password.setText("");
 			this.username.setFocusable(true);
-		}
-		else
-		{
+		} else {
 			JOptionPane.showMessageDialog(null, "Usted ha introducido un usuario y/o clave incorrecta", "Error login",
 					JOptionPane.ERROR_MESSAGE);
 			this.username.setText("");
@@ -153,9 +151,11 @@ public class Login extends JFrame {
 			this.username.setFocusable(true);
 		}
 	}
-	
+
 	private void registrarUsuario() {
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
 		new Crear(this).setVisible(true);
 	}
-	
+
 }

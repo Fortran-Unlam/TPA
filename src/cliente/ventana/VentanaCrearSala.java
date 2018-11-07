@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import cliente.Main;
+import cliente.Sonido;
 import config.Param;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -62,6 +63,8 @@ public class VentanaCrearSala extends JFrame {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				musicaFondo.reproducir();
 				ventanaMenu.setVisible(true);
 				dispose();
 			}
@@ -125,7 +128,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 		
 		if(this.maxUsuarioField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos no puede estar vacio.",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -134,7 +137,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 		
 		if(!this.maxUsuarioField.getText().matches("[0-9]+")) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos debe ser numï¿½rico",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -151,7 +154,9 @@ public class VentanaCrearSala extends JFrame {
 			datosSala.add(this.maxUsuarioField.getText());
 
 			if (Main.getConexionServidor().crearSala(datosSala)) {
-				// Aguante boca
+				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				musicaFondo.reproducir();
+				
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
 				this.dispose();
 			} else {

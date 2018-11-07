@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import cliente.Main;
+import cliente.Sonido;
 import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
@@ -56,6 +57,8 @@ public class VentanaSala extends JFrame {
 		JButton btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				musicaFondo.reproducir();
 				ventanaMenu.setVisible(true);
 				salirSala();
 				dispose();
@@ -180,7 +183,8 @@ public class VentanaSala extends JFrame {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
-
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
 		new VentanaJuego(null);
 	}
 }

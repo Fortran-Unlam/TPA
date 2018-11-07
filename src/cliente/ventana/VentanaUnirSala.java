@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.ConexionServidor;
 import cliente.Main;
+import cliente.Sonido;
 import config.Param;
 
 import javax.swing.JLabel;
@@ -114,6 +115,9 @@ public class VentanaUnirSala extends JFrame {
 		setLocationRelativeTo(this.ventanaMenu);
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				Sonido click = new Sonido(Param.GOLPE_PATH);
+				click.reproducir();
+				
 				ingresoaSalaOSeFue = true;
 				ventanaMenu.setVisible(true);
 				dispose();
@@ -184,12 +188,19 @@ public class VentanaUnirSala extends JFrame {
 		datosSala.add(datosArray[0]);
 		datosSala.add(datosArray[1]);
 		datosSala.add(datosArray[2]);
+		
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
 		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
 
 	private void abrirVentanaSala(String salaSeleccionada) {
 		ArrayList<String> datosSala = new ArrayList<>();
 		datosSala.add(salaSeleccionada);
+		
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
+		
 		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
 
