@@ -58,4 +58,8 @@ public class Main {
 		datosDeSalas = datosDeSalasNuevo;
 	}
 	
+	public static ArrayList<String> getDatosDeSalas(){
+		return datosDeSalas;
+	}
+	
 }

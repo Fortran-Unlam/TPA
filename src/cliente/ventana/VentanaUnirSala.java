@@ -32,7 +32,7 @@ public class VentanaUnirSala extends JFrame {
 	private JList<String> listSalas;
 	private String salaSeleccionada;
 	private boolean ingresoaSalaOSeFue = false;
-	private DefaultListModel<String> modelDeListas;
+	private DefaultListModel<String> modelDeSalasDisponibles = new DefaultListModel<>();
 	
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -120,16 +120,31 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
+		//Pido las salas
+		Main.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+		//Se supone que en esta instancia las salas ya las tiene almacenadas el Main del cliente
+		ArrayList<String> salas = Main.getDatosDeSalas();
+		
+		if(salas!=null)
+		{
+			for (String s : salas) 
+			{
+				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
+				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
+				this.modelDeSalasDisponibles.addElement(salida);
+			}
+		}
+		
+	
+		//this.modelDeListas = pedirSalas();
 
-		this.modelDeListas = pedirSalas();
-
-		if (this.modelDeListas.isEmpty()) {
+		if (this.modelDeSalasDisponibles.isEmpty()) {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
 			noHaySalas.addElement("No hay niguna sala");
 			this.listSalas.setModel(noHaySalas);
 			this.listSalas.setEnabled(false);
 		} else {
-			this.listSalas.setModel(this.modelDeListas);
+			this.listSalas.setModel(this.modelDeSalasDisponibles);
 			this.listSalas.setEnabled(true);
 		}
 		
