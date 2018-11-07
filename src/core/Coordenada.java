@@ -71,6 +71,10 @@ public class Coordenada implements Serializable {
 		return this;
 	}
 
+	public float distancia(Coordenada otro) {
+		return (float) Math.sqrt(Math.pow((this.getX() - otro.getX()), 2) + Math.pow((this.getY() - otro.getY()), 2));
+	}
+
 	@Override
 	public String toString() {
 		return x + " " + y;
@@ -100,8 +104,5 @@ public class Coordenada implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
+
 }
