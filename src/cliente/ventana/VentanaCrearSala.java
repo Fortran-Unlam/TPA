@@ -134,7 +134,7 @@ public class VentanaCrearSala extends JFrame {
 			// 0: nombre, 1: cantUsuariosMax
 			datosSala.add(this.nombreField.getText());
 			datosSala.add(this.maxUsuarioField.getText());
-
+			
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 				musicaFondo.reproducir();

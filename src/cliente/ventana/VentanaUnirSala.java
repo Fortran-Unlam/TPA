@@ -31,7 +31,7 @@ public class VentanaUnirSala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
-	private String salaSeleccionada;
+	private String[] datosSalaSeleccionada = new String[3];
 	private TableModelSalas tableModelSalas = new TableModelSalas();
 	private JTable tableSalas;
 
@@ -61,8 +61,8 @@ public class VentanaUnirSala extends JFrame {
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (!salaSeleccionada.equals(null)) {
-					// unirseASala(salaSeleccionada);
+				if (!(datosSalaSeleccionada[0] == null)) {
+					unirseASala(datosSalaSeleccionada);
 				} else {
 					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
 							JOptionPane.WARNING_MESSAGE);
@@ -80,6 +80,15 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(scrollPane);
 		
 		tableSalas = new JTable();
+		tableSalas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int filaSeleccionada = tableSalas.rowAtPoint(e.getPoint());
+				datosSalaSeleccionada[0] = (String) tableSalas.getValueAt(filaSeleccionada, 0);
+				datosSalaSeleccionada[1] = (String) tableSalas.getValueAt(filaSeleccionada, 1);
+				datosSalaSeleccionada[2] = (String) tableSalas.getValueAt(filaSeleccionada, 2);
+			}
+		});
 		scrollPane.setViewportView(tableSalas);
 
 		btnVolver.addActionListener(new ActionListener() {
@@ -108,17 +117,17 @@ public class VentanaUnirSala extends JFrame {
 
 	}
 
-//	private void unirseASala(String salaSeleccionada) {
-//		Cliente.getConexionServidor().unirseASala(salaSeleccionada);
-//		datosSala.add(salaSeleccionada);
-//		datosSala.add(datosArray[0]);
-//		datosSala.add(datosArray[1]);
-//		datosSala.add(datosArray[2]);
-//
-//		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-//		musicaFondo.reproducir();
-//		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-//	}
+	private void unirseASala(String[] datosSala) {
+		//le paso el nombre
+		Cliente.getConexionServidor().unirseASala(datosSala[0]);
+		ArrayList<String> datosParaConstruirVentanaSala = new ArrayList<>();
+		datosParaConstruirVentanaSala.add(datosSala[0]);	//Nombre de la sala
+		datosParaConstruirVentanaSala.add(datosSala[1].substring(0, datosSala[1].indexOf("/"))); //Max users
+		datosParaConstruirVentanaSala.add(datosSala[2]); 	//Admin de la sala
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
+		new VentanaSala(this, datosParaConstruirVentanaSala, Param.UNION_SALA).setVisible(true);
+	}
 
 	// Metodo que usa el Thread para refrescarle las salas a la ventana.
 	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {

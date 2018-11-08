@@ -36,7 +36,7 @@ public class VentanaSala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
-	private JLabel labelMaxUsuarios;
+	private JLabel labelUsrEnLaSala;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
@@ -92,23 +92,23 @@ public class VentanaSala extends JFrame {
 		lblUsuariosConectados.setBounds(30, 48, 124, 24);
 		getContentPane().add(lblUsuariosConectados);
 
-		this.labelMaxUsuarios = new JLabel("");
-		labelMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		this.labelUsrEnLaSala = new JLabel("");
+		labelUsrEnLaSala.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		/*
 		 * Si la cantidad de parametros del datosSala es solo 2, quiere decir que vengo
 		 * de un crearSala, en realidad se deberia crear otro constructor no poner un IF
 		 * que condicione al constructor
 		 */
 		if (datosSala.size() == 2)
-			this.labelMaxUsuarios.setText("(1/" + datosSala.get(1) + ")");
+			this.labelUsrEnLaSala.setText("(1/" + datosSala.get(1) + ")");
 		else {
-			this.labelMaxUsuarios.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
+			this.labelUsrEnLaSala.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
 			for (String s : datosSala.get(3).split(","))
 				datosLista.addElement(s);
 		}
 
-		this.labelMaxUsuarios.setBounds(159, 48, 39, 23);
-		getContentPane().add(this.labelMaxUsuarios);
+		this.labelUsrEnLaSala.setBounds(159, 48, 39, 23);
+		getContentPane().add(this.labelUsrEnLaSala);
 
 		JLabel labelSala = new JLabel(this.nombreSala, SwingConstants.CENTER);
 		labelSala.setForeground(Color.GRAY);
