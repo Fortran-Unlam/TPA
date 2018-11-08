@@ -14,7 +14,7 @@ import cliente.Cliente;
 import config.Param;
 import servidor.Message;
 
-public class Crear extends JFrame {
+public class VentanaCrearUsuario extends JFrame {
 
 	private static final long serialVersionUID = -8687983933247179801L;
 	private JTextField username;
@@ -24,7 +24,7 @@ public class Crear extends JFrame {
 	private JButton btnVolver;
 	private JFrame ventanaLogin;
 
-	public Crear(JFrame ventanaLogin) {
+	public VentanaCrearUsuario(JFrame ventanaLogin) {
 
 		this.ventanaLogin = ventanaLogin;
 		ventanaLogin.setVisible(false);

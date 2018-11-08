@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
 import cliente.Sonido;
-import cliente.ventana.usuario.Login;
+import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
 import looby.Usuario;
 
@@ -165,7 +165,7 @@ public class VentanaMenu extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 				dispose();
-				Login login = new Login();
+				VentanaLoginUsuario login = new VentanaLoginUsuario();
 				login.setVisible(true);
 			}
 		});
@@ -174,7 +174,7 @@ public class VentanaMenu extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 				dispose();
-				Login login = new Login();
+				VentanaLoginUsuario login = new VentanaLoginUsuario();
 				login.setVisible(true);
 			}
 		});

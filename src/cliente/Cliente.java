@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import cliente.ventana.usuario.VetanaLoginUsuario;
+import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
 
 public class Cliente {
@@ -35,7 +35,7 @@ public class Cliente {
 
 			conexionServidorBackOff.start();
 			
-			VetanaLoginUsuario login = new VetanaLoginUsuario();
+			VentanaLoginUsuario login = new VentanaLoginUsuario();
 			login.setVisible(true);
 
 		} catch (IOException ex) {
