@@ -27,6 +27,8 @@ public class VentanaCrearSala extends JFrame {
 	private VentanaMenu ventanaMenu;
 	private JTextField maxUsuarioField;
 	private VentanaSala ventanaSala;
+	private JButton btnAceptar;
+	private JButton btnVolver;
 	
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -43,32 +45,11 @@ public class VentanaCrearSala extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		JButton btnAceptar = new JButton("Aceptar");
-		btnAceptar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					crearSala();
-				}
-			}
-		});
+		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(98, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				crearSala();
-			}
-		});
 		contentPane.add(btnAceptar);
 
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-				musicaFondo.reproducir();
-				ventanaMenu.setVisible(true);
-				dispose();
-			}
-		});
+		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(259, 281, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
 		setLocationRelativeTo(this.ventanaMenu);
@@ -101,6 +82,8 @@ public class VentanaCrearSala extends JFrame {
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
+		
+		addListener();
 		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
@@ -174,5 +157,59 @@ public class VentanaCrearSala extends JFrame {
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 		}
+	}
+	
+	public void addListener() {		
+		btnAceptar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					crearSala();
+				}
+			}
+		});
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				crearSala();
+			}
+		});
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				musicaFondo.reproducir();
+				ventanaMenu.setVisible(true);
+				dispose();
+			}
+		});
+		
+		btnVolver.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+					musicaFondo.reproducir();
+					ventanaMenu.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		
+		nombreField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					crearSala();
+				}
+			}
+		});
+		
+		maxUsuarioField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					crearSala();
+				}
+			}
+		});
 	}
 }

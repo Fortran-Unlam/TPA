@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -18,6 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import cliente.Main;
 import cliente.Sonido;
 import config.Param;
@@ -151,7 +156,8 @@ public class VentanaSala extends JFrame {
 		if (this.creacionUnionSala == Param.CREACION_SALA_ADMIN) {
 			availableToAdmin();
 		}
-
+		addListener();
+		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -186,50 +192,23 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setEnabled(true);
 		mapa.setEnabled(true);
 
-		chckbxSupervivencia.addMouseListener(new MouseAdapter() {
+		chckbxSupervivencia.addItemListener(new ItemListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void itemStateChanged(ItemEvent e) {
 				verificarBotones();
 			}
 		});
-
-		chckbxSupervivencia.addKeyListener(new KeyAdapter() {
+		chckbxFruta.addItemListener(new ItemListener() {
 			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					verificarBotones();
-				}
-			}
-		});
-
-		chckbxFruta.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void itemStateChanged(ItemEvent e) {
 				verificarBotones();
 			}
 		});
-
-		chckbxFruta.addKeyListener(new KeyAdapter() {
+		
+		chckbxTiempo.addItemListener(new ItemListener() {
 			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					verificarBotones();
-				}
-			}
-		});
-
-		chckbxTiempo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void itemStateChanged(ItemEvent e) {
 				verificarBotones();
-			}
-		});
-		chckbxTiempo.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-					verificarBotones();
-				}
 			}
 		});
 	}
@@ -257,6 +236,14 @@ public class VentanaSala extends JFrame {
 				empezarJuego();
 			}
 		});
-
+		
+		btnEmpezarJuego.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					empezarJuego();
+				}
+			}
+		});
 	}
 }
