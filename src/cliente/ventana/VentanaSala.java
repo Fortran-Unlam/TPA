@@ -20,6 +20,8 @@ import cliente.Main;
 import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaSala extends JFrame {
 
@@ -154,7 +156,46 @@ public class VentanaSala extends JFrame {
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
 			mapa.setEnabled(true);
-			btnEmpezarJuego.setEnabled(true);
+			
+			chckbxSupervivencia.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
+						btnEmpezarJuego.setEnabled(true);
+					}
+					else{
+						btnEmpezarJuego.setEnabled(false);
+					}
+				}
+			});
+			
+			chckbxFruta.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
+						btnEmpezarJuego.setEnabled(true);
+					}
+					else{
+						btnEmpezarJuego.setEnabled(false);
+					}
+				}
+			});
+			
+			
+			chckbxTiempo.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
+						btnEmpezarJuego.setEnabled(true);
+					}
+					else{
+						btnEmpezarJuego.setEnabled(false);
+					}
+				}
+			});
+			
+			
+			//btnEmpezarJuego.setEnabled(true);
 		}
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
