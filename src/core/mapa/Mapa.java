@@ -41,6 +41,8 @@ public class Mapa implements Serializable {
 
 	private ArrayList<Jugador> espectadores = new ArrayList<Jugador>();
 
+	private boolean murioUnJugador;
+
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
 	 * 
@@ -61,7 +63,7 @@ public class Mapa implements Serializable {
 	 */
 	public boolean add(final Jugador jugador, boolean bot) {
 		Vibora vibora = this.intentarCrearVibora(bot);
-		
+
 		if (vibora != null) {
 			jugador.setVibora(vibora);
 			this.jugadores.add(jugador);
@@ -108,12 +110,14 @@ public class Mapa implements Serializable {
 
 		for (int intento = 0; intento < 100; intento++) {
 			if (bot) {
-				vibora = new ViboraBot(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)));
+				vibora = new ViboraBot(
+						new Coordenada(random.nextInt(Param.MAPA_MAX_X - 10), random.nextInt(Param.MAPA_MAX_Y - 10)));
 			} else {
-				vibora = new Vibora(new Coordenada(random.nextInt(Param.MAPA_MAX_X-10), random.nextInt(Param.MAPA_MAX_Y-10)), 10,
-						Posicion.ESTE);
+				vibora = new Vibora(
+						new Coordenada(random.nextInt(Param.MAPA_MAX_X - 10), random.nextInt(Param.MAPA_MAX_Y - 10)),
+						10, Posicion.ESTE);
 			}
-			
+
 			if (this.add(vibora)) {
 				return vibora;
 			}
@@ -189,12 +193,13 @@ public class Mapa implements Serializable {
 	 */
 	public void actualizar() {
 		this.cambioEnVibora = true;
+		this.murioUnJugador = false;
 
 		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
 
 		for (Jugador jugador : this.jugadores) {
 			jugador.determinarMovimiento(this);
-			
+
 			jugador.getVibora().cabecear();
 
 			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(),
@@ -226,6 +231,7 @@ public class Mapa implements Serializable {
 			if (vibora.isDead()) {
 				this.espectadores.add(this.jugadores.get(i));
 				this.jugadores.remove(i);
+				this.murioUnJugador = true;
 				// Despues de eliminar las viboras transformo sus cuerpos en fruta
 				for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
 					this.add(new Fruta(cuerpo.getX(), cuerpo.getY()));
@@ -237,9 +243,7 @@ public class Mapa implements Serializable {
 			Random random = new Random();
 			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
-		
-		// TODO: Si queda una vibora viva es porque gano. Terminar la ronda y avisar que
-		// gana
+
 	}
 
 	/**
@@ -395,5 +399,9 @@ public class Mapa implements Serializable {
 
 	public ArrayList<Jugador> getEspectadores() {
 		return this.espectadores;
+	}
+
+	public boolean getMurioUnJugador() {
+		return this.murioUnJugador;
 	}
 }
