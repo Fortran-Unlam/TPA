@@ -141,6 +141,7 @@ public class VentanaCrearSala extends JFrame {
 				
 				Cliente.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.NOTICE_CREACION_SALA);
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
+				Sincronismo.setVentanaSala(ventanaSala);
 				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null,

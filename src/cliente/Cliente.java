@@ -2,13 +2,8 @@ package cliente;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 
-import cliente.ventana.VentanaCrearSala;
-import cliente.ventana.VentanaJuego;
-import cliente.ventana.VentanaSala;
-import cliente.ventana.VentanaUnirSala;
-import cliente.ventana.usuario.VentanaCrearUsuario;
+import cliente.ventana.Sincronismo;
 import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
 
@@ -20,7 +15,7 @@ public class Cliente {
 	private static Socket socketInBackOff;
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
-	private static ArrayList<String> datosDeSalas;
+	private static Sincronismo sincronismo;
 	
 	public static void main(String[] args) {
 		new Cliente();
@@ -38,10 +33,11 @@ public class Cliente {
 			conexionServidorBackOff = new ConexionServidorBackOff(socketOutBackOff, socketInBackOff);
 
 			conexionServidorBackOff.start();
+			sincronismo = new Sincronismo();
 			
 			VentanaLoginUsuario login = new VentanaLoginUsuario();
 			login.setVisible(true);
-
+			
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
 		}
@@ -59,12 +55,8 @@ public class Cliente {
 		return conexionServidorBackOff;
 	}
 	
-	public static void setDatosDeSalas(ArrayList<String> datosDeSalasNuevo){
-		datosDeSalas = datosDeSalasNuevo;
+	public static Sincronismo getSincronismo() {
+		return sincronismo;
 	}
-	
-	public static ArrayList<String> getDatosDeSalas(){
-		return datosDeSalas;
-	}
-	
+
 }

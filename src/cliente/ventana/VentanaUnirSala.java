@@ -33,10 +33,9 @@ public class VentanaUnirSala extends JFrame {
 	private String salaSeleccionada;
 	private boolean ingresoaSalaOSeFue = false;
 	private DefaultListModel<String> modelDeSalasDisponibles = new DefaultListModel<>();
-	
+
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
-		ventanaMenu.setVisible(false);
 
 		setTitle("Unirse a sala");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -90,19 +89,23 @@ public class VentanaUnirSala extends JFrame {
 		contentPane.add(btnUnirse);
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try{
+				try {
 					if (!salaSeleccionada.equals(null)) {
 						ingresoaSalaOSeFue = true;
 						abrirVentanaSala(salaSeleccionada);
 					}
-				}catch(Exception e){
-					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala","Sala no seleccionada",JOptionPane.WARNING_MESSAGE);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
+							JOptionPane.WARNING_MESSAGE);
 				}
-				//Pequeno fix, porque el titulo de la sala es nombresala no nombresala(1/5) por ejemplo.
-				/*El formateo del dato debe ser responsabilidad del controlador, o de la vista, no del modelo
-				en este caso el modelo seria el servidor.*/
+				// Pequeno fix, porque el titulo de la sala es nombresala no nombresala(1/5) por
+				// ejemplo.
+				/*
+				 * El formateo del dato debe ser responsabilidad del controlador, o de la vista,
+				 * no del modelo en este caso el modelo seria el servidor.
+				 */
 				salaSeleccionada = salaSeleccionada.substring(0, salaSeleccionada.indexOf('('));
-				String datos = ingresarASala(salaSeleccionada); //Envio peticion de ingreso a la sala.
+				String datos = ingresarASala(salaSeleccionada); // Envio peticion de ingreso a la sala.
 				ingresoaSalaOSeFue = true;
 				abrirVentanaSala(datos, salaSeleccionada);
 			}
@@ -116,28 +119,67 @@ public class VentanaUnirSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Sonido click = new Sonido(Param.GOLPE_PATH);
 				click.reproducir();
-				
+
 				ingresoaSalaOSeFue = true;
 				ventanaMenu.setVisible(true);
 				dispose();
 			}
 		});
 
-		//Pido las salas
+		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
 		Cliente.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
-		//Se supone que en esta instancia las salas ya las tiene almacenadas el Main del cliente
-		ArrayList<String> salas = Cliente.getDatosDeSalas();
-		
-		if(salas!=null)
-		{
-			for (String s : salas) 
-			{
-				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
-				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
-				this.modelDeSalasDisponibles.addElement(salida);
-			}
-		}
 
+
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+					System.exit(0);
+				}
+			}
+		});
+
+	}
+
+	private String ingresarASala(String salaSeleccionada) {
+		return Cliente.getConexionServidor().unirseASala(salaSeleccionada);
+	}
+
+	// Creo otro metodo por si las dudas.
+	// Datos es la respuesta que contiene
+	// "cantidadUsuariosSala;CantidadUsuariosMaximoSala;usuario1,usuario2,usuario3.
+	private void abrirVentanaSala(String datos, String salaSeleccionada) {
+		String[] datosArray = datos.split(";");
+		ArrayList<String> datosSala = new ArrayList<>();
+		datosSala.add(salaSeleccionada);
+		datosSala.add(datosArray[0]);
+		datosSala.add(datosArray[1]);
+		datosSala.add(datosArray[2]);
+
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
+		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
+	}
+
+	private void abrirVentanaSala(String salaSeleccionada) {
+		ArrayList<String> datosSala = new ArrayList<>();
+		datosSala.add(salaSeleccionada);
+
+		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		musicaFondo.reproducir();
+
+		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
+	}
+
+	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {
+
+		for (String s : datosDeSalasDisponibles) {
+			String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
+			String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
+			this.modelDeSalasDisponibles.addElement(salida);
+		}
 
 		if (this.modelDeSalasDisponibles.isEmpty()) {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
@@ -148,51 +190,5 @@ public class VentanaUnirSala extends JFrame {
 			this.listSalas.setModel(this.modelDeSalasDisponibles);
 			this.listSalas.setEnabled(true);
 		}
-		
-		this.setVisible(true);
-		
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
-		                JOptionPane.YES_NO_OPTION,
-		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
-		    	System.exit(0);
-		    	}
-		    }
-		});
-
 	}
-	
-	private String ingresarASala(String salaSeleccionada)
-	{
-		return Cliente.getConexionServidor().unirseASala(salaSeleccionada);
-	}
-	
-	//Creo otro metodo por si las dudas.
-	//Datos es la respuesta que contiene "cantidadUsuariosSala;CantidadUsuariosMaximoSala;usuario1,usuario2,usuario3.
-	private void abrirVentanaSala(String datos, String salaSeleccionada) {
-		String[] datosArray = datos.split(";");
-		ArrayList<String> datosSala = new ArrayList<>();
-		datosSala.add(salaSeleccionada);
-		datosSala.add(datosArray[0]);
-		datosSala.add(datosArray[1]);
-		datosSala.add(datosArray[2]);
-		
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-		musicaFondo.reproducir();
-		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-	}
-
-	private void abrirVentanaSala(String salaSeleccionada) {
-		ArrayList<String> datosSala = new ArrayList<>();
-		datosSala.add(salaSeleccionada);
-		
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-		musicaFondo.reproducir();
-		
-		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-	}
-
 }
