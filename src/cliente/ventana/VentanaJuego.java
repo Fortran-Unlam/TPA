@@ -167,6 +167,9 @@ public class VentanaJuego extends JFrame {
 			jListScore.setListData(listModel);
 		}
 
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(String.valueOf(juego.getSegundosTranscurridos()), Param.MAPA_WIDTH - 30, 30);
+
 		if (juego.terminado()) {
 			System.out.println("juego terminado");
 			g2d.setColor(Color.WHITE);

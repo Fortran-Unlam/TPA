@@ -75,4 +75,7 @@ public class Juego implements Serializable {
 		return this.juegoEnCurso == false;
 	}
 
+	public int getSegundosTranscurridos() {
+		return this.segundosTranscurridos;
+	}
 }
