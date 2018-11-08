@@ -228,7 +228,7 @@ public class VentanaSala extends JFrame {
 				musicaFondo.reproducir();
 				ventanaMenu.setVisible(true);
 				salirSala();
-				dispose();
+				setVisible(false);
 			}
 		});
 		btnEmpezarJuego.addActionListener(new ActionListener() {
