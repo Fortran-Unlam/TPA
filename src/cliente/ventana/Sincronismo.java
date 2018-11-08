@@ -27,12 +27,10 @@ public class Sincronismo extends Thread{
 				message = (Message) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
 				
 				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-					System.out.println("ME LLEGARON LAS SALAS ACTUALIZADAS");
 					this.datosDeSalasDisponibles = (ArrayList<String>) message.getData();
 				}
 				
 				if(ventanaUnirSala != null) {
-					System.out.println("LAS MANDE A REFRESCAR");
 					ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
 				}
 				

@@ -23,15 +23,17 @@ import javax.swing.border.EmptyBorder;
 import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
+import javax.swing.JSeparator;
+import javax.swing.JTable;
 
 public class VentanaUnirSala extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
-	private JList<String> listSalas;
 	private String salaSeleccionada;
-	private DefaultListModel<String> modelDeSalasDisponibles = new DefaultListModel<>();
+	private TableModelSalas tableModelSalas = new TableModelSalas();
+	private JTable tableSalas;
 
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -39,7 +41,7 @@ public class VentanaUnirSala extends JFrame {
 		setTitle("Unirse a sala");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
+		setBounds(0, 0, 456, 400);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -53,69 +55,41 @@ public class VentanaUnirSala extends JFrame {
 		lblSalasDisponibles.setBounds(10, 54, 190, 27);
 		contentPane.add(lblSalasDisponibles);
 
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(12, 98, 454, 209);
-		contentPane.add(scrollPane);
-
-		this.listSalas = new JList<>();
-		scrollPane.setViewportView(listSalas);
-		listSalas.setBackground(SystemColor.control);
-		listSalas.setBorder(null);
-		listSalas.setEnabled(true);
-
-		listSalas.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if (arg0.getClickCount() == 1) {
-					salaSeleccionada = ((String) listSalas.getSelectedValue());
-				}
-			}
-		});
-
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirse);
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					if (!salaSeleccionada.equals(null)) {
-						abrirVentanaSala(salaSeleccionada);
-					}else {
-						JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
-								JOptionPane.WARNING_MESSAGE);
-					}
-				} catch (Exception e) {
+
+				if (!salaSeleccionada.equals(null)) {
+					// unirseASala(salaSeleccionada);
+				} else {
+					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
+							JOptionPane.WARNING_MESSAGE);
 				}
-				// Pequeno fix, porque el titulo de la sala es nombresala no nombresala(1/5) por
-				// ejemplo.
-				/*
-				 * El formateo del dato debe ser responsabilidad del controlador, o de la vista,
-				 * no del modelo en este caso el modelo seria el servidor.
-				 */
-				salaSeleccionada = salaSeleccionada.substring(0, salaSeleccionada.indexOf('('));
-				String datos = ingresarASala(salaSeleccionada); // Envio peticion de ingreso a la sala.
-				abrirVentanaSala(datos, salaSeleccionada);
 			}
 		});
+		setLocationRelativeTo(this.ventanaMenu);
 
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
-		setLocationRelativeTo(this.ventanaMenu);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 92, 403, 207);
+		contentPane.add(scrollPane);
+		
+		tableSalas = new JTable();
+		scrollPane.setViewportView(tableSalas);
+
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Sonido click = new Sonido(Param.GOLPE_PATH);
 				click.reproducir();
-
 				ventanaMenu.setVisible(true);
 				setVisible(false);
 			}
 		});
-
-		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
-		Cliente.getconexionServidorBackOff().avisarAlSvQueMandeActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
-
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
@@ -128,56 +102,42 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
+		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
+		Cliente.getconexionServidorBackOff()
+				.avisarAlSvQueMandeActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+
 	}
 
-	private String ingresarASala(String salaSeleccionada) {
-		return Cliente.getConexionServidor().unirseASala(salaSeleccionada);
-	}
+//	private void unirseASala(String salaSeleccionada) {
+//		Cliente.getConexionServidor().unirseASala(salaSeleccionada);
+//		datosSala.add(salaSeleccionada);
+//		datosSala.add(datosArray[0]);
+//		datosSala.add(datosArray[1]);
+//		datosSala.add(datosArray[2]);
+//
+//		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+//		musicaFondo.reproducir();
+//		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
+//	}
 
-	// Creo otro metodo por si las dudas.
-	// Datos es la respuesta que contiene
-	// "cantidadUsuariosSala;CantidadUsuariosMaximoSala;usuario1,usuario2,usuario3.
-	private void abrirVentanaSala(String datos, String salaSeleccionada) {
-		String[] datosArray = datos.split(";");
-		ArrayList<String> datosSala = new ArrayList<>();
-		datosSala.add(salaSeleccionada);
-		datosSala.add(datosArray[0]);
-		datosSala.add(datosArray[1]);
-		datosSala.add(datosArray[2]);
-
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-		musicaFondo.reproducir();
-		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-	}
-
-	private void abrirVentanaSala(String salaSeleccionada) {
-		ArrayList<String> datosSala = new ArrayList<>();
-		datosSala.add(salaSeleccionada);
-
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-		musicaFondo.reproducir();
-
-		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-	}
-
-	
-	//Metodo que usa el Thread para refrescarle las salas a la ventana.
+	// Metodo que usa el Thread para refrescarle las salas a la ventana.
 	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {
 
-		for (String s : datosDeSalasDisponibles) {
-			String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
-			String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
-			this.modelDeSalasDisponibles.addElement(salida);
+		Object data[][] = new Object[datosDeSalasDisponibles.size()][3];
+
+		for (int i = 0; i < datosDeSalasDisponibles.size(); i++) {
+			String[] campos = datosDeSalasDisponibles.get(i).split(Param.SEPARADOR_EN_MENSAJES);
+			data[i][0] = campos[0]; // nombre sala
+			data[i][1] = campos[1]; // usrConectados/UsrMax
+			data[i][2] = campos[2]; // admin
 		}
 
-		if (this.modelDeSalasDisponibles.isEmpty()) {
-			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
-			noHaySalas.addElement("No hay niguna sala");
-			this.listSalas.setModel(noHaySalas);
-			this.listSalas.setEnabled(false);
+		if (datosDeSalasDisponibles.isEmpty()) {
+			this.tableModelSalas.setTableEmpty();
 		} else {
-			this.listSalas.setModel(this.modelDeSalasDisponibles);
-			this.listSalas.setEnabled(true);
+			this.tableModelSalas.setData(data);
 		}
+		
+		this.tableSalas.setModel(this.tableModelSalas);
 	}
 }

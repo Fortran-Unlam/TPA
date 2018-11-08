@@ -143,7 +143,8 @@ public class Servidor {
 		for (Sala salaActiva : Servidor.salasActivas) {
 			String sala = "";
 			sala = salaActiva.getNombre() + Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioActuales()
-					+ Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioMaximos();
+					 + "/" + salaActiva.getCantidadUsuarioMaximos() + Param.SEPARADOR_EN_MENSAJES + 
+					 salaActiva.getAdministrador().getUsername();
 			salas.add(sala);
 		}
 
