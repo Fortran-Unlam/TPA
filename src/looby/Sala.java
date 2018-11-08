@@ -2,7 +2,7 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -14,7 +14,7 @@ public class Sala implements Serializable {
 
 	private boolean salaLlena = false;
 
-	private int cantidadUsuarioActuales =0;
+	private int cantidadUsuarioActuales = 0;
 	private int cantidadUsuarioMaximos;
 	private int cantidadDePartidasJugadas = 0;
 	private ArrayList<Partida> partidasJugadas = new ArrayList<Partida>();
@@ -64,7 +64,7 @@ public class Sala implements Serializable {
 
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadDeRondasDePartida, tipoJuego);
-			
+
 			return this.comenzarPartida();
 		}
 		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
@@ -133,17 +133,17 @@ public class Sala implements Serializable {
 	public int getCantidadUsuarioMaximos() {
 		return cantidadUsuarioMaximos;
 	}
-	
-	/*Obtengo los usuarios activos en la sala separados por coma
-	esto se utiliza por ejemplo para devolver los usuarios a la vista
-	en forma de String.*/
-	public String getUsuariosSeparadosporComa()
-	{
+
+	/*
+	 * Obtengo los usuarios activos en la sala separados por coma esto se utiliza
+	 * por ejemplo para devolver los usuarios a la vista en forma de String.
+	 */
+	public String getUsuariosSeparadosporComa() {
 		String retorno = "";
-		for(Usuario u : this.getUsuariosActivos())
-			retorno+=u.getUsername()+",";
-		//Elimino la ultima coma.
-		retorno=retorno.substring(0, retorno.length()-1);
+		for (Usuario usuario : this.getUsuariosActivos())
+			retorno += usuario.getUsername() + ",";
+		// Elimino la ultima coma.
+		retorno = retorno.substring(0, retorno.length() - 1);
 		return retorno;
 	}
 }

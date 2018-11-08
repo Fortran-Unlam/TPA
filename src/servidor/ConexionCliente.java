@@ -115,17 +115,18 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_CREAR_SALA:
+					@SuppressWarnings("unchecked")
 					ArrayList<String> dataSala = (ArrayList<String>) message.getData();
-					if (!Servidor.existeSala(dataSala.get(0))) { // me fijo si existe
+
+					if (!Servidor.existeSala(dataSala.get(0))) {
 						sala = usuario.crearSala(dataSala.get(0), Integer.valueOf(dataSala.get(1)));
 
 						Servidor.agregarASalasActivas(sala);
 						System.err.println("sala cdreada");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
 
-						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la
-						// nueva sala
-						// Esto deber�a mandarse por el canal de syncro pero por ahora va.
+						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la nueva
+						// sala. Esto deber�a mandarse por el canal de syncro pero por ahora va.
 						String datosSalaNueva;
 
 						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES
@@ -143,35 +144,35 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_SALIR_SALA:
 					usuario.salirDeSala();
 					String nombreSala = (String) message.getData();
-					Sala s = Servidor.getSalaPorNombre(nombreSala);
+					sala = Servidor.getSalaPorNombre(nombreSala);
 					// Es similar al usuario.SalirSala() ? Estoy duplicando la accion.
-					s.sacarUsuarioDeSala(usuario);
+					sala.sacarUsuarioDeSala(usuario);
 					// Debug para comprobar verdaderamente la cantidad de usuarios con los que quedo
 					// la sala.
 					// System.out.println("ASD:"+s.getCantidadUsuarioActuales());
 					// Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe
 					// eliminarse de las salas activas.
-					if (s.getCantidadUsuarioActuales() == 0)
-						Servidor.removerDeSalasActivas(s);
+					if (sala.getCantidadUsuarioActuales() == 0)
+						Servidor.removerDeSalasActivas(sala);
 					break;
 				case Param.REQUEST_INGRESO_SALA:
 					// Obtengo la sala a la que me quiero unir en base al nombre.
 					String nombreSala1 = (String) message.getData();
-					Sala s1 = Servidor.getSalaPorNombre(nombreSala1);
+					sala = Servidor.getSalaPorNombre(nombreSala1);
 					/*
 					 * Me agrego(en realidad es desde la perspectiva del servidor) asi que el
 					 * servidor me agrega a la sala.
 					 */
-					s1.agregarUsuarioASala(usuario);
+					sala.agregarUsuarioASala(usuario);
 					/*
 					 * El servidor me devuelve los datos de la sala, para que la vista me represente
 					 * los datos de la sala que me importan como usuario
 					 */
-					int ux = s1.getCantidadUsuarioActuales();
-					int uxx = s1.getCantidadUsuarioMaximos();
-					String usuariosActivos = s1.getUsuariosSeparadosporComa();
+					int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
+					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
+					String usuariosActivos = sala.getUsuariosSeparadosporComa();
 					System.err.println("datos sala");
-					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA, ux + ";" + uxx + ";" + usuariosActivos));
+					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA, cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					String[] data = (String[]) message.getData();
