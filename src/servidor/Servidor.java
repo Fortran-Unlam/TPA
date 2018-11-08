@@ -17,9 +17,9 @@ import looby.Usuario;
 
 public class Servidor {
 
-	private static ArrayList<Sala> salasActivas = new ArrayList<>();
-	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
+	private static ArrayList<Sala> salasActivas = new ArrayList<Sala>();
+	private static ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
 
@@ -47,7 +47,6 @@ public class Servidor {
 			servidorBackOffOut = new ServerSocket(Param.PORT_4, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
 			System.out.println("Recibiendo del cliente (BackOff) en el puerto: " + Param.PORT_4);
 			
-			
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
@@ -59,7 +58,6 @@ public class Servidor {
 				socketBackOffIn = servidorBackOffIn.accept();
 				socketBackOffOut = servidorBackOffOut.accept();
 
-
 				ConexionClienteBackOff conexionClienteBackOff = new ConexionClienteBackOff(socketBackOffIn,
 						socketBackOffOut);
 
@@ -67,7 +65,6 @@ public class Servidor {
 				conexionesClientesBackOff.add(conexionClienteBackOff);
 				
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
-
 			}
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
@@ -85,11 +82,11 @@ public class Servidor {
 		}
 	}
 
-	public static boolean agregarASalasActivas(Sala sala) {
+	protected static boolean agregarASalasActivas(Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
 
-	public static void removerDeSalasActivas(Sala sala) {
+	protected static void removerDeSalasActivas(Sala sala) {
 		Servidor.salasActivas.remove(sala);
 	}
 
@@ -99,7 +96,7 @@ public class Servidor {
 	 * @param nombre El nombre de la sala a buscar
 	 * @return True si existe
 	 */
-	public static boolean existeSala(String nombre) {
+	protected static boolean existeSala(String nombre) {
 		for (Sala sala : Servidor.salasActivas) {
 			if (sala.getNombre().equals(nombre)) {
 				return true;
@@ -108,11 +105,39 @@ public class Servidor {
 		return false;
 	}
 
-	public boolean agregarAUsuariosActivos(Usuario usuario) {
+	/**
+	 * Remueve un usuario activo
+	 * @param usuario
+	 * @return
+	 */
+	protected static boolean removerUsuarioActivo(Usuario usuario) {
+		return Servidor.usuariosActivos.remove(usuario);
+	}
+	
+	/**
+	 * Agrega un usuario a activo
+	 * @param usuario
+	 * @return
+	 */
+	protected static boolean agregarAUsuariosActivos(Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
 	}
+	
+	/**
+	 * Consigue los usuarios activos
+	 * @param usuario
+	 * @return
+	 */
+	protected static ArrayList<Usuario> getUsuariosActivos() {
+		return Servidor.usuariosActivos;
+	}
 
-	public static ArrayList<String> getAllSalas() {
+
+	/**
+	 * Consigue las todas salas en el servidor
+	 * @return
+	 */
+	protected static ArrayList<String> getAllSalas() {
 		ArrayList<String> salas = new ArrayList<>();
 
 		for (Sala salaActiva : Servidor.salasActivas) {
@@ -125,11 +150,19 @@ public class Servidor {
 		return salas;
 	}
 
+	/**
+	 * Consigue la session de Hibernate
+	 * @return
+	 */
 	public static Session getSessionHibernate() {
 		return sessionHibernate;
 	}
 
-	public static void actualizarMapa(Juego juego) {
+	/**
+	 * Actualizar juego, deberia ser usado para dibujar lo que hay en el.
+	 * @param juego
+	 */
+	public static void actualizarJuego(Juego juego) {
 		try {
 			Mapa mapa = juego.getMapa();
 			boolean enviar = false;
@@ -170,11 +203,19 @@ public class Servidor {
 		}
 	}
 
+	/**
+	 * Desconectar un cliente
+	 * @param conexionCliente
+	 */
 	public static void desconectar(ConexionCliente conexionCliente) {
 		conexionCliente.interrupt();
 		conexionClientes.remove(conexionCliente);
 	}
 
+	/**
+	 * Desconectar el backoff de un cliente
+	 * @param conexionClienteBackOff
+	 */
 	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
 		conexionClienteBackOff.interrupt();
 		conexionesClientesBackOff.remove(conexionClienteBackOff);
@@ -194,6 +235,10 @@ public class Servidor {
 		return null;
 	}
 	
+	/**
+	 * Consigue las conexiones backoff de los clientes
+	 * @return
+	 */
 	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff(){
 		return Servidor.conexionesClientesBackOff;
 	}

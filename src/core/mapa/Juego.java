@@ -45,19 +45,19 @@ public class Juego implements Serializable {
 		this.juegoEnCurso = true;
 		try {
 
-			Servidor.actualizarMapa(this);
+			Servidor.actualizarJuego(this);
 			Thread.sleep(1000);
 			long tiempoInicial = System.currentTimeMillis();
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
 			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
 				this.mapa.actualizar();
-				Servidor.actualizarMapa(this);
+				Servidor.actualizarJuego(this);
 				// this.jListScore.setModel(score.ScoreToModel());
 				Thread.sleep(1000 / 50);
 				this.segundosTranscurridos = (int) (System.currentTimeMillis() - tiempoInicial) / 1000;
 			}
 			this.juegoEnCurso = false;
-			Servidor.actualizarMapa(this);
+			Servidor.actualizarJuego(this);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

@@ -13,11 +13,14 @@ public class HibernateUtils {
 			java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 			sessionFactory = new Configuration().configure("/hibernateUtils/hibernate.cfg.xml").buildSessionFactory();
 		} catch (Throwable ex) {
-			System.err.println("Couldn't create session factory." + ex);
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
 
+	/**
+	 * Consigue la conexion con la base de datos
+	 * @return
+	 */
 	public static SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}

@@ -67,7 +67,7 @@ public class ConexionCliente extends Thread {
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
 					} else {
 						boolean usuarioInexistente = true;
-						for (Usuario usuarioActivo : Servidor.usuariosActivos) {
+						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
 
 							if (usuarioActivo.getId() == usuario.getId()) {
 								System.out.println("Usuario ya logeado");
@@ -78,7 +78,7 @@ public class ConexionCliente extends Thread {
 
 						}
 						if (usuarioInexistente) {
-							Servidor.usuariosActivos.add(usuario);
+							Servidor.agregarAUsuariosActivos(usuario);
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
 							System.err.println("logeo correcto");
@@ -210,9 +210,9 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_CERRAR_SESION:
 					Usuario usuarioActivo = (Usuario) message.getData();
 
-					for (Usuario u : Servidor.usuariosActivos) {
-						if (u.getId() == usuarioActivo.getId()) {
-							Servidor.usuariosActivos.remove(Servidor.usuariosActivos.indexOf(u));
+					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
+						if (usuarioEnServer.getId() == usuarioActivo.getId()) {
+							Servidor.removerUsuarioActivo(usuarioEnServer);
 							break;
 						}
 					}
