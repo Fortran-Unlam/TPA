@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import cliente.ventana.usuario.Login;
+import cliente.ventana.usuario.VetanaLoginUsuario;
 import config.Param;
 
 public class Cliente {
@@ -16,6 +16,7 @@ public class Cliente {
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static ArrayList<String> datosDeSalas;
+	
 	
 	public static void main(String[] args) {
 		new Cliente();
@@ -34,7 +35,7 @@ public class Cliente {
 
 			conexionServidorBackOff.start();
 			
-			Login login = new Login();
+			VetanaLoginUsuario login = new VetanaLoginUsuario();
 			login.setVisible(true);
 
 		} catch (IOException ex) {
