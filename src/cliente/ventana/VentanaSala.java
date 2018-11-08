@@ -221,7 +221,7 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
-	protected void addListener() {
+	private void addListener() {
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);

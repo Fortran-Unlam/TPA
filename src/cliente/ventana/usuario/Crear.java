@@ -20,9 +20,13 @@ public class Crear extends JFrame {
 	private JTextField username;
 	private JTextField password;
 	private JTextField confirmPassword;
+	private JButton btnCrearUsuario;
+	private JButton btnVolver;
+	private JFrame ventanaLogin;
 
 	public Crear(JFrame ventanaLogin) {
 
+		this.ventanaLogin = ventanaLogin;
 		ventanaLogin.setVisible(false);
 
 		this.setTitle("Registrarse");
@@ -62,45 +66,32 @@ public class Crear extends JFrame {
 		getContentPane().add(confirmPassword);
 		confirmPassword.setColumns(10);
 
-		JButton btnCrearUsuario = new JButton("Crear Cuenta");
+		btnCrearUsuario = new JButton("Crear Cuenta");
 		btnCrearUsuario.setBounds(92, 125, 122, 23);
 		getContentPane().add(btnCrearUsuario);
-		btnCrearUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					registrarUsuario(ventanaLogin);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 
 		JLabel lblCrearUsuario = new JLabel("Crear Cuenta");
 		lblCrearUsuario.setBounds(110, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
 
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-				ventanaLogin.setVisible(true);
-			}
-		});
+		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(92, 157, 122, 23);
 		getContentPane().add(btnVolver);
+		
+		addListener();
 	}
 
 	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
 
 		if (this.password.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "¡Te falto ingresar la contraseña!", "Error",
+			JOptionPane.showMessageDialog(null, "!Te falto ingresar la contraseï¿½a!", "Error",
 					JOptionPane.WARNING_MESSAGE);
 			this.password.setFocusable(true);
 			return;
 		}
 
 		if (this.confirmPassword.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "¡Te falto confirmar la contraseña!", "Error",
+			JOptionPane.showMessageDialog(null, "!Te falto confirmar la contraseï¿½a!", "Error",
 					JOptionPane.WARNING_MESSAGE);
 			this.username.setFocusable(true);
 			this.confirmPassword.setFocusable(true);
@@ -111,7 +102,7 @@ public class Crear extends JFrame {
 		}
 
 		if (this.username.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "¡Te falto ingresar el usuario!", "Error", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "!Te falto ingresar el usuario!", "Error", JOptionPane.WARNING_MESSAGE);
 			this.username.setFocusable(true);
 			this.confirmPassword.setFocusable(true);
 			this.password.setFocusable(true);
@@ -133,7 +124,7 @@ public class Crear extends JFrame {
 		}
 
 		if (!this.password.getText().equals(this.confirmPassword.getText())) {
-			JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden, por favor intentelo nuevamente.",
+			JOptionPane.showMessageDialog(null, "Las contrase\u00F1as no coinciden, por favor intentelo nuevamente.",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.username.setText("");
 			this.password.setText("");
@@ -158,7 +149,7 @@ public class Crear extends JFrame {
 				break;
 	
 			case Param.REQUEST_REGISTRO_CORRECTO:
-				JOptionPane.showMessageDialog(null, "¡El usuario se ha registrado exitosamente!", "Aviso",
+				JOptionPane.showMessageDialog(null, "!El usuario se ha registrado exitosamente!", "Aviso",
 						JOptionPane.INFORMATION_MESSAGE);
 				this.dispose();
 				ventanaLogin.setVisible(true);
@@ -173,5 +164,24 @@ public class Crear extends JFrame {
 				this.username.setFocusable(true);
 				break;
 		}
+	}
+	
+	private void addListener() {
+	
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					registrarUsuario(ventanaLogin);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				ventanaLogin.setVisible(true);
+			}
+		});
 	}
 }

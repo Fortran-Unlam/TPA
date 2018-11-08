@@ -133,7 +133,7 @@ public class VentanaMenu extends JFrame {
 		return this.usuario;
 	}
 
-	public void addListener() {
+	private void addListener() {
 		btnCrearSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				abrirVentanaCrearSala();

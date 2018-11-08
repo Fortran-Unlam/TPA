@@ -158,7 +158,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 	}
 	
-	public void addListener() {		
+	private void addListener() {		
 		btnAceptar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
