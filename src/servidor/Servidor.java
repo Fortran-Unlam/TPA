@@ -20,7 +20,7 @@ public class Servidor {
 	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
-	private static ArrayList<ConexionClienteBackOff> conexionClientesBackOff = new ArrayList<ConexionClienteBackOff>();
+	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
 
 	public static void main(String[] args) {
 
@@ -63,7 +63,7 @@ public class Servidor {
 						socketBackOffOut);
 
 				conexionClienteBackOff.start();
-				conexionClientesBackOff.add(conexionClienteBackOff);
+				conexionesClientesBackOff.add(conexionClienteBackOff);
 				
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
@@ -168,7 +168,7 @@ public class Servidor {
 
 	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
 		conexionClienteBackOff.interrupt();
-		conexionClientesBackOff.remove(conexionClienteBackOff);
+		conexionesClientesBackOff.remove(conexionClienteBackOff);
 	}
 
 	public static void avisarFinJuego() {
@@ -186,21 +186,9 @@ public class Servidor {
 				return salasActivas.get(i);
 		return null;
 	}
-
-	public static void enviarActualizacionSalasALosClientes() {
-		//Pido los datos de las salas
-		ArrayList <String> datosDeSalas = Servidor.getAllSalas();
-		
-		for(ConexionClienteBackOff c: Servidor.conexionClientesBackOff) {
-			//Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las salas actualizadas
-			Message messageConActualizacionDeSalas = new Message(Param.NOTICE_ACTUALIZAR_SALAS, datosDeSalas);
-			try {
-				c.getSalidaDatos().writeObject(messageConActualizacionDeSalas);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
+	
+	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff(){
+		return Servidor.conexionesClientesBackOff;
 	}
 
 }

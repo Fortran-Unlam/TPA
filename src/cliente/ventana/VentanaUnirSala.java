@@ -134,9 +134,7 @@ public class VentanaUnirSala extends JFrame {
 				this.modelDeSalasDisponibles.addElement(salida);
 			}
 		}
-		
-	
-		//this.modelDeListas = pedirSalas();
+
 
 		if (this.modelDeSalasDisponibles.isEmpty()) {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
@@ -186,29 +184,5 @@ public class VentanaUnirSala extends JFrame {
 		datosSala.add(salaSeleccionada);
 		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
-
-//	public DefaultListModel<String> pedirSalas() {
-//		ArrayList<String> salas = Main.getConexionServidor().getAllSalas();
-//		DefaultListModel<String> modelSalasActivas = new DefaultListModel<String>();
-//
-//		/* Reflejo 04/11 si se hace la secuencia crear una sala, salir de la sala e intentar
-//		 * unirse a una sala, todo esto con un mismo usuario, salta la excepcion
-//		 * java.lang.NullPointerException se tiene que comprobar al momento de pedirSalas
-//		 * que realmente existan salas, antes de iterar por ellas.
-//		 * Quiza esta mal solucionado el error, revisar.
-//		 */
-//		if(salas!=null)
-//		{
-//			for (String s : salas) 
-//			{
-//				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
-//				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
-//				modelSalasActivas.addElement(salida);
-//			}
-//		}
-//		
-//
-//		return modelSalasActivas;
-//	}
 
 }

@@ -15,7 +15,7 @@ public class ConexionServidorBackOff extends Thread {
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
 
-	private Message message;
+	private Message message = new Message(null, null);
 
 	private Socket socketIn;
 	private Socket socketOut;
@@ -39,26 +39,31 @@ public class ConexionServidorBackOff extends Thread {
 		boolean conectado = true;
 
 		while (conectado) {
-			try {
-				message = (Message) this.entradaDatos.readObject();
-				
-				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)){
-					Main.setDatosDeSalas((ArrayList<String>) message.getData());
-				}
-				
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
+			
 		}
 	}
 
 	
 	public void avisarAlServerActualizacionSalas(String parametro) {
 		
-		Message message = new Message(parametro, null);
+		
 		try {
+			/*Le aviso al sv que hubo una actualizacion
+			 * acá el server empieza a tirotear a todos los clientes con los
+			 * datos de las salas actualizadas, tengo que esperar que sea mi
+			 * turno y me lleguen los datos de la sala, recien ahi puedo
+			 * continuar.
+			 */
+			this.message.setType(parametro);
 			this.salidaDatos.writeObject(message);
-		} catch (IOException e) {
+
+			this.message = (Message) this.entradaDatos.readObject();
+			
+			if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)){
+				Main.setDatosDeSalas((ArrayList<String>) message.getData());
+			}
+			
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

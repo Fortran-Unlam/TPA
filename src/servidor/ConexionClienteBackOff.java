@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+
 import config.Param;
 
 public class ConexionClienteBackOff extends Thread {
@@ -42,7 +44,7 @@ public class ConexionClienteBackOff extends Thread {
 						tipoDeMensaje.equals(Param.NOTICE_UNION_SALA) ||
 						tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)){
 					System.out.println(".........--*-*-*-*-Me llego el mensaje!!!!!!!!");
-					Servidor.enviarActualizacionSalasALosClientes();
+					enviarActualizacionSalasALosClientes();
 				}
 
 			} catch (IOException ex) {
@@ -66,4 +68,21 @@ public class ConexionClienteBackOff extends Thread {
 	public ObjectOutputStream getSalidaDatos() {
 		return this.salidaDatos;
 	}
+
+	public void enviarActualizacionSalasALosClientes() {
+		//Pido los datos de las salas
+		ArrayList <String> datosDeSalas = Servidor.getAllSalas();
+		Message messageConActualizacionDeSalas = new Message(Param.NOTICE_ACTUALIZAR_SALAS, datosDeSalas);
+		
+		for(ConexionClienteBackOff c: Servidor.getConexionesClientesBackOff()) {
+			//Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las salas actualizadas
+			try {
+				c.salidaDatos.writeObject(messageConActualizacionDeSalas);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 }
