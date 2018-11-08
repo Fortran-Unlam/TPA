@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
 import java.awt.event.KeyAdapter;
@@ -91,7 +91,7 @@ public class VentanaCrearSala extends JFrame {
 		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
 		                JOptionPane.YES_NO_OPTION,
 		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	Main.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+		    	Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 		    	System.exit(0);
 		    	}
 		    }
@@ -135,11 +135,11 @@ public class VentanaCrearSala extends JFrame {
 			datosSala.add(this.nombreField.getText());
 			datosSala.add(this.maxUsuarioField.getText());
 
-			if (Main.getConexionServidor().crearSala(datosSala)) {
+			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 				musicaFondo.reproducir();
 				
-				Main.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.NOTICE_CREACION_SALA);
+				Cliente.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.NOTICE_CREACION_SALA);
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
 				this.dispose();
 			} else {

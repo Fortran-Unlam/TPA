@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.apache.commons.codec.digest.DigestUtils;
-import cliente.Main;
+import cliente.Cliente;
 import config.Param;
 import servidor.Message;
 
@@ -136,7 +136,7 @@ public class Crear extends JFrame {
 		}
 
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-		Message message = Main.getConexionServidor().registrar(this.username.getText(), hashPassword);
+		Message message = Cliente.getConexionServidor().registrar(this.username.getText(), hashPassword);
 
 		switch (message.getType()) {
 			case Param.REQUEST_REGISTRO_INCORRECTO:

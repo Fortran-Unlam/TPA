@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import cliente.ventana.VentanaMenu;
 import config.Param;
@@ -112,7 +112,7 @@ public class Login extends JFrame {
 
 		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-		Usuario usuario = Main.getConexionServidor().loguear(this.username.getText(), hashPassword);
+		Usuario usuario = Cliente.getConexionServidor().loguear(this.username.getText(), hashPassword);
 
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {

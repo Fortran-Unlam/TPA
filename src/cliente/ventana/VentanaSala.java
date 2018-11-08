@@ -23,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
 import javax.swing.JComboBox;
@@ -164,7 +164,7 @@ public class VentanaSala extends JFrame {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					salirSala();
-					Main.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
 					System.exit(0);
 				}
 			}
@@ -173,11 +173,11 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void salirSala() {
-		Main.getConexionServidor().SalirSala(this.nombreSala);
+		Cliente.getConexionServidor().SalirSala(this.nombreSala);
 	}
 
 	protected void empezarJuego() {
-		if (Main.getConexionServidor().comenzarJuego() == false) {
+		if (Cliente.getConexionServidor().comenzarJuego() == false) {
 			System.out.println("no pudo crear el juego");
 			return;
 		}

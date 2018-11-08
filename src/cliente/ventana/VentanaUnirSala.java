@@ -20,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
 
@@ -124,9 +124,9 @@ public class VentanaUnirSala extends JFrame {
 		});
 
 		//Pido las salas
-		Main.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+		Cliente.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
 		//Se supone que en esta instancia las salas ya las tiene almacenadas el Main del cliente
-		ArrayList<String> salas = Main.getDatosDeSalas();
+		ArrayList<String> salas = Cliente.getDatosDeSalas();
 		
 		if(salas!=null)
 		{
@@ -157,7 +157,7 @@ public class VentanaUnirSala extends JFrame {
 		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
 		                JOptionPane.YES_NO_OPTION,
 		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	Main.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+		    	Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 		    	System.exit(0);
 		    	}
 		    }
@@ -167,7 +167,7 @@ public class VentanaUnirSala extends JFrame {
 	
 	private String ingresarASala(String salaSeleccionada)
 	{
-		return Main.getConexionServidor().unirseASala(salaSeleccionada);
+		return Cliente.getConexionServidor().unirseASala(salaSeleccionada);
 	}
 	
 	//Creo otro metodo por si las dudas.

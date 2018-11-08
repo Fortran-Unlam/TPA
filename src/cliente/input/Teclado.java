@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.Serializable;
 
-import cliente.Main;
+import cliente.Cliente;
 import config.Posicion;
 
 public class Teclado implements KeyListener, Serializable {
@@ -39,7 +39,7 @@ public class Teclado implements KeyListener, Serializable {
 			System.out.print(e.getKeyCode() + " " + KeyEvent.getKeyText(e.getKeyCode()) + "\n");
 		}
 		
-		Main.getConexionServidor().enviarTecla(ultimaPulsada);
+		Cliente.getConexionServidor().enviarTecla(ultimaPulsada);
 	}
 
 	@Override

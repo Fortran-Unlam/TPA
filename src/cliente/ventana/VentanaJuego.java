@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
@@ -114,7 +114,7 @@ public class VentanaJuego extends JFrame {
 
 		Thread thread = new Thread() {
 			public synchronized void run() {
-				Main.getConexionServidor().recibirMapa(ventanaJuego);
+				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
 		thread.start();

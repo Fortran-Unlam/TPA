@@ -15,7 +15,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import cliente.Main;
+import cliente.Cliente;
 import cliente.Sonido;
 import cliente.ventana.usuario.Login;
 import config.Param;
@@ -32,7 +32,7 @@ public class VentanaMenu extends JFrame {
 
 	public VentanaMenu() {
 
-		usuario = Main.getConexionServidor().getUsuario();
+		usuario = Cliente.getConexionServidor().getUsuario();
 
 		setTitle("Menu principal");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -109,7 +109,7 @@ public class VentanaMenu extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					Main.getConexionServidor().cerrarSesionUsuario(usuario);
+					Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 					System.exit(0);
 				}
 			}
@@ -163,7 +163,7 @@ public class VentanaMenu extends JFrame {
 		});
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Main.getConexionServidor().cerrarSesionUsuario(usuario);
+				Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 				dispose();
 				Login login = new Login();
 				login.setVisible(true);
@@ -172,7 +172,7 @@ public class VentanaMenu extends JFrame {
 		btnAtras.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				Main.getConexionServidor().cerrarSesionUsuario(usuario);
+				Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 				dispose();
 				Login login = new Login();
 				login.setVisible(true);

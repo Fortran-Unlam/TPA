@@ -60,7 +60,7 @@ public class ConexionServidorBackOff extends Thread {
 			this.message = (Message) this.entradaDatos.readObject();
 			
 			if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)){
-				Main.setDatosDeSalas((ArrayList<String>) message.getData());
+				Cliente.setDatosDeSalas((ArrayList<String>) message.getData());
 			}
 			
 		} catch (IOException | ClassNotFoundException e) {
