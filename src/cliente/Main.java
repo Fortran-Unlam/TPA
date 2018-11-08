@@ -2,6 +2,7 @@ package cliente;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import cliente.ventana.usuario.Login;
 import config.Param;
@@ -14,7 +15,8 @@ public class Main {
 	private static Socket socketInBackOff;
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
-
+	private static ArrayList<String> datosDeSalas;
+	
 	public static void main(String[] args) {
 		new Main();
 	}
@@ -30,6 +32,8 @@ public class Main {
 			socketInBackOff = new Socket(Param.HOST, Param.PORT_4);
 			conexionServidorBackOff = new ConexionServidorBackOff(socketOutBackOff, socketInBackOff);
 
+			conexionServidorBackOff.start();
+			
 			Login login = new Login();
 			login.setVisible(true);
 
@@ -46,4 +50,16 @@ public class Main {
 		return socketOut;
 	}
 
+	public static ConexionServidorBackOff getconexionServidorBackOff() {
+		return conexionServidorBackOff;
+	}
+	
+	public static void setDatosDeSalas(ArrayList<String> datosDeSalasNuevo){
+		datosDeSalas = datosDeSalasNuevo;
+	}
+	
+	public static ArrayList<String> getDatosDeSalas(){
+		return datosDeSalas;
+	}
+	
 }

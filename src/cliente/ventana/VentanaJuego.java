@@ -118,13 +118,13 @@ public class VentanaJuego extends JFrame {
 			}
 		};
 		thread.start();
-		
+
 		Sonido musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
 		musicaFondo.repetir();
 	}
 
-	public void dibujarMapa(Mapa mapa) {
-		this.mapa = mapa;
+	public void dibujarMapa(Juego juego) {
+		this.mapa = juego.getMapa();
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
 
@@ -145,7 +145,7 @@ public class VentanaJuego extends JFrame {
 
 				g2d.setColor(Color.BLUE);
 				if (jugador instanceof JugadorBot) {
-					g2d.setColor(Color.GREEN);					
+					g2d.setColor(Color.GREEN);
 				}
 				for (CuerpoVibora cuerpoVibora : jugador.getVibora().getCuerpos()) {
 					g2d.fillRect(cuerpoVibora.getX() * Param.PIXEL_RESIZE, cuerpoVibora.getY() * Param.PIXEL_RESIZE,
@@ -158,8 +158,6 @@ public class VentanaJuego extends JFrame {
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
 
-			this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
-
 			ArrayList<Puntaje> score = this.mapa.getScore();
 			score.sort(null);
 			String[] listModel = new String[score.size()];
@@ -168,5 +166,15 @@ public class VentanaJuego extends JFrame {
 			}
 			jListScore.setListData(listModel);
 		}
+
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(String.valueOf(juego.getSegundosTranscurridos()), Param.MAPA_WIDTH - 30, 30);
+
+		if (juego.terminado()) {
+			System.out.println("juego terminado");
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+		}
+		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 	}
 }

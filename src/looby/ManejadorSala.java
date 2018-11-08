@@ -30,7 +30,7 @@ public class ManejadorSala {
 		tipoJuego = new TipoJuegoTiempo(tipoJuego);
 		tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
 		tipoJuego.setFrutasMaximas(2);
-		System.out.println(tipoJuego.termina(2, 3, 3));
+//		System.out.println(tipoJuego.termina(2, 3, 3));
 		
 		salaPrueba.crearPartida(2,tipoJuego);
 	}

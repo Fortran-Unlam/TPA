@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import config.Param;
 import core.Jugador;
+import core.mapa.Juego;
 import core.mapa.Mapa;
 import hibernateUtils.HibernateUtils;
 import looby.Sala;
@@ -20,7 +21,7 @@ public class Servidor {
 	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
-	private static ArrayList<ConexionClienteBackOff> conexionClientesBackOff = new ArrayList<ConexionClienteBackOff>();
+	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
 
 	public static void main(String[] args) {
 
@@ -63,7 +64,7 @@ public class Servidor {
 						socketBackOffOut);
 
 				conexionClienteBackOff.start();
-				conexionClientesBackOff.add(conexionClienteBackOff);
+				conexionesClientesBackOff.add(conexionClienteBackOff);
 				
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
@@ -92,10 +93,17 @@ public class Servidor {
 		Servidor.salasActivas.remove(sala);
 	}
 
-	public static boolean existeSala(String nameRoom) {
-		for (Sala s : Servidor.salasActivas) {
-			if (s.getNombre() == nameRoom)
+	/**
+	 * Verifica si la sala existe en las salas activas
+	 * 
+	 * @param nombre El nombre de la sala a buscar
+	 * @return True si existe
+	 */
+	public static boolean existeSala(String nombre) {
+		for (Sala sala : Servidor.salasActivas) {
+			if (sala.getNombre().equals(nombre)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -107,10 +115,10 @@ public class Servidor {
 	public static ArrayList<String> getAllSalas() {
 		ArrayList<String> salas = new ArrayList<>();
 
-		for (Sala s : Servidor.salasActivas) {
+		for (Sala salaActiva : Servidor.salasActivas) {
 			String sala = "";
-			sala = s.getNombre() + Param.SEPARADOR_EN_MENSAJES + s.getCantidadUsuarioActuales()
-					+ Param.SEPARADOR_EN_MENSAJES + s.getCantidadUsuarioMaximos();
+			sala = salaActiva.getNombre() + Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioActuales()
+					+ Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioMaximos();
 			salas.add(sala);
 		}
 
@@ -121,8 +129,9 @@ public class Servidor {
 		return sessionHibernate;
 	}
 
-	public static void actualizarMapa(Mapa mapa) {
+	public static void actualizarMapa(Juego juego) {
 		try {
+			Mapa mapa = juego.getMapa();
 			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
 				enviar = false;
@@ -147,7 +156,7 @@ public class Servidor {
 							usuario.getConexion().getSalidaDatos().flush();
 							System.err.println("mostrar mapa");
 							usuario.getConexion().getSalidaDatos()
-									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, juego));
 						}
 
 					} catch (IOException e) {
@@ -168,11 +177,7 @@ public class Servidor {
 
 	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
 		conexionClienteBackOff.interrupt();
-		conexionClientesBackOff.remove(conexionClienteBackOff);
-	}
-
-	public static void avisarFinJuego() {
-
+		conexionesClientesBackOff.remove(conexionClienteBackOff);
 	}
 
 	/*
@@ -181,10 +186,16 @@ public class Servidor {
 	 * la sala, esta basado en los datos de las ventanas.
 	 */
 	public static Sala getSalaPorNombre(String Nombre) {
-		for (int i = 0; i < salasActivas.size(); i++)
-			if (salasActivas.get(i).getNombre().equals(Nombre))
+		for (int i = 0; i < salasActivas.size(); i++) {
+			if (salasActivas.get(i).getNombre().equals(Nombre)) {
 				return salasActivas.get(i);
+			}
+		}
 		return null;
+	}
+	
+	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff(){
+		return Servidor.conexionesClientesBackOff;
 	}
 
 }

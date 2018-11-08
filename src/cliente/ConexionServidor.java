@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
-import core.mapa.Mapa;
-import looby.Sala;
+import core.mapa.Juego;
 import looby.Usuario;
 import servidor.Message;
 
@@ -252,7 +251,7 @@ public class ConexionServidor {
 
 					switch (this.message.getType()) {
 					case Param.REQUEST_MOSTRAR_MAPA:
-						ventanaJuego.dibujarMapa((Mapa) this.message.getData());
+						ventanaJuego.dibujarMapa((Juego) this.message.getData());
 					default:
 					}
 				} else {
@@ -281,7 +280,6 @@ public class ConexionServidor {
 		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
 		try {
 			this.salidaDatos.reset();
-			System.err.println("enviar tecla");
 			this.salidaDatos.writeObject(this.message);
 		} catch (IOException e) {
 			e.printStackTrace();

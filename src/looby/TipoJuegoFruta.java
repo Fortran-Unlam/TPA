@@ -1,6 +1,10 @@
 package looby;
 
-public class TipoJuegoFruta extends TipoDeJuegoDecorator {
+import java.util.ArrayList;
+
+import core.Jugador;
+
+public class TipoJuegoFruta extends TipoJuegoDecorator {
 
 	protected TipoJuego tipoJuego;
 
@@ -10,13 +14,17 @@ public class TipoJuegoFruta extends TipoDeJuegoDecorator {
 	}
 
 	@Override
-	public boolean termina(int cantidadJugadores, int puntosMaximos, int segundos) {
+	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
 		System.out.println("fruta");
-		if (tipoJuego.termina(cantidadJugadores, puntosMaximos, segundos)) {
+		if (tipoJuego.termina(jugadores, segundos)) {
 			return true;
 		}
-		if (puntosMaximos >= this.frutasMaximas) {
-			return true;
+		jugadores.sort(null);
+		if (jugadores.size() > 0) {
+			
+			if (jugadores.get(0).getFrutasComidas() >= this.frutasMaximas) {
+				return true;
+			}
 		}
 		return false;
 	}

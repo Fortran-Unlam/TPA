@@ -52,7 +52,8 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_SALA_CREADA = "SalaCreada";
 	public static final String REQUEST_INGRESO_SALA = "IngresoSala";
 	public static final String REQUEST_ERROR_CREAR_SALA = "ErrorCreacionSala";
-	public static final String REQUEST_ACTUALIZAR_SALAS = "SeActualizaronSalas";
+	public static final String REQUEST_ACTUALIZAR_SALAS = "ActualizacionSalas";
+	public static final String REQUEST_INGRESO_VENTANA_UNIR_SALA = "DameLasSalas";
 	
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";
@@ -68,10 +69,14 @@ public abstract class Param implements Serializable {
 	public static final String TIPO_JUEGO_FRUTA = "tipoJuegoFruta";
 	public static final String TIPO_JUEGO_SUPERVIVENCIA = "tipoJuegoSupervivencia";
 	public static final String TIPO_JUEGO_TIEMPO = "tipoJuegoTiempo";
-	
-	
+
 	public static final String SONIDO_PATH = "/sonido/";
 	
 	public static final String MUSICA_FONDO_PATH = SONIDO_PATH + "musica.wav";
 	public static final String GOLPE_PATH = SONIDO_PATH + "golpe.wav";
+	
+	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
+	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
+	public static final String NOTICE_ACTUALIZAR_SALAS = "ClienteActualizaTusSalas";
+	
 }

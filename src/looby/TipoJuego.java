@@ -1,6 +1,9 @@
 package looby;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import core.Jugador;
 
 public class TipoJuego implements Serializable  {
 
@@ -13,8 +16,8 @@ public class TipoJuego implements Serializable  {
 
 	}
 
-	public boolean termina(int cantidadJugadores, int puntosMaximos, int segundos) {
-		if (cantidadJugadores <= 1) {
+	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
+		if (jugadores.size() <= 1) {
 			return true;
 		}
 		return false;
