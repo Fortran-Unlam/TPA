@@ -8,7 +8,7 @@ import core.JugadorBot;
 import looby.TipoJuego;
 import servidor.Servidor;
 
-public class Juego  implements Serializable {
+public class Juego implements Serializable {
 
 	private static final long serialVersionUID = -3765719165739391662L;
 	private List<Jugador> jugadoresEnJuego;
@@ -43,19 +43,20 @@ public class Juego  implements Serializable {
 		// score.add(this.mapa.getJugadores());
 		this.juegoEnCurso = true;
 		try {
-			
-			Servidor.actualizarMapa(this.mapa);
+
+			Servidor.actualizarMapa(this);
 			Thread.sleep(1000);
-			
+
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
 			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores().size(), 100, 10)) {
 				this.mapa.actualizar();
 
-				Servidor.actualizarMapa(this.mapa);
+				Servidor.actualizarMapa(this);
 				// this.jListScore.setModel(score.ScoreToModel());
-				Thread.sleep(1000/50);
+				Thread.sleep(1000 / 50);
 			}
-			Servidor.avisarFinJuego();
+			this.juegoEnCurso = false;
+			Servidor.actualizarMapa(this);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -64,8 +65,13 @@ public class Juego  implements Serializable {
 	public void stop() {
 		this.juegoEnCurso = false;
 	}
-	
+
 	public Mapa getMapa() {
 		return mapa;
 	}
+	
+	public boolean terminado() {
+		return this.juegoEnCurso == false;
+	}
+
 }

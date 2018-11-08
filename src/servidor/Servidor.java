@@ -9,6 +9,7 @@ import org.hibernate.Session;
 
 import config.Param;
 import core.Jugador;
+import core.mapa.Juego;
 import core.mapa.Mapa;
 import hibernateUtils.HibernateUtils;
 import looby.Sala;
@@ -128,8 +129,9 @@ public class Servidor {
 		return sessionHibernate;
 	}
 
-	public static void actualizarMapa(Mapa mapa) {
+	public static void actualizarMapa(Juego juego) {
 		try {
+			Mapa mapa = juego.getMapa();
 			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
 				enviar = false;
@@ -154,7 +156,7 @@ public class Servidor {
 							usuario.getConexion().getSalidaDatos().flush();
 							System.err.println("mostrar mapa");
 							usuario.getConexion().getSalidaDatos()
-									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, mapa));
+									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, juego));
 						}
 
 					} catch (IOException e) {
@@ -176,10 +178,6 @@ public class Servidor {
 	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
 		conexionClienteBackOff.interrupt();
 		conexionesClientesBackOff.remove(conexionClienteBackOff);
-	}
-
-	public static void avisarFinJuego() {
-
 	}
 
 	/*
