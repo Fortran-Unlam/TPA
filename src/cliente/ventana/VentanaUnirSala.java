@@ -31,7 +31,6 @@ public class VentanaUnirSala extends JFrame {
 	private VentanaMenu ventanaMenu;
 	private JList<String> listSalas;
 	private String salaSeleccionada;
-	private boolean ingresoaSalaOSeFue = false;
 	private DefaultListModel<String> modelDeSalasDisponibles = new DefaultListModel<>();
 
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
@@ -74,16 +73,6 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
-		JButton btnRefrescarSalas = new JButton("Refrescar");
-		btnRefrescarSalas.setBounds(267, 48, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnRefrescarSalas);
-
-		btnRefrescarSalas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// Ver como refrescar salas cuando tengamos eso listo.
-			}
-		});
-
 		JButton btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirse);
@@ -91,12 +80,12 @@ public class VentanaUnirSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					if (!salaSeleccionada.equals(null)) {
-						ingresoaSalaOSeFue = true;
 						abrirVentanaSala(salaSeleccionada);
+					}else {
+						JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
+								JOptionPane.WARNING_MESSAGE);
 					}
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
-							JOptionPane.WARNING_MESSAGE);
 				}
 				// Pequeno fix, porque el titulo de la sala es nombresala no nombresala(1/5) por
 				// ejemplo.
@@ -106,7 +95,6 @@ public class VentanaUnirSala extends JFrame {
 				 */
 				salaSeleccionada = salaSeleccionada.substring(0, salaSeleccionada.indexOf('('));
 				String datos = ingresarASala(salaSeleccionada); // Envio peticion de ingreso a la sala.
-				ingresoaSalaOSeFue = true;
 				abrirVentanaSala(datos, salaSeleccionada);
 			}
 		});
@@ -120,14 +108,13 @@ public class VentanaUnirSala extends JFrame {
 				Sonido click = new Sonido(Param.GOLPE_PATH);
 				click.reproducir();
 
-				ingresoaSalaOSeFue = true;
 				ventanaMenu.setVisible(true);
-				dispose();
+				setVisible(false);
 			}
 		});
 
 		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
-		Cliente.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+		Cliente.getconexionServidorBackOff().avisarAlSvQueMandeActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
 
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -173,6 +160,8 @@ public class VentanaUnirSala extends JFrame {
 		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
 	}
 
+	
+	//Metodo que usa el Thread para refrescarle las salas a la ventana.
 	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {
 
 		for (String s : datosDeSalasDisponibles) {

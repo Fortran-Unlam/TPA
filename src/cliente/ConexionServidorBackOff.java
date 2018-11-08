@@ -34,7 +34,7 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
-	public void avisarAlServerActualizacionSalas(String parametro) {
+	public void avisarAlSvQueMandeActualizacionSalas(String parametro) {
 
 		/*
 		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
