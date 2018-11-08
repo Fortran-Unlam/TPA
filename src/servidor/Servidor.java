@@ -187,7 +187,6 @@ public class Servidor {
 						if (enviar) {
 							usuario.getConexion().getSalidaDatos().reset();
 							usuario.getConexion().getSalidaDatos().flush();
-							System.err.println("mostrar mapa");
 							usuario.getConexion().getSalidaDatos()
 									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, juego));
 						}
