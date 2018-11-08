@@ -22,16 +22,6 @@ public class Cliente {
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static ArrayList<String> datosDeSalas;
 	
-	
-	static VentanaLoginUsuario ventanaLoginUsuario;
-	static VentanaCrearUsuario ventanaCrearUsuario;
-	static VentanaJuego ventanaMenu;
-	static VentanaUnirSala ventanaUnirSala;
-	static VentanaCrearSala ventanaCrearSala;
-	static VentanaSala ventanaSala;
-	static VentanaJuego ventanaJuego;
-
-	
 	public static void main(String[] args) {
 		new Cliente();
 	}
@@ -49,8 +39,8 @@ public class Cliente {
 
 			conexionServidorBackOff.start();
 			
-			Cliente.ventanaLoginUsuario = new VentanaLoginUsuario();
-			Cliente.ventanaLoginUsuario.setVisible(true);
+			VentanaLoginUsuario login = new VentanaLoginUsuario();
+			login.setVisible(true);
 
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
