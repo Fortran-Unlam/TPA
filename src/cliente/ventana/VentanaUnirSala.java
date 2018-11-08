@@ -32,7 +32,7 @@ public class VentanaUnirSala extends JFrame {
 	private JList<String> listSalas;
 	private String salaSeleccionada;
 	private boolean ingresoaSalaOSeFue = false;
-	private DefaultListModel<String> modelDeListas;
+	private DefaultListModel<String> modelDeSalasDisponibles = new DefaultListModel<>();
 	
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -120,16 +120,29 @@ public class VentanaUnirSala extends JFrame {
 			}
 		});
 
+		//Pido las salas
+		Main.getconexionServidorBackOff().avisarAlServerActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+		//Se supone que en esta instancia las salas ya las tiene almacenadas el Main del cliente
+		ArrayList<String> salas = Main.getDatosDeSalas();
+		
+		if(salas!=null)
+		{
+			for (String s : salas) 
+			{
+				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
+				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
+				this.modelDeSalasDisponibles.addElement(salida);
+			}
+		}
 
-		this.modelDeListas = pedirSalas();
 
-		if (this.modelDeListas.isEmpty()) {
+		if (this.modelDeSalasDisponibles.isEmpty()) {
 			DefaultListModel<String> noHaySalas = new DefaultListModel<>();
 			noHaySalas.addElement("No hay niguna sala");
 			this.listSalas.setModel(noHaySalas);
 			this.listSalas.setEnabled(false);
 		} else {
-			this.listSalas.setModel(this.modelDeListas);
+			this.listSalas.setModel(this.modelDeSalasDisponibles);
 			this.listSalas.setEnabled(true);
 		}
 		
@@ -146,27 +159,6 @@ public class VentanaUnirSala extends JFrame {
 		    	}
 		    }
 		});
-		
-		//Ac� debemos crear el thread de sincronizacion para refrescar las salas
-//		Thread threadSync = new Thread() {
-//			public void run() {
-//
-//				String salaNueva;
-//				while(true && !ingresoaSalaOSeFue) {
-//					salaNueva = Main.getConexionServidor().recibirActualizacionDeSala();
-//					if(salaNueva != null) {
-//						String[] datosSalaNueva =  salaNueva.split(Param.SEPARADOR_EN_MENSAJES);
-//						String estoVaAlModelDelList = datosSalaNueva[0] + "(" + datosSalaNueva[1] + "/" + datosSalaNueva[2] + ")";
-//						modelDeListas.addElement(estoVaAlModelDelList);	
-//						System.out.println("Che me enter� que crearon una sala nueva");
-//						System.out.println("Fue: " + estoVaAlModelDelList);
-//					}
-//						
-//				}
-//			}
-//		};
-//		threadSync.start();
-		
 
 	}
 	
@@ -191,30 +183,6 @@ public class VentanaUnirSala extends JFrame {
 		ArrayList<String> datosSala = new ArrayList<>();
 		datosSala.add(salaSeleccionada);
 		new VentanaSala(this, datosSala, Param.UNION_SALA).setVisible(true);
-	}
-
-	public DefaultListModel<String> pedirSalas() {
-		ArrayList<String> salas = Main.getConexionServidor().getAllSalas();
-		DefaultListModel<String> modelSalasActivas = new DefaultListModel<String>();
-
-		/* Reflejo 04/11 si se hace la secuencia crear una sala, salir de la sala e intentar
-		 * unirse a una sala, todo esto con un mismo usuario, salta la excepcion
-		 * java.lang.NullPointerException se tiene que comprobar al momento de pedirSalas
-		 * que realmente existan salas, antes de iterar por ellas.
-		 * Quiza esta mal solucionado el error, revisar.
-		 */
-		if(salas!=null)
-		{
-			for (String s : salas) 
-			{
-				String[] campos = s.split(Param.SEPARADOR_EN_MENSAJES);
-				String salida = campos[0] + "(" + campos[1] + "/" + campos[2] + ")";
-				modelSalasActivas.addElement(salida);
-			}
-		}
-		
-
-		return modelSalasActivas;
 	}
 
 }

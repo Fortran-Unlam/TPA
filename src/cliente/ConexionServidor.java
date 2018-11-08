@@ -36,7 +36,7 @@ public class ConexionServidor {
 			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
 
 			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
-			
+
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {

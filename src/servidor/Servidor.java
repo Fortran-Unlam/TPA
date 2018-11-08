@@ -20,31 +20,52 @@ public class Servidor {
 	public static ArrayList<Usuario> usuariosActivos = new ArrayList<>();
 	private static Session sessionHibernate = HibernateUtils.getSessionFactory().openSession();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
+	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
 
 	public static void main(String[] args) {
 
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
+		ServerSocket servidorBackOffIn = null;
+		ServerSocket servidorBackOffOut = null;
 		Socket socketIn = null;
 		Socket socketOut = null;
+		Socket socketBackOffIn = null;
+		Socket socketBackOffOut = null;
 
 		try {
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Corriendo en " + Param.PORT_1);
+			System.out.println("Escuchando al cliente en el puerto: " + Param.PORT_1);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			System.out.println("Recibiendo del cliente en el puerto: " + Param.PORT_2);
+			
+			servidorBackOffIn = new ServerSocket(Param.PORT_3, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			System.out.println("Escuchando al cliente (BackOff) en el puerto: " + Param.PORT_3);
 
+			servidorBackOffOut = new ServerSocket(Param.PORT_4, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
+			System.out.println("Recibiendo del cliente (BackOff) en el puerto: " + Param.PORT_4);
+			
+			
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
-
-				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
-
+				
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
-
-				conexionClientes.add(conexionCliente);
-
 				conexionCliente.start();
+				conexionClientes.add(conexionCliente);
+				
+				socketBackOffIn = servidorBackOffIn.accept();
+				socketBackOffOut = servidorBackOffOut.accept();
+
+
+				ConexionClienteBackOff conexionClienteBackOff = new ConexionClienteBackOff(socketBackOffIn,
+						socketBackOffOut);
+
+				conexionClienteBackOff.start();
+				conexionesClientesBackOff.add(conexionClienteBackOff);
+				
+				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 
 			}
 		} catch (IOException ex) {
@@ -152,6 +173,11 @@ public class Servidor {
 		conexionClientes.remove(conexionCliente);
 	}
 
+	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
+		conexionClienteBackOff.interrupt();
+		conexionesClientesBackOff.remove(conexionClienteBackOff);
+	}
+
 	public static void avisarFinJuego() {
 
 	}
@@ -168,6 +194,10 @@ public class Servidor {
 			}
 		}
 		return null;
+	}
+	
+	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff(){
+		return Servidor.conexionesClientesBackOff;
 	}
 
 }
