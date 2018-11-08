@@ -25,6 +25,8 @@ public class Login extends JFrame {
 	private static final long serialVersionUID = 6592698064274884489L;
 	private JTextField username;
 	private JTextField password;
+	private JButton btnRegistrarse;
+	private JButton btnCrearUsuario;
 
 	public Login() {
 
@@ -49,29 +51,11 @@ public class Login extends JFrame {
 
 		this.password = new JPasswordField();
 		password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
-		password.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					iniciarSession();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
 		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
 		this.password.setColumns(10);
 
-		JButton btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
-		btnCrearUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					iniciarSession();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
 		btnCrearUsuario.setBounds(96, 131, 122, 23);
 		this.getContentPane().add(btnCrearUsuario);
 
@@ -79,18 +63,26 @@ public class Login extends JFrame {
 		lblCrearUsuario.setBounds(108, 25, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
 
-		JButton btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				registrarUsuario();
-			}
-		});
+		btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.setBounds(96, 165, 122, 23);
 		getContentPane().add(btnRegistrarse);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
 		this.setLocationRelativeTo(null);
+		
+		addListener();
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(getContentPane(), Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
+		                JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+		    	System.exit(0);
+		    	}
+		    }
+		});
 	}
 
 	/**
@@ -104,14 +96,14 @@ public class Login extends JFrame {
 	protected void iniciarSession() throws IOException {
 
 		if (this.password.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "�Te falto ingresar la contrase�a!", "Error login",
+			JOptionPane.showMessageDialog(null, "!Te falto ingresar la contrase\u00F1a!", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 			this.password.setFocusable(true);
 			return;
 		}
 
 		if (this.username.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "�Te falto ingresar el usuario!", "Error login",
+			JOptionPane.showMessageDialog(null, "!Te falto ingresar el usuario!", "Error login",
 					JOptionPane.WARNING_MESSAGE);
 			this.username.setFocusable(true);
 			this.password.setText("");
@@ -158,4 +150,38 @@ public class Login extends JFrame {
 		new Crear(this).setVisible(true);
 	}
 
+	private void addListener() {
+		btnRegistrarse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				registrarUsuario();
+			}
+		});
+		username.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					iniciarSession();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		password.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					iniciarSession();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnCrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					iniciarSession();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }

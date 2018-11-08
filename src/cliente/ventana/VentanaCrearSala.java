@@ -96,7 +96,6 @@ public class VentanaCrearSala extends JFrame {
 		    	}
 		    }
 		});
-
 	}
 
 	protected void crearSala() {

@@ -64,8 +64,8 @@ public abstract class Param implements Serializable {
 	public static final String DATOS_SALA = "DatosSala";
 	
 	//Mensaje para cerrar ventana.
-	public static final String MENSAJE_CERRAR_VENTANA ="�Esta seguro que desea salir de la Viborita?";
-	public static final String TITLE_CERRAR_VENTANA ="�Salir del juego?";
+	public static final String MENSAJE_CERRAR_VENTANA ="¿Esta seguro que desea salir de la Viborita?";
+	public static final String TITLE_CERRAR_VENTANA ="¿Salir del juego?";
 	public static final String TIPO_JUEGO_FRUTA = "tipoJuegoFruta";
 	public static final String TIPO_JUEGO_SUPERVIVENCIA = "tipoJuegoSupervivencia";
 	public static final String TIPO_JUEGO_TIEMPO = "tipoJuegoTiempo";
