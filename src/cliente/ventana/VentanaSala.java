@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -29,11 +31,17 @@ public class VentanaSala extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
-	private JLabel lblMaxUsuarios;
+	private JLabel labelMaxUsuarios;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
 	private String creacionUnionSala;
+	private JButton btnEmpezarJuego;
+	private JCheckBox chckbxFruta;
+	private JCheckBox chckbxTiempo;
+	private JCheckBox chckbxSupervivencia;
+	private JComboBox<Object> mapa;
+	private JButton btnSalirDeSala;
 
 	public VentanaSala(JFrame ventanaMenu, ArrayList<String> datosSala, String creacionUnionSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -56,25 +64,11 @@ public class VentanaSala extends JFrame {
 
 		getContentPane().setLayout(null);
 
-		JButton btnSalirDeSala = new JButton("Salir de sala");
-		btnSalirDeSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
-				musicaFondo.reproducir();
-				ventanaMenu.setVisible(true);
-				salirSala();
-				dispose();
-			}
-		});
+		btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.setBounds(326, 346, 162, 40);
 		getContentPane().add(btnSalirDeSala);
 
-		JButton btnEmpezarJuego = new JButton("Empezar juego");
-		btnEmpezarJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				empezarJuego();
-			}
-		});
+		btnEmpezarJuego = new JButton("Empezar juego");
 		btnEmpezarJuego.setBounds(111, 346, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
 		btnEmpezarJuego.setEnabled(false);
@@ -93,41 +87,41 @@ public class VentanaSala extends JFrame {
 		lblUsuariosConectados.setBounds(30, 48, 124, 24);
 		getContentPane().add(lblUsuariosConectados);
 
-		this.lblMaxUsuarios = new JLabel("");
-		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		this.labelMaxUsuarios = new JLabel("");
+		labelMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		/*
 		 * Si la cantidad de parametros del datosSala es solo 2, quiere decir que vengo
 		 * de un crearSala, en realidad se deberia crear otro constructor no poner un IF
 		 * que condicione al constructor
 		 */
 		if (datosSala.size() == 2)
-			this.lblMaxUsuarios.setText("(1/" + datosSala.get(1) + ")");
+			this.labelMaxUsuarios.setText("(1/" + datosSala.get(1) + ")");
 		else {
-			this.lblMaxUsuarios.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
+			this.labelMaxUsuarios.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
 			for (String s : datosSala.get(3).split(","))
 				datosLista.addElement(s);
 		}
 
-		this.lblMaxUsuarios.setBounds(159, 48, 39, 23);
-		getContentPane().add(this.lblMaxUsuarios);
+		this.labelMaxUsuarios.setBounds(159, 48, 39, 23);
+		getContentPane().add(this.labelMaxUsuarios);
 
-		JLabel lblSala = new JLabel(this.nombreSala, SwingConstants.CENTER);
-		lblSala.setForeground(Color.GRAY);
-		lblSala.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblSala.setBounds(33, 11, 551, 30);
-		getContentPane().add(lblSala);
+		JLabel labelSala = new JLabel(this.nombreSala, SwingConstants.CENTER);
+		labelSala.setForeground(Color.GRAY);
+		labelSala.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		labelSala.setBounds(33, 11, 551, 30);
+		getContentPane().add(labelSala);
 
-		JLabel label = new JLabel("Tipo de jugabilidad:");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(195, 90, 165, 33);
-		contentPane.add(label);
+		JLabel labelTipoJuego = new JLabel("Tipo de jugabilidad:");
+		labelTipoJuego.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		labelTipoJuego.setBounds(195, 90, 165, 33);
+		contentPane.add(labelTipoJuego);
 
-		JLabel label_1 = new JLabel("Mapa:");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_1.setBounds(198, 197, 165, 20);
-		contentPane.add(label_1);
+		JLabel labelMapa = new JLabel("Mapa:");
+		labelMapa.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		labelMapa.setBounds(198, 197, 165, 20);
+		contentPane.add(labelMapa);
 
-		JComboBox<Object> mapa = new JComboBox<Object>();
+		mapa = new JComboBox<Object>();
 		mapa.setBounds(368, 192, 151, 25);
 		mapa.addItem("Mapa 1");
 		mapa.addItem("Mapa 2");
@@ -135,17 +129,17 @@ public class VentanaSala extends JFrame {
 		contentPane.add(mapa);
 		mapa.setEnabled(false);
 
-		JCheckBox chckbxSupervivencia = new JCheckBox("Supervivencia");
+		chckbxSupervivencia = new JCheckBox("Supervivencia");
 		chckbxSupervivencia.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxSupervivencia);
 		chckbxSupervivencia.setEnabled(false);
 
-		JCheckBox chckbxFruta = new JCheckBox("Fruta");
+		chckbxFruta = new JCheckBox("Fruta");
 		chckbxFruta.setBounds(366, 121, 130, 23);
 		contentPane.add(chckbxFruta);
 		chckbxFruta.setEnabled(false);
 
-		JCheckBox chckbxTiempo = new JCheckBox("Tiempo");
+		chckbxTiempo = new JCheckBox("Tiempo");
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 		chckbxTiempo.setEnabled(false);
@@ -155,50 +149,7 @@ public class VentanaSala extends JFrame {
 		 * mapa a jugar. Empezar el juego
 		 */
 		if (this.creacionUnionSala == Param.CREACION_SALA_ADMIN) {
-			chckbxSupervivencia.setEnabled(true);
-			chckbxFruta.setEnabled(true);
-			chckbxTiempo.setEnabled(true);
-			mapa.setEnabled(true);
-			
-			chckbxSupervivencia.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
-						btnEmpezarJuego.setEnabled(true);
-					}
-					else{
-						btnEmpezarJuego.setEnabled(false);
-					}
-				}
-			});
-			
-			chckbxFruta.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
-						btnEmpezarJuego.setEnabled(true);
-					}
-					else{
-						btnEmpezarJuego.setEnabled(false);
-					}
-				}
-			});
-			
-			
-			chckbxTiempo.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					if(chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() ||  chckbxTiempo.isSelected()) {
-						btnEmpezarJuego.setEnabled(true);
-					}
-					else{
-						btnEmpezarJuego.setEnabled(false);
-					}
-				}
-			});
-			
-			
-			//btnEmpezarJuego.setEnabled(true);
+			availableToAdmin();
 		}
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -227,5 +178,85 @@ public class VentanaSala extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaJuego(null);
+	}
+
+	private void availableToAdmin() {
+		chckbxSupervivencia.setEnabled(true);
+		chckbxFruta.setEnabled(true);
+		chckbxTiempo.setEnabled(true);
+		mapa.setEnabled(true);
+
+		chckbxSupervivencia.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				verificarBotones();
+			}
+		});
+
+		chckbxSupervivencia.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					verificarBotones();
+				}
+			}
+		});
+
+		chckbxFruta.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				verificarBotones();
+			}
+		});
+
+		chckbxFruta.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					verificarBotones();
+				}
+			}
+		});
+
+		chckbxTiempo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				verificarBotones();
+			}
+		});
+		chckbxTiempo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+					verificarBotones();
+				}
+			}
+		});
+	}
+
+	protected void verificarBotones() {
+		if (chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected()) {
+			btnEmpezarJuego.setEnabled(true);
+		} else {
+			btnEmpezarJuego.setEnabled(false);
+		}
+	}
+
+	protected void addListener() {
+		btnSalirDeSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				musicaFondo.reproducir();
+				ventanaMenu.setVisible(true);
+				salirSala();
+				dispose();
+			}
+		});
+		btnEmpezarJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				empezarJuego();
+			}
+		});
+
 	}
 }
