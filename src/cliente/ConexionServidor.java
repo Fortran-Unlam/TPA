@@ -280,7 +280,6 @@ public class ConexionServidor {
 		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
 		try {
 			this.salidaDatos.reset();
-			System.err.println("enviar tecla");
 			this.salidaDatos.writeObject(this.message);
 		} catch (IOException e) {
 			e.printStackTrace();

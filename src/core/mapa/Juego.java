@@ -17,6 +17,7 @@ public class Juego implements Serializable {
 	// private JList jListScore;
 	private TipoJuego tipoJuego;
 	private boolean juegoEnCurso = false;
+	private int segundosTranscurridos = 0;
 
 	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
@@ -46,14 +47,14 @@ public class Juego implements Serializable {
 
 			Servidor.actualizarMapa(this);
 			Thread.sleep(1000);
-
+			long tiempoInicial = System.currentTimeMillis();
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
-			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), 10)) {
+			while (this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
 				this.mapa.actualizar();
-
 				Servidor.actualizarMapa(this);
 				// this.jListScore.setModel(score.ScoreToModel());
 				Thread.sleep(1000 / 50);
+				this.segundosTranscurridos = (int) (System.currentTimeMillis() - tiempoInicial) / 1000;
 			}
 			this.juegoEnCurso = false;
 			Servidor.actualizarMapa(this);
@@ -69,7 +70,7 @@ public class Juego implements Serializable {
 	public Mapa getMapa() {
 		return mapa;
 	}
-	
+
 	public boolean terminado() {
 		return this.juegoEnCurso == false;
 	}

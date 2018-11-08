@@ -204,7 +204,6 @@ public class ConexionCliente extends Thread {
 
 					Posicion posicion = (Posicion) message.getData();
 					if (posicion != null) {
-						System.out.println("recibe " + posicion.ordinal());
 						this.usuario.getJugador().setTecla(posicion);
 					}
 					break;
