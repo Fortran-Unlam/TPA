@@ -47,6 +47,8 @@ public class VentanaJuego extends JFrame {
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
 
+	private Sonido musicaFondo;
+
 	public VentanaJuego(Juego juego) {
 		super("Snake");
 //		this.juego = juego;
@@ -119,7 +121,7 @@ public class VentanaJuego extends JFrame {
 		};
 		thread.start();
 
-		Sonido musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
+		musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
 		musicaFondo.repetir();
 	}
 
@@ -174,7 +176,12 @@ public class VentanaJuego extends JFrame {
 			System.out.println("juego terminado");
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+			musicaFondo.stop();
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		
+		if (juego.getMapa().getMurioUnJugador()) {
+			new Sonido(Param.GOLPE_PATH).reproducir();
+		}
 	}
 }

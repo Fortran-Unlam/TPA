@@ -39,4 +39,9 @@ public class Sonido {
 		
 		this.sonido.loop(Clip.LOOP_CONTINUOUSLY);
 	}
+	
+	public void stop() {
+		this.sonido.stop();
+		this.sonido.flush();
+	}
 }
