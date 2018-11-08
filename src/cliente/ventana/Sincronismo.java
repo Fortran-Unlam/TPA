@@ -28,6 +28,7 @@ public class Sincronismo extends Thread{
 				
 				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
 					this.datosDeSalasDisponibles = (ArrayList<String>) message.getData();
+					System.out.println("ME LLEGO LA ACTUALIZACION DE SALAS");
 				}
 				
 				if(ventanaUnirSala != null) {

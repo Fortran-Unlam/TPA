@@ -136,6 +136,7 @@ public class VentanaUnirSala extends JFrame {
 			this.tableModelSalas.setTableEmpty();
 		} else {
 			this.tableModelSalas.setData(data);
+			this.tableModelSalas.fireTableDataChanged();
 		}
 		
 		this.tableSalas.setModel(this.tableModelSalas);
