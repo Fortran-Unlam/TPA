@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import cliente.ventana.VentanaCrearSala;
+import cliente.ventana.VentanaJuego;
+import cliente.ventana.VentanaSala;
+import cliente.ventana.VentanaUnirSala;
+import cliente.ventana.usuario.VentanaCrearUsuario;
 import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
 
@@ -17,6 +22,15 @@ public class Cliente {
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static ArrayList<String> datosDeSalas;
 	
+	
+	static VentanaLoginUsuario ventanaLoginUsuario;
+	static VentanaCrearUsuario ventanaCrearUsuario;
+	static VentanaJuego ventanaMenu;
+	static VentanaUnirSala ventanaUnirSala;
+	static VentanaCrearSala ventanaCrearSala;
+	static VentanaSala ventanaSala;
+	static VentanaJuego ventanaJuego;
+
 	
 	public static void main(String[] args) {
 		new Cliente();
@@ -35,8 +49,8 @@ public class Cliente {
 
 			conexionServidorBackOff.start();
 			
-			VentanaLoginUsuario login = new VentanaLoginUsuario();
-			login.setVisible(true);
+			Cliente.ventanaLoginUsuario = new VentanaLoginUsuario();
+			Cliente.ventanaLoginUsuario.setVisible(true);
 
 		} catch (IOException ex) {
 			System.out.println("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
