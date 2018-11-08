@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -19,18 +20,20 @@ import cliente.Sonido;
 import cliente.ventana.usuario.Login;
 import config.Param;
 import looby.Usuario;
-import javax.swing.JSeparator;
 
 public class VentanaMenu extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Usuario usuario;
+	private JButton btnAtras;
+	private JButton btnUnirSala;
+	private JButton btnCrearSala;
 
 	public VentanaMenu() {
-		
+
 		usuario = Main.getConexionServidor().getUsuario();
-		
+
 		setTitle("Menu principal");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(0, 0, Param.VENTANA_CLIENTE_WIDTH, Param.VENTANA_CLIENTE_HEIGHT);
@@ -41,41 +44,13 @@ public class VentanaMenu extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 
-		JButton btnCrearSala = new JButton("Crear sala");
-		btnCrearSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent a) {
-				abrirVentanaCrearSala();
-			}
-		});
+		btnCrearSala = new JButton("Crear sala");
 
-		btnCrearSala.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					abrirVentanaCrearSala();
-				}
-			}
-		});
-		
 		btnCrearSala.setBounds(21, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnCrearSala);
 
-		JButton btnUnirSala = new JButton("Unirse a sala");
-		btnUnirSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				abrirVentanaUnirSala();
-			}
-		});
+		btnUnirSala = new JButton("Unirse a sala");
 
-		btnUnirSala.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					abrirVentanaUnirSala();
-				}
-			}
-		});
-		
 		btnUnirSala.setBounds(177, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirSala);
 
@@ -93,59 +68,53 @@ public class VentanaMenu extends JFrame {
 		lblTusEstadsticas.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTusEstadsticas.setBounds(10, 103, 145, 14);
 		contentPane.add(lblTusEstadsticas);
-		
+
 		JLabel lblNewLabel = new JLabel("Puntaje hist\u00F3rico: " + usuario.getPuntos());
 		lblNewLabel.setBounds(24, 141, 135, 14);
 		contentPane.add(lblNewLabel);
-		
+
 		JLabel lblFrutasComidas = new JLabel("Frutas comidas: " + usuario.getCantidadFrutaComida());
 		lblFrutasComidas.setBounds(24, 166, 135, 14);
 		contentPane.add(lblFrutasComidas);
-		
+
 		JLabel lblAsesinatos = new JLabel("Asesinatos: " + usuario.getAsesinatos());
 		lblAsesinatos.setBounds(182, 141, 118, 14);
 		contentPane.add(lblAsesinatos);
-		
+
 		JLabel lblMuertes = new JLabel("Muertes: " + usuario.getMuertes());
 		lblMuertes.setBounds(182, 166, 118, 14);
 		contentPane.add(lblMuertes);
-		
+
 		JLabel lblTPartidasGanadas = new JLabel("T. Partidas Ganadas: " + usuario.getPartidasGanadas());
 		lblTPartidasGanadas.setBounds(322, 141, 150, 14);
 		contentPane.add(lblTPartidasGanadas);
-		
+
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
 		lblTRondasGanadas.setBounds(322, 166, 150, 14);
 		contentPane.add(lblTRondasGanadas);
-		
-		JButton btnAtras = new JButton("Cerrar sesi\u00F3n");
-		btnAtras.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Main.getConexionServidor().cerrarSesionUsuario(usuario);
-				dispose();
-				Login login = new Login();
-				login.setVisible(true);
-			}
-		});
+
+		btnAtras = new JButton("Cerrar sesi\u00F3n");
+
 		btnAtras.setBounds(338, 284, 130, 40);
 		contentPane.add(btnAtras);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 128, 462, 2);
 		contentPane.add(separator);
-		
+
+		addListener();
+
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
-		                JOptionPane.YES_NO_OPTION,
-		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	Main.getConexionServidor().cerrarSesionUsuario(usuario);
-		    	System.exit(0);
-		    	}
-		    }
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Main.getConexionServidor().cerrarSesionUsuario(usuario);
+					System.exit(0);
+				}
+			}
 		});
-		
+
 	}
 
 	private void abrirVentanaUnirSala() {
@@ -159,9 +128,55 @@ public class VentanaMenu extends JFrame {
 		musicaFondo.reproducir();
 		new VentanaCrearSala(this).setVisible(true);
 	}
-	
+
 	public Usuario getUsuario() {
 		return this.usuario;
 	}
-	
+
+	public void addListener() {
+		btnCrearSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				abrirVentanaCrearSala();
+			}
+		});
+
+		btnCrearSala.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					abrirVentanaCrearSala();
+				}
+			}
+		});
+		btnUnirSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirVentanaUnirSala();
+			}
+		});
+		btnUnirSala.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					abrirVentanaUnirSala();
+				}
+			}
+		});
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Main.getConexionServidor().cerrarSesionUsuario(usuario);
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+		btnAtras.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				Main.getConexionServidor().cerrarSesionUsuario(usuario);
+				dispose();
+				Login login = new Login();
+				login.setVisible(true);
+			}
+		});
+	}
 }
