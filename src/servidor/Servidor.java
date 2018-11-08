@@ -71,10 +71,17 @@ public class Servidor {
 		Servidor.salasActivas.remove(sala);
 	}
 
-	public static boolean existeSala(String nameRoom) {
-		for (Sala s : Servidor.salasActivas) {
-			if (s.getNombre() == nameRoom)
+	/**
+	 * Verifica si la sala existe en las salas activas
+	 * 
+	 * @param nombre El nombre de la sala a buscar
+	 * @return True si existe
+	 */
+	public static boolean existeSala(String nombre) {
+		for (Sala sala : Servidor.salasActivas) {
+			if (sala.getNombre().equals(nombre)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -86,10 +93,10 @@ public class Servidor {
 	public static ArrayList<String> getAllSalas() {
 		ArrayList<String> salas = new ArrayList<>();
 
-		for (Sala s : Servidor.salasActivas) {
+		for (Sala salaActiva : Servidor.salasActivas) {
 			String sala = "";
-			sala = s.getNombre() + Param.SEPARADOR_EN_MENSAJES + s.getCantidadUsuarioActuales()
-					+ Param.SEPARADOR_EN_MENSAJES + s.getCantidadUsuarioMaximos();
+			sala = salaActiva.getNombre() + Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioActuales()
+					+ Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioMaximos();
 			salas.add(sala);
 		}
 
@@ -120,7 +127,7 @@ public class Servidor {
 								break;
 							}
 						}
-						
+
 						if (enviar) {
 							usuario.getConexion().getSalidaDatos().reset();
 							usuario.getConexion().getSalidaDatos().flush();
@@ -155,9 +162,11 @@ public class Servidor {
 	 * la sala, esta basado en los datos de las ventanas.
 	 */
 	public static Sala getSalaPorNombre(String Nombre) {
-		for (int i = 0; i < salasActivas.size(); i++)
-			if (salasActivas.get(i).getNombre().equals(Nombre))
+		for (int i = 0; i < salasActivas.size(); i++) {
+			if (salasActivas.get(i).getNombre().equals(Nombre)) {
 				return salasActivas.get(i);
+			}
+		}
 		return null;
 	}
 
