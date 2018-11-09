@@ -450,10 +450,12 @@ public class Mapa implements Serializable {
 		}
 		
 		return Json.createObjectBuilder()
+				//Orden: tamaño->jugadores->frutas->obstaculos->score
 				.add("tamano", this.tamano.toJson())
 				.add("jugadores", jugadores)
 				.add("frutas", frutas)
 				.add("obstaculos", obstaculos)
+				.add("score", this.score)
 				.build();
 	}
 }
