@@ -140,7 +140,7 @@ public class Vibora implements Serializable {
 			this.sentido = sentido;
 		}
 	}
-	
+
 	public Posicion getSentido() {
 		return this.sentido;
 	}
@@ -284,5 +284,13 @@ public class Vibora implements Serializable {
 
 	public int getId() {
 		return this.id;
+	}
+
+	public String toJson() {
+		String string = "{x:" + this.getX() + ",y:" + this.getX() + ", [";
+		for (CuerpoVibora cuerpoVibora : bodies) {
+			string += "x:" + cuerpoVibora.getX() + ",y:" + cuerpoVibora.getX() + ",";
+		}
+		return string + "]}";
 	}
 }

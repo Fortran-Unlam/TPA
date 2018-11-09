@@ -72,10 +72,10 @@ public class VentanaLoginUsuario extends JFrame {
 		/*Bloquea el control c y control v*/
 		InputMap mapPassword = password.getInputMap(username.WHEN_FOCUSED);
 		mapPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseï¿½a*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (password.getText().length() >= Param.LIMITE_CARACTERES_CONTRASEÑA) {
+			if (password.getText().length() >= Param.LIMITE_CARACTERES_CONTRASENA) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
