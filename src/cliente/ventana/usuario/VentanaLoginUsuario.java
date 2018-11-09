@@ -63,7 +63,7 @@ public class VentanaLoginUsuario extends JFrame {
 			}
 	    });
 			
-		this.username.setToolTipText("Ingrese su usuario aqu\u00ED.");
+		this.username.setToolTipText("Ingrese su usuario aqu\u00ED. Maximo 20 caracteres.");
 		this.username.setBounds(162, 61, 86, 20);
 		this.getContentPane().add(username);
 		this.username.setColumns(10);
@@ -81,7 +81,7 @@ public class VentanaLoginUsuario extends JFrame {
 	     		}
 			}
 	    });
-		this.password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
+		this.password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED. Maximo 10 caracteres.");
 		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
 		this.password.setColumns(10);
