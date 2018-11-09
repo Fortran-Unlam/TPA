@@ -32,7 +32,6 @@ public class Mapa implements Serializable {
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
-	private JsonArray score;
 
 	private Fruta[][] posicionesDeFrutas;
 	private Jugador[][] posicionesDeJugadores;
@@ -380,16 +379,19 @@ public class Mapa implements Serializable {
 		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
 	}
 
-	/**
-	 * Return el score en json
-	 * 
-	 * @return
-	 */
-	public JsonArray getScoreJson() {
-		return this.score;
+	public ArrayList<Puntaje> scoring() {
+		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
+		for (Jugador jugador : this.jugadores) {
+			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
+		}
+		for (Jugador jugador : this.espectadores) {
+			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
+		}
+		score.sort(null);
+		return score;
 	}
 	
-	public ArrayList<Puntaje> scoring() {
+	public JsonArray scoringJson() {
 		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
 		for (Jugador jugador : this.jugadores) {
 			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
@@ -403,8 +405,7 @@ public class Mapa implements Serializable {
 		for (Puntaje puntaje : score) {
 			scoreArrayBuilder.add(puntaje.toString());
 		}
-		this.score = scoreArrayBuilder.build();
-		return score;
+		return scoreArrayBuilder.build();
 	}
 
 	public ArrayList<Jugador> getJugadores() {
@@ -452,7 +453,7 @@ public class Mapa implements Serializable {
 				.add("frutas", frutas)
 				.add("obstaculos", obstaculos)
 				.add("murioUnJugador", this.murioUnJugador)
-				.add("score", this.score)
+				.add("score", this.scoringJson())
 				.build();
 	}
 }
