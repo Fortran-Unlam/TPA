@@ -226,13 +226,13 @@ public class VentanaJuego extends JFrame {
 						Integer.valueOf(obstaculos.getJsonObject(i).getString("y")) * 5, 5, 5);
 			}
 
-//			ArrayList<Puntaje> score = mapa.scoring();
-//
-//			String[] listModel = new String[score.size()];
-//			for (int i = 0; i < score.size(); i++) {
-//				listModel[i] = score.get(i).toString();
-//			}
-//			jListScore.setListData(listModel);
+			JsonArray score = mapa.getJsonArray("score");
+
+			String[] listModel = new String[score.size()];
+			for (int i = 0; i < score.size(); i++) {
+				listModel[i] = score.get(i).toString();
+			}
+			jListScore.setListData(listModel);
 		}
 
 		g2d.setColor(Color.WHITE);

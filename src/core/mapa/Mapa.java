@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 
@@ -31,7 +32,7 @@ public class Mapa implements Serializable {
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
-	private String score;
+	private JsonArray score;
 
 	private Fruta[][] posicionesDeFrutas;
 	private Jugador[][] posicionesDeJugadores;
@@ -384,7 +385,7 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String getScoreJson() {
+	public JsonArray getScoreJson() {
 		return this.score;
 	}
 	
@@ -397,17 +398,12 @@ public class Mapa implements Serializable {
 			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
 		}
 		score.sort(null);
-		this.score = "[";
-		boolean primero = true;
+		JsonArrayBuilder scoreArrayBuilder = Json.createArrayBuilder();
+		
 		for (Puntaje puntaje : score) {
-				if (primero == false) {
-					this.score += ",";
-				} else {
-					primero = false;
-				}
-			this.score += "{" + puntaje.getNombre() + ": " + puntaje.getFrutasComidas() + "}";			
+			scoreArrayBuilder.add(puntaje.toString());
 		}
-		this.score += "]";
+		this.score = scoreArrayBuilder.build();
 		return score;
 	}
 
