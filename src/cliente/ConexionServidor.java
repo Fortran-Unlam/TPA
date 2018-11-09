@@ -6,10 +6,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.JsonObject;
+
 import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
-import core.mapa.Juego;
 import looby.Usuario;
 import servidor.Message;
 
@@ -252,7 +253,7 @@ public class ConexionServidor {
 					switch (this.message.getType()) {
 					case Param.REQUEST_MOSTRAR_MAPA:
 						System.err.println("mapa " + System.currentTimeMillis());
-						ventanaJuego.dibujarMapa((Juego) this.message.getData());
+						ventanaJuego.dibujarMapaJson((String) this.message.getData());
 					default:
 					}
 				} else {

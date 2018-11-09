@@ -166,7 +166,7 @@ public class Servidor {
 	public static boolean actualizarJuego(Juego juego) {
 		try {
 			Mapa mapa = juego.getMapa();
-			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego);
+			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
 			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
 				enviar = false;

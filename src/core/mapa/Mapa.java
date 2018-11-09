@@ -435,15 +435,15 @@ public class Mapa implements Serializable {
 		JsonArrayBuilder obstaculos = Json.createArrayBuilder();
 		
 		for(Jugador j: this.jugadores) {
-			jugadores.add(Json.createObjectBuilder().add("jugador", j.toJson()));
+			jugadores.add(j.toJson());
 		}
 		
 		for(Fruta f: this.frutas) {
-			frutas.add(Json.createObjectBuilder().add("fruta", f.toJson()));
+			frutas.add(f.toJson());
 		}
 		
 		for(Obstaculo o: this.obstaculos) {
-			obstaculos.add(Json.createObjectBuilder().add("obstaculo", o.toJson()));
+			obstaculos.add(o.toJson());
 		}
 		
 		return Json.createObjectBuilder()

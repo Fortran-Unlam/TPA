@@ -98,7 +98,7 @@ public class Juego implements Serializable {
 		return Json.createObjectBuilder()
 				.add("mapa", this.mapa.toJson())
 				.add("terminado", this.terminado())
-				.add("tiempoTrancurrido", this.segundosTranscurridos)
+				.add("tiempoTranscurrido", this.segundosTranscurridos)
 				.build();
 	}
 }

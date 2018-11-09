@@ -7,10 +7,13 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.StringReader;
 import java.util.ArrayList;
 
+import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -175,8 +178,13 @@ public class VentanaJuego extends JFrame {
 		}
 	}
 
-	public void dibujarMapaJson(JsonObject json) {
+	public void dibujarMapaJson(String jsonString) {
+		System.err.println(jsonString);
+		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
+		JsonObject json = jsonReader.readObject();
+		jsonReader.close();
 
+		System.out.println(json);
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
 
@@ -186,7 +194,8 @@ public class VentanaJuego extends JFrame {
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
 			JsonArray frutas = mapa.getJsonArray("frutas");
-
+			System.out.println(frutas);
+			System.out.println(frutas.getJsonObject(0));
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
 				g2d.fillRect(frutas.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
@@ -198,23 +207,22 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < jugadores.size(); i++) {
 				g2d.setColor(Color.RED);
-
+				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
 				g2d.setColor(Color.YELLOW);
-				g2d.fillRect(jugadores.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
-						jugadores.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE);
+				g2d.fillRect(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 
 				g2d.setColor(Color.BLUE);
-				if (jugadores.getJsonObject(i).getBoolean("bot")) {
+				if (vibora.getBoolean("bot")) {
 					g2d.setColor(Color.GREEN);
 				}
 
-				JsonArray cuerpo = jugadores.getJsonObject(i).getJsonArray("cuerpo");
+				JsonArray cuerpo = vibora.getJsonArray("cuerpo");
 
 				for (int j = 0; j < cuerpo.size(); j++) {
-					g2d.fillRect(Integer.valueOf(cuerpo.getJsonObject(j).getString("x")) * Param.PIXEL_RESIZE,
-							Integer.valueOf(cuerpo.getJsonObject(j).getString("y")) * Param.PIXEL_RESIZE,
-							Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+					g2d.fillRect(cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
+							cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+							Param.PIXEL_RESIZE);
 				}
 			}
 
@@ -222,8 +230,8 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(Integer.valueOf(obstaculos.getJsonObject(i).getString("x")) * 5,
-						Integer.valueOf(obstaculos.getJsonObject(i).getString("y")) * 5, 5, 5);
+				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * 5, obstaculos.getJsonObject(i).getInt("y") * 5,
+						5, 5);
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
@@ -236,7 +244,7 @@ public class VentanaJuego extends JFrame {
 		}
 
 		g2d.setColor(Color.WHITE);
-		g2d.drawString(json.getString("tiempoTranscurrido"), Param.MAPA_WIDTH - 30, 30);
+		g2d.drawString(String.valueOf(json.getInt("tiempoTranscurrido")), Param.MAPA_WIDTH - 30, 30);
 
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
