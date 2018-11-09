@@ -84,7 +84,7 @@ public class VentanaCrearSala extends JFrame {
 	     		}
 			}
 	    });
-		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios).");
+		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
@@ -107,7 +107,7 @@ public class VentanaCrearSala extends JFrame {
 	     		}
 			}
 	    });
-		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico.");
+		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico. Maximo 99 usuarios.");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
