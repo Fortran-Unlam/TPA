@@ -252,6 +252,7 @@ public class ConexionServidor {
 
 					switch (this.message.getType()) {
 					case Param.REQUEST_MOSTRAR_MAPA:
+						System.err.println("mapa " + System.currentTimeMillis());
 						ventanaJuego.dibujarMapa((Juego) this.message.getData());
 					default:
 					}

@@ -220,7 +220,6 @@ public class ConexionCliente extends Thread {
 					}
 
 					this.salidaDatos.flush();
-					System.err.println("cerrar sesion");
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null));
 					break;
 				default:
