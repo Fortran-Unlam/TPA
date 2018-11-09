@@ -42,7 +42,7 @@ public class Juego implements Serializable {
 	public void start() {
 		// Score score = new Score();
 		// score.add(this.mapa.getJugadores());
-		boolean bandera = true;
+		boolean puedeActualizar = true;
 		this.juegoEnCurso = true;
 		try {
 
@@ -50,10 +50,10 @@ public class Juego implements Serializable {
 			Thread.sleep(1000);
 			long tiempoInicial = System.currentTimeMillis();
 			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
-			while (bandera && this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
+			while (puedeActualizar && this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
 				this.mapa.actualizar();
 				
-				bandera = Servidor.actualizarJuego(this);
+				puedeActualizar = Servidor.actualizarJuego(this);
 				
 				//Reflejo 09/11 CUIDADO CON ESTO!!
 				/* En realidad no es la mejor forma de sincronizar usar un Thread.sleep
