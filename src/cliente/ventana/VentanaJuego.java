@@ -49,9 +49,10 @@ public class VentanaJuego extends JFrame {
 
 	private Sonido musicaFondo;
 
+	private JButton btnNewButton;
+
 	public VentanaJuego(Juego juego) {
 		super("Snake");
-//		this.juego = juego;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
@@ -62,7 +63,6 @@ public class VentanaJuego extends JFrame {
 		this.setUndecorated(true);
 		this.setContentPane(contentPane);
 		this.setLocationRelativeTo(null);
-//		setBackground(Color.black);
 		contentPane.setLayout(null);
 
 		lblScore = new JLabel("SCORE");
@@ -89,28 +89,17 @@ public class VentanaJuego extends JFrame {
 		lblFrutas.setBounds(51, 35, 42, 21);
 		this.contentPane.add(lblFrutas);
 
-		JButton btnNewButton = new JButton("Pausa");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// stop();
-			}
-		});
+		btnNewButton = new JButton("Pausa");
 		btnNewButton.setBounds(0, 312, 100, 25);
 		this.contentPane.add(btnNewButton);
 
 		this.btnSalirJuego = new JButton("Salir juego");
-		this.btnSalirJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
 		btnSalirJuego.setBounds(0, 350, 100, 25);
 		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		this.contentPane.add(panelMapa);
-		this.addKeyListener(new GestorInput().teclado);
 		this.setFocusable(true);
 		this.setVisible(true);
 
@@ -120,7 +109,9 @@ public class VentanaJuego extends JFrame {
 			}
 		};
 		thread.start();
-
+		
+		addListener();
+		
 		musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
 		musicaFondo.repetir();
 	}
@@ -182,5 +173,19 @@ public class VentanaJuego extends JFrame {
 		if (juego.getMapa().getMurioUnJugador()) {
 			new Sonido(Param.GOLPE_PATH).reproducir();
 		}
+	}
+	
+	private void addListener() {		
+		this.addKeyListener(new GestorInput().teclado);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// stop();
+			}
+		});
+		this.btnSalirJuego.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 	}
 }

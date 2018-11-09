@@ -127,8 +127,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(labelMapa);
 
 		mapa = new JComboBox<Object>();
-		
-		
+
 		mapa.setBounds(368, 192, 151, 25);
 		mapa.addItem("Seleccionar un mapa");
 		mapa.addItem("Mapa 1");
@@ -136,7 +135,7 @@ public class VentanaSala extends JFrame {
 		mapa.addItem("Mapa 3");
 		contentPane.add(mapa);
 		mapa.setEnabled(false);
-		
+
 		chckbxSupervivencia = new JCheckBox("Supervivencia");
 		chckbxSupervivencia.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxSupervivencia);
@@ -160,7 +159,7 @@ public class VentanaSala extends JFrame {
 			availableToAdmin();
 		}
 		addListener();
-		
+
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -210,14 +209,14 @@ public class VentanaSala extends JFrame {
 				verificarBotones();
 			}
 		});
-		
+
 		chckbxTiempo.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotones();
 			}
 		});
-		
+
 		mapa.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -227,7 +226,8 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotones() {
-		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected()) && mapa.getSelectedIndex()!=0 ) {
+		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
+				&& mapa.getSelectedIndex() != 0) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
@@ -247,7 +247,7 @@ public class VentanaSala extends JFrame {
 				empezarJuego();
 			}
 		});
-		
+
 		btnEmpezarJuego.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
