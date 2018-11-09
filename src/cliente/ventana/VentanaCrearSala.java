@@ -139,7 +139,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 		
 		if(this.maxUsuarioField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos no puede estar vacio.",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -148,7 +148,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 		
 		if(!this.maxUsuarioField.getText().matches("[0-9]+")) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos debe ser numï¿½rico",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico",
 					"Aviso", JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
