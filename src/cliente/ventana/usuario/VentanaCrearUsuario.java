@@ -94,8 +94,8 @@ public class VentanaCrearUsuario extends JFrame {
 
 		this.confirmPassword = new JPasswordField();
 		/*Bloquea el control c y control v*/
-		InputMap mapconfirmPassword = confirmPassword.getInputMap(username.WHEN_FOCUSED);
-		mapconfirmPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		InputMap mapConfirmPassword = confirmPassword.getInputMap(username.WHEN_FOCUSED);
+		mapConfirmPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {

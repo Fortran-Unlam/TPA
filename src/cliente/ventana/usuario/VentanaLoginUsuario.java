@@ -1,17 +1,20 @@
 package cliente.ventana.usuario;
 
+import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -47,6 +50,9 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
+		/*Bloquea el control c y control v*/
+		InputMap mapUsername = username.getInputMap(username.WHEN_FOCUSED);
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limitar cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
@@ -63,6 +69,9 @@ public class VentanaLoginUsuario extends JFrame {
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
+		/*Bloquea el control c y control v*/
+		InputMap mapPassword = password.getInputMap(username.WHEN_FOCUSED);
+		mapPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
