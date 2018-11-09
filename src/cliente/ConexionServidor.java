@@ -56,7 +56,6 @@ public class ConexionServidor {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
-			System.err.println("loguear");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 
 			this.message = (Message) entradaDatos.readObject();
