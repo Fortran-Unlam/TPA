@@ -1,16 +1,20 @@
 package cliente.ventana;
 
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import cliente.Cliente;
@@ -68,6 +72,8 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
+		InputMap map = nombreField.getInputMap(nombreField.WHEN_FOCUSED);
+	    map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo sala*/
 		nombreField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
