@@ -81,6 +81,6 @@ public abstract class Param implements Serializable {
 	public static final String NOTICE_SALIR_SALA = "MeFuiDeLaSala";
 	
 	public static final int LIMITE_CARACTERES_USUARIO = 20;
-	public static final int LIMITE_CARACTERES_CONTRASEÑA = 10;
+	public static final int LIMITE_CARACTERES_CONTRASENA = 10;
 	
 }
