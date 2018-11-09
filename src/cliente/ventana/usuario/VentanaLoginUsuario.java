@@ -47,7 +47,7 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-		/*Restringo cantidad de caracteres a ingresar en el campo de texto usuario*/
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
 			if (username.getText().length() >= 15) {
@@ -63,7 +63,7 @@ public class VentanaLoginUsuario extends JFrame {
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
-		/*Restringo cantidad de caracteres a ingresar en el campo de texto contraseña*/
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
 			if (password.getText().length() >= 10) {

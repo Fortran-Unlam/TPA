@@ -52,10 +52,10 @@ public class VentanaCrearUsuario extends JFrame {
 		getContentPane().add(lblNewLabel_2);
 
 		this.username = new JTextField();
-		/*Restringo cantidad de caracteres a ingresar en el campo de texto usuario*/
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (username.getText().length() >= 20) {
+			if (username.getText().length() >= 15) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
@@ -67,12 +67,30 @@ public class VentanaCrearUsuario extends JFrame {
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
+		password.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (password.getText().length() >= 10) {
+				e.consume();
+				Toolkit.getDefaultToolkit().beep();
+	     		}
+			}
+	    });
 		this.password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros.");
 		this.password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
 		this.password.setColumns(10);
 
 		this.confirmPassword = new JPasswordField();
+		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
+		password.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (confirmPassword.getText().length() >= 10) {
+				e.consume();
+				Toolkit.getDefaultToolkit().beep();
+	     		}
+			}
+	    });
 		this.confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente.");
 		this.confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
