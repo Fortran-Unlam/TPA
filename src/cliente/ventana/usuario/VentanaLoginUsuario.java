@@ -19,6 +19,8 @@ import cliente.Sonido;
 import cliente.ventana.VentanaMenu;
 import config.Param;
 import looby.Usuario;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaLoginUsuario extends JFrame {
 
@@ -44,12 +46,29 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-		username.setToolTipText("Ingrese su usuario aqu\u00ED.");
+		/*Restringo cantidad de caracteres a ingresar en el campo de texto usuario*/
+		username.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (username.getText().length() >= 20) {
+				e.consume();
+	     		}
+			}
+	    });
+			
+		this.username.setToolTipText("Ingrese su usuario aqu\u00ED.");
 		this.username.setBounds(162, 61, 86, 20);
 		this.getContentPane().add(username);
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
+		/*Restringo cantidad de caracteres a ingresar en el campo de texto contraseña*/
+		password.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (password.getText().length() >= 10) {
+				e.consume();
+	     		}
+			}
+	    });
 		password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
 		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
