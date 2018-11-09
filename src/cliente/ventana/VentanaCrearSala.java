@@ -2,6 +2,7 @@ package cliente.ventana;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -67,6 +68,15 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
+		/*Limitar cantidad de caracteres a ingresar en el campo sala*/
+		nombreField.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (nombreField.getText().length() >= 20) {
+				e.consume();
+				Toolkit.getDefaultToolkit().beep();
+	     		}
+			}
+	    });
 		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios).");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
