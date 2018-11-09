@@ -287,7 +287,11 @@ public class Vibora implements Serializable {
 	}
 
 	public String toJson() {
-		String string = "{x:" + this.getX() + ",y:" + this.getX() + ", [";
+		String bot = "false";
+		if (this instanceof ViboraBot) {
+			bot = "true";
+		}
+		String string = "{bot: " + bot + ", x:" + this.getX() + ", y:" + this.getX() + ", cuerpo: [";
 		boolean primero = true;
 		for (CuerpoVibora cuerpoVibora : bodies) {
 			if (primero == false) {
@@ -295,7 +299,7 @@ public class Vibora implements Serializable {
 			} else {
 				primero = false;
 			}
-			string += "{x:" + cuerpoVibora.getX() + ",y:" + cuerpoVibora.getX() + "}";
+			string += "{x:" + cuerpoVibora.getX() + ", y:" + cuerpoVibora.getX() + "}";
 		}
 		return string + "]}";
 	}
