@@ -163,7 +163,7 @@ public class Servidor {
 	 * Actualizar juego, deberia ser usado para dibujar lo que hay en el.
 	 * @param juego
 	 */
-	public static void actualizarJuego(Juego juego) {
+	public static boolean actualizarJuego(Juego juego) {
 		try {
 			Mapa mapa = juego.getMapa();
 			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego);
@@ -196,6 +196,7 @@ public class Servidor {
 
 					} catch (IOException e) {
 						System.out.println("sucede porque todavia no envie un mapa");
+						return false;
 					}
 				}
 
@@ -203,6 +204,7 @@ public class Servidor {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	/**
