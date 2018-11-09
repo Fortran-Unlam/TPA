@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 
 import core.Jugador;
 import core.JugadorBot;
@@ -93,4 +94,11 @@ public class Juego implements Serializable {
 		return this.segundosTranscurridos;
 	}
 	
+	public JsonObject toJson() {
+		return Json.createObjectBuilder()
+				.add("mapa", this.mapa.toJson())
+				.add("terminado", this.terminado())
+				.add("tiempoTrancurrido", this.segundosTranscurridos)
+				.build();
+	}
 }

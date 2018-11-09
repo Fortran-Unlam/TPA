@@ -454,6 +454,7 @@ public class Mapa implements Serializable {
 				.add("jugadores", jugadores)
 				.add("frutas", frutas)
 				.add("obstaculos", obstaculos)
+				.add("murioUnJugador", this.murioUnJugador)
 				.build();
 	}
 }
