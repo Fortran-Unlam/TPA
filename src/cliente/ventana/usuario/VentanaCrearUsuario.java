@@ -1,17 +1,22 @@
 package cliente.ventana.usuario;
 
+import java.awt.Event;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import cliente.Cliente;
 import config.Param;
@@ -52,6 +57,9 @@ public class VentanaCrearUsuario extends JFrame {
 		getContentPane().add(lblNewLabel_2);
 
 		this.username = new JTextField();
+		/*Bloquea el control c y control v*/
+		InputMap mapUsername = username.getInputMap(username.WHEN_FOCUSED);
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
@@ -67,6 +75,9 @@ public class VentanaCrearUsuario extends JFrame {
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
+		/*Bloquea el control c y control v*/
+		InputMap mapPassword = password.getInputMap(username.WHEN_FOCUSED);
+		mapPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
@@ -82,6 +93,9 @@ public class VentanaCrearUsuario extends JFrame {
 		this.password.setColumns(10);
 
 		this.confirmPassword = new JPasswordField();
+		/*Bloquea el control c y control v*/
+		InputMap mapconfirmPassword = confirmPassword.getInputMap(username.WHEN_FOCUSED);
+		mapconfirmPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
