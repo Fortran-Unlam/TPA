@@ -54,4 +54,8 @@ public class Obstaculo implements Serializable {
 			return false;
 		return true;
 	}
+	
+	public String toJson() {
+		return "{x:" + this.getX() + ",y:" + this.getX() + "}";
+	}
 }
