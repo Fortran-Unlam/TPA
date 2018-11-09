@@ -69,7 +69,7 @@ public class VentanaLoginUsuario extends JFrame {
 	     		}
 			}
 	    });
-		password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
+		this.password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED.");
 		this.password.setBounds(162, 86, 86, 20);
 		this.getContentPane().add(password);
 		this.password.setColumns(10);
