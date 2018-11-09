@@ -54,7 +54,17 @@ public class Juego implements Serializable {
 				
 				Servidor.actualizarJuego(this);
 				
-				Thread.sleep(1000 / 40);
+				//Reflejo 09/11 CUIDADO CON ESTO!!
+				/* En realidad no es la mejor forma de sincronizar usar un Thread.sleep
+				 * Cuando el sleep es mas alto hay menos "problemas" de sincronizacion
+				 * con 100 lo probe y anda fluido y responde a las teclas instantaneamente
+				 * antes estaba en 1000/40 = 25, cuanto mas bajo hay mas posibilidad de que haya
+				 * "problemas" entre tanto thread, socket bla bla bla
+				 * Se deberia solucionar con buffer, semaforos y todo ese humo xd.
+				 * Mover entre 50 ~ 100.
+				 * 
+				 */
+				Thread.sleep(100);
 				this.segundosTranscurridos = (int) (System.currentTimeMillis() - tiempoInicial) / 1000;
 			}
 			this.juegoEnCurso = false;
