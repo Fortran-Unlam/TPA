@@ -72,8 +72,9 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		InputMap map = nombreField.getInputMap(nombreField.WHEN_FOCUSED);
-	    map.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+		/*Bloquea el control c y control v*/
+		InputMap mapNombreField = nombreField.getInputMap(nombreField.WHEN_FOCUSED);
+		mapNombreField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo sala*/
 		nombreField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
@@ -94,6 +95,9 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
+		/*Bloquea el control c y control v*/
+		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(maxUsuarioField.WHEN_FOCUSED);
+		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/*Limita cantidad de caracteres a ingresar en el campo usuarios maximos*/
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
