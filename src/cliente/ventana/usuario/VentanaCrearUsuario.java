@@ -1,7 +1,10 @@
 package cliente.ventana.usuario;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,7 +28,7 @@ public class VentanaCrearUsuario extends JFrame {
 	private JFrame ventanaLogin;
 
 	public VentanaCrearUsuario(JFrame ventanaLogin) {
-
+		
 		this.ventanaLogin = ventanaLogin;
 		ventanaLogin.setVisible(false);
 
@@ -48,34 +51,43 @@ public class VentanaCrearUsuario extends JFrame {
 		lblNewLabel_2.setBounds(29, 89, 142, 14);
 		getContentPane().add(lblNewLabel_2);
 
-		username = new JTextField();
-		username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros.");
-		username.setBounds(193, 36, 86, 20);
+		this.username = new JTextField();
+		/*Restringo cantidad de caracteres a ingresar en el campo de texto usuario*/
+		username.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (username.getText().length() >= 20) {
+				e.consume();
+				Toolkit.getDefaultToolkit().beep();
+	     		}
+			}
+	    });
+		this.username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros.");
+		this.username.setBounds(193, 36, 86, 20);
 		getContentPane().add(username);
-		username.setColumns(10);
+		this.username.setColumns(10);
 
-		password = new JPasswordField();
-		password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros.");
-		password.setBounds(193, 61, 86, 20);
+		this.password = new JPasswordField();
+		this.password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros.");
+		this.password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
-		password.setColumns(10);
+		this.password.setColumns(10);
 
-		confirmPassword = new JPasswordField();
-		confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente.");
-		confirmPassword.setBounds(193, 86, 86, 20);
+		this.confirmPassword = new JPasswordField();
+		this.confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente.");
+		this.confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
-		confirmPassword.setColumns(10);
+		this.confirmPassword.setColumns(10);
 
-		btnCrearUsuario = new JButton("Crear Cuenta");
-		btnCrearUsuario.setBounds(92, 125, 122, 23);
+		this.btnCrearUsuario = new JButton("Crear Cuenta");
+		this.btnCrearUsuario.setBounds(92, 125, 122, 23);
 		getContentPane().add(btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Crear Cuenta");
 		lblCrearUsuario.setBounds(110, 11, 86, 14);
 		getContentPane().add(lblCrearUsuario);
 
-		btnVolver = new JButton("Volver");
-		btnVolver.setBounds(92, 157, 122, 23);
+		this.btnVolver = new JButton("Volver");
+		this.btnVolver.setBounds(92, 157, 122, 23);
 		getContentPane().add(btnVolver);
 		
 		addListener();

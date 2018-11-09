@@ -50,7 +50,7 @@ public class VentanaLoginUsuario extends JFrame {
 		/*Restringo cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (username.getText().length() >= 20) {
+			if (username.getText().length() >= 15) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
