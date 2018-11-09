@@ -78,7 +78,7 @@ public class VentanaCrearSala extends JFrame {
 		/*Limita cantidad de caracteres a ingresar en el campo sala*/
 		nombreField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (nombreField.getText().length() >= 20) {
+			if (nombreField.getText().length() >= Param.LIMITE_CARACTERES_NOMBRE_SALA) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
@@ -101,7 +101,7 @@ public class VentanaCrearSala extends JFrame {
 		/*Limita cantidad de caracteres a ingresar en el campo usuarios maximos*/
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (maxUsuarioField.getText().length() >= 2) {
+			if (maxUsuarioField.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
