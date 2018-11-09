@@ -288,8 +288,14 @@ public class Vibora implements Serializable {
 
 	public String toJson() {
 		String string = "{x:" + this.getX() + ",y:" + this.getX() + ", [";
+		boolean primero = true;
 		for (CuerpoVibora cuerpoVibora : bodies) {
-			string += "x:" + cuerpoVibora.getX() + ",y:" + cuerpoVibora.getX() + ",";
+			if (primero == false) {
+				string += ",";
+			} else {
+				primero = false;
+			}
+			string += "{x:" + cuerpoVibora.getX() + ",y:" + cuerpoVibora.getX() + "}";
 		}
 		return string + "]}";
 	}
