@@ -149,7 +149,7 @@ public class VentanaJuego extends JFrame {
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
 
-			ArrayList<Puntaje> score = mapa.getScore();
+			ArrayList<Puntaje> score = mapa.scoring();
 			
 			String[] listModel = new String[score.size()];
 			for (int i = 0; i < score.size(); i++) {

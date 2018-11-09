@@ -22,6 +22,14 @@ public class Puntaje implements Comparable<Puntaje>, Serializable {
 	public String toString() {
 		return nombre + "         " + frutasComidas;
 	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public int getFrutasComidas() {
+		return frutasComidas;
+	}
 	
 	
 	

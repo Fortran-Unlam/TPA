@@ -472,7 +472,7 @@ public class MapaTest {
 		mapa.add(new Fruta(4, 2));
 		mapa.actualizar();
 
-		ArrayList<Puntaje> rank = mapa.getScore();
+		ArrayList<Puntaje> rank = mapa.scoring();
 		System.out.println("Vibora  Puntaje");
 		for (Puntaje p : rank) {
 			System.out.println(p);
