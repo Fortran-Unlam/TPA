@@ -127,13 +127,16 @@ public class VentanaSala extends JFrame {
 		contentPane.add(labelMapa);
 
 		mapa = new JComboBox<Object>();
+		
+		
 		mapa.setBounds(368, 192, 151, 25);
+		mapa.addItem("Seleccionar un mapa");
 		mapa.addItem("Mapa 1");
 		mapa.addItem("Mapa 2");
 		mapa.addItem("Mapa 3");
 		contentPane.add(mapa);
 		mapa.setEnabled(false);
-
+		
 		chckbxSupervivencia = new JCheckBox("Supervivencia");
 		chckbxSupervivencia.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxSupervivencia);
@@ -211,10 +214,17 @@ public class VentanaSala extends JFrame {
 				verificarBotones();
 			}
 		});
+		
+		mapa.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotones();
+			}
+		});
 	}
 
 	protected void verificarBotones() {
-		if (chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected()) {
+		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected()) && mapa.getSelectedIndex()!=0 ) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
