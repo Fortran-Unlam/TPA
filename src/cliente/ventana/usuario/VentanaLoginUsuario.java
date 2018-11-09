@@ -1,6 +1,7 @@
 package cliente.ventana.usuario;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -51,6 +52,7 @@ public class VentanaLoginUsuario extends JFrame {
 		public void keyTyped(KeyEvent e) {
 			if (username.getText().length() >= 20) {
 				e.consume();
+				Toolkit.getDefaultToolkit().beep();
 	     		}
 			}
 	    });
@@ -66,6 +68,7 @@ public class VentanaLoginUsuario extends JFrame {
 		public void keyTyped(KeyEvent e) {
 			if (password.getText().length() >= 10) {
 				e.consume();
+				Toolkit.getDefaultToolkit().beep();
 	     		}
 			}
 	    });
