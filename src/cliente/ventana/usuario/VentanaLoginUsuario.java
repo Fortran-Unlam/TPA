@@ -56,7 +56,7 @@ public class VentanaLoginUsuario extends JFrame {
 		/*Limitar cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (username.getText().length() >= 20) {
+			if (username.getText().length() >= Param.LIMITE_CARACTERES_USUARIO) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
@@ -75,7 +75,7 @@ public class VentanaLoginUsuario extends JFrame {
 		/*Limitar cantidad de caracteres a ingresar en el campo de texto contraseña*/
 		password.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (password.getText().length() >= 10) {
+			if (password.getText().length() >= Param.LIMITE_CARACTERES_CONTRASEÑA) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
