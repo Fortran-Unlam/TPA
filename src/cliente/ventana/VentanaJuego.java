@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +34,6 @@ public class VentanaJuego extends JFrame {
 
 	private JPanel contentPane;
 
-	public Mapa mapa;
 	private JLabel lblScore;
 	private JLabel lblVib;
 	private JLabel lblFrutas;
@@ -43,7 +41,6 @@ public class VentanaJuego extends JFrame {
 	private JList<String> jListScore;
 
 	private JButton btnSalirJuego;
-	private Juego juego;
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
 
@@ -117,21 +114,22 @@ public class VentanaJuego extends JFrame {
 	}
 
 	public void dibujarMapa(Juego juego) {
-		this.mapa = juego.getMapa();
+
+		Mapa mapa = juego.getMapa();
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
 
-		if (this.mapa != null) {
+		if (mapa != null) {
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
-			for (Fruta fruta : this.mapa.getfrutas()) {
+			for (Fruta fruta : mapa.getfrutas()) {
 				g2d.setColor(Color.RED);
 				g2d.fillRect(fruta.getX() * Param.PIXEL_RESIZE, fruta.getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
 						Param.PIXEL_RESIZE);
 			}
 
-			for (Jugador jugador : this.mapa.getJugadores()) {
+			for (Jugador jugador : mapa.getJugadores()) {
 				g2d.setColor(Color.YELLOW);
 				g2d.fillRect(jugador.getVibora().getX() * Param.PIXEL_RESIZE,
 						jugador.getVibora().getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
@@ -146,13 +144,13 @@ public class VentanaJuego extends JFrame {
 				}
 			}
 
-			for (Obstaculo obstaculo : this.mapa.getObstaculos()) {
+			for (Obstaculo obstaculo : mapa.getObstaculos()) {
 				g2d.setColor(Color.WHITE);
 				g2d.fillRect(obstaculo.getX() * 5, obstaculo.getY() * 5, 5, 5);
 			}
 
-			ArrayList<Puntaje> score = this.mapa.getScore();
-			score.sort(null);
+			ArrayList<Puntaje> score = mapa.getScore();
+			
 			String[] listModel = new String[score.size()];
 			for (int i = 0; i < score.size(); i++) {
 				listModel[i] = score.get(i).toString();

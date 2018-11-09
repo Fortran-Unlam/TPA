@@ -243,7 +243,8 @@ public class Mapa implements Serializable {
 			Random random = new Random();
 			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
-
+		
+		this.scoring();
 	}
 
 	/**
@@ -375,6 +376,10 @@ public class Mapa implements Serializable {
 	}
 
 	public ArrayList<Puntaje> getScore() {
+		return this.score;
+	}
+	
+	public ArrayList<Puntaje> scoring() {
 		this.score.clear();
 		for (Jugador jugador : this.jugadores) {
 			this.score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
@@ -382,7 +387,8 @@ public class Mapa implements Serializable {
 		for (Jugador jugador : this.espectadores) {
 			this.score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
 		}
-		return score;
+		this.score.sort(null);
+		return this.score;
 	}
 
 	public ArrayList<Jugador> getJugadores() {

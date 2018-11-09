@@ -20,7 +20,7 @@ public class Puntaje implements Comparable<Puntaje>, Serializable {
 
 	@Override
 	public String toString() {
-		return nombre + "            " + frutasComidas;
+		return nombre + "         " + frutasComidas;
 	}
 	
 	

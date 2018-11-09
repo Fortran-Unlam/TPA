@@ -245,6 +245,7 @@ public class ConexionServidor {
 			while (true) {
 
 				Object ret = entradaDatos.readObject();
+
 				if (ret instanceof Boolean == false && ret instanceof String == false) {
 					// TODO: preguntar al profe
 					this.message = (Message) ret;
