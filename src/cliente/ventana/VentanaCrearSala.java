@@ -68,7 +68,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		/*Limitar cantidad de caracteres a ingresar en el campo sala*/
+		/*Limita cantidad de caracteres a ingresar en el campo sala*/
 		nombreField.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
 			if (nombreField.getText().length() >= 20) {
@@ -88,6 +88,15 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 		
 		maxUsuarioField = new JTextField();
+		/*Limita cantidad de caracteres a ingresar en el campo usuarios maximos*/
+		maxUsuarioField.addKeyListener(new KeyAdapter() {
+		public void keyTyped(KeyEvent e) {
+			if (maxUsuarioField.getText().length() >= 2) {
+				e.consume();
+				Toolkit.getDefaultToolkit().beep();
+	     		}
+			}
+	    });
 		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico.");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
