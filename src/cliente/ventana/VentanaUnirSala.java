@@ -131,7 +131,6 @@ public class VentanaUnirSala extends JFrame {
 
 	// Metodo que usa el Thread para refrescarle las salas a la ventana.
 	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {
-
 		Object data[][] = new Object[datosDeSalasDisponibles.size()][3];
 
 		for (int i = 0; i < datosDeSalasDisponibles.size(); i++) {
@@ -143,11 +142,12 @@ public class VentanaUnirSala extends JFrame {
 
 		if (datosDeSalasDisponibles.isEmpty()) {
 			this.tableModelSalas.setTableEmpty();
+			this.tableModelSalas.fireTableStructureChanged();
 		} else {
 			this.tableModelSalas.setData(data);
-			this.tableModelSalas.fireTableDataChanged();
 		}
 		
+		this.tableModelSalas.fireTableDataChanged();
 		this.tableSalas.setModel(this.tableModelSalas);
 	}
 }

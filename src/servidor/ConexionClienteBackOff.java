@@ -42,8 +42,8 @@ public class ConexionClienteBackOff extends Thread {
 				 */
 				if(tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) ||
 						tipoDeMensaje.equals(Param.NOTICE_UNION_SALA) ||
-						tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)){
-					System.out.println(".........--*-*-*-*-Me llego el mensaje!!!!!!!!");
+						tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA) ||
+						tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)){
 					enviarActualizacionSalasALosClientes();
 				}
 

@@ -152,6 +152,7 @@ public class ConexionCliente extends Thread {
 					// System.out.println("ASD:"+s.getCantidadUsuarioActuales());
 					// Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe
 					// eliminarse de las salas activas.
+					
 					if (sala.getCantidadUsuarioActuales() == 0)
 						Servidor.removerDeSalasActivas(sala);
 					break;

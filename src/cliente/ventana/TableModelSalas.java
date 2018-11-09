@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableModelSalas extends AbstractTableModel {
 
-	private String[] columnNames = {"Sala","Disponibilidad","Admin"};
+	private String[] columnNames;
 	private Object[][] data;
 	
 	public TableModelSalas() {
@@ -18,9 +18,14 @@ public class TableModelSalas extends AbstractTableModel {
 		String noHaySalas = "NO HAY SALAS DISPONIBLES";
 		this.columnNames = new String[1];
 		this.columnNames[0] = noHaySalas;
+		this.data = null;
 	}
 	
 	public void setData(Object[][] data) {
+		this.columnNames = new String[3];
+		this.columnNames[0] = "Sala";
+		this.columnNames[1] = "Disponibilidad";
+		this.columnNames[2] = "Admin";
 		this.data = data;
 	}
 		

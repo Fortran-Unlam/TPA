@@ -123,6 +123,7 @@ public class VentanaMenu extends JFrame {
 		VentanaUnirSala ventanaUnirSala = new VentanaUnirSala(this);
 		Cliente.getSincronismo().setVentanaUnirSala(ventanaUnirSala);
 		ventanaUnirSala.setVisible(true);
+		this.setVisible(false);
 	}
 
 	private void abrirVentanaCrearSala() {

@@ -176,7 +176,10 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void salirSala() {
+		ventanaMenu.setVisible(true);
+		setVisible(false);
 		Cliente.getConexionServidor().SalirSala(this.nombreSala);
+		Cliente.getconexionServidorBackOff().avisarAlSvQueMandeActualizacionSalas(Param.NOTICE_SALIR_SALA);
 	}
 
 	protected void empezarJuego() {
@@ -236,9 +239,7 @@ public class VentanaSala extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 				musicaFondo.reproducir();
-				ventanaMenu.setVisible(true);
 				salirSala();
-				setVisible(false);
 			}
 		});
 		btnEmpezarJuego.addActionListener(new ActionListener() {
