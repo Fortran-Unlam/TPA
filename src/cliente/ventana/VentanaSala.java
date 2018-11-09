@@ -60,6 +60,7 @@ public class VentanaSala extends JFrame {
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
 
 		contentPane = new JPanel();
+		contentPane.setToolTipText("Debe seleccionar un mapa.");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -127,6 +128,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(labelMapa);
 
 		mapa = new JComboBox<Object>();
+		mapa.setToolTipText("Debe seleccionar un tipo de mapa.");
 
 		mapa.setBounds(368, 192, 151, 25);
 		mapa.addItem("Seleccionar un mapa");
@@ -137,16 +139,19 @@ public class VentanaSala extends JFrame {
 		mapa.setEnabled(false);
 
 		chckbxSupervivencia = new JCheckBox("Supervivencia");
+		chckbxSupervivencia.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxSupervivencia.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxSupervivencia);
 		chckbxSupervivencia.setEnabled(false);
 
 		chckbxFruta = new JCheckBox("Fruta");
+		chckbxFruta.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxFruta.setBounds(366, 121, 130, 23);
 		contentPane.add(chckbxFruta);
 		chckbxFruta.setEnabled(false);
 
 		chckbxTiempo = new JCheckBox("Tiempo");
+		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 		chckbxTiempo.setEnabled(false);
