@@ -166,6 +166,7 @@ public class Servidor {
 	public static void actualizarJuego(Juego juego) {
 		try {
 			Mapa mapa = juego.getMapa();
+			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego);
 			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
 				enviar = false;
@@ -190,7 +191,7 @@ public class Servidor {
 							usuario.getConexion().getSalidaDatos().flush();
 							System.err.println("mapa " + System.currentTimeMillis());
 							usuario.getConexion().getSalidaDatos()
-									.writeObject(new Message(Param.REQUEST_MOSTRAR_MAPA, juego));
+									.writeObject(message);
 						}
 
 					} catch (IOException e) {
