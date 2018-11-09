@@ -42,7 +42,7 @@ public class VentanaJuego extends JFrame {
 
 	private JList<String> jListScore;
 
-	private JButton button;
+	private JButton btnSalirJuego;
 	private Juego juego;
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
@@ -89,7 +89,7 @@ public class VentanaJuego extends JFrame {
 		lblFrutas.setBounds(51, 35, 42, 21);
 		this.contentPane.add(lblFrutas);
 
-		JButton btnNewButton = new JButton("Stop");
+		JButton btnNewButton = new JButton("Pausa");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// stop();
@@ -98,14 +98,14 @@ public class VentanaJuego extends JFrame {
 		btnNewButton.setBounds(0, 312, 100, 25);
 		this.contentPane.add(btnNewButton);
 
-		this.button = new JButton("Exit");
-		this.button.addActionListener(new ActionListener() {
+		this.btnSalirJuego = new JButton("Salir juego");
+		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		button.setBounds(0, 350, 100, 25);
-		this.contentPane.add(button);
+		btnSalirJuego.setBounds(0, 350, 100, 25);
+		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
