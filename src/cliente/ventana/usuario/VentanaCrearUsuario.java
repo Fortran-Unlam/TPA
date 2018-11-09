@@ -69,7 +69,7 @@ public class VentanaCrearUsuario extends JFrame {
 	     		}
 			}
 	    });
-		this.username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros.");
+		this.username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros. Maximo 20 caracteres.");
 		this.username.setBounds(193, 36, 86, 20);
 		getContentPane().add(username);
 		this.username.setColumns(10);
@@ -87,7 +87,7 @@ public class VentanaCrearUsuario extends JFrame {
 	     		}
 			}
 	    });
-		this.password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros.");
+		this.password.setToolTipText("Ingrese la contrase\u00F1a que desee aqu\u00ED . Solo pueden contener letras y numeros. Maximo 10 caracteres.");
 		this.password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
 		this.password.setColumns(10);
@@ -105,7 +105,7 @@ public class VentanaCrearUsuario extends JFrame {
 	     		}
 			}
 	    });
-		this.confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente.");
+		this.confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente. Maximo 10 caracteres.");
 		this.confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
 		this.confirmPassword.setColumns(10);
