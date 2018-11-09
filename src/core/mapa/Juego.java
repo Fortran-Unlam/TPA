@@ -3,6 +3,8 @@ package core.mapa;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.json.Json;
+
 import core.Jugador;
 import core.JugadorBot;
 import looby.TipoJuego;
@@ -90,4 +92,5 @@ public class Juego implements Serializable {
 	public int getSegundosTranscurridos() {
 		return this.segundosTranscurridos;
 	}
+	
 }

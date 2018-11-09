@@ -293,7 +293,7 @@ public class Vibora implements Serializable {
 
 	public JsonObject toJson() {
 		
-		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("x", this.getX());
+		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY());
 		
 		json.add("bot", false);
 		if (this instanceof ViboraBot) {
@@ -301,7 +301,7 @@ public class Vibora implements Serializable {
 		}
 		JsonArrayBuilder jsonArray = Json.createArrayBuilder();
 		for (CuerpoVibora cuerpoVibora : bodies) {
-			jsonArray.add(Json.createObjectBuilder().add("x", cuerpoVibora.getX()).add("x", cuerpoVibora.getX()));
+			jsonArray.add(Json.createObjectBuilder().add("x", cuerpoVibora.getX()).add("y", cuerpoVibora.getY()));
 		}
 		json.add("cuerpo", jsonArray);
 		
