@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+
 import config.Param;
 import config.Posicion;
 import core.Colisionador;
@@ -425,5 +429,31 @@ public class Mapa implements Serializable {
 
 	public boolean getMurioUnJugador() {
 		return this.murioUnJugador;
+	}
+	
+	public JsonObject toJson() {
+		//Mando en el orde: jugador -> fruta -> obstaculo
+		JsonArrayBuilder jugadores = Json.createArrayBuilder();
+		JsonArrayBuilder frutas = Json.createArrayBuilder();
+		JsonArrayBuilder obstaculos = Json.createArrayBuilder();
+		
+		for(Jugador j: this.jugadores) {
+			jugadores.add(Json.createObjectBuilder().add("jugador", j.toJson()));
+		}
+		
+		for(Fruta f: this.frutas) {
+			frutas.add(Json.createObjectBuilder().add("fruta", f.toJson()));
+		}
+		
+		for(Obstaculo o: this.obstaculos) {
+			obstaculos.add(Json.createObjectBuilder().add("obstaculo", o.toJson()));
+		}
+		
+		return Json.createObjectBuilder()
+				.add("tamano", this.tamano.toJson())
+				.add("jugadores", jugadores)
+				.add("frutas", frutas)
+				.add("obstaculos", obstaculos)
+				.build();
 	}
 }
