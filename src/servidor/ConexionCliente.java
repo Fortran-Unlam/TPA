@@ -49,8 +49,6 @@ public class ConexionCliente extends Thread {
 	public void run() {
 		boolean conectado = true;
 
-//		Sala sala = null;
-//		Usuario usuario = null;
 
 		while (conectado) {
 			try {

@@ -2,6 +2,8 @@ package core;
 
 import java.io.Serializable;
 
+import javax.json.JsonObject;
+
 public class Coordenada implements Serializable {
 
 	private static final long serialVersionUID = -8552338515159103928L;

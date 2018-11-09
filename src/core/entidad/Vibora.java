@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import config.Posicion;
 import core.Coordenada;
 
@@ -286,21 +291,20 @@ public class Vibora implements Serializable {
 		return this.id;
 	}
 
-	public String toJson() {
-		String bot = "false";
+	public JsonObject toJson() {
+		
+		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY());
+		
+		json.add("bot", false);
 		if (this instanceof ViboraBot) {
-			bot = "true";
+			json.add("bot", true);
 		}
-		String string = "{bot: " + bot + ", x:" + this.getX() + ", y:" + this.getX() + ", cuerpo: [";
-		boolean primero = true;
+		JsonArrayBuilder jsonArray = Json.createArrayBuilder();
 		for (CuerpoVibora cuerpoVibora : bodies) {
-			if (primero == false) {
-				string += ",";
-			} else {
-				primero = false;
-			}
-			string += "{x:" + cuerpoVibora.getX() + ", y:" + cuerpoVibora.getX() + "}";
+			jsonArray.add(Json.createObjectBuilder().add("x", cuerpoVibora.getX()).add("y", cuerpoVibora.getY()));
 		}
-		return string + "]}";
+		json.add("cuerpo", jsonArray);
+		
+		return json.build();
 	}
 }
