@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.json.JsonArray;
+import javax.json.JsonObject;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -106,9 +108,9 @@ public class VentanaJuego extends JFrame {
 			}
 		};
 		thread.start();
-		
+
 		addListener();
-		
+
 		musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
 		musicaFondo.repetir();
 	}
@@ -150,7 +152,7 @@ public class VentanaJuego extends JFrame {
 			}
 
 			ArrayList<Puntaje> score = mapa.scoring();
-			
+
 			String[] listModel = new String[score.size()];
 			for (int i = 0; i < score.size(); i++) {
 				listModel[i] = score.get(i).toString();
@@ -167,13 +169,88 @@ public class VentanaJuego extends JFrame {
 			musicaFondo.stop();
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
-		
+
 		if (juego.getMapa().getMurioUnJugador()) {
 			new Sonido(Param.GOLPE_PATH).reproducir();
 		}
 	}
-	
-	private void addListener() {		
+
+	public void dibujarMapaJson(JsonObject json) {
+
+		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
+
+		JsonObject mapa = json.getJsonObject("mapa");
+		if (!mapa.isEmpty()) {
+			g2d.setColor(Color.BLACK);
+			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
+
+			JsonArray frutas = mapa.getJsonArray("frutas");
+
+			for (int i = 0; i < frutas.size(); i++) {
+				g2d.setColor(Color.RED);
+				g2d.fillRect(frutas.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+						frutas.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE);
+			}
+
+			JsonArray jugadores = mapa.getJsonArray("jugadores");
+
+			for (int i = 0; i < jugadores.size(); i++) {
+				g2d.setColor(Color.RED);
+
+				g2d.setColor(Color.YELLOW);
+				g2d.fillRect(jugadores.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+						jugadores.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE);
+
+				g2d.setColor(Color.BLUE);
+				if (jugadores.getJsonObject(i).getBoolean("bot")) {
+					g2d.setColor(Color.GREEN);
+				}
+
+				JsonArray cuerpo = jugadores.getJsonObject(i).getJsonArray("cuerpo");
+
+				for (int j = 0; j < cuerpo.size(); j++) {
+					g2d.fillRect(Integer.valueOf(cuerpo.getJsonObject(j).getString("x")) * Param.PIXEL_RESIZE,
+							Integer.valueOf(cuerpo.getJsonObject(j).getString("y")) * Param.PIXEL_RESIZE,
+							Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+				}
+			}
+
+			JsonArray obstaculos = mapa.getJsonArray("obstaculos");
+
+			for (int i = 0; i < obstaculos.size(); i++) {
+				g2d.setColor(Color.WHITE);
+				g2d.fillRect(Integer.valueOf(obstaculos.getJsonObject(i).getString("x")) * 5,
+						Integer.valueOf(obstaculos.getJsonObject(i).getString("y")) * 5, 5, 5);
+			}
+
+//			ArrayList<Puntaje> score = mapa.scoring();
+//
+//			String[] listModel = new String[score.size()];
+//			for (int i = 0; i < score.size(); i++) {
+//				listModel[i] = score.get(i).toString();
+//			}
+//			jListScore.setListData(listModel);
+		}
+
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(json.getString("tiempoTranscurrido"), Param.MAPA_WIDTH - 30, 30);
+
+		if (json.getBoolean("terminado")) {
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+			musicaFondo.stop();
+		}
+		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+
+		if (mapa.getBoolean("murioUnJugador")) {
+			new Sonido(Param.GOLPE_PATH).reproducir();
+		}
+	}
+
+	private void addListener() {
 		this.addKeyListener(new GestorInput().teclado);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
