@@ -63,7 +63,7 @@ public class VentanaCrearUsuario extends JFrame {
 		/*Limita cantidad de caracteres a ingresar en el campo de texto usuario*/
 		username.addKeyListener(new KeyAdapter() {
 		public void keyTyped(KeyEvent e) {
-			if (username.getText().length() >= 15) {
+			if (username.getText().length() >= 20) {
 				e.consume();
 				Toolkit.getDefaultToolkit().beep();
 	     		}
