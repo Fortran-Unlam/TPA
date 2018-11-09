@@ -37,4 +37,8 @@ public class Fruta implements Serializable {
 	public boolean getFueComida() {
 		return this.fueComida;
 	}
+
+	public String toJson() {
+		return "{x:" + this.getX() + ",y:" + this.getX() + "}";
+	}
 }
