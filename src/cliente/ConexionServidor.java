@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import com.google.gson.Gson;
 
@@ -60,18 +59,10 @@ public class ConexionServidor {
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request));
 
 			this.message = (Message) entradaDatos.readObject();
-//			String json = "{}"; //TODO: reemmplazar con el verdadero string json
-//			final Gson gson = new Gson();
-//		    final Properties properties = gson.fromJson(json, Properties.class);
-		    
-//			this.usuario = new Usuario(properties.getProperty("username"), properties.getProperty("hashPassword"));
-			this.usuario = new Usuario(username, hashPassword);
 
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
-				// TODO: deberia dar mas info como puntos
-				this.usuario.setId((int) message.getData());
-				System.out.println("id de usuario " + this.usuario.getId());
+				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");

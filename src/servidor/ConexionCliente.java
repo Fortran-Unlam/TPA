@@ -83,8 +83,7 @@ public class ConexionCliente extends Thread {
 							Servidor.agregarAUsuariosActivos(usuario);
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
-							System.err.println("logeo correcto");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
 						}
 					}
 					break;
