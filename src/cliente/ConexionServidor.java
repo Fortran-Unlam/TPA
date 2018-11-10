@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import com.google.gson.Gson;
 
@@ -55,13 +56,15 @@ public class ConexionServidor {
 	 */
 	public Usuario loguear(String username, String hashPassword) {
 		try {
-			ArrayList<String> ret = new ArrayList<String>();
-			ret.add(username);
-			ret.add(hashPassword);
 			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request));
 
 			this.message = (Message) entradaDatos.readObject();
+//			String json = "{}"; //TODO: reemmplazar con el verdadero string json
+//			final Gson gson = new Gson();
+//		    final Properties properties = gson.fromJson(json, Properties.class);
+		    
+//			this.usuario = new Usuario(properties.getProperty("username"), properties.getProperty("hashPassword"));
 			this.usuario = new Usuario(username, hashPassword);
 
 			switch (this.message.getType()) {
