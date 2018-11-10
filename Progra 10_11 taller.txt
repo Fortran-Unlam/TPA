@@ -1,0 +1,9 @@
+Constructores de Viboritas muy parecidos
+No utilizar muchos de este estilo: Jugador.GetViborita.GetCabeza.GetX 
+En el sentido que llamo con muchos . y violo el encapsulamiento bla bla bla
+Los serializables deben generarse automaticamente no 1L.
+Utilizar la libreria de JSON
+En VentanaJuego el constructor no deberia tener la creacion del thread y el run
+
+CTRL SHIFT H
+CTRL K
