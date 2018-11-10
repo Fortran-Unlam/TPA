@@ -23,7 +23,7 @@ import looby.Usuario;
 
 public class VentanaMenu extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4181375175617378911L;
 	private JPanel contentPane;
 	private Usuario usuario;
 	private JButton btnAtras;

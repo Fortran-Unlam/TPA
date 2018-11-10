@@ -25,7 +25,7 @@ import core.entidad.ViboraBot;
 
 public class Mapa implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2480290569666355301L;
 
 	private Coordenada tamano;
 
