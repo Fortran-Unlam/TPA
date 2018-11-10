@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.json.Json;
 import javax.json.JsonObject;
 
+import com.google.gson.Gson;
+
 public class Message implements Serializable {
 
 	private static final long serialVersionUID = -4187638026720768019L;
@@ -33,7 +35,7 @@ public class Message implements Serializable {
 		this.data = data;
 	}
 
-	public JsonObject toJson() {
-		return Json.createObjectBuilder().add("type", this.type).add("data", (JsonObject) this.data).build();
+	public String toJson() {
+		return new Gson().toJson(this);
 	}
 }
