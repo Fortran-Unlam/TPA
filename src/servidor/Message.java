@@ -2,6 +2,9 @@ package servidor;
 
 import java.io.Serializable;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 public class Message implements Serializable {
 
 	private static final long serialVersionUID = -4187638026720768019L;
@@ -28,5 +31,9 @@ public class Message implements Serializable {
 
 	public void setData(Object data) {
 		this.data = data;
+	}
+
+	public JsonObject toJson() {
+		return Json.createObjectBuilder().add("type", this.type).add("data", (JsonObject) this.data).build();
 	}
 }

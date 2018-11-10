@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import javax.json.JsonObject;
+import com.google.gson.Gson;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
@@ -17,12 +17,13 @@ import servidor.Message;
 public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
-	
+
 	private Message message;
 	private Usuario usuario;
 
 	private Socket socketIn;
 	private Socket socketOut;
+
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
 	 * 
@@ -57,6 +58,7 @@ public class ConexionServidor {
 			ArrayList<String> ret = new ArrayList<String>();
 			ret.add(username);
 			ret.add(hashPassword);
+			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
 
 			this.message = (Message) entradaDatos.readObject();
@@ -100,16 +102,16 @@ public class ConexionServidor {
 		}
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
-	
-	public Message cerrarSesionUsuario(Usuario usuario) {		
+
+	public Message cerrarSesionUsuario(Usuario usuario) {
 		try {
-			Object ret = usuario;			
+			Object ret = usuario;
 			System.err.println("cerrar sesion");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, ret));
-			
+
 			this.message = (Message) entradaDatos.readObject();
 			return this.message;
-			
+
 		} catch (Exception e) {
 			System.out.println("No se pudo cerrar sesion" + e.getMessage());
 			e.printStackTrace();
@@ -185,13 +187,14 @@ public class ConexionServidor {
 		}
 		return false;
 	}
-	
-	/** Se informa al servidor que voy a salir de la sala y quiza, si soy el unico que esta en la sala
-	 * y salgo la sala debe borrarse. O directamente eliminar la sala si el usuario creador sale de la misma.
+
+	/**
+	 * Se informa al servidor que voy a salir de la sala y quiza, si soy el unico
+	 * que esta en la sala y salgo la sala debe borrarse. O directamente eliminar la
+	 * sala si el usuario creador sale de la misma.
 	 * 
 	 */
-	public void SalirSala(String nombreSala)
-	{
+	public void SalirSala(String nombreSala) {
 		try {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
 			System.err.println("salir sala");
@@ -207,18 +210,17 @@ public class ConexionServidor {
 
 	public boolean comenzarJuego() {
 		try {
-			//TODO: pasarlo a JSON
+			// TODO: pasarlo a JSON
 			String[] tipoJuegos = new String[3];
 			tipoJuegos[0] = "4";// cantidad de jugadores
-			tipoJuegos[1] = Param.TIPO_JUEGO_FRUTA; //de aca en mas es tipo de juego
+			tipoJuegos[1] = Param.TIPO_JUEGO_FRUTA; // de aca en mas es tipo de juego
 			tipoJuegos[2] = Param.TIPO_JUEGO_SUPERVIVENCIA;
-			
-			
+
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, tipoJuegos);
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message);
 
-			while(socketIn.isClosed() == false) {				
+			while (socketIn.isClosed() == false) {
 				this.message = (Message) entradaDatos.readObject();
 				String ret = this.message.getType();
 				System.out.println(ret);
@@ -294,7 +296,7 @@ public class ConexionServidor {
 			// se queda esperando que el server env�e alg�n tipo de actualizacion;
 			Object ret = this.entradaDatos.readObject();
 			message = (Message) ret;
-			
+
 			if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
 				return (String) message.getData();
 			}
@@ -305,17 +307,17 @@ public class ConexionServidor {
 
 	}
 
-	/** Le envio un mensaje al servidor indicando que me voy a unir a la salaSeleccionada.
-	 *  La representancion del usuario no es necesario mandarla, ya que se encuentra
-	 *  implicito en el Socket.
+	/**
+	 * Le envio un mensaje al servidor indicando que me voy a unir a la
+	 * salaSeleccionada. La representancion del usuario no es necesario mandarla, ya
+	 * que se encuentra implicito en el Socket.
 	 */
-	public String unirseASala(String salaSeleccionada) 
-	{
+	public String unirseASala(String salaSeleccionada) {
 		try {
 			System.err.println("ingreso sala");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada));
-			Message retorno = (Message)this.entradaDatos.readObject();
-			return (String)retorno.getData();
+			Message retorno = (Message) this.entradaDatos.readObject();
+			return (String) retorno.getData();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {
