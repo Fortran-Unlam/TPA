@@ -30,6 +30,7 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JTextField;
 
 public class VentanaSala extends JFrame {
 
@@ -47,6 +48,7 @@ public class VentanaSala extends JFrame {
 	private JCheckBox chckbxSupervivencia;
 	private JComboBox<Object> mapa;
 	private JButton btnSalirDeSala;
+	private JTextField cantBots;
 
 	public VentanaSala(JFrame ventanaMenu, ArrayList<String> datosSala, String creacionUnionSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -155,6 +157,16 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 		chckbxTiempo.setEnabled(false);
+		
+		JLabel lblCantidadBots = new JLabel("Cantidad bots:");
+		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCantidadBots.setBounds(195, 228, 165, 20);
+		contentPane.add(lblCantidadBots);
+		
+		cantBots = new JTextField();
+		cantBots.setBounds(367, 228, 32, 20);
+		contentPane.add(cantBots);
+		cantBots.setColumns(10);
 
 		/*
 		 * Visibilidad unica para el admin. Seleccionar tipo de jugabilidad. Seleccionar
@@ -187,7 +199,7 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void empezarJuego() {
-		if (Cliente.getConexionServidor().comenzarJuego() == false) {
+		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText()) == false) {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
