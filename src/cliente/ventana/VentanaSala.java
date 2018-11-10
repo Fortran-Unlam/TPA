@@ -33,7 +33,7 @@ import java.awt.event.MouseEvent;
 
 public class VentanaSala extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1740234947461105665L;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;

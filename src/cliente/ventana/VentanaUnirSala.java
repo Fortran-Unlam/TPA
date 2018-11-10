@@ -28,7 +28,7 @@ import javax.swing.JTable;
 
 public class VentanaUnirSala extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -7041821010096850636L;
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
 	private String[] datosSalaSeleccionada = new String[3];
