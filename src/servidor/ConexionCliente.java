@@ -51,6 +51,7 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		boolean conectado = true;
+		Properties properties;
 
 		while (conectado) {
 			try {
@@ -59,7 +60,7 @@ public class ConexionCliente extends Thread {
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					final Properties properties = new Gson().fromJson((String) message.getData(), Properties.class);
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
 					usuario = UsuarioDAO.loguear(properties.getProperty("username"),
 							properties.getProperty("hashPassword"));
@@ -89,9 +90,10 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
-					int resultado = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
-							(String) ((ArrayList) message.getData()).get(1));
+					int resultado = UsuarioDAO.registrar(properties.getProperty("username"),
+							properties.getProperty("hashPassword"));
 
 					switch (resultado) {
 					case -1:
@@ -213,10 +215,10 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_CERRAR_SESION:
-					Usuario usuarioActivo = (Usuario) message.getData();
+					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
-						if (usuarioEnServer.getId() == usuarioActivo.getId()) {
+						if (usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
 							break;
 						}

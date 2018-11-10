@@ -82,11 +82,9 @@ public class ConexionServidor {
 
 	public Message registrar(String username, String hashPassword) {
 		try {
-			ArrayList<String> ret = new ArrayList<String>();
-			ret.add(username);
-			ret.add(hashPassword);
+			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
 			System.err.println("registrar usuario");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, ret));
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, request));
 
 			this.message = (Message) entradaDatos.readObject();
 			return this.message;
@@ -99,9 +97,8 @@ public class ConexionServidor {
 
 	public Message cerrarSesionUsuario(Usuario usuario) {
 		try {
-			Object ret = usuario;
 			System.err.println("cerrar sesion");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, ret));
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)));
 
 			this.message = (Message) entradaDatos.readObject();
 			return this.message;
