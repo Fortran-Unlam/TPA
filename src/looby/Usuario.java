@@ -24,7 +24,7 @@ public class Usuario implements Serializable {
 	private int rondasGanadas;
 	private Sala sala;
 	private Jugador jugador;
-//	private ConexionCliente conexionCliente;
+	private ConexionCliente conexionCliente;
 
 	public Usuario(String username, String password) {
 		this.username = username;
@@ -165,13 +165,12 @@ public class Usuario implements Serializable {
 		
 		return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
 	}
-
+	@JsonIgnore
 	public void setConexion(ConexionCliente conexionCliente) {
-//		this.conexionCliente = conexionCliente;
+		this.conexionCliente = conexionCliente;
 	}
-	
+	@JsonIgnore
 	public ConexionCliente getConexion() {
-		return null;
-//		return this.conexionCliente;
+		return this.conexionCliente;
 	}
 }

@@ -1,11 +1,7 @@
 package core;
 
-import java.io.Serializable;
+public class Coordenada {
 
-
-public class Coordenada implements Serializable {
-
-	private static final long serialVersionUID = -8552338515159103928L;
 	private int x;
 	private int y;
 
@@ -19,6 +15,9 @@ public class Coordenada implements Serializable {
 		this.x = x;
 		this.y = y;
 	}
+	
+	//Necesario para el Json.
+	public Coordenada() {}
 
 	/**
 	 * Establece una coordenada (x,y)
@@ -37,7 +36,7 @@ public class Coordenada implements Serializable {
 	 * @return La posicion horizontal x
 	 */
 	public int getX() {
-		return x;
+		return this.x;
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class Coordenada implements Serializable {
 	 * @return La posicion vertical Y
 	 */
 	public int getY() {
-		return y;
+		return this.y;
 	}
 
 	/**

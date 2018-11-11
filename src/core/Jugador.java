@@ -1,5 +1,8 @@
 package core;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import cliente.input.GestorInput;
 import config.Posicion;
 import core.entidad.Vibora;
@@ -22,6 +25,9 @@ public class Jugador implements Comparable<Jugador> {
 		this.nombre = nombre;
 		this.frutasComidasEnRonda = 0;
 	}
+
+	//Necesario para el Json.
+	public Jugador(){}
 
 	/**
 	 * Convierte el usuario en un jugador, todavia no tiene vibora
@@ -57,7 +63,7 @@ public class Jugador implements Comparable<Jugador> {
 			this.getVibora().marcarCrecimiento();			
 		}
 	}
-
+	@JsonIgnore
 	public int getFrutasComidas() {
 		return this.frutasComidasEnRonda;
 	}

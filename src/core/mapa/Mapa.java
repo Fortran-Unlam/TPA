@@ -1,6 +1,5 @@
 package core.mapa;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -18,9 +17,7 @@ import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
 
-public class Mapa implements Serializable {
-
-	private static final long serialVersionUID = 2480290569666355301L;
+public class Mapa {
 
 	private Coordenada tamano;
 
@@ -51,6 +48,9 @@ public class Mapa implements Serializable {
 	public Mapa(final int x, final int y) {
 		this.tamano = new Coordenada(x - 1, y - 1);
 	}
+	
+	//Necesario para el Json.
+	public Mapa() {}
 
 	/**
 	 * Agrega un jugador al mapa creando una vibora para ese jugador y estableciendo
@@ -227,7 +227,7 @@ public class Mapa implements Serializable {
 
 		for (int i = 0; i < this.jugadores.size(); i++) {
 			Vibora vibora = this.jugadores.get(i).getVibora();
-			if (vibora.isDead()) {
+			if (vibora.getMuerta()) {
 				this.espectadores.add(this.jugadores.get(i));
 				this.jugadores.remove(i);
 				this.murioUnJugador = true;

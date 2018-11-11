@@ -11,8 +11,6 @@ import core.entidad.Obstaculo;
 
 public class MapaRandom extends Mapa {
 
-	private static final long serialVersionUID = 9176450957074794826L;
-
 	public MapaRandom() {
 		super(Param.MAPA_WIDTH / Param.PIXEL_RESIZE, Param.MAPA_HEIGHT / Param.PIXEL_RESIZE);
 

@@ -123,7 +123,9 @@ public class VentanaJuego extends JFrame {
 	public void dibujarMapaJson(String jsonString) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper receive = new ObjectMapper();
 		
+		System.out.println(jsonString);
 		Juego juegoRecibido = receive.readValue(jsonString, Juego.class);
+		
 		Mapa mapaRecibido = juegoRecibido.getMapa();
 
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);

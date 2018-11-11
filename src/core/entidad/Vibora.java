@@ -1,15 +1,14 @@
 package core.entidad;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import config.Posicion;
 import core.Coordenada;
 
-public class Vibora implements Serializable {
-
-	private static final long serialVersionUID = -4700905402985527264L;
+public class Vibora {
 	private String nombre;
 	private int id;
 	private int frutasComidas;
@@ -33,6 +32,9 @@ public class Vibora implements Serializable {
 			this.bodies.add(new CuerpoVibora(coordenadas[i]));
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
+	
+	//Necesario para el Json.
+	public Vibora() {}
 
 	/**
 	 * Crea una vibora con cuerpos en las coordenadas pasadas y con un sentido dado
@@ -217,7 +219,7 @@ public class Vibora implements Serializable {
 		this.crece = true;
 	}
 
-	public boolean isDead() {
+	public boolean getMuerta() {
 		return muerta;
 	}
 
@@ -261,6 +263,7 @@ public class Vibora implements Serializable {
 	 * 
 	 * @return coordeanda x de la cabeza
 	 */
+	@JsonIgnore
 	public int getX() {
 		return this.head.getX();
 	}
@@ -270,10 +273,12 @@ public class Vibora implements Serializable {
 	 * 
 	 * @return coordeanda Y de la cabeza
 	 */
+	@JsonIgnore
 	public int getY() {
 		return this.head.getY();
 	}
 
+	@JsonIgnore
 	public Coordenada getCoordenada() {
 		return this.head.getCoordenada();
 	}

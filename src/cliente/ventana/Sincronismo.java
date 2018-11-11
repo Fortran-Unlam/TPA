@@ -3,6 +3,9 @@ package cliente.ventana;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.JavaType;
+
 import cliente.Cliente;
 import config.Param;
 import servidor.Message;
@@ -11,7 +14,7 @@ public class Sincronismo extends Thread{
 	
 	private static VentanaUnirSala ventanaUnirSala;
 	private static VentanaSala ventanaSala;
-	private static ArrayList<String> datosDeSalasDisponibles;
+	private ArrayList<String> datosDeSalasDisponibles;
 	private Message message;
 	
 	public Sincronismo() {
@@ -21,13 +24,14 @@ public class Sincronismo extends Thread{
 	
 	public void run() {
 		boolean conectado = true;
-
+		ObjectMapper objectMapper = new ObjectMapper();
 		while (conectado) {
 			try {
 				message = (Message) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
 				
 				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-					this.datosDeSalasDisponibles = (ArrayList<String>) message.getData();
+					JavaType ArrayListString = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, String.class);
+					this.datosDeSalasDisponibles = objectMapper.readValue((String)message.getData(), ArrayListString);
 				}
 				
 				if(ventanaUnirSala != null) {

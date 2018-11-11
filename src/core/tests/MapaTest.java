@@ -207,8 +207,8 @@ public class MapaTest {
 		mapa.add(vibora2);
 
 		mapa.actualizar();
-		Assert.assertEquals(true, vibora2.isDead());
-		Assert.assertEquals(true, vibora.isDead());
+		Assert.assertEquals(true, vibora2.getMuerta());
+		Assert.assertEquals(true, vibora.getMuerta());
 	}
 
 	@Test
@@ -221,8 +221,8 @@ public class MapaTest {
 		mapa.add(vibora2);
 
 		mapa.actualizar();
-		Assert.assertEquals(true, vibora.isDead());
-		Assert.assertEquals(false, vibora2.isDead());
+		Assert.assertEquals(true, vibora.getMuerta());
+		Assert.assertEquals(false, vibora2.getMuerta());
 	}
 
 	@Test
@@ -235,8 +235,8 @@ public class MapaTest {
 		mapa.add(vibora2);
 
 		mapa.actualizar();
-		Assert.assertEquals(false, vibora.isDead());
-		Assert.assertEquals(false, vibora2.isDead());
+		Assert.assertEquals(false, vibora.getMuerta());
+		Assert.assertEquals(false, vibora2.getMuerta());
 
 		Assert.assertEquals(6, vibora2.getX());
 		Assert.assertEquals(4, vibora.getX());
@@ -251,7 +251,7 @@ public class MapaTest {
 		vibora.setSentido(Posicion.OESTE);
 		mapa.actualizar();
 
-		Assert.assertEquals(true, vibora.isDead());
+		Assert.assertEquals(true, vibora.getMuerta());
 	}
 
 	@Test
@@ -371,11 +371,11 @@ public class MapaTest {
 		mapa.add(vibora);
 		mapa.add(obstaculo);
 
-		Assert.assertEquals(false, vibora.isDead()); // vibora viba
+		Assert.assertEquals(false, vibora.getMuerta()); // vibora viba
 
 		mapa.actualizar();
 
-		Assert.assertEquals(true, vibora.isDead()); // vibora muerta
+		Assert.assertEquals(true, vibora.getMuerta()); // vibora muerta
 
 	}
 
@@ -388,12 +388,12 @@ public class MapaTest {
 		mapa.add(vibora);
 		mapa.add(obstaculo);
 
-		Assert.assertEquals(false, vibora.isDead()); // vibora viba
+		Assert.assertEquals(false, vibora.getMuerta()); // vibora viba
 		vibora.setSentido(Posicion.NORTE);
 
 		mapa.actualizar();
 
-		Assert.assertEquals(true, vibora.isDead()); // vibora muerta
+		Assert.assertEquals(true, vibora.getMuerta()); // vibora muerta
 
 	}
 
@@ -446,7 +446,7 @@ public class MapaTest {
 		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2, 3).getUbicacion());
 		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3, 3).getUbicacion());
 		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4, 3).getUbicacion());
-		Assert.assertEquals(true, vibora.isDead());
+		Assert.assertEquals(true, vibora.getMuerta());
 	}
 
 	@Test

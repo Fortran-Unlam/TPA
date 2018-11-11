@@ -1,6 +1,5 @@
 package core.mapa;
 
-import java.io.Serializable;
 import java.util.List;
 
 import core.Jugador;
@@ -8,9 +7,8 @@ import core.JugadorBot;
 import looby.TipoJuego;
 import servidor.Servidor;
 
-public class Juego implements Serializable {
+public class Juego{
 
-	private static final long serialVersionUID = -3765719165739391662L;
 	private List<Jugador> jugadoresEnJuego;
 	private Mapa mapa;
 
@@ -19,6 +17,9 @@ public class Juego implements Serializable {
 	private boolean juegoEnCurso = false;
 	private int segundosTranscurridos = 0;
 
+	//Necesario para el Json.
+	public Juego() {}
+	
 	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
 		this.mapa = new MapaUno();

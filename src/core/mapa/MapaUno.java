@@ -8,8 +8,6 @@ import core.entidad.Obstaculo;
 
 public class MapaUno extends Mapa {
 
-	private static final long serialVersionUID = 3707232195274752719L;
-
 	public MapaUno() {
 		super(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
 

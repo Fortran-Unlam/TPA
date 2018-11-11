@@ -37,17 +37,17 @@ public class ConexionServidorBackOff extends Thread {
 	public void avisarAlSvQueMandeActualizacionSalas(String parametro) {
 
 		/*
-		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
+		 * Le aviso al sv que hubo una actualizacion acï¿½ el server empieza a tirotear a
 		 * todos los clientes con los datos de las salas actualizadas, tengo que esperar
 		 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
 		 * continuar.
 		 */
-		this.message.setType(parametro);
+		/*this.message.setType(parametro);
 		try {
 			this.salidaDatos.writeObject(message);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 

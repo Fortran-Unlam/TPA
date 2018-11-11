@@ -1,27 +1,29 @@
 package core.entidad;
 
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import core.Coordenada;
 
-public class Fruta implements Serializable {
+public class Fruta{
 
-	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
 	private boolean fueComida = false;
 
 	public Fruta(Coordenada ubicacion) {
 		this.coordenada = ubicacion;
 	}
+	
+	public Fruta() {}
 
 	public Fruta(int x, int y) {
 		this.coordenada = new Coordenada(x, y);
 	}
-
+	@JsonIgnore
 	public int getX() {
 		return this.coordenada.getX();
 	}
 
+	@JsonIgnore
 	public int getY() {
 		return this.coordenada.getY();
 	}

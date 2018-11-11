@@ -1,12 +1,10 @@
 package core.entidad;
 
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import core.Coordenada;
 
-public class CuerpoVibora implements Serializable {
-
-	private static final long serialVersionUID = 2485552979729067616L;
+public class CuerpoVibora {
 	private Coordenada coordenada;
 	private boolean isHead = false;
 
@@ -17,6 +15,9 @@ public class CuerpoVibora implements Serializable {
 	public CuerpoVibora(int x, int y) {
 		this.coordenada = new Coordenada(x, y);
 	}
+	
+	//Necesario para el Json.
+	public CuerpoVibora() {}
 
 	/**
 	 * Ubicacion: posicion x,y del cuerpo Head: marcar con true si ese cuerpo va a
@@ -41,11 +42,13 @@ public class CuerpoVibora implements Serializable {
 		this.coordenada = new Coordenada(x, y);
 		this.isHead = head;
 	}
-
+	
+	@JsonIgnore
 	public int getX() {
 		return this.coordenada.getX();
 	}
-
+	
+	@JsonIgnore
 	public int getY() {
 		return this.coordenada.getY();
 	}

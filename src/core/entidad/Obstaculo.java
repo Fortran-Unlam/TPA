@@ -1,27 +1,30 @@
 package core.entidad;
 
-import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import core.Coordenada;
 
-public class Obstaculo implements Serializable {
+public class Obstaculo{
 
-	private static final long serialVersionUID = 1628026311474738784L;
 
 	private Coordenada ubicacion;
 
 	public Obstaculo(Coordenada ubicacion) {
 		this.ubicacion = ubicacion;
 	}
+	
+	public Obstaculo() {}
 
 	public Obstaculo(int x, int y) {
 		this.ubicacion = new Coordenada(x, y);
 	}
 
+	@JsonIgnore
 	public int getX() {
 		return this.ubicacion.getX();
 	}
 
+	@JsonIgnore
 	public int getY() {
 		return this.ubicacion.getY();
 	}
