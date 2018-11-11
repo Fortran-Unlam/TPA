@@ -7,7 +7,7 @@ import javax.json.JsonObject;
 
 import config.Param;
 import core.Jugador;
-import servidor.ConexionCliente;
+import servidor.ConexionClienteBackOff;
 
 public class Usuario implements Serializable {
 
@@ -23,6 +23,7 @@ public class Usuario implements Serializable {
 	private int rondasGanadas;
 	private Sala sala;
 	private Jugador jugador;
+	private ConexionClienteBackOff conexionClienteBackOff;	
 
 	public Usuario(String username, String password) {
 		this.username = username;
@@ -167,5 +168,13 @@ public class Usuario implements Serializable {
 		}
 		
 		return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
+	}
+
+	public void setConexionBackOff(ConexionClienteBackOff conexionClienteBackOff) {
+		this.conexionClienteBackOff = conexionClienteBackOff;
+	}
+	
+	public ConexionClienteBackOff getConexionBackOff() {
+		return this.conexionClienteBackOff;
 	}
 }

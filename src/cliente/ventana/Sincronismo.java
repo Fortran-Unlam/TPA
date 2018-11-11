@@ -1,7 +1,14 @@
 package cliente.ventana;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import cliente.Cliente;
 import config.Param;
@@ -11,8 +18,7 @@ public class Sincronismo extends Thread{
 	
 	private static VentanaUnirSala ventanaUnirSala;
 	private static VentanaSala ventanaSala;
-	private static ArrayList<String> datosDeSalasDisponibles;
-	private Message message;
+	private static JsonArray datosDeSalasDisponibles;
 	
 	public Sincronismo() {
 		this.start();
@@ -24,16 +30,26 @@ public class Sincronismo extends Thread{
 
 		while (conectado) {
 			try {
-				message = (Message) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
+				String stringEntrada =(String) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
 				
-				if(message.getType().equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-					this.datosDeSalasDisponibles = (ArrayList<String>) message.getData();
+				JsonReader jsonReader = Json.createReader(new StringReader(stringEntrada));
+				JsonObject entradaJson = jsonReader.readObject();
+				jsonReader.close();
+
+				String tipoMensaje = entradaJson.getString("type");
+				
+				if(tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
+					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
 				}
 				
 				if(ventanaUnirSala != null) {
 					ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
 				}
 				
+				
+				if(tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
+					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
+				}
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}

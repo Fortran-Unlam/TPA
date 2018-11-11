@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import config.Param;
 import looby.Usuario;
 import servidor.Message;
@@ -34,7 +37,7 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
-	public void avisarAlSvQueMandeActualizacionSalas(String parametro) {
+	public void avisarAlSvQueHagaActualizaciones(JsonObject paquete) {
 
 		/*
 		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
@@ -42,9 +45,9 @@ public class ConexionServidorBackOff extends Thread {
 		 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
 		 * continuar.
 		 */
-		this.message.setType(parametro);
+		System.out.println(paquete.toString());
 		try {
-			this.salidaDatos.writeObject(message);
+			this.salidaDatos.writeObject(paquete.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,5 +57,6 @@ public class ConexionServidorBackOff extends Thread {
 	public ObjectInputStream getEntradaDatos() {
 		return entradaDatos;
 	}
+
 
 }

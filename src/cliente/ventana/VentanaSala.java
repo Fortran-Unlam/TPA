@@ -8,8 +8,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,16 +22,12 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JTextField;
 
 public class VentanaSala extends JFrame {
@@ -41,21 +39,61 @@ public class VentanaSala extends JFrame {
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
-	private String creacionUnionSala;
 	private JButton btnEmpezarJuego;
 	private JCheckBox chckbxFruta;
 	private JCheckBox chckbxTiempo;
 	private JCheckBox chckbxSupervivencia;
-	private JComboBox<Object> mapa;
+	private JComboBox<Object> comboMapa;
 	private JButton btnSalirDeSala;
+	private JLabel lblAdmin;
+	private JLabel lblAdministrador;
 	private JTextField cantBots;
 
-	public VentanaSala(JFrame ventanaMenu, ArrayList<String> datosSala, String creacionUnionSala) {
+	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
+		this.nombreSala = nombreSala;
 		this.ventanaMenu.setVisible(false);
-		this.creacionUnionSala = creacionUnionSala;
-		this.nombreSala = datosSala.get(0);
+		addListener();
+	}
+		
+	protected void verificarBotones() {
+		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
+		
+		//Agrego parametros
+		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_MODIFICAR_PARAM_SALA);
+		
+		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
+		//Agrego el tipo de jugabilidads
+		if(chckbxFruta.isSelected())
+			nombreSalatipoJuegoYMapa.add("fruta", true);
+		else
+			nombreSalatipoJuegoYMapa.add("fruta", false);
+		
+		if(chckbxSupervivencia.isSelected())
+			nombreSalatipoJuegoYMapa.add("supervivencia", true);
+		else
+			nombreSalatipoJuegoYMapa.add("supervivencia", false);
+		
+		if(chckbxTiempo.isSelected())
+			nombreSalatipoJuegoYMapa.add("tiempo", true);
+		else
+			nombreSalatipoJuegoYMapa.add("tiempo", false);
+		
+		//AgregoElTipoDeMapa
+		nombreSalatipoJuegoYMapa.add("mapa", (String)comboMapa.getSelectedItem());
 
+		
+		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(nombreSalatipoJuegoYMapa.build());
+		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
+				&& comboMapa.getSelectedIndex() != 0) {
+			btnEmpezarJuego.setEnabled(true);
+		} else {
+			btnEmpezarJuego.setEnabled(false);
+		}
+	}
+
+		
+	private void setearComponentes(boolean esAdmin) {
 		setTitle("Sala de juego");
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -79,36 +117,24 @@ public class VentanaSala extends JFrame {
 		btnEmpezarJuego = new JButton("Empezar juego");
 		btnEmpezarJuego.setBounds(111, 346, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
-		btnEmpezarJuego.setEnabled(false);
 
 		// La lista esta relacionado a un datosLista que cuando cambian, la lista
 		// cambia.
 		this.listUsuarios = new JList<String>(datosLista);
+		listUsuarios.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		this.listUsuarios.setBounds(33, 83, 121, 215);
+		this.listUsuarios.setBounds(33, 83, 168, 222);
 		this.listUsuarios.setEnabled(false);
 		this.listUsuarios.setOpaque(false);
 		getContentPane().add(this.listUsuarios);
 
-		JLabel lblUsuariosConectados = new JLabel("Usuarios en la sala");
+		JLabel lblUsuariosConectados = new JLabel("Usuarios conectados a la sala");
 		lblUsuariosConectados.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsuariosConectados.setBounds(30, 48, 124, 24);
+		lblUsuariosConectados.setBounds(30, 48, 186, 24);
 		getContentPane().add(lblUsuariosConectados);
 
 		this.labelUsrEnLaSala = new JLabel("");
 		labelUsrEnLaSala.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		/*
-		 * Si la cantidad de parametros del datosSala es solo 2, quiere decir que vengo
-		 * de un crearSala, en realidad se deberia crear otro constructor no poner un IF
-		 * que condicione al constructor
-		 */
-		if (datosSala.size() == 2)
-			this.labelUsrEnLaSala.setText("(1/" + datosSala.get(1) + ")");
-		else {
-			this.labelUsrEnLaSala.setText(datosSala.get(1) + "/" + datosSala.get(2) + ")");
-			for (String s : datosSala.get(3).split(","))
-				datosLista.addElement(s);
-		}
 
 		this.labelUsrEnLaSala.setBounds(159, 48, 39, 23);
 		getContentPane().add(this.labelUsrEnLaSala);
@@ -121,41 +147,75 @@ public class VentanaSala extends JFrame {
 
 		JLabel labelTipoJuego = new JLabel("Tipo de jugabilidad:");
 		labelTipoJuego.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		labelTipoJuego.setBounds(195, 90, 165, 33);
+		labelTipoJuego.setBounds(236, 95, 124, 20);
 		contentPane.add(labelTipoJuego);
 
 		JLabel labelMapa = new JLabel("Mapa:");
 		labelMapa.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		labelMapa.setBounds(198, 197, 165, 20);
+		labelMapa.setBounds(236, 192, 98, 20);
 		contentPane.add(labelMapa);
 
-		mapa = new JComboBox<Object>();
-		mapa.setToolTipText("Debe seleccionar un tipo de mapa.");
+		comboMapa = new JComboBox<Object>();
+		comboMapa.setToolTipText("Debe seleccionar un tipo de mapa.");
 
-		mapa.setBounds(368, 192, 151, 25);
-		mapa.addItem("Seleccionar un mapa");
-		mapa.addItem("Mapa 1");
-		mapa.addItem("Mapa 2");
-		mapa.addItem("Mapa 3");
-		contentPane.add(mapa);
-		mapa.setEnabled(false);
+		comboMapa.setBounds(368, 192, 151, 25);
+		comboMapa.addItem("Seleccionar un mapa");
+		comboMapa.addItem("Mapa 1");
+		comboMapa.addItem("Mapa 2");
+		comboMapa.addItem("Mapa 3");
+		contentPane.add(comboMapa);
 
 		chckbxSupervivencia = new JCheckBox("Supervivencia");
 		chckbxSupervivencia.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxSupervivencia.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxSupervivencia);
-		chckbxSupervivencia.setEnabled(false);
 
 		chckbxFruta = new JCheckBox("Fruta");
 		chckbxFruta.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxFruta.setBounds(366, 121, 130, 23);
 		contentPane.add(chckbxFruta);
-		chckbxFruta.setEnabled(false);
 
 		chckbxTiempo = new JCheckBox("Tiempo");
 		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
+		
+		JLabel lblTipoJugabilidad = new JLabel("");
+		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblTipoJugabilidad.setBounds(236, 133, 238, 24);
+		lblTipoJugabilidad.setVisible(false);
+		contentPane.add(lblTipoJugabilidad);
+		
+		JLabel lblMapa = new JLabel("");
+		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblMapa.setBounds(246, 227, 130, 24);
+		lblMapa.setVisible(false);
+		contentPane.add(lblMapa);
+		
+		lblAdmin = new JLabel("");
+		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblAdmin.setBounds(236, 275, 73, 30);
+		lblAdmin.setVisible(true);
+		contentPane.add(lblAdmin);
+		
+		if(esAdmin) {
+			chckbxSupervivencia.setEnabled(true);
+			chckbxFruta.setEnabled(true);
+			chckbxTiempo.setEnabled(true);
+			comboMapa.setEnabled(true);
+
+			chckbxSupervivencia.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					verificarBotones();
+				}
+			});
+			chckbxFruta.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					verificarBotones();
+				}
+			});
 		chckbxTiempo.setEnabled(false);
 		
 		JLabel lblCantidadBots = new JLabel("Cantidad bots:");
@@ -168,35 +228,42 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
 
-		/*
-		 * Visibilidad unica para el admin. Seleccionar tipo de jugabilidad. Seleccionar
-		 * mapa a jugar. Empezar el juego
-		 */
-		if (this.creacionUnionSala == Param.CREACION_SALA_ADMIN) {
-			availableToAdmin();
-		}
-		addListener();
 
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					salirSala();
-					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
-					System.exit(0);
+			chckbxTiempo.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					verificarBotones();
 				}
-			}
-		});
+			});
+
+			comboMapa.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					verificarBotones();
+				}
+			});
+			lblAdmin.setText("Vos sos el admin");
+		}else {
+			lblMapa.setVisible(true);
+			comboMapa.setVisible(false);
+			chckbxFruta.setVisible(false);
+			chckbxSupervivencia.setVisible(false);
+			chckbxTiempo.setVisible(false);
+		}
 
 	}
-
-	protected void salirSala() {
+	
+	private void salirSala() {
 		ventanaMenu.setVisible(true);
 		setVisible(false);
+		JsonObject paqueteSalirSala = 
+				Json.createObjectBuilder().add("type", Param.NOTICE_SALIR_SALA)
+				.add("nombreSala", this.nombreSala).build();
+		
 		Cliente.getConexionServidor().SalirSala(this.nombreSala);
-		Cliente.getconexionServidorBackOff().avisarAlSvQueMandeActualizacionSalas(Param.NOTICE_SALIR_SALA);
+		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteSalirSala);
 	}
+	
 
 	protected void empezarJuego() {
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText()) == false) {
@@ -206,49 +273,6 @@ public class VentanaSala extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaJuego(null);
-	}
-
-	private void availableToAdmin() {
-		chckbxSupervivencia.setEnabled(true);
-		chckbxFruta.setEnabled(true);
-		chckbxTiempo.setEnabled(true);
-		mapa.setEnabled(true);
-
-		chckbxSupervivencia.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				verificarBotones();
-			}
-		});
-		chckbxFruta.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				verificarBotones();
-			}
-		});
-
-		chckbxTiempo.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				verificarBotones();
-			}
-		});
-
-		mapa.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				verificarBotones();
-			}
-		});
-	}
-
-	protected void verificarBotones() {
-		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& mapa.getSelectedIndex() != 0) {
-			btnEmpezarJuego.setEnabled(true);
-		} else {
-			btnEmpezarJuego.setEnabled(false);
-		}
 	}
 
 	private void addListener() {
@@ -273,5 +297,25 @@ public class VentanaSala extends JFrame {
 				}
 			}
 		});
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					salirSala();
+					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					System.exit(0);
+				}
+			}
+		});
+
+	}
+
+	
+	//TODO: falta hacer este metodo 
+	// Metodo que usa el Thread para refrescar la Sala a cada cliente
+	public void refrescarSala() {
+
 	}
 }

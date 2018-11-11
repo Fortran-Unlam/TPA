@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel;
 public class TableModelSalas extends AbstractTableModel {
 
 	private String[] columnNames;
-	private Object[][] data;
+	private String[][] data;
 	
 	public TableModelSalas() {
 		
@@ -21,7 +21,7 @@ public class TableModelSalas extends AbstractTableModel {
 		this.data = null;
 	}
 	
-	public void setData(Object[][] data) {
+	public void setData(String[][] data) {
 		this.columnNames = new String[3];
 		this.columnNames[0] = "Sala";
 		this.columnNames[1] = "Disponibilidad";

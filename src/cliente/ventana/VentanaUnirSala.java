@@ -9,6 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +35,7 @@ public class VentanaUnirSala extends JFrame {
 	private static final long serialVersionUID = -7041821010096850636L;
 	private JPanel contentPane;
 	private VentanaMenu ventanaMenu;
-	private String[] datosSalaSeleccionada = new String[3];
+	private String nombreSalaSeleccionada;
 	private TableModelSalas tableModelSalas = new TableModelSalas();
 	private JTable tableSalas;
 
@@ -61,8 +65,8 @@ public class VentanaUnirSala extends JFrame {
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (!(datosSalaSeleccionada[0] == null)) {
-					unirseASala(datosSalaSeleccionada);
+				if (!(nombreSalaSeleccionada == null)) {
+					unirseASala(nombreSalaSeleccionada);
 				} else {
 					JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
 							JOptionPane.WARNING_MESSAGE);
@@ -84,9 +88,7 @@ public class VentanaUnirSala extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int filaSeleccionada = tableSalas.rowAtPoint(e.getPoint());
-				datosSalaSeleccionada[0] = (String) tableSalas.getValueAt(filaSeleccionada, 0);
-				datosSalaSeleccionada[1] = (String) tableSalas.getValueAt(filaSeleccionada, 1);
-				datosSalaSeleccionada[2] = (String) tableSalas.getValueAt(filaSeleccionada, 2);
+				nombreSalaSeleccionada = (String) tableSalas.getValueAt(filaSeleccionada, 0);
 			}
 		});
 		scrollPane.setViewportView(tableSalas);
@@ -110,34 +112,38 @@ public class VentanaUnirSala extends JFrame {
 				}
 			}
 		});
-
+		JsonObject paqueteIngresoVentanaUnirSala = 
+				Json.createObjectBuilder().add("type", Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)
+				.build();
 		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
 		Cliente.getconexionServidorBackOff()
-				.avisarAlSvQueMandeActualizacionSalas(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA);
+				.avisarAlSvQueHagaActualizaciones(paqueteIngresoVentanaUnirSala);
 
 	}
 
-	private void unirseASala(String[] datosSala) {
+	private void unirseASala(String nombreSala) {
 		//le paso el nombre
-		Cliente.getConexionServidor().unirseASala(datosSala[0]);
-		ArrayList<String> datosParaConstruirVentanaSala = new ArrayList<>();
-		datosParaConstruirVentanaSala.add(datosSala[0]);	//Nombre de la sala
-		datosParaConstruirVentanaSala.add(datosSala[1].substring(0, datosSala[1].indexOf("/"))); //Max users
-		datosParaConstruirVentanaSala.add(datosSala[2]); 	//Admin de la sala
+		Cliente.getConexionServidor().unirseASala(nombreSala);
+		JsonObject paqueteUnirSala = 
+				Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
+				.add("nombreSala", nombreSala).build();
+		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteUnirSala);
 		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaSala(this, datosParaConstruirVentanaSala, Param.UNION_SALA).setVisible(true);
+		new VentanaSala(this, false, nombreSala).setVisible(true);
 	}
 
 	// Metodo que usa el Thread para refrescarle las salas a la ventana.
-	public void refrescarListaDeSalas(ArrayList<String> datosDeSalasDisponibles) {
-		Object data[][] = new Object[datosDeSalasDisponibles.size()][3];
+	public void refrescarListaDeSalas(JsonArray datosDeSalasDisponibles) {
+		String data[][] = new String[datosDeSalasDisponibles.size()][3];
 
+		System.out.println(data);
 		for (int i = 0; i < datosDeSalasDisponibles.size(); i++) {
-			String[] campos = datosDeSalasDisponibles.get(i).split(Param.SEPARADOR_EN_MENSAJES);
-			data[i][0] = campos[0]; // nombre sala
-			data[i][1] = campos[1]; // usrConectados/UsrMax
-			data[i][2] = campos[2]; // admin
+			
+			data[i][0] = datosDeSalasDisponibles.getJsonObject(i).getString("nombre");
+			data[i][1] = (datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosActivos")
+						+ "/" + datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosMaximos"));
+			data[i][2] = datosDeSalasDisponibles.getJsonObject(i).getString("administrador");
 		}
 
 		if (datosDeSalasDisponibles.isEmpty()) {
