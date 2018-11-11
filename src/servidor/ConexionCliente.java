@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import com.google.gson.Gson;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import config.Param;
 import config.Posicion;
@@ -47,7 +47,6 @@ public class ConexionCliente extends Thread {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
 		boolean conectado = true;
@@ -57,10 +56,10 @@ public class ConexionCliente extends Thread {
 			try {
 				Message message = (Message) this.entradaDatos.readObject();
 				System.out.println("El cliente solicita " + message.getType());
-
+				ObjectMapper objectMapper = new ObjectMapper();
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					properties = new Gson().fromJson((String) message.getData(), Properties.class);
+					properties = objectMapper.readValue((String)message.getData(), Properties.class);
 
 					usuario = UsuarioDAO.loguear(properties.getProperty("username"),
 							properties.getProperty("hashPassword"));
@@ -84,13 +83,14 @@ public class ConexionCliente extends Thread {
 							Servidor.agregarAUsuariosActivos(usuario);
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, objectMapper.writeValueAsString(usuario)));
+							//this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
 						}
 					}
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
-					properties = new Gson().fromJson((String) message.getData(), Properties.class);
+					properties = objectMapper.readValue((String)message.getData(), Properties.class);
 
 					int resultado = UsuarioDAO.registrar(properties.getProperty("username"),
 							properties.getProperty("hashPassword"));
@@ -216,7 +216,7 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_CERRAR_SESION:
-					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
+					usuario = objectMapper.readValue((String)message.getData(), Usuario.class);
 
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
 						if (usuarioEnServer.getId() == usuario.getId()) {

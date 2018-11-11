@@ -2,8 +2,7 @@ package looby;
 
 import java.io.Serializable;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import config.Param;
 import core.Jugador;
@@ -53,12 +52,12 @@ public class Usuario implements Serializable {
 		this.rondasGanadas = rondasGanadas;
 	}
 
-	public Usuario(JsonObject jsonObject) {
+	/*public Usuario(JsonObject jsonObject) {
 		this.id = Integer.valueOf(jsonObject.get("id").toString());
 		this.username = jsonObject.get("username").toString();
 		this.password = jsonObject.get("password").toString();
 		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
-	}
+	}*/
 
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
 		Sala sala = new Sala(nombreSala, cantDeUsrMaximos, this);
@@ -146,16 +145,10 @@ public class Usuario implements Serializable {
 		this.rondasGanadas = rondasGanadas;
 	}
 
-	public String getUsuarioLogueado() {
+	/*public String getUsuarioLogueado() {
+		String usuario = new ObjectMapper().writeValueAsString(this);
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
-	}
-/*
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
-				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
-				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
 	}*/
 
 	public void setJugador(Jugador jugador) {

@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-
 import config.Param;
 import config.Posicion;
 import core.Colisionador;
@@ -390,23 +385,6 @@ public class Mapa implements Serializable {
 		score.sort(null);
 		return score;
 	}
-	
-	public JsonArray scoringJson() {
-		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
-		for (Jugador jugador : this.jugadores) {
-			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
-		}
-		for (Jugador jugador : this.espectadores) {
-			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
-		}
-		score.sort(null);
-		JsonArrayBuilder scoreArrayBuilder = Json.createArrayBuilder();
-		
-		for (Puntaje puntaje : score) {
-			scoreArrayBuilder.add(puntaje.toString());
-		}
-		return scoreArrayBuilder.build();
-	}
 
 	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
@@ -426,34 +404,5 @@ public class Mapa implements Serializable {
 
 	public boolean getMurioUnJugador() {
 		return this.murioUnJugador;
-	}
-	
-	public JsonObject toJson() {
-		//Mando en el orde: jugador -> fruta -> obstaculo
-		JsonArrayBuilder jugadores = Json.createArrayBuilder();
-		JsonArrayBuilder frutas = Json.createArrayBuilder();
-		JsonArrayBuilder obstaculos = Json.createArrayBuilder();
-		
-		for(Jugador j: this.jugadores) {
-			jugadores.add(j.toJson());
-		}
-		
-		for(Fruta f: this.frutas) {
-			frutas.add(f.toJson());
-		}
-		
-		for(Obstaculo o: this.obstaculos) {
-			obstaculos.add(o.toJson());
-		}
-		
-		return Json.createObjectBuilder()
-				//Orden: tamaño->jugadores->frutas->obstaculos->score
-				.add("tamano", this.tamano.toJson())
-				.add("jugadores", jugadores)
-				.add("frutas", frutas)
-				.add("obstaculos", obstaculos)
-				.add("murioUnJugador", this.murioUnJugador)
-				.add("score", this.scoringJson())
-				.build();
 	}
 }

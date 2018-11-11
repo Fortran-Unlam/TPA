@@ -9,21 +9,20 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.StringReader;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import cliente.Cliente;
 import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import core.mapa.Juego;
+import core.mapa.Mapa;
 
 public class VentanaJuego extends JFrame {
 
@@ -111,18 +110,17 @@ public class VentanaJuego extends JFrame {
 	}
 	
 	public void dibujarMapaJson(String jsonString) {
-		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
-		JsonObject json = jsonReader.readObject();
-		jsonReader.close();
+		ObjectMapper receive = new ObjectMapper();
+		
+		Mapa mapaRecibido = receive.readValue(jsonString, Mapa.class);
 
 		BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2d = (Graphics2D) bufferedImage.getGraphics();
 
-		JsonObject mapa = json.getJsonObject("mapa");
-		if (!mapa.isEmpty()) {
 			g2d.setColor(Color.BLACK);
 			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
+			mapaRecibido.getfrutas();
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
@@ -131,6 +129,7 @@ public class VentanaJuego extends JFrame {
 						Param.PIXEL_RESIZE);
 			}
 
+			mapaRecibido.getJugadores();
 			JsonArray jugadores = mapa.getJsonArray("jugadores");
 
 			for (int i = 0; i < jugadores.size(); i++) {
@@ -144,7 +143,7 @@ public class VentanaJuego extends JFrame {
 				if (vibora.getBoolean("bot")) {
 					g2d.setColor(Color.GREEN);
 				}
-
+				
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");
 
 				for (int j = 0; j < cuerpo.size(); j++) {
@@ -154,6 +153,7 @@ public class VentanaJuego extends JFrame {
 				}
 			}
 
+			mapaRecibido.getObstaculos();
 			JsonArray obstaculos = mapa.getJsonArray("obstaculos");
 
 			for (int i = 0; i < obstaculos.size(); i++) {
@@ -169,7 +169,6 @@ public class VentanaJuego extends JFrame {
 				listModel[i] = score.get(i).toString();
 			}
 			jListScore.setListData(listModel);
-		}
 
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(String.valueOf(json.getInt("tiempoTranscurrido")), Param.MAPA_WIDTH - 30, 30);

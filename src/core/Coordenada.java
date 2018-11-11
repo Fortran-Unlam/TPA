@@ -2,9 +2,6 @@ package core;
 
 import java.io.Serializable;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-
 
 public class Coordenada implements Serializable {
 
@@ -107,12 +104,5 @@ public class Coordenada implements Serializable {
 		if (y != other.y)
 			return false;
 		return true;
-	}
-
-	public JsonObject toJson() {
-		return Json.createObjectBuilder()
-				.add("x", this.x)
-				.add("y", this.y)
-				.build();
 	}
 }

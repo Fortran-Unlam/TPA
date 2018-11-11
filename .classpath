@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="hibernate"/>
 	<classpathentry kind="src" path="recursos"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="javax.json-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/libHibernate/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/libHibernate/classmate-1.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/libHibernate/dom4j-1.6.1.jar"/>
@@ -22,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/libHibernate/slf4j-simple-1.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/libHibernate/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/hash/commons-codec-1.11.jar"/>
-	<classpathentry kind="lib" path="lib/gson-2.6.2.jar"/>
-	<classpathentry kind="lib" path="lib/gson-2.6.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/reflejo/eclipse-workspace/TestJSON/jackson-all-1.9.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

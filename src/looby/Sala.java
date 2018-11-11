@@ -3,10 +3,6 @@ package looby;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
 public class Sala implements Serializable {
 
 	private static final long serialVersionUID = -3003995871552317389L;
@@ -93,20 +89,6 @@ public class Sala implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public JsonObjectBuilder jsonify() {
-		return Json.createObjectBuilder().add("nombreSala", this.nombre)
-				.add("cantidadUsuarioActuales", this.cantidadUsuarioActuales)
-				.add("cantidadUsuarioMaximos", this.cantidadUsuarioMaximos)
-				.add("cantidadDePartidasJugadas", this.cantidadDePartidasJugadas);
-	}
-
-	public Sala(JsonObject jsonObject) {
-		this.nombre = jsonObject.get("nombreSala").toString();
-		this.cantidadUsuarioActuales = Integer.valueOf(jsonObject.get("cantidadUsuarioActuales").toString());
-		this.cantidadUsuarioMaximos = Integer.valueOf(jsonObject.get("cantidadUsuarioMaximos").toString());
-		this.cantidadDePartidasJugadas = Integer.valueOf(jsonObject.get("cantidadDePartidasJugadas").toString());
 	}
 
 	public Partida getPartidaActual() {

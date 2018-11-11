@@ -6,7 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import com.google.gson.Gson;
+import org.codehaus.jackson.*;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
@@ -57,12 +58,11 @@ public class ConexionServidor {
 		try {
 			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request));
-
+			ObjectMapper receive = new ObjectMapper();
 			this.message = (Message) entradaDatos.readObject();
-
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
-				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
+				this.usuario = receive.readValue((String)message.getData(), Usuario.class);
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");
@@ -96,9 +96,10 @@ public class ConexionServidor {
 	}
 
 	public Message cerrarSesionUsuario(Usuario usuario) {
+		ObjectMapper send = new ObjectMapper();
 		try {
 			System.err.println("cerrar sesion");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)));
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, send.writeValueAsString(usuario)));
 
 			this.message = (Message) entradaDatos.readObject();
 			return this.message;

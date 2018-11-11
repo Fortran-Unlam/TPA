@@ -3,9 +3,6 @@ package looby;
 import java.io.Serializable;
 import java.util.Random;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-
 import config.Param;
 import config.Posicion;
 

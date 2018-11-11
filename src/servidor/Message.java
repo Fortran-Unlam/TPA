@@ -2,10 +2,7 @@ package servidor;
 
 import java.io.Serializable;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-
-import com.google.gson.Gson;
+import org.codehaus.jackson.*;
 
 public class Message implements Serializable {
 
@@ -33,9 +30,5 @@ public class Message implements Serializable {
 
 	public void setData(Object data) {
 		this.data = data;
-	}
-
-	public String toJson() {
-		return new Gson().toJson(this);
 	}
 }

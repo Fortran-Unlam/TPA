@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.hibernate.Session;
 
 import config.Param;
@@ -164,9 +165,11 @@ public class Servidor {
 	 * @param juego
 	 */
 	public static boolean actualizarJuego(Juego juego) {
+		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			Mapa mapa = juego.getMapa();
-			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
+			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, objectMapper.writeValueAsString(juego));
+			//Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
 			boolean enviar = false;
 			for (Usuario usuario : usuariosActivos) {
 				enviar = false;

@@ -2,9 +2,6 @@ package core.entidad;
 
 import java.io.Serializable;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-
 import core.Coordenada;
 
 public class Fruta implements Serializable {
@@ -39,12 +36,5 @@ public class Fruta implements Serializable {
 
 	public boolean getFueComida() {
 		return this.fueComida;
-	}
-
-	public JsonObject toJson() {
-		return Json.createObjectBuilder()
-				.add("x", this.getX())
-				.add("y", this.getY())
-				.build();
 	}
 }
