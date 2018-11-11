@@ -82,14 +82,14 @@ public class Mapa {
 	 * @param vibora
 	 */
 	protected boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora) || this.getJugador(vibora.getX(), vibora.getY()) != null
+		if (!this.estaDentro(vibora) || this.getJugador(vibora) != null
 				|| this.getFruta(vibora.getX(), vibora.getY()) != null
 				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
 		}
 
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
-			if (!this.estaDentro(cuerpo) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
+			if (!this.estaDentro(cuerpo) || this.getJugador(cuerpo) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
@@ -133,7 +133,7 @@ public class Mapa {
 	 * @param fruta
 	 */
 	public boolean add(final Fruta fruta) {
-		if (!this.estaDentro(fruta) || this.getJugador(fruta.getX(), fruta.getY()) != null
+		if (!this.estaDentro(fruta) || this.getJugador(fruta) != null
 				|| this.getFruta(fruta.getX(), fruta.getY()) != null
 				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
 			return false;
@@ -151,8 +151,7 @@ public class Mapa {
 	 * @param obstaculo
 	 */
 	public boolean add(final Obstaculo obstaculo) {
-		if (!this.estaDentro(obstaculo)
-				|| this.getJugador(obstaculo.getX(), obstaculo.getY()) != null
+		if (!this.estaDentro(obstaculo) || this.getJugador(obstaculo) != null
 				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getObstaculo(obstaculo.getX(), obstaculo.getY()) != null) {
 			return false;
@@ -173,8 +172,7 @@ public class Mapa {
 		LinkedList<Obstaculo> piedras = muro.getPiedras();
 
 		while (!piedras.isEmpty()) {
-			if (!this.estaDentro(piedras.getFirst())
-					|| this.getJugador(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
+			if (!this.estaDentro(piedras.getFirst()) || this.getJugador(piedras.getFirst()) != null
 					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
 				return false;
@@ -325,12 +323,12 @@ public class Mapa {
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public Jugador getJugador(final int x, final int y) {
+	public Jugador getJugador(final Coordenable object) {
 		if (this.cambioEnVibora) {
 			this.cargarYVerSiColisionanViboras();
 		}
 		if (this.posicionesDeJugadores != null) {
-			return this.posicionesDeJugadores[x][y];
+			return this.posicionesDeJugadores[object.getX()][object.getY()];
 		}
 		return null;
 	}
@@ -372,7 +370,8 @@ public class Mapa {
 	 * @return True si esta adentro
 	 */
 	public boolean estaDentro(final Coordenable object) {
-		return object.getX() >= 0 && object.getY() >= 0 && this.tamano.getX() >= object.getX() && this.tamano.getY() >= object.getY();
+		return object.getX() >= 0 && object.getY() >= 0 && this.tamano.getX() >= object.getX()
+				&& this.tamano.getY() >= object.getY();
 	}
 
 	public ArrayList<Puntaje> scoring() {
