@@ -2,12 +2,14 @@ package looby;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import config.Param;
 import core.Jugador;
 import servidor.ConexionCliente;
 
+@JsonIgnoreProperties
 public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = -2637338189236421497L;
@@ -150,7 +152,8 @@ public class Usuario implements Serializable {
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
 	}*/
-
+	
+	@JsonIgnore
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
 	}

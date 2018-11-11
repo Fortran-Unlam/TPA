@@ -50,7 +50,7 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		boolean conectado = true;
-		Properties properties;
+		String properties;
 
 		while (conectado) {
 			try {
@@ -59,11 +59,9 @@ public class ConexionCliente extends Thread {
 				ObjectMapper objectMapper = new ObjectMapper();
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					properties = objectMapper.readValue((String)message.getData(), Properties.class);
-
-					usuario = UsuarioDAO.loguear(properties.getProperty("username"),
-							properties.getProperty("hashPassword"));
-
+					properties = (String)message.getData();
+					usuario = UsuarioDAO.loguear(properties.split("_")[0],
+							properties.split("_")[1]);
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
@@ -84,16 +82,15 @@ public class ConexionCliente extends Thread {
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
 							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, objectMapper.writeValueAsString(usuario)));
-							//this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
 						}
 					}
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
-					properties = objectMapper.readValue((String)message.getData(), Properties.class);
+					properties = objectMapper.readValue((String)message.getData(), String.class);
 
-					int resultado = UsuarioDAO.registrar(properties.getProperty("username"),
-							properties.getProperty("hashPassword"));
+					int resultado = UsuarioDAO.registrar(properties.split("_")[0],
+							properties.split("_")[1]);
 
 					switch (resultado) {
 					case -1:

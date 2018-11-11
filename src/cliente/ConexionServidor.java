@@ -56,7 +56,7 @@ public class ConexionServidor {
 	 */
 	public Usuario loguear(String username, String hashPassword) {
 		try {
-			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
+			String request = username+"_"+hashPassword;
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request));
 			ObjectMapper receive = new ObjectMapper();
 			this.message = (Message) entradaDatos.readObject();
