@@ -46,7 +46,6 @@ public class VentanaSala extends JFrame {
 	private JComboBox<Object> comboMapa;
 	private JButton btnSalirDeSala;
 	private JLabel lblAdmin;
-	private JLabel lblAdministrador;
 	private JTextField cantBots;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
@@ -127,15 +126,15 @@ public class VentanaSala extends JFrame {
 		this.listUsuarios.setOpaque(false);
 		getContentPane().add(this.listUsuarios);
 
-		JLabel lblUsuariosConectados = new JLabel("Usuarios conectados a la sala");
+		JLabel lblUsuariosConectados = new JLabel("Usuarios conectados a la sala:");
 		lblUsuariosConectados.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsuariosConectados.setBounds(30, 48, 186, 24);
+		lblUsuariosConectados.setBounds(33, 48, 186, 24);
 		getContentPane().add(lblUsuariosConectados);
 
 		this.labelUsrEnLaSala = new JLabel("");
 		labelUsrEnLaSala.setFont(new Font("Tahoma", Font.PLAIN, 14));
 
-		this.labelUsrEnLaSala.setBounds(159, 48, 39, 23);
+		this.labelUsrEnLaSala.setBounds(220, 52, 39, 23);
 		getContentPane().add(this.labelUsrEnLaSala);
 
 		JLabel labelSala = new JLabel(this.nombreSala, SwingConstants.CENTER);
@@ -181,19 +180,20 @@ public class VentanaSala extends JFrame {
 
 		JLabel lblTipoJugabilidad = new JLabel("");
 		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTipoJugabilidad.setBounds(236, 133, 238, 24);
+		lblTipoJugabilidad.setBounds(236, 131, 238, 24);
 		lblTipoJugabilidad.setVisible(false);
 		contentPane.add(lblTipoJugabilidad);
 
 		JLabel lblMapa = new JLabel("");
 		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMapa.setBounds(246, 227, 130, 24);
+		lblMapa.setBounds(366, 192, 130, 24);
 		lblMapa.setVisible(false);
 		contentPane.add(lblMapa);
 
 		lblAdmin = new JLabel("");
+		lblAdmin.setForeground(new Color(184, 134, 11));
 		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblAdmin.setBounds(236, 275, 73, 30);
+		lblAdmin.setBounds(382, 48, 202, 24);
 		lblAdmin.setVisible(true);
 		contentPane.add(lblAdmin);
 
@@ -219,7 +219,7 @@ public class VentanaSala extends JFrame {
 
 			JLabel lblCantidadBots = new JLabel("Cantidad bots:");
 			lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblCantidadBots.setBounds(195, 228, 165, 20);
+			lblCantidadBots.setBounds(195, 240, 165, 20);
 			contentPane.add(lblCantidadBots);
 
 			cantBots = new JTextField();
@@ -247,6 +247,7 @@ public class VentanaSala extends JFrame {
 			chckbxFruta.setVisible(false);
 			chckbxSupervivencia.setVisible(false);
 			chckbxTiempo.setVisible(false);
+			btnSalirDeSala.setBounds(236, 346, 162, 40);
 		}
 
 	}
