@@ -53,8 +53,8 @@ public class ConexionClienteBackOff extends Thread {
 
 				// Le asigno al usuario su conexion
 				if (tipoDeMensaje.equals(Param.REQUEST_CONEXION_BACKOFF_CLIENTE)) {
-					for (Usuario u : Servidor.getUsuariosActivos()) {
-						if (u.getUsername().equals(entradaJson.getString("username"))) {							
+					for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
+						if (usuarioActivo.getUsername().equals(entradaJson.getString("username"))) {
 //							u.setConexionBackOff(this);
 						}
 					}
@@ -101,16 +101,15 @@ public class ConexionClienteBackOff extends Thread {
 	}
 
 	public void enviarActualizacionSalasALosClientes() {
-  		// Pido los datos de las salas
+		// Pido los datos de las salas
 		JsonArray datosDeSalas = Servidor.getAllSalas();
 		JsonObjectBuilder paqueteActualizacionDeSalas = Json.createObjectBuilder();
-		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS)
-		.add("datosDeSalas", datosDeSalas);
-		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
+		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS).add("datosDeSalas", datosDeSalas);
+		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
 			// Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las
 			// salas actualizadas
 			try {
-				c.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
+				conexion.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -122,12 +121,15 @@ public class ConexionClienteBackOff extends Thread {
 
 		JsonArrayBuilder usuarios = Json.createArrayBuilder();
 
-		for (Usuario u : salaARefrescar.getUsuariosActivos()) {
-			usuarios.add(u.getUsername());
+		for (Usuario usuarioActivo : salaARefrescar.getUsuariosActivos()) {
+			usuarios.add(usuarioActivo.getUsername());
 		}
 
 		String tipoJugabilidad = "";
-
+		// TODO: No se si esto es para avisar a los otros cliente
+		// si esto es así no se si es necesario enviar tanta info
+		// por otro lado, hay que ver cuando es que el servidor crea el juego para pasarle el
+		// tipo de juego
 		if (entradaJson.getBoolean("fruta")) {
 			tipoJugabilidad += "fruta";
 		}
