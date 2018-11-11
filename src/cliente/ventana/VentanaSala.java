@@ -64,35 +64,33 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_MODIFICAR_PARAM_SALA);
 
 		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
-		// Agrego el tipo de jugabilidads
-		if (chckbxFruta.isSelected())
+		
+		nombreSalatipoJuegoYMapa.add("fruta", false);
+		nombreSalatipoJuegoYMapa.add("supervivencia", false);
+		nombreSalatipoJuegoYMapa.add("tiempo", false);
+		btnEmpezarJuego.setEnabled(false);
+		
+		if (chckbxFruta.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("fruta", true);
-		else
-			nombreSalatipoJuegoYMapa.add("fruta", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		if (chckbxSupervivencia.isSelected())
+		if (chckbxSupervivencia.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("supervivencia", true);
-		else
-			nombreSalatipoJuegoYMapa.add("supervivencia", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		if (chckbxTiempo.isSelected())
+		if (chckbxTiempo.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("tiempo", true);
-		else
-			nombreSalatipoJuegoYMapa.add("tiempo", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		// AgregoElTipoDeMapa
 		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
 
 		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(nombreSalatipoJuegoYMapa.build());
-		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& comboMapa.getSelectedIndex() != 0) {
-			btnEmpezarJuego.setEnabled(true);
-		} else {
-			btnEmpezarJuego.setEnabled(false);
-		}
 	}
 
-	//La visibilidad por default es para el admin
+	// La visibilidad por default es para el admin
 	private void setearComponentes(boolean esAdmin) {
 		setTitle("Sala de juego");
 
@@ -157,7 +155,6 @@ public class VentanaSala extends JFrame {
 		comboMapa.setToolTipText("Debe seleccionar un tipo de mapa.");
 
 		comboMapa.setBounds(368, 192, 151, 25);
-		comboMapa.addItem("Seleccionar un mapa");
 		comboMapa.addItem("Mapa 1");
 		comboMapa.addItem("Mapa 2");
 		comboMapa.addItem("Mapa 3");
@@ -196,12 +193,12 @@ public class VentanaSala extends JFrame {
 		lblAdmin.setBounds(382, 48, 202, 24);
 		lblAdmin.setVisible(true);
 		contentPane.add(lblAdmin);
-		
+
 		lblCantidadBots = new JLabel("Cantidad bots:");
 		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCantidadBots.setBounds(236, 250, 111, 20);
 		contentPane.add(lblCantidadBots);
-		
+
 		cantBots = new JTextField();
 		cantBots.setBounds(377, 252, 32, 20);
 		contentPane.add(cantBots);
@@ -225,8 +222,6 @@ public class VentanaSala extends JFrame {
 					verificarBotones();
 				}
 			});
-			chckbxTiempo.setEnabled(false);
-
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override

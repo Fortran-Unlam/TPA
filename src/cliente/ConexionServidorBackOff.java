@@ -37,14 +37,16 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
+	/**
+	 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
+	 * todos los clientes con los datos de las salas actualizadas, tengo que esperar
+	 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
+	 * continuar.
+	 * 
+	 * @param paquete
+	 */
 	public void avisarAlSvQueHagaActualizaciones(JsonObject paquete) {
 
-		/*
-		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
-		 * todos los clientes con los datos de las salas actualizadas, tengo que esperar
-		 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
-		 * continuar.
-		 */
 		System.out.println(paquete.toString());
 		try {
 			this.salidaDatos.writeObject(paquete.toString());
