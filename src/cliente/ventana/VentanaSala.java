@@ -36,6 +36,7 @@ public class VentanaSala extends JFrame {
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
+	private JLabel lblCantidadBots;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
@@ -91,6 +92,7 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
+	//La visibilidad por default es para el admin
 	private void setearComponentes(boolean esAdmin) {
 		setTitle("Sala de juego");
 
@@ -116,8 +118,6 @@ public class VentanaSala extends JFrame {
 		btnEmpezarJuego.setBounds(111, 346, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
 
-		// La lista esta relacionado a un datosLista que cuando cambian, la lista
-		// cambia.
 		this.listUsuarios = new JList<String>(datosLista);
 		listUsuarios.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -196,6 +196,16 @@ public class VentanaSala extends JFrame {
 		lblAdmin.setBounds(382, 48, 202, 24);
 		lblAdmin.setVisible(true);
 		contentPane.add(lblAdmin);
+		
+		lblCantidadBots = new JLabel("Cantidad bots:");
+		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCantidadBots.setBounds(236, 250, 111, 20);
+		contentPane.add(lblCantidadBots);
+		
+		cantBots = new JTextField();
+		cantBots.setBounds(377, 252, 32, 20);
+		contentPane.add(cantBots);
+		cantBots.setColumns(10);
 
 		if (esAdmin) {
 			chckbxSupervivencia.setEnabled(true);
@@ -217,15 +227,6 @@ public class VentanaSala extends JFrame {
 			});
 			chckbxTiempo.setEnabled(false);
 
-			JLabel lblCantidadBots = new JLabel("Cantidad bots:");
-			lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			lblCantidadBots.setBounds(195, 240, 165, 20);
-			contentPane.add(lblCantidadBots);
-
-			cantBots = new JTextField();
-			cantBots.setBounds(367, 228, 32, 20);
-			contentPane.add(cantBots);
-			cantBots.setColumns(10);
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override
