@@ -23,6 +23,9 @@ import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import core.mapa.Juego;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.JSeparator;
 
 public class VentanaJuego extends JFrame {
 
@@ -34,7 +37,8 @@ public class VentanaJuego extends JFrame {
 	private JLabel lblVib;
 	private JLabel lblFrutas;
 
-	private JList<String> jListScore;
+	private JList<String> jListJugadores;
+	private JList<String> jListFrutas;
 
 	private JButton btnSalirJuego;
 	private JPanel panelMapa;
@@ -43,6 +47,13 @@ public class VentanaJuego extends JFrame {
 	private Sonido musicaFondo;
 
 	private JButton btnNewButton;
+	private JLabel lblReferencia;
+	private JLabel lblObstaculoRef;
+	private JLabel lblFrutasRef;
+	private JSeparator separatorTop;
+	private JSeparator separatorBottom;
+	private JLabel lblJugador;
+	private JLabel lblOtrosJugadores;
 
 	public VentanaJuego(Juego juego) {
 		super("Snake");
@@ -63,36 +74,73 @@ public class VentanaJuego extends JFrame {
 		lblScore.setBounds(16, 7, 67, 21);
 		contentPane.add(lblScore);
 
-		jListScore = new JList<String>();
-		jListScore.setBackground(SystemColor.control);
-		jListScore.setBorder(null);
-		jListScore.setBounds(10, 54, 87, 262);
-		jListScore.setOpaque(false);
-		jListScore.setEnabled(false);
+		jListJugadores = new JList<String>();
+		jListJugadores.setBackground(SystemColor.control);
+		jListJugadores.setBorder(null);
+		jListJugadores.setBounds(10, 54, 50, 247);
+		jListJugadores.setOpaque(false);
+		jListJugadores.setEnabled(false);
+		contentPane.add(jListJugadores);
 
-		contentPane.add(jListScore);
+		jListFrutas = new JList<String>();
+		jListFrutas.setOpaque(false);
+		jListFrutas.setEnabled(false);
+		jListFrutas.setBorder(null);
+		jListFrutas.setBackground(SystemColor.menu);
+		jListFrutas.setBounds(70, 54, 50, 247);
+		contentPane.add(jListFrutas);
 
-		lblVib = new JLabel("Vib");
+		lblVib = new JLabel("Viborita");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblVib.setBounds(10, 39, 22, 14);
+		lblVib.setBounds(10, 39, 50, 14);
 		contentPane.add(lblVib);
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFrutas.setBounds(51, 35, 42, 21);
+		lblFrutas.setBounds(70, 39, 50, 14);
 		this.contentPane.add(lblFrutas);
 
 		btnNewButton = new JButton("Pausa");
-		btnNewButton.setBounds(0, 312, 100, 25);
+		btnNewButton.setBounds(10, 312, 180, 25);
 		this.contentPane.add(btnNewButton);
 
 		this.btnSalirJuego = new JButton("Salir juego");
-		btnSalirJuego.setBounds(0, 350, 100, 25);
+		btnSalirJuego.setBounds(10, 348, 180, 25);
 		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		this.contentPane.add(panelMapa);
+		
+		lblReferencia = new JLabel("Referencias:");
+		lblReferencia.setBounds(10, 397, 180, 21);
+		contentPane.add(lblReferencia);
+		
+		lblObstaculoRef = new JLabel("Obstaculos");
+		lblObstaculoRef.setBounds(10, 441, 150, 21);
+		contentPane.add(lblObstaculoRef);
+		
+		lblFrutasRef = new JLabel("Frutas");
+		lblFrutasRef.setBounds(10, 473, 150, 21);
+		contentPane.add(lblFrutasRef);
+		
+		lblJugador = new JLabel("Jugador");
+		lblJugador.setBounds(10, 505, 150, 21);
+		contentPane.add(lblJugador);
+		
+		lblOtrosJugadores = new JLabel("Otros jugadores");
+		lblOtrosJugadores.setBounds(10, 537, 150, 21);
+		contentPane.add(lblOtrosJugadores);
+		
+		separatorTop = new JSeparator();
+		separatorTop.setBounds(10, 299, 180, 2);
+		contentPane.add(separatorTop);
+		
+		separatorBottom = new JSeparator();
+		separatorBottom.setBounds(10, 384, 180, 2);
+		contentPane.add(separatorBottom);
+		
+		
 		this.setFocusable(true);
 		this.setVisible(true);
 
@@ -162,12 +210,17 @@ public class VentanaJuego extends JFrame {
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
-
-			String[] listModel = new String[score.size()];
+			String[] listModelJugadores = new String[score.size()];
+			String[] listModelFrutas = new String[score.size()];
+			
 			for (int i = 0; i < score.size(); i++) {
-				listModel[i] = score.get(i).toString();
+				String[] jugadorFrutas = score.get(i).toString().split(":");
+				//listModel[i] = score.get(i).toString();
+				listModelJugadores[i] = jugadorFrutas[0];
+				listModelFrutas[i] =  jugadorFrutas[1];
 			}
-			jListScore.setListData(listModel);
+			jListJugadores.setListData(listModelJugadores);
+			jListFrutas.setListData(listModelFrutas);
 		}
 
 		g2d.setColor(Color.WHITE);
