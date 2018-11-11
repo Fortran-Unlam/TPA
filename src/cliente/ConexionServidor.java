@@ -270,7 +270,7 @@ public class ConexionServidor {
 	}
 
 	public void enviarTecla(Posicion posicion) {
-		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
+		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion.ordinal());
 		try {
 			this.salidaDatos.reset();
 			this.salidaDatos.writeObject(this.message.toJson());

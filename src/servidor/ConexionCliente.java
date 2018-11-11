@@ -215,7 +215,7 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
-					Posicion posicion = (Posicion) message.getData();
+					Posicion posicion = Posicion.values()[((Double)message.getData()).intValue()];
 					if (posicion != null) {
 						this.usuario.getJugador().setTecla(posicion);
 					}
