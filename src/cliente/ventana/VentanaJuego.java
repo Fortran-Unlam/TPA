@@ -123,6 +123,7 @@ public class VentanaJuego extends JFrame {
 	public void dibujarMapaJson(String jsonString) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper receive = new ObjectMapper();
 		
+		//Debug Json.
 		System.out.println(jsonString);
 		Juego juegoRecibido = receive.readValue(jsonString, Juego.class);
 		
@@ -137,8 +138,8 @@ public class VentanaJuego extends JFrame {
 			ArrayList<Fruta> frutas = mapaRecibido.getfrutas();
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
-				g2d.fillRect(frutas.get(i).getX() * Param.PIXEL_RESIZE,
-						frutas.get(i).getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+				g2d.fillRect(frutas.get(i).getCoordenada().getX() * Param.PIXEL_RESIZE,
+						frutas.get(i).getCoordenada().getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
 						Param.PIXEL_RESIZE);
 			}
 
@@ -148,7 +149,7 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.RED);
 				Vibora vibora = jugadores.get(i).getVibora();
 				g2d.setColor(Color.YELLOW);
-				g2d.fillRect(vibora.getX() * Param.PIXEL_RESIZE, vibora.getY() * Param.PIXEL_RESIZE,
+				g2d.fillRect(vibora.getHead().getCoordenada().getX() * Param.PIXEL_RESIZE, vibora.getHead().getCoordenada().getY() * Param.PIXEL_RESIZE,
 						Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 
 				g2d.setColor(Color.BLUE);
@@ -159,8 +160,8 @@ public class VentanaJuego extends JFrame {
 				LinkedList<CuerpoVibora> cuerpo = vibora.getCuerpos();
 
 				for (int j = 0; j < cuerpo.size(); j++) {
-					g2d.fillRect(cuerpo.get(i).getX() * Param.PIXEL_RESIZE,
-							cuerpo.get(i).getY() * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+					g2d.fillRect(cuerpo.get(i).getCoordenada().getX() * Param.PIXEL_RESIZE,
+							cuerpo.get(i).getCoordenada().getY()  * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
 							Param.PIXEL_RESIZE);
 				}
 			}
@@ -170,7 +171,7 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(obstaculos.get(i).getX() * 5, obstaculos.get(i).getY() * 5,
+				g2d.fillRect(obstaculos.get(i).getUbicacion().getX() * 5, obstaculos.get(i).getUbicacion().getY() * 5,
 						5, 5);
 			}
 
@@ -185,7 +186,7 @@ public class VentanaJuego extends JFrame {
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(String.valueOf(juegoRecibido.getSegundosTranscurridos()), Param.MAPA_WIDTH - 30, 30);
 		
-		if (juegoRecibido.terminado()) {
+		if (!juegoRecibido.getJuegoEnCurso()) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
 			musicaFondo.stop();

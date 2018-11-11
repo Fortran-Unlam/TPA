@@ -84,8 +84,8 @@ public class Juego{
 		return mapa;
 	}
 
-	public boolean terminado() {
-		return this.juegoEnCurso == false;
+	public boolean getJuegoEnCurso() {
+		return this.juegoEnCurso != false;
 	}
 
 	public int getSegundosTranscurridos() {

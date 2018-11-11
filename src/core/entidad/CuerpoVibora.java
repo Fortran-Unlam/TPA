@@ -1,9 +1,11 @@
 package core.entidad;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonRootName;
 
 import core.Coordenada;
 
+@JsonRootName(value = "cuerpos")
 public class CuerpoVibora {
 	private Coordenada coordenada;
 	private boolean isHead = false;

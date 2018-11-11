@@ -4,15 +4,20 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 import config.Posicion;
 import core.Coordenada;
+import JsonHelper.*;
 
 public class Vibora {
 	private String nombre;
 	private int id;
 	private int frutasComidas;
-	protected LinkedList<CuerpoVibora> bodies = new LinkedList<CuerpoVibora>();
+	@JsonProperty(value = "cuerpos")
+	@JsonDeserialize(using = CuerposDeserializer.class)
+	protected LinkedList<CuerpoVibora> cuerpos = new LinkedList<CuerpoVibora>();
 	private Posicion sentido;
 	private CuerpoVibora head;
 	private boolean crece = false;
@@ -29,7 +34,7 @@ public class Vibora {
 		this.head = new CuerpoVibora(coordenadas[0]);
 
 		for (int i = 1; i < coordenadas.length; i++)
-			this.bodies.add(new CuerpoVibora(coordenadas[i]));
+			this.cuerpos.add(new CuerpoVibora(coordenadas[i]));
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
 	
@@ -48,7 +53,7 @@ public class Vibora {
 		this.head = new CuerpoVibora(coordenadas[0]);
 
 		for (int i = 1; i < coordenadas.length; i++)
-			this.bodies.add(new CuerpoVibora(coordenadas[i]));
+			this.cuerpos.add(new CuerpoVibora(coordenadas[i]));
 
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 
@@ -121,7 +126,7 @@ public class Vibora {
 		CuerpoVibora newHead = new CuerpoVibora(new Coordenada(x, y));
 
 		this.head.setHead(false); // ya no va a ser mas la cabeza
-		this.bodies.addFirst(this.head); // ahora es un cuerpo
+		this.cuerpos.addFirst(this.head); // ahora es un cuerpo
 
 		newHead.setHead(true);
 		this.head = newHead; // y tiene esta nueva cabeza
@@ -138,11 +143,11 @@ public class Vibora {
 	 */
 	public void setSentido(final Posicion sentido) {
 
-		if (this.bodies.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
+		if (this.cuerpos.size() == 0 || Math.abs(this.sentido.ordinal() - sentido.ordinal()) != 2) {
 			this.sentido = sentido;
 		}
 	}
-
+	@JsonIgnore
 	public Posicion getSentido() {
 		return this.sentido;
 	}
@@ -151,28 +156,28 @@ public class Vibora {
 		if (sentido == Posicion.ESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
-				this.bodies.add(cuerpoVibora);
+				this.cuerpos.add(cuerpoVibora);
 			}
 		}
 
 		else if (sentido == Posicion.OESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
-				this.bodies.add(cuerpoVibora);
+				this.cuerpos.add(cuerpoVibora);
 			}
 		}
 
 		else if (sentido == Posicion.NORTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
-				this.bodies.add(cuerpoVibora);
+				this.cuerpos.add(cuerpoVibora);
 			}
 		}
 
 		else if (sentido == Posicion.SUR) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
-				this.bodies.add(cuerpoVibora);
+				this.cuerpos.add(cuerpoVibora);
 			}
 		}
 	}
@@ -199,7 +204,7 @@ public class Vibora {
 	 * @return Lista de CuerpoVibora
 	 */
 	public LinkedList<CuerpoVibora> getCuerpos() {
-		return this.bodies;
+		return this.cuerpos;
 	}
 
 	/**
@@ -207,7 +212,7 @@ public class Vibora {
 	 */
 	public void removerCola() {
 		if (!this.crece) {
-			this.bodies.removeLast(); // le saco el cuerpo si es que no crece.
+			this.cuerpos.removeLast(); // le saco el cuerpo si es que no crece.
 		}
 		this.crece = false;
 	}
