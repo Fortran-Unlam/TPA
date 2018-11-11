@@ -24,7 +24,7 @@ public class MapaTest {
 		Fruta fruta = new Fruta(2, 2);
 		mapa.add(fruta);
 
-		Assert.assertEquals(new Coordenada(2, 2), mapa.getFruta(2, 2).getCoordenada());
+		Assert.assertEquals(new Coordenada(2, 2), mapa.getFruta(new Coordenada(2, 2)).getCoordenada());
 	}
 
 	@Test
@@ -422,9 +422,9 @@ public class MapaTest {
 
 		mapa.add(pared);
 
-		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2, 3).getUbicacion());
-		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3, 3).getUbicacion());
-		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(new Coordenada(2, 3)).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(new Coordenada(3, 3)).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(new Coordenada(4, 3)).getUbicacion());
 	}
 
 	@Test
@@ -443,9 +443,9 @@ public class MapaTest {
 		mapa.add(vibora);
 		mapa.actualizar();
 
-		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(2, 3).getUbicacion());
-		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(3, 3).getUbicacion());
-		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(4, 3).getUbicacion());
+		Assert.assertEquals(new Coordenada(2, 3), mapa.getObstaculo(new Coordenada(2, 3)).getUbicacion());
+		Assert.assertEquals(new Coordenada(3, 3), mapa.getObstaculo(new Coordenada(3, 3)).getUbicacion());
+		Assert.assertEquals(new Coordenada(4, 3), mapa.getObstaculo(new Coordenada(4, 3)).getUbicacion());
 		Assert.assertEquals(true, vibora.isDead());
 	}
 
