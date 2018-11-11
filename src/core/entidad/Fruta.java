@@ -1,15 +1,12 @@
 package core.entidad;
 
-import java.io.Serializable;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 
 import core.Coordenada;
 
-public class Fruta implements Serializable {
+public class Fruta implements Coordenable {
 
-	private static final long serialVersionUID = 7895934053840920299L;
 	private Coordenada coordenada;
 	private boolean fueComida = false;
 
@@ -42,9 +39,6 @@ public class Fruta implements Serializable {
 	}
 
 	public JsonObject toJson() {
-		return Json.createObjectBuilder()
-				.add("x", this.getX())
-				.add("y", this.getY())
-				.build();
+		return Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY()).build();
 	}
 }

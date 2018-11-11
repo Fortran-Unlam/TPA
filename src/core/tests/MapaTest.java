@@ -257,14 +257,14 @@ public class MapaTest {
 	@Test
 	public void fueraDelMapa() {
 		Mapa mapa = new Mapa(3, 3);
-		Assert.assertEquals(false, mapa.estaDentro(0, 3));
-		Assert.assertEquals(false, mapa.estaDentro(3, 0));
-		Assert.assertEquals(false, mapa.estaDentro(0, 4));
-		Assert.assertEquals(false, mapa.estaDentro(4, 0));
-		Assert.assertEquals(false, mapa.estaDentro(3, 3));
-		Assert.assertEquals(false, mapa.estaDentro(-1, 3));
-		Assert.assertEquals(false, mapa.estaDentro(0, -1));
-		Assert.assertEquals(true, mapa.estaDentro(0, 0));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(0, 3)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(3, 0)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(0, 4)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(4, 0)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(3, 3)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(-1, 3)));
+		Assert.assertEquals(false, mapa.estaDentro(new Coordenada(0, -1)));
+		Assert.assertEquals(true, mapa.estaDentro(new Coordenada(0, 0)));
 	}
 
 	@Test

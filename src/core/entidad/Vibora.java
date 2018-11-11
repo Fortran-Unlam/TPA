@@ -1,6 +1,5 @@
 package core.entidad;
 
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -12,9 +11,8 @@ import javax.json.JsonObjectBuilder;
 import config.Posicion;
 import core.Coordenada;
 
-public class Vibora implements Serializable {
+public class Vibora implements Coordenable {
 
-	private static final long serialVersionUID = -4700905402985527264L;
 	private String nombre;
 	private int id;
 	private int frutasComidas;
@@ -292,9 +290,9 @@ public class Vibora implements Serializable {
 	}
 
 	public JsonObject toJson() {
-		
+
 		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY());
-		
+
 		json.add("bot", false);
 		if (this instanceof ViboraBot) {
 			json.add("bot", true);
@@ -304,7 +302,7 @@ public class Vibora implements Serializable {
 			jsonArray.add(Json.createObjectBuilder().add("x", cuerpoVibora.getX()).add("y", cuerpoVibora.getY()));
 		}
 		json.add("cuerpo", jsonArray);
-		
+
 		return json.build();
 	}
 }

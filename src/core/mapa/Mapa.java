@@ -16,6 +16,7 @@ import core.Coordenada;
 import core.Jugador;
 import core.Muro;
 import core.Puntaje;
+import core.entidad.Coordenable;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
@@ -81,14 +82,14 @@ public class Mapa {
 	 * @param vibora
 	 */
 	protected boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora.getX(), vibora.getY()) || this.getJugador(vibora.getX(), vibora.getY()) != null
+		if (!this.estaDentro(vibora) || this.getJugador(vibora.getX(), vibora.getY()) != null
 				|| this.getFruta(vibora.getX(), vibora.getY()) != null
 				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
 		}
 
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
-			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
+			if (!this.estaDentro(cuerpo) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
 					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
 				return false;
@@ -132,7 +133,7 @@ public class Mapa {
 	 * @param fruta
 	 */
 	public boolean add(final Fruta fruta) {
-		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getJugador(fruta.getX(), fruta.getY()) != null
+		if (!this.estaDentro(fruta) || this.getJugador(fruta.getX(), fruta.getY()) != null
 				|| this.getFruta(fruta.getX(), fruta.getY()) != null
 				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
 			return false;
@@ -150,7 +151,7 @@ public class Mapa {
 	 * @param obstaculo
 	 */
 	public boolean add(final Obstaculo obstaculo) {
-		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY())
+		if (!this.estaDentro(obstaculo)
 				|| this.getJugador(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
 				|| this.getObstaculo(obstaculo.getX(), obstaculo.getY()) != null) {
@@ -172,7 +173,7 @@ public class Mapa {
 		LinkedList<Obstaculo> piedras = muro.getPiedras();
 
 		while (!piedras.isEmpty()) {
-			if (!this.estaDentro(piedras.getFirst().getX(), piedras.getFirst().getY())
+			if (!this.estaDentro(piedras.getFirst())
 					|| this.getJugador(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
 					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
@@ -267,7 +268,7 @@ public class Mapa {
 	 * @return Fruta | null
 	 */
 	public Fruta getFruta(final int x, final int y) {
-		if (this.estaDentro(x, y)) {
+		if (this.estaDentro(new Coordenada(x, y))) {
 
 			if (this.cambioEnFrutas) {
 				this.cargarFrutas();
@@ -291,7 +292,7 @@ public class Mapa {
 		this.posicionesDeJugadores = new Jugador[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Jugador jugador : this.jugadores) {
 			Vibora vibora = jugador.getVibora();
-			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
+			if (!this.estaDentro(vibora)) {
 				vibora.matar();
 				continue;
 			}
@@ -342,7 +343,7 @@ public class Mapa {
 	}
 
 	public Obstaculo getObstaculo(final int x, final int y) {
-		if (this.estaDentro(x, y)) {
+		if (this.estaDentro(new Coordenada(x, y))) {
 			if (this.cambioEnObstaculos) {
 				this.cargarObstaculos();
 			}
@@ -370,8 +371,8 @@ public class Mapa {
 	 * 
 	 * @return True si esta adentro
 	 */
-	public boolean estaDentro(final int x, final int y) {
-		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
+	public boolean estaDentro(final Coordenable object) {
+		return object.getX() >= 0 && object.getY() >= 0 && this.tamano.getX() >= object.getX() && this.tamano.getY() >= object.getY();
 	}
 
 	public ArrayList<Puntaje> scoring() {

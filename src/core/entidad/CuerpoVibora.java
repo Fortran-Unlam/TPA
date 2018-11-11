@@ -1,12 +1,9 @@
 package core.entidad;
 
-import java.io.Serializable;
-
 import core.Coordenada;
 
-public class CuerpoVibora implements Serializable {
+public class CuerpoVibora implements Coordenable {
 
-	private static final long serialVersionUID = 2485552979729067616L;
 	private Coordenada coordenada;
 	private boolean isHead = false;
 
