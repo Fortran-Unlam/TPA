@@ -47,7 +47,6 @@ public class ConexionCliente extends Thread {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
 		boolean conectado = true;
@@ -82,9 +81,9 @@ public class ConexionCliente extends Thread {
 						}
 						if (usuarioInexistente) {
 							Servidor.agregarAUsuariosActivos(usuario);
-							usuario.setConexion(this);
 							this.salidaDatos.flush();
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
+							this.salidaDatos.writeObject(
+									new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
 						}
 					}
 					break;
@@ -183,10 +182,10 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					String[] data = (String[]) message.getData();
 
-					for(int i = 0; i < Integer.valueOf(data[0]); i++) {
+					for (int i = 0; i < Integer.valueOf(data[0]); i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
-					
+
 					System.err.println("juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
