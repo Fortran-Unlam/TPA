@@ -30,10 +30,8 @@ public class Vibora implements Coordenable {
 	 */
 	public Vibora(Coordenada[] coordenadas) {
 
-		this.head = new CuerpoVibora(coordenadas[0]);
+		this.prepare(coordenadas);
 
-		for (int i = 1; i < coordenadas.length; i++)
-			this.bodies.add(new CuerpoVibora(coordenadas[i]));
 		this.sentido = Posicion.values()[new Random().nextInt(4)];
 	}
 
@@ -46,12 +44,7 @@ public class Vibora implements Coordenable {
 	 *                    cuando se crea
 	 */
 	public Vibora(Coordenada[] coordenadas, Posicion sentido) {
-		this.head = new CuerpoVibora(coordenadas[0]);
-
-		for (int i = 1; i < coordenadas.length; i++)
-			this.bodies.add(new CuerpoVibora(coordenadas[i]));
-
-		this.sentido = Posicion.values()[new Random().nextInt(4)];
+		this.prepare(coordenadas);
 
 		this.sentido = sentido;
 	}
@@ -82,10 +75,16 @@ public class Vibora implements Coordenable {
 	 * @param largo indica el largo de la vibora a construir
 	 */
 	public Vibora(Coordenada head, int largo) {
-		Posicion sentido = Posicion.values()[new Random().nextInt(4)];
-		this.sentido = sentido;
+		this.sentido = Posicion.values()[new Random().nextInt(4)];
 		this.head = new CuerpoVibora(head);
 		generaCuerpo(largo);
+	}
+
+	private void prepare(Coordenada[] coordenadas) {
+		this.head = new CuerpoVibora(coordenadas[0]);
+
+		for (int i = 1; i < coordenadas.length; i++)
+			this.bodies.add(new CuerpoVibora(coordenadas[i]));
 	}
 
 	/**
@@ -154,23 +153,17 @@ public class Vibora implements Coordenable {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() - i, head.getY()));
 				this.bodies.add(cuerpoVibora);
 			}
-		}
-
-		else if (sentido == Posicion.OESTE) {
+		} else if (sentido == Posicion.OESTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX() + i, head.getY()));
 				this.bodies.add(cuerpoVibora);
 			}
-		}
-
-		else if (sentido == Posicion.NORTE) {
+		} else if (sentido == Posicion.NORTE) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() - i));
 				this.bodies.add(cuerpoVibora);
 			}
-		}
-
-		else if (sentido == Posicion.SUR) {
+		} else if (sentido == Posicion.SUR) {
 			for (int i = 1; i < largo; i++) {
 				CuerpoVibora cuerpoVibora = new CuerpoVibora(new Coordenada(head.getX(), head.getY() + i));
 				this.bodies.add(cuerpoVibora);
