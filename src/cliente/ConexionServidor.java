@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.Json;
+
 import com.google.gson.Gson;
 
 import cliente.ventana.VentanaJuego;
@@ -55,7 +57,11 @@ public class ConexionServidor {
 	 */
 	public Usuario loguear(String username, String hashPassword) {
 		try {
-			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
+			String request = Json.createObjectBuilder()
+					.add("username", username)
+					.add("hashPassword", hashPassword)
+					.build().toString();
+			
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request));
 
 			this.message = (Message) entradaDatos.readObject();
@@ -82,7 +88,11 @@ public class ConexionServidor {
 
 	public Message registrar(String username, String hashPassword) {
 		try {
-			String request = "{\"username\":\"" + username + "\", \"hashPassword\": \"" + hashPassword + "\"}";
+			String request = Json.createObjectBuilder()
+					.add("username", username)
+					.add("hashPassword", hashPassword)
+					.build().toString();
+			
 			System.err.println("registrar usuario");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, request));
 
