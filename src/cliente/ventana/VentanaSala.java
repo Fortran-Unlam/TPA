@@ -53,36 +53,36 @@ public class VentanaSala extends JFrame {
 		this.ventanaMenu = ventanaMenu;
 		this.nombreSala = nombreSala;
 		this.ventanaMenu.setVisible(false);
+		this.setearComponentes(admin);
 		addListener();
 	}
-		
+
 	protected void verificarBotones() {
 		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
-		
-		//Agrego parametros
+
+		// Agrego parametros
 		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_MODIFICAR_PARAM_SALA);
-		
+
 		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
-		//Agrego el tipo de jugabilidads
-		if(chckbxFruta.isSelected())
+		// Agrego el tipo de jugabilidads
+		if (chckbxFruta.isSelected())
 			nombreSalatipoJuegoYMapa.add("fruta", true);
 		else
 			nombreSalatipoJuegoYMapa.add("fruta", false);
-		
-		if(chckbxSupervivencia.isSelected())
+
+		if (chckbxSupervivencia.isSelected())
 			nombreSalatipoJuegoYMapa.add("supervivencia", true);
 		else
 			nombreSalatipoJuegoYMapa.add("supervivencia", false);
-		
-		if(chckbxTiempo.isSelected())
+
+		if (chckbxTiempo.isSelected())
 			nombreSalatipoJuegoYMapa.add("tiempo", true);
 		else
 			nombreSalatipoJuegoYMapa.add("tiempo", false);
-		
-		//AgregoElTipoDeMapa
-		nombreSalatipoJuegoYMapa.add("mapa", (String)comboMapa.getSelectedItem());
 
-		
+		// AgregoElTipoDeMapa
+		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
+
 		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(nombreSalatipoJuegoYMapa.build());
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
 				&& comboMapa.getSelectedIndex() != 0) {
@@ -92,7 +92,6 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
-		
 	private void setearComponentes(boolean esAdmin) {
 		setTitle("Sala de juego");
 
@@ -179,26 +178,26 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
-		
+
 		JLabel lblTipoJugabilidad = new JLabel("");
 		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipoJugabilidad.setBounds(236, 133, 238, 24);
 		lblTipoJugabilidad.setVisible(false);
 		contentPane.add(lblTipoJugabilidad);
-		
+
 		JLabel lblMapa = new JLabel("");
 		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblMapa.setBounds(246, 227, 130, 24);
 		lblMapa.setVisible(false);
 		contentPane.add(lblMapa);
-		
+
 		lblAdmin = new JLabel("");
 		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAdmin.setBounds(236, 275, 73, 30);
 		lblAdmin.setVisible(true);
 		contentPane.add(lblAdmin);
-		
-		if(esAdmin) {
+
+		if (esAdmin) {
 			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
@@ -216,18 +215,17 @@ public class VentanaSala extends JFrame {
 					verificarBotones();
 				}
 			});
-		chckbxTiempo.setEnabled(false);
-		
-		JLabel lblCantidadBots = new JLabel("Cantidad bots:");
-		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCantidadBots.setBounds(195, 228, 165, 20);
-		contentPane.add(lblCantidadBots);
-		
-		cantBots = new JTextField();
-		cantBots.setBounds(367, 228, 32, 20);
-		contentPane.add(cantBots);
-		cantBots.setColumns(10);
+			chckbxTiempo.setEnabled(false);
 
+			JLabel lblCantidadBots = new JLabel("Cantidad bots:");
+			lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			lblCantidadBots.setBounds(195, 228, 165, 20);
+			contentPane.add(lblCantidadBots);
+
+			cantBots = new JTextField();
+			cantBots.setBounds(367, 228, 32, 20);
+			contentPane.add(cantBots);
+			cantBots.setColumns(10);
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override
@@ -243,7 +241,7 @@ public class VentanaSala extends JFrame {
 				}
 			});
 			lblAdmin.setText("Vos sos el admin");
-		}else {
+		} else {
 			lblMapa.setVisible(true);
 			comboMapa.setVisible(false);
 			chckbxFruta.setVisible(false);
@@ -252,18 +250,16 @@ public class VentanaSala extends JFrame {
 		}
 
 	}
-	
+
 	private void salirSala() {
 		ventanaMenu.setVisible(true);
 		setVisible(false);
-		JsonObject paqueteSalirSala = 
-				Json.createObjectBuilder().add("type", Param.NOTICE_SALIR_SALA)
+		JsonObject paqueteSalirSala = Json.createObjectBuilder().add("type", Param.NOTICE_SALIR_SALA)
 				.add("nombreSala", this.nombreSala).build();
-		
+
 		Cliente.getConexionServidor().SalirSala(this.nombreSala);
 		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteSalirSala);
 	}
-	
 
 	protected void empezarJuego() {
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText()) == false) {
@@ -297,7 +293,7 @@ public class VentanaSala extends JFrame {
 				}
 			}
 		});
-		
+
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -312,8 +308,7 @@ public class VentanaSala extends JFrame {
 
 	}
 
-	
-	//TODO: falta hacer este metodo 
+	// TODO: falta hacer este metodo
 	// Metodo que usa el Thread para refrescar la Sala a cada cliente
 	public void refrescarSala() {
 

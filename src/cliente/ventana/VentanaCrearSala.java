@@ -175,6 +175,7 @@ public class VentanaCrearSala extends JFrame {
 				Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteCrearSala);
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, true,
 						this.nombreField.getText());
+				
 				Sincronismo.setVentanaSala(ventanaSala);
 				this.dispose();
 			} else {

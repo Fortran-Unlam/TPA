@@ -54,8 +54,9 @@ public class ConexionClienteBackOff extends Thread {
 				// Le asigno al usuario su conexion
 				if (tipoDeMensaje.equals(Param.REQUEST_CONEXION_BACKOFF_CLIENTE)) {
 					for (Usuario u : Servidor.getUsuariosActivos()) {
-						if (u.getUsername().equals(entradaJson.getString("username")))
-							u.setConexionBackOff(this);
+						if (u.getUsername().equals(entradaJson.getString("username"))) {							
+//							u.setConexionBackOff(this);
+						}
 					}
 				}
 
@@ -141,12 +142,12 @@ public class ConexionClienteBackOff extends Thread {
 				.add("tipoMapa", entradaJson.getString("mapa")).build();
 
 		for (Usuario u : salaARefrescar.getUsuariosActivos()) {
-			try {
-				u.getConexionBackOff().salidaDatos.writeObject(paqueteUpdateSala.toString());
-			} catch (IOException e) {
-				System.err.println("Fallo la escritura de datos de actualizar parametros sala");
-				e.printStackTrace();
-			}
+//			try {
+//				u.getConexionBackOff().salidaDatos.writeObject(paqueteUpdateSala.toString());
+//			} catch (IOException e) {
+//				System.err.println("Fallo la escritura de datos de actualizar parametros sala");
+//				e.printStackTrace();
+//			}
 		}
 
 	}

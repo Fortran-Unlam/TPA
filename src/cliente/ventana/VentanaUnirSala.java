@@ -78,11 +78,11 @@ public class VentanaUnirSala extends JFrame {
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnVolver);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 92, 403, 207);
 		contentPane.add(scrollPane);
-		
+
 		tableSalas = new JTable();
 		tableSalas.addMouseListener(new MouseAdapter() {
 			@Override
@@ -112,25 +112,24 @@ public class VentanaUnirSala extends JFrame {
 				}
 			}
 		});
-		JsonObject paqueteIngresoVentanaUnirSala = 
-				Json.createObjectBuilder().add("type", Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)
-				.build();
+		JsonObject paqueteIngresoVentanaUnirSala = Json.createObjectBuilder()
+				.add("type", Param.REQUEST_INGRESO_VENTANA_UNIR_SALA).build();
 		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
-		Cliente.getconexionServidorBackOff()
-				.avisarAlSvQueHagaActualizaciones(paqueteIngresoVentanaUnirSala);
+		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteIngresoVentanaUnirSala);
 
 	}
 
 	private void unirseASala(String nombreSala) {
-		//le paso el nombre
+		// le paso el nombre
 		Cliente.getConexionServidor().unirseASala(nombreSala);
-		JsonObject paqueteUnirSala = 
-				Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
+		JsonObject paqueteUnirSala = Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
 				.add("nombreSala", nombreSala).build();
 		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteUnirSala);
 		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaSala(this, false, nombreSala).setVisible(true);
+		VentanaSala ventanaSala = new VentanaSala(this, false, nombreSala);
+		ventanaSala.setVisible(true);
+
 	}
 
 	// Metodo que usa el Thread para refrescarle las salas a la ventana.
@@ -139,10 +138,10 @@ public class VentanaUnirSala extends JFrame {
 
 		System.out.println(data);
 		for (int i = 0; i < datosDeSalasDisponibles.size(); i++) {
-			
+
 			data[i][0] = datosDeSalasDisponibles.getJsonObject(i).getString("nombre");
-			data[i][1] = (datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosActivos")
-						+ "/" + datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosMaximos"));
+			data[i][1] = (datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosActivos") + "/"
+					+ datosDeSalasDisponibles.getJsonObject(i).getString("cantidadUsuariosMaximos"));
 			data[i][2] = datosDeSalasDisponibles.getJsonObject(i).getString("administrador");
 		}
 
@@ -152,7 +151,7 @@ public class VentanaUnirSala extends JFrame {
 		} else {
 			this.tableModelSalas.setData(data);
 		}
-		
+
 		this.tableModelSalas.fireTableDataChanged();
 		this.tableSalas.setModel(this.tableModelSalas);
 	}
