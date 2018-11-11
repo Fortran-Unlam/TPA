@@ -5,6 +5,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import org.hibernate.Session;
 
 import config.Param;
@@ -137,18 +143,20 @@ public class Servidor {
 	 * Consigue las todas salas en el servidor
 	 * @return
 	 */
-	protected static ArrayList<String> getAllSalas() {
-		ArrayList<String> salas = new ArrayList<>();
-
+	/**
+	 * @return
+	 */
+	protected static JsonArray getAllSalas() {
+		JsonArrayBuilder datosDeSalas = Json.createArrayBuilder();
 		for (Sala salaActiva : Servidor.salasActivas) {
-			String sala = "";
-			sala = salaActiva.getNombre() + Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioActuales()
-					 + "/" + salaActiva.getCantidadUsuarioMaximos() + Param.SEPARADOR_EN_MENSAJES + 
-					 salaActiva.getAdministrador().getUsername();
-			salas.add(sala);
+			JsonObjectBuilder sala = Json.createObjectBuilder();
+			sala.add("nombre", salaActiva.getNombre())
+			.add("cantidadUsuariosActivos", String.valueOf(salaActiva.getCantidadUsuarioActuales()))
+			.add("cantidadUsuariosMaximos", String.valueOf(salaActiva.getCantidadUsuarioMaximos()))
+			.add("administrador", salaActiva.getAdministrador().getUsername()).build();
+			datosDeSalas.add(sala);
 		}
-
-		return salas;
+		return datosDeSalas.build();
 	}
 
 	/**
