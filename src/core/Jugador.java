@@ -1,7 +1,5 @@
 package core;
 
-import java.io.Serializable;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -11,9 +9,8 @@ import core.entidad.Vibora;
 import core.mapa.Mapa;
 import looby.Usuario;
 
-public class Jugador implements Comparable<Jugador>, Serializable {
+public class Jugador implements Comparable<Jugador> {
 
-	private static final long serialVersionUID = -1963732901425813952L;
 	private Vibora vibora;
 	private String nombre;
 	private int frutasComidasEnRonda;

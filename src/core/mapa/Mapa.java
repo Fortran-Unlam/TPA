@@ -1,6 +1,5 @@
 package core.mapa;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
@@ -23,9 +22,7 @@ import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
 
-public class Mapa implements Serializable {
-
-	private static final long serialVersionUID = 2480290569666355301L;
+public class Mapa {
 
 	private Coordenada tamano;
 
@@ -84,8 +81,7 @@ public class Mapa implements Serializable {
 	 * @param vibora
 	 */
 	protected boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora.getX(), vibora.getY())
-				|| this.getJugador(vibora.getX(), vibora.getY()) != null
+		if (!this.estaDentro(vibora.getX(), vibora.getY()) || this.getJugador(vibora.getX(), vibora.getY()) != null
 				|| this.getFruta(vibora.getX(), vibora.getY()) != null
 				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
@@ -206,8 +202,7 @@ public class Mapa implements Serializable {
 
 			jugador.getVibora().cabecear();
 
-			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getX(),
-					jugador.getVibora().getY());
+			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getX(), jugador.getVibora().getY());
 			if (obstaculo != null) {
 				Colisionador.colisionar(jugador, obstaculo);
 			}
@@ -247,7 +242,7 @@ public class Mapa implements Serializable {
 			Random random = new Random();
 			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
-		
+
 		this.scoring();
 	}
 
@@ -390,7 +385,7 @@ public class Mapa implements Serializable {
 		score.sort(null);
 		return score;
 	}
-	
+
 	public JsonArray scoringJson() {
 		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
 		for (Jugador jugador : this.jugadores) {
@@ -401,7 +396,7 @@ public class Mapa implements Serializable {
 		}
 		score.sort(null);
 		JsonArrayBuilder scoreArrayBuilder = Json.createArrayBuilder();
-		
+
 		for (Puntaje puntaje : score) {
 			scoreArrayBuilder.add(puntaje.toString());
 		}
@@ -427,33 +422,29 @@ public class Mapa implements Serializable {
 	public boolean getMurioUnJugador() {
 		return this.murioUnJugador;
 	}
-	
+
 	public JsonObject toJson() {
-		//Mando en el orde: jugador -> fruta -> obstaculo
+		// Mando en el orde: jugador -> fruta -> obstaculo
 		JsonArrayBuilder jugadores = Json.createArrayBuilder();
 		JsonArrayBuilder frutas = Json.createArrayBuilder();
 		JsonArrayBuilder obstaculos = Json.createArrayBuilder();
-		
-		for(Jugador j: this.jugadores) {
+
+		for (Jugador j : this.jugadores) {
 			jugadores.add(j.toJson());
 		}
-		
-		for(Fruta f: this.frutas) {
+
+		for (Fruta f : this.frutas) {
 			frutas.add(f.toJson());
 		}
-		
-		for(Obstaculo o: this.obstaculos) {
+
+		for (Obstaculo o : this.obstaculos) {
 			obstaculos.add(o.toJson());
 		}
-		
+
 		return Json.createObjectBuilder()
-				//Orden: tamaño->jugadores->frutas->obstaculos->score
-				.add("tamano", this.tamano.toJson())
-				.add("jugadores", jugadores)
-				.add("frutas", frutas)
-				.add("obstaculos", obstaculos)
-				.add("murioUnJugador", this.murioUnJugador)
-				.add("score", this.scoringJson())
-				.build();
+				// Orden: tamaño->jugadores->frutas->obstaculos->score
+				.add("tamano", this.tamano.toJson()).add("jugadores", jugadores).add("frutas", frutas)
+				.add("obstaculos", obstaculos).add("murioUnJugador", this.murioUnJugador)
+				.add("score", this.scoringJson()).build();
 	}
 }

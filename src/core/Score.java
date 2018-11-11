@@ -7,11 +7,11 @@ import javax.swing.DefaultListModel;
 
 public class Score {
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
-	
+
 	public ArrayList<Jugador> calcularScore() {
-		
+
 		Collections.sort(this.jugadores);
-		
+
 		return this.jugadores;
 	}
 

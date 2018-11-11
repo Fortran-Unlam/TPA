@@ -1,14 +1,10 @@
 package core;
 
-import java.io.Serializable;
-
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
 
-public abstract class Colisionador implements Serializable {
-
-	private static final long serialVersionUID = -4900826847817515391L;
+public abstract class Colisionador {
 
 	/**
 	 * Vibora colisiona con fruta

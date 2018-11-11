@@ -6,7 +6,7 @@ import core.entidad.Obstaculo;
 
 public class Muro {
 	
-	private LinkedList<Obstaculo> piedras = new LinkedList<>();
+	private LinkedList<Obstaculo> piedras = new LinkedList<Obstaculo>();
 
 	public Muro(LinkedList<Obstaculo> piedras) {
 		this.piedras = piedras;
