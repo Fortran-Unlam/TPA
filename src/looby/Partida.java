@@ -2,11 +2,11 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
+import core.mapa.Mapa;
 
 public class Partida implements Serializable {
 
@@ -20,8 +20,9 @@ public class Partida implements Serializable {
 	private int cantidadDeRondasAJugar;
 	private int numeroRonda = 0;
 	private ArrayList<Usuario> usuariosActivosEnSala;
+	private Mapa mapa;
 
-	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo) {
+	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo, Mapa mapa) {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
@@ -38,6 +39,7 @@ public class Partida implements Serializable {
 		}
 		this.cantidadDeRondasAJugar = cantidadDeRondasDePartida;
 		this.tipoDeJuegoDeLaPartida = tipo;
+		this.mapa = mapa;
 	}
 
 	public void empezarPartida() {
@@ -46,7 +48,7 @@ public class Partida implements Serializable {
 		try {
 			System.out.println("Ronda " + (numeroRonda + 1));
 			this.partidaEnCurso = true;
-			this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida);
+			this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 			if (this.comienzoDeJuego()) {
 				this.rondasJugadas.add(this.rondaEnCurso);
 			}

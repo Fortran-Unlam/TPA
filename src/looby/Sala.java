@@ -7,6 +7,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import core.mapa.Mapa;
+
 public class Sala implements Serializable {
 
 	private static final long serialVersionUID = -3003995871552317389L;
@@ -59,11 +61,11 @@ public class Sala implements Serializable {
 	 * 
 	 * @return
 	 */
-	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipoJuego) {
+	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipoJuego, Mapa mapa) {
 		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
 
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida, tipoJuego);
+					cantidadDeRondasDePartida, tipoJuego, mapa);
 
 			return this.comenzarPartida();
 		}
