@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import com.google.gson.Gson;
 
 import config.Param;
 import config.Posicion;
@@ -48,7 +51,7 @@ public class ConexionCliente extends Thread {
 	@Override
 	public void run() {
 		boolean conectado = true;
-
+		Properties properties;
 
 		while (conectado) {
 			try {
@@ -57,8 +60,10 @@ public class ConexionCliente extends Thread {
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					usuario = UsuarioDAO.loguear((String) ((ArrayList) message.getData()).get(0),
-							(String) ((ArrayList) message.getData()).get(1));
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
+
+					usuario = UsuarioDAO.loguear(properties.getProperty("username"),
+							properties.getProperty("hashPassword"));
 
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrasenia incorrectos");
@@ -79,16 +84,16 @@ public class ConexionCliente extends Thread {
 							Servidor.agregarAUsuariosActivos(usuario);
 							usuario.setConexion(this);
 							this.salidaDatos.flush();
-							System.err.println("logeo correcto");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
+							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)));
 						}
 					}
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
-					int resultado = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
-							(String) ((ArrayList) message.getData()).get(1));
+					int resultado = UsuarioDAO.registrar(properties.getProperty("username"),
+							properties.getProperty("hashPassword"));
 
 					switch (resultado) {
 					case -1:
@@ -123,7 +128,8 @@ public class ConexionCliente extends Thread {
 						System.err.println("sala cdreada");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
 
-						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la nueva
+						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la
+						// nueva
 						// sala. Esto deber�a mandarse por el canal de syncro pero por ahora va.
 						String datosSalaNueva;
 
@@ -150,7 +156,7 @@ public class ConexionCliente extends Thread {
 					// System.out.println("ASD:"+s.getCantidadUsuarioActuales());
 					// Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe
 					// eliminarse de las salas activas.
-					
+
 					if (sala.getCantidadUsuarioActuales() == 0)
 						Servidor.removerDeSalasActivas(sala);
 					break;
@@ -171,14 +177,16 @@ public class ConexionCliente extends Thread {
 					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
 					String usuariosActivos = sala.getUsuariosSeparadosporComa();
 					System.err.println("datos sala");
-					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA, cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos));
+					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
+							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos));
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					String[] data = (String[]) message.getData();
-					sala.agregarUsuarioASala(new UsuarioBot());
-					sala.agregarUsuarioASala(new UsuarioBot());
-					sala.agregarUsuarioASala(new UsuarioBot());
 
+					for(int i = 0; i < Integer.valueOf(data[0]); i++) {
+						sala.agregarUsuarioASala(new UsuarioBot());
+					}
+					
 					System.err.println("juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
@@ -208,10 +216,10 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_CERRAR_SESION:
-					Usuario usuarioActivo = (Usuario) message.getData();
+					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
-						if (usuarioEnServer.getId() == usuarioActivo.getId()) {
+						if (usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
 							break;
 						}

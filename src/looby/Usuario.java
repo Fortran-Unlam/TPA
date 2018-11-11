@@ -173,11 +173,12 @@ public class Usuario implements Serializable {
 	}
 
 	public void setConexion(ConexionCliente conexionCliente) {
-		this.conexionCliente = conexionCliente;
+//		this.conexionCliente = conexionCliente;
 	}
 	
 	public ConexionCliente getConexion() {
-		return this.conexionCliente;
+		return null;
+//		return this.conexionCliente;
 	}
 	
 	public void setConexionBackOff(ConexionClienteBackOff conexionClienteBackOff) {

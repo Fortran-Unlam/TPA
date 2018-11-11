@@ -6,6 +6,7 @@ import core.Jugador;
 
 public class TipoJuegoFruta extends TipoJuegoDecorator {
 
+	private static final long serialVersionUID = 6833548333737491753L;
 	protected TipoJuego tipoJuego;
 
 	public TipoJuegoFruta(TipoJuego tipoJuego) {

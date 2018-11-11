@@ -25,7 +25,7 @@ import core.entidad.ViboraBot;
 
 public class Mapa implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2480290569666355301L;
 
 	private Coordenada tamano;
 
@@ -84,9 +84,9 @@ public class Mapa implements Serializable {
 	 * @param vibora
 	 */
 	protected boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
-				|| this.getJugador(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
+		if (!this.estaDentro(vibora.getX(), vibora.getY())
+				|| this.getJugador(vibora.getX(), vibora.getY()) != null
+				|| this.getFruta(vibora.getX(), vibora.getY()) != null
 				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
 			return false;
 		}
@@ -206,13 +206,13 @@ public class Mapa implements Serializable {
 
 			jugador.getVibora().cabecear();
 
-			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(),
-					jugador.getVibora().getHead().getY());
+			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getX(),
+					jugador.getVibora().getY());
 			if (obstaculo != null) {
 				Colisionador.colisionar(jugador, obstaculo);
 			}
 
-			Fruta fruta = this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
+			Fruta fruta = this.getFruta(jugador.getVibora().getX(), jugador.getVibora().getY());
 			if (fruta != null) {
 				Colisionador.colisionar(jugador, fruta);
 				frutasComidas.add(fruta);

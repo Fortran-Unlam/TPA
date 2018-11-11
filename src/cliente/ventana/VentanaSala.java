@@ -28,10 +28,11 @@ import cliente.Sonido;
 import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
+import javax.swing.JTextField;
 
 public class VentanaSala extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1740234947461105665L;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
@@ -46,6 +47,7 @@ public class VentanaSala extends JFrame {
 	private JButton btnSalirDeSala;
 	private JLabel lblAdmin;
 	private JLabel lblAdministrador;
+	private JTextField cantBots;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -214,6 +216,18 @@ public class VentanaSala extends JFrame {
 					verificarBotones();
 				}
 			});
+		chckbxTiempo.setEnabled(false);
+		
+		JLabel lblCantidadBots = new JLabel("Cantidad bots:");
+		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCantidadBots.setBounds(195, 228, 165, 20);
+		contentPane.add(lblCantidadBots);
+		
+		cantBots = new JTextField();
+		cantBots.setBounds(367, 228, 32, 20);
+		contentPane.add(cantBots);
+		cantBots.setColumns(10);
+
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override
@@ -251,8 +265,8 @@ public class VentanaSala extends JFrame {
 	}
 	
 
-	private void empezarJuego() {
-		if (Cliente.getConexionServidor().comenzarJuego() == false) {
+	protected void empezarJuego() {
+		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText()) == false) {
 			System.out.println("no pudo crear el juego");
 			return;
 		}

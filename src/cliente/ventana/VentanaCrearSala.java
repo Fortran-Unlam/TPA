@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class VentanaCrearSala extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1876694895241653019L;
 	private JPanel contentPane;
 	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
