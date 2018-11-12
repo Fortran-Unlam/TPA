@@ -166,6 +166,7 @@ public class VentanaSala extends JFrame {
 		comboMapa.setToolTipText("Debe seleccionar un tipo de mapa.");
 
 		comboMapa.setBounds(368, 192, 151, 25);
+		comboMapa.addItem("Seleccione un mapa");
 		comboMapa.addItem("Mapa 1");
 		comboMapa.addItem("Mapa 2");
 		comboMapa.addItem("Mapa 3");
