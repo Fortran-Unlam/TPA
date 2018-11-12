@@ -32,6 +32,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class VentanaSala extends JFrame {
 
@@ -40,6 +42,7 @@ public class VentanaSala extends JFrame {
 	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
 	private JLabel lblCantidadBots;
+	private JLabel lblBots;
 	private JLabel lblTipoJugabilidad;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
@@ -73,12 +76,6 @@ public class VentanaSala extends JFrame {
 			btnEmpezarJuego.setEnabled(false);
 		}
 
-		if (cantBots.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
-					JOptionPane.WARNING_MESSAGE);
-			cantBots.setText("0");
-		}
-
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
 		// Agrego parametros
@@ -101,7 +98,7 @@ public class VentanaSala extends JFrame {
 		if (chckbxTiempo.isSelected()) {
 			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
 		} else {
-			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
+			nombreSalatipoJuegoMapaYBots.add("tiempo", false);
 		}
 
 		if (comboMapa.getSelectedIndex() == 0) {
@@ -138,6 +135,7 @@ public class VentanaSala extends JFrame {
 
 		btnEmpezarJuego = new JButton("Empezar juego");
 		btnEmpezarJuego.setBounds(111, 346, 168, 40);
+		btnEmpezarJuego.setEnabled(false);
 		getContentPane().add(btnEmpezarJuego);
 
 		this.listUsuarios = new JList<String>(modelUsuariosLista);
@@ -200,7 +198,7 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 
-		this.lblTipoJugabilidad = new JLabel("\"Aun no se ha determinado\"");
+		this.lblTipoJugabilidad = new JLabel("Aun no se ha determinado");
 		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipoJugabilidad.setBounds(236, 131, 238, 24);
 		lblTipoJugabilidad.setVisible(false);
@@ -225,10 +223,16 @@ public class VentanaSala extends JFrame {
 		contentPane.add(lblCantidadBots);
 
 		cantBots = new JTextField();
+		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cantBots.setText("0");
 		cantBots.setBounds(377, 252, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
+		
+		lblBots = new JLabel("");
+		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblBots.setBounds(377, 250, 32, 20);
+		contentPane.add(lblBots);
 
 		if (this.visibiliadAdmin) {
 			chckbxSupervivencia.setEnabled(true);
@@ -262,15 +266,20 @@ public class VentanaSala extends JFrame {
 					verificarBotonesYRefrescarCambios();
 				}
 			});
-
-			cantBots.addInputMethodListener(new InputMethodListener() {
-				public void caretPositionChanged(InputMethodEvent arg0) {
-				}
-
-				public void inputMethodTextChanged(InputMethodEvent arg0) {
+			
+			cantBots.addFocusListener(new FocusAdapter() {
+				@Override
+				public void focusLost(FocusEvent arg0) {
+					if (cantBots.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
+								JOptionPane.WARNING_MESSAGE);
+						cantBots.setText("0");
+					}
+					
 					verificarBotonesYRefrescarCambios();
 				}
 			});
+
 			lblAdmin.setText("Vos sos el admin");
 		} else {
 			lblMapa.setVisible(true);
@@ -358,12 +367,15 @@ public class VentanaSala extends JFrame {
 			}
 			// Seteo
 			this.listUsuarios.setModel(this.modelUsuariosLista);
-			this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
+			
+			if(!this.visibiliadAdmin)
+				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
 				this.lblTipoJugabilidad.setText(datosParaRefrescarSala.getString("tipoJugabilidad"));
 				this.lblMapa.setText(datosParaRefrescarSala.getString("tipoMapa"));
+				this.lblBots.setText(datosParaRefrescarSala.getString("bots"));
 			}
 		}
 	}

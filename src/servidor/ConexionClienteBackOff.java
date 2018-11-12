@@ -149,19 +149,20 @@ public class ConexionClienteBackOff extends Thread {
 					.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
 		} else {
 
-			String tipoJugabilidad = "";
+			String tipoJugabilidad = "Aun no se ha determinado";
 
 			if (entradaJson.getBoolean("fruta")) {
-				tipoJugabilidad += "fruta";
+				tipoJugabilidad = "frutas";
 			}
 			if (entradaJson.getBoolean("supervivencia"))
-				tipoJugabilidad += " , supervivencia";
+				tipoJugabilidad += " supervivencia";
 
 			if (entradaJson.getBoolean("tiempo"))
-				tipoJugabilidad += " , tiempo";
+				tipoJugabilidad += " tiempo";
 
 			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-					.add("tipoJugabilidad", tipoJugabilidad).add("tipoMapa", entradaJson.getString("mapa")).build();
+					.add("tipoJugabilidad", tipoJugabilidad).add("tipoMapa", entradaJson.getString("mapa"))
+					.add("bots", entradaJson.getString("bots")).build();
 		}
 
 		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
