@@ -205,8 +205,8 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * 5, obstaculos.getJsonObject(i).getInt("y") * 5,
-						5, 5);
+				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE, obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
