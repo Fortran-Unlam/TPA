@@ -69,7 +69,7 @@ public class Servidor {
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 			}
 		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		} finally {
 			try {
 				if (servidorIn != null) {
@@ -79,7 +79,7 @@ public class Servidor {
 					socketIn.close();
 				}
 			} catch (IOException ex) {
-				System.out.println(ex.getMessage());
+				ex.printStackTrace();
 			}
 		}
 	}

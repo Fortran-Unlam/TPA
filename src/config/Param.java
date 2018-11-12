@@ -2,8 +2,6 @@ package config;
 
 import java.io.Serializable;
 
-import javax.json.JsonValue;
-
 public abstract class Param implements Serializable {
 	
 	private static final long serialVersionUID = 6653691337938229625L;
@@ -22,7 +20,7 @@ public abstract class Param implements Serializable {
 	public static final int MAPA_WIDTH = 1000;
 	public static final int MAPA_HEIGHT = 700;
 
-	public static final int PIXEL_RESIZE = 5;
+	public static final int PIXEL_RESIZE = 10;
 
 	public static final int MAPA_MAX_X = MAPA_WIDTH / PIXEL_RESIZE;
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
@@ -67,8 +65,8 @@ public abstract class Param implements Serializable {
 	public static final String DATOS_SALA = "DatosSala";
 	
 	//Mensaje para cerrar ventana.
-	public static final String MENSAJE_CERRAR_VENTANA ="¿Esta seguro que desea salir de la Viborita?";
-	public static final String TITLE_CERRAR_VENTANA ="¿Salir del juego?";
+	public static final String MENSAJE_CERRAR_VENTANA ="ï¿½Esta seguro que desea salir de la Viborita?";
+	public static final String TITLE_CERRAR_VENTANA ="ï¿½Salir del juego?";
 	public static final String TIPO_JUEGO_FRUTA = "tipoJuegoFruta";
 	public static final String TIPO_JUEGO_SUPERVIVENCIA = "tipoJuegoSupervivencia";
 	public static final String TIPO_JUEGO_TIEMPO = "tipoJuegoTiempo";

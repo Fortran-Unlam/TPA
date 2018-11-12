@@ -17,15 +17,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import cliente.Cliente;
 import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import core.mapa.Juego;
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.JSeparator;
 
 public class VentanaJuego extends JFrame {
 
@@ -190,6 +188,8 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.BLUE);
 				if (vibora.getBoolean("bot")) {
 					g2d.setColor(Color.GREEN);
+				} else {
+					System.err.println(vibora.getInt("x") + "-" + vibora.getInt("y"));
 				}
 
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");

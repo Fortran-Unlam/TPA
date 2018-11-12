@@ -11,16 +11,16 @@ public class MapaUno extends Mapa {
 	private static final long serialVersionUID = 3707232195274752719L;
 
 	public MapaUno() {
-		super(Param.MAPA_WIDTH / 5, Param.MAPA_HEIGHT / 5);
+		super(Param.MAPA_WIDTH / Param.PIXEL_RESIZE, Param.MAPA_HEIGHT / Param.PIXEL_RESIZE);
 
 		Random random = new Random();
 		for (int i = 0; i < Param.CANTIDAD_FRUTA_MINIMAS; i++) {
-			this.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
+			this.add(new Fruta(random.nextInt(Param.MAPA_WIDTH / Param.PIXEL_RESIZE), random.nextInt(Param.MAPA_HEIGHT / Param.PIXEL_RESIZE)));
 		}
 
 		// Agrego obstaculos
 		for (int i = 0; i < 10; i++) {
-			this.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / 5), random.nextInt(Param.MAPA_HEIGHT / 5)));
+			this.add(new Obstaculo(random.nextInt(Param.MAPA_WIDTH / Param.PIXEL_RESIZE), random.nextInt(Param.MAPA_HEIGHT / Param.PIXEL_RESIZE)));
 		}
 	}
 }

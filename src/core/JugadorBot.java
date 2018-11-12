@@ -88,6 +88,9 @@ public class JugadorBot extends Jugador {
 	public Fruta frutaMasCercana(Mapa mapa) {
 		float distancia = 0;
 		float distanciaActual;
+		if (mapa.getfrutas() == null || mapa.getfrutas().size() == 0) {
+			return null;
+		}
 		Fruta frutaCercana = mapa.getfrutas().get(0);
 		for (Fruta fruta : mapa.getfrutas()) {
 			distanciaActual = this.getVibora().getCoordenada().distancia(fruta.getCoordenada());
@@ -109,6 +112,10 @@ public class JugadorBot extends Jugador {
 		int x = this.getVibora().getX();
 		int y = this.getVibora().getY();
 
+		if (fruta == null) {
+			return Posicion.ESTE;
+		}
+		
 		if (y == fruta.getY()) {
 			if (x <= fruta.getX()) {
 				if (this.getVibora().getSentido() == Posicion.OESTE) {
