@@ -40,7 +40,6 @@ public class ConexionServidorBackOff extends Thread {
 
 	public void enviarAlServer(JsonObject paquete) {
 
-		System.out.println(paquete.toString());
 		
 		/*Las respuestas del server las recibe la clase Sincronismo, la cual funcinoa como thread.
 		 * No lo puse acá porque ponerlo acá porque necesitaba que las actualizaciones se hagan

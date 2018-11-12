@@ -63,36 +63,6 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotones() {
-		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
-
-		// Agrego parametros
-		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
-
-		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
-
-		nombreSalatipoJuegoYMapa.add("fruta", false);
-		nombreSalatipoJuegoYMapa.add("supervivencia", false);
-		nombreSalatipoJuegoYMapa.add("tiempo", false);
-		btnEmpezarJuego.setEnabled(false);
-
-		if (chckbxFruta.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("fruta", true);
-			btnEmpezarJuego.setEnabled(true);
-		}
-
-		if (chckbxSupervivencia.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("supervivencia", true);
-			btnEmpezarJuego.setEnabled(true);
-		}
-
-		if (chckbxTiempo.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("tiempo", true);
-			btnEmpezarJuego.setEnabled(true);
-		}
-
-		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
-
-		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
 				&& comboMapa.getSelectedIndex() != 0) {
 			btnEmpezarJuego.setEnabled(true);
@@ -100,6 +70,34 @@ public class VentanaSala extends JFrame {
 			btnEmpezarJuego.setEnabled(false);
 		}
 		
+		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
+
+		// Agrego parametros
+		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
+
+		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
+
+		if (chckbxFruta.isSelected()) {
+			nombreSalatipoJuegoYMapa.add("fruta", true);
+		}else {
+			nombreSalatipoJuegoYMapa.add("fruta", false);	
+		}
+			
+
+		if (chckbxSupervivencia.isSelected()) {
+			nombreSalatipoJuegoYMapa.add("supervivencia", true);
+		}else {
+			nombreSalatipoJuegoYMapa.add("supervivencia", false);
+		}
+
+		if (chckbxTiempo.isSelected()) {
+			nombreSalatipoJuegoYMapa.add("tiempo", true);
+		}else {
+			nombreSalatipoJuegoYMapa.add("tiempo", true);
+		}
+
+		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
+
 		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());	
 	}
 		
@@ -112,7 +110,6 @@ public class VentanaSala extends JFrame {
 		setBounds(0, 0, Param.VENTANA_SALA_WIDTH, Param.VENTANA_SALA_HEIGHT);
 
 		contentPane = new JPanel();
-		contentPane.setToolTipText("Debe seleccionar un mapa.");
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -201,7 +198,7 @@ public class VentanaSala extends JFrame {
 		lblMapa.setVisible(false);
 		contentPane.add(lblMapa);
 
-		lblAdmin = new JLabel("");
+		this.lblAdmin = new JLabel("");
 		lblAdmin.setForeground(new Color(184, 134, 11));
 		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblAdmin.setBounds(382, 48, 202, 24);
@@ -253,6 +250,7 @@ public class VentanaSala extends JFrame {
 			lblAdmin.setText("Vos sos el admin");
 		} else {
 			lblMapa.setVisible(true);
+			lblTipoJugabilidad.setVisible(true);
 			comboMapa.setVisible(false);
 			chckbxFruta.setVisible(false);
 			chckbxSupervivencia.setVisible(false);
@@ -336,12 +334,12 @@ public class VentanaSala extends JFrame {
 			}
 			// Seteo
 			this.listUsuarios.setModel(this.modelUsuariosLista);
+			this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
 				this.lblTipoJugabilidad.setText(datosParaRefrescarSala.getString("tipoJugabilidad"));
 				this.lblMapa.setText(datosParaRefrescarSala.getString("tipoMapa"));
-				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 			}
 		}
 	}
