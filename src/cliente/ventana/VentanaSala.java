@@ -30,6 +30,8 @@ import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
 
 public class VentanaSala extends JFrame {
 
@@ -62,45 +64,56 @@ public class VentanaSala extends JFrame {
 		addListener();
 	}
 
-	protected void verificarBotones() {
+	protected void verificarBotonesYRefrescarCambios() {
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& comboMapa.getSelectedIndex() != 0) {
+				&& comboMapa.getSelectedIndex() != 0
+				&& !cantBots.getText().isEmpty()) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
 		}
-		
-		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
+
+		if (cantBots.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
+					JOptionPane.WARNING_MESSAGE);
+			cantBots.setText("0");
+		}
+
+		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
 		// Agrego parametros
-		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
+		nombreSalatipoJuegoMapaYBots.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 
-		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
+		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
 
 		if (chckbxFruta.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("fruta", true);
-		}else {
-			nombreSalatipoJuegoYMapa.add("fruta", false);	
+			nombreSalatipoJuegoMapaYBots.add("fruta", true);
+		} else {
+			nombreSalatipoJuegoMapaYBots.add("fruta", false);
 		}
-			
 
 		if (chckbxSupervivencia.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("supervivencia", true);
-		}else {
-			nombreSalatipoJuegoYMapa.add("supervivencia", false);
+			nombreSalatipoJuegoMapaYBots.add("supervivencia", true);
+		} else {
+			nombreSalatipoJuegoMapaYBots.add("supervivencia", false);
 		}
 
 		if (chckbxTiempo.isSelected()) {
-			nombreSalatipoJuegoYMapa.add("tiempo", true);
-		}else {
-			nombreSalatipoJuegoYMapa.add("tiempo", true);
+			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
+		} else {
+			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
 		}
 
-		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
+		if (comboMapa.getSelectedIndex() == 0) {
+			nombreSalatipoJuegoMapaYBots.add("mapa", "Aun no se ha determinado");
+		} else {
+			nombreSalatipoJuegoMapaYBots.add("mapa", (String) comboMapa.getSelectedItem());
+		}
 
-		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());	
+		nombreSalatipoJuegoMapaYBots.add("bots", cantBots.getText());
+
+		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoMapaYBots.build());
 	}
-		
 
 	// La visibilidad por default es para el admin
 	private void setearComponentes() {
@@ -212,6 +225,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(lblCantidadBots);
 
 		cantBots = new JTextField();
+		cantBots.setText("0");
 		cantBots.setBounds(377, 252, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
@@ -225,27 +239,36 @@ public class VentanaSala extends JFrame {
 			chckbxSupervivencia.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					verificarBotones();
+					verificarBotonesYRefrescarCambios();
 				}
 			});
 			chckbxFruta.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					verificarBotones();
+					verificarBotonesYRefrescarCambios();
 				}
 			});
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					verificarBotones();
+					verificarBotonesYRefrescarCambios();
 				}
 			});
 
 			comboMapa.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					verificarBotones();
+					verificarBotonesYRefrescarCambios();
+				}
+			});
+
+			cantBots.addInputMethodListener(new InputMethodListener() {
+				public void caretPositionChanged(InputMethodEvent arg0) {
+				}
+
+				public void inputMethodTextChanged(InputMethodEvent arg0) {
+					verificarBotonesYRefrescarCambios();
 				}
 			});
 			lblAdmin.setText("Vos sos el admin");
