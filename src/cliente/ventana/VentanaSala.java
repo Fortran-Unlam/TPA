@@ -236,6 +236,8 @@ public class VentanaSala extends JFrame {
 		contentPane.add(lblCantidadBots);
 
 		cantBots = new JTextField();
+		cantBots.setHorizontalAlignment(SwingConstants.LEFT);
+		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
 		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cantBots.setText("0");
 		cantBots.setBounds(377, 252, 32, 20);
