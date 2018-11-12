@@ -80,9 +80,9 @@ public class VentanaCrearSala extends JFrame {
 		mapNombreField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/* Limita cantidad de caracteres a ingresar en el campo sala */
 		nombreField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent evt) {
 				if (nombreField.getText().length() >= Param.LIMITE_CARACTERES_NOMBRE_SALA) {
-					e.consume();
+					evt.consume();
 					Toolkit.getDefaultToolkit().beep();
 				}
 			}
@@ -104,9 +104,9 @@ public class VentanaCrearSala extends JFrame {
 		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/* Limita cantidad de caracteres a ingresar en el campo usuarios maximos */
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent evt) {
 				if (maxUsuarioField.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
-					e.consume();
+					evt.consume();
 					Toolkit.getDefaultToolkit().beep();
 				}
 			}
