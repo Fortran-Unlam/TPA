@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
 import config.Param;
 import looby.Usuario;
 import servidor.Message;
@@ -34,18 +37,19 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
-	public void avisarAlSvQueMandeActualizacionSalas(String parametro) {
 
-		/*
-		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
-		 * todos los clientes con los datos de las salas actualizadas, tengo que esperar
-		 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
-		 * continuar.
+	public void enviarAlServer(JsonObject paquete) {
+
+		
+		/*Las respuestas del server las recibe la clase Sincronismo, la cual funcinoa como thread.
+		 * No lo puse acá porque ponerlo acá porque necesitaba que las actualizaciones se hagan
+		 * en todo momento, a pesar de que el usuario esté jugando.
 		 */
-		this.message.setType(parametro);
+		
 		try {
-			this.salidaDatos.writeObject(message);
+			this.salidaDatos.writeObject(paquete.toString());
 		} catch (IOException e) {
+			System.err.println("HUBO UNE ERROR EN EL ENVIO DE DATOS AL SERVIDOR MEDIANTE BACKOFF");
 			e.printStackTrace();
 		}
 
@@ -54,5 +58,6 @@ public class ConexionServidorBackOff extends Thread {
 	public ObjectInputStream getEntradaDatos() {
 		return entradaDatos;
 	}
+
 
 }

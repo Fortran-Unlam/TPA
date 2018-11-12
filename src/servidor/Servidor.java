@@ -5,6 +5,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
+
 import org.hibernate.Session;
 
 import config.Param;
@@ -36,25 +41,22 @@ public class Servidor {
 
 		try {
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Escuchando al cliente en el puerto: " + Param.PORT_1);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Recibiendo del cliente en el puerto: " + Param.PORT_2);
-			
+
 			servidorBackOffIn = new ServerSocket(Param.PORT_3, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Escuchando al cliente (BackOff) en el puerto: " + Param.PORT_3);
 
 			servidorBackOffOut = new ServerSocket(Param.PORT_4, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Recibiendo del cliente (BackOff) en el puerto: " + Param.PORT_4);
-			
+
+			System.out.println("Recibiendo en el puerto: " + Param.PORT_4);
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
-				
+
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
 				conexionCliente.start();
 				conexionClientes.add(conexionCliente);
-				
+
 				socketBackOffIn = servidorBackOffIn.accept();
 				socketBackOffOut = servidorBackOffOut.accept();
 
@@ -63,7 +65,7 @@ public class Servidor {
 
 				conexionClienteBackOff.start();
 				conexionesClientesBackOff.add(conexionClienteBackOff);
-				
+
 				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 			}
 		} catch (IOException ex) {
@@ -107,24 +109,27 @@ public class Servidor {
 
 	/**
 	 * Remueve un usuario activo
+	 * 
 	 * @param usuario
 	 * @return
 	 */
 	protected static boolean removerUsuarioActivo(Usuario usuario) {
 		return Servidor.usuariosActivos.remove(usuario);
 	}
-	
+
 	/**
 	 * Agrega un usuario a activo
+	 * 
 	 * @param usuario
 	 * @return
 	 */
 	protected static boolean agregarAUsuariosActivos(Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
 	}
-	
+
 	/**
 	 * Consigue los usuarios activos
+	 * 
 	 * @param usuario
 	 * @return
 	 */
@@ -132,27 +137,30 @@ public class Servidor {
 		return Servidor.usuariosActivos;
 	}
 
-
 	/**
 	 * Consigue las todas salas en el servidor
+	 * 
 	 * @return
 	 */
-	protected static ArrayList<String> getAllSalas() {
-		ArrayList<String> salas = new ArrayList<>();
-
+	/**
+	 * @return
+	 */
+	protected static JsonArray getAllSalas() {
+		JsonArrayBuilder datosDeSalas = Json.createArrayBuilder();
 		for (Sala salaActiva : Servidor.salasActivas) {
-			String sala = "";
-			sala = salaActiva.getNombre() + Param.SEPARADOR_EN_MENSAJES + salaActiva.getCantidadUsuarioActuales()
-					 + "/" + salaActiva.getCantidadUsuarioMaximos() + Param.SEPARADOR_EN_MENSAJES + 
-					 salaActiva.getAdministrador().getUsername();
-			salas.add(sala);
+			JsonObjectBuilder sala = Json.createObjectBuilder();
+			sala.add("nombre", salaActiva.getNombre())
+			.add("cantidadUsuariosActivos", String.valueOf(salaActiva.getCantidadUsuarioActuales()))
+			.add("cantidadUsuariosMaximos", String.valueOf(salaActiva.getCantidadUsuarioMaximos()))
+			.add("administrador", salaActiva.getAdministrador().getUsername()).build();
+			datosDeSalas.add(sala);
 		}
-
-		return salas;
+		return datosDeSalas.build();
 	}
 
 	/**
 	 * Consigue la session de Hibernate
+	 * 
 	 * @return
 	 */
 	public static Session getSessionHibernate() {
@@ -161,16 +169,18 @@ public class Servidor {
 
 	/**
 	 * Actualizar juego, deberia ser usado para dibujar lo que hay en el.
+	 * 
 	 * @param juego
 	 */
 	public static boolean actualizarJuego(Juego juego) {
 		try {
 			Mapa mapa = juego.getMapa();
-			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego);
+			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
 			boolean enviar = false;
-			for (Usuario usuario : usuariosActivos) {
+			for (ConexionCliente conexionCliente : conexionClientes) {
 				enviar = false;
-				if (usuario != null && usuario.getConexion().getSalidaDatos() != null && mapa != null) {
+				Usuario usuario = conexionCliente.getUsuario();
+				if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null) {
 					try {
 						for (Jugador jugadorMapa : mapa.getJugadores()) {
 
@@ -179,19 +189,21 @@ public class Servidor {
 								break;
 							}
 						}
-						for (Jugador espectador : mapa.getEspectadores()) {
-							if (usuario.getJugador().equals(espectador)) {
-								enviar = true;
-								break;
+						
+						if (enviar == false) {
+							for (Jugador espectador : mapa.getEspectadores()) {
+								if (usuario.getJugador().equals(espectador)) {
+									enviar = true;
+									break;
+								}
 							}
 						}
 
 						if (enviar) {
-							usuario.getConexion().getSalidaDatos().reset();
-							usuario.getConexion().getSalidaDatos().flush();
+							conexionCliente.getSalidaDatos().reset();
+							conexionCliente.getSalidaDatos().flush();
 							System.err.println("mapa " + System.currentTimeMillis());
-							usuario.getConexion().getSalidaDatos()
-									.writeObject(message);
+							conexionCliente.getSalidaDatos().writeObject(message.toJson());
 						}
 
 					} catch (IOException e) {
@@ -209,6 +221,7 @@ public class Servidor {
 
 	/**
 	 * Desconectar un cliente
+	 * 
 	 * @param conexionCliente
 	 */
 	public static void desconectar(ConexionCliente conexionCliente) {
@@ -218,6 +231,7 @@ public class Servidor {
 
 	/**
 	 * Desconectar el backoff de un cliente
+	 * 
 	 * @param conexionClienteBackOff
 	 */
 	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
@@ -238,13 +252,14 @@ public class Servidor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Consigue las conexiones backoff de los clientes
+	 * 
 	 * @return
 	 */
-	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff(){
+	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff() {
 		return Servidor.conexionesClientesBackOff;
 	}
-
+	
 }

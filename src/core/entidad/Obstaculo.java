@@ -1,15 +1,11 @@
 package core.entidad;
 
-import java.io.Serializable;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 
 import core.Coordenada;
 
-public class Obstaculo implements Serializable {
-
-	private static final long serialVersionUID = 1628026311474738784L;
+public class Obstaculo implements Coordenable {
 
 	private Coordenada ubicacion;
 
@@ -57,11 +53,8 @@ public class Obstaculo implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 	public JsonObject toJson() {
-		return Json.createObjectBuilder()
-				.add("x", this.getX())
-				.add("y", this.getY())
-				.build();
+		return Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY()).build();
 	}
 }

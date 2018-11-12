@@ -12,8 +12,6 @@ import looby.Usuario;
 
 public class JugadorBot extends Jugador {
 
-	private static final long serialVersionUID = 6951778505924532094L;
-
 	public JugadorBot(Vibora vibora, String nombre) {
 		super(vibora, nombre);
 	}
@@ -70,7 +68,7 @@ public class JugadorBot extends Jugador {
 			break;
 		}
 
-		if (x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0 || mapa.getObstaculo(x, y) != null) {
+		if (x > Param.MAPA_MAX_X || y > Param.MAPA_MAX_Y || y < 0 || x < 0 || mapa.getObstaculo(new Coordenada(x, y)) != null) {
 			return true;
 		}
 
@@ -107,7 +105,7 @@ public class JugadorBot extends Jugador {
 
 	public Posicion cambiarDireccion(Mapa mapa) {
 		Fruta fruta = this.frutaMasCercana(mapa);
-		
+
 		int x = this.getVibora().getX();
 		int y = this.getVibora().getY();
 

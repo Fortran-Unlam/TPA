@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -143,8 +146,17 @@ public class VentanaLoginUsuario extends JFrame {
 
 		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
+		//Primero loguea con el server
 		Usuario usuario = Cliente.getConexionServidor().loguear(this.username.getText(), hashPassword);
-
+		
+		
+		JsonObject paqueteLogueoBackoff = 
+		Json.createObjectBuilder().add("type", Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)
+		.add("username", this.username.getText()).build();
+		
+		//Luego loguea con el backoff
+		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteLogueoBackoff);
+		
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {

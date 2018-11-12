@@ -6,22 +6,27 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.json.Json;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+
 import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
-import core.mapa.Juego;
 import looby.Usuario;
 import servidor.Message;
 
 public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
-	
+
 	private Message message;
 	private Usuario usuario;
 
 	private Socket socketIn;
 	private Socket socketOut;
+
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
 	 * 
@@ -53,19 +58,17 @@ public class ConexionServidor {
 	 */
 	public Usuario loguear(String username, String hashPassword) {
 		try {
-			ArrayList<String> ret = new ArrayList<String>();
-			ret.add(username);
-			ret.add(hashPassword);
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, ret));
+			String request = Json.createObjectBuilder().add("username", username).add("hashPassword", hashPassword)
+					.build().toString();
+			System.out.println("envio loguear");
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request).toJson());
+			System.out.println("espero logueo");
 
-			this.message = (Message) entradaDatos.readObject();
-			this.usuario = new Usuario(username, hashPassword);
-
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			System.out.println("recibo el logueo");
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
-				// TODO: deberia dar mas info como puntos
-				this.usuario.setId((int) message.getData());
-				System.out.println("id de usuario " + this.usuario.getId());
+				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
 				System.out.println("no loguee");
@@ -85,13 +88,13 @@ public class ConexionServidor {
 
 	public Message registrar(String username, String hashPassword) {
 		try {
-			ArrayList<String> ret = new ArrayList<String>();
-			ret.add(username);
-			ret.add(hashPassword);
-			System.err.println("registrar usuario");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, ret));
+			String request = Json.createObjectBuilder().add("username", username).add("hashPassword", hashPassword)
+					.build().toString();
 
-			this.message = (Message) entradaDatos.readObject();
+			System.err.println("registrar usuario");
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, request).toJson());
+
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 			return this.message;
 
 		} catch (Exception e) {
@@ -99,16 +102,15 @@ public class ConexionServidor {
 		}
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
-	
-	public Message cerrarSesionUsuario(Usuario usuario) {		
+
+	public Message cerrarSesionUsuario(Usuario usuario) {
 		try {
-			Object ret = usuario;			
 			System.err.println("cerrar sesion");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, ret));
-			
-			this.message = (Message) entradaDatos.readObject();
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
+
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 			return this.message;
-			
+
 		} catch (Exception e) {
 			System.out.println("No se pudo cerrar sesion" + e.getMessage());
 			e.printStackTrace();
@@ -128,9 +130,9 @@ public class ConexionServidor {
 		try {
 			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
 			System.err.println("all salas");
-			this.salidaDatos.writeObject(message);
+			this.salidaDatos.writeObject(message.toJson());
 
-			this.message = (Message) entradaDatos.readObject();
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 			switch (this.message.getType()) {
 			case Param.REQUEST_GET_ALL_SALAS:
 				return (ArrayList<String>) this.message.getData();
@@ -163,9 +165,9 @@ public class ConexionServidor {
 
 			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
 			System.err.println("crear sala");
-			this.salidaDatos.writeObject(this.message);
+			this.salidaDatos.writeObject(this.message.toJson());
 
-			this.message = (Message) entradaDatos.readObject();
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 			switch (this.message.getType()) {
 			case Param.REQUEST_SALA_CREADA:
 				return true;
@@ -184,17 +186,18 @@ public class ConexionServidor {
 		}
 		return false;
 	}
-	
-	/** Se informa al servidor que voy a salir de la sala y quiza, si soy el unico que esta en la sala
-	 * y salgo la sala debe borrarse. O directamente eliminar la sala si el usuario creador sale de la misma.
+
+	/**
+	 * Se informa al servidor que voy a salir de la sala y quiza, si soy el unico
+	 * que esta en la sala y salgo la sala debe borrarse. O directamente eliminar la
+	 * sala si el usuario creador sale de la misma.
 	 * 
 	 */
-	public void SalirSala(String nombreSala)
-	{
+	public void SalirSala(String nombreSala) {
 		try {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
 			System.err.println("salir sala");
-			this.salidaDatos.writeObject(this.message);
+			this.salidaDatos.writeObject(this.message.toJson());
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {
@@ -204,21 +207,17 @@ public class ConexionServidor {
 		}
 	}
 
-	public boolean comenzarJuego() {
+	public boolean comenzarJuego(String cantidadBots) {
 		try {
-			//TODO: pasarlo a JSON
-			String[] tipoJuegos = new String[3];
-			tipoJuegos[0] = "4";// cantidad de jugadores
-			tipoJuegos[1] = Param.TIPO_JUEGO_FRUTA; //de aca en mas es tipo de juego
-			tipoJuegos[2] = Param.TIPO_JUEGO_SUPERVIVENCIA;
-			
-			
-			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, tipoJuegos);
+			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
+					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false }";
+			System.out.println("GGGGGGG " + request);
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			System.err.println("empezar juego");
-			this.salidaDatos.writeObject(this.message);
+			this.salidaDatos.writeObject(this.message.toJson());
 
-			while(socketIn.isClosed() == false) {				
-				this.message = (Message) entradaDatos.readObject();
+			while (socketIn.isClosed() == false) {
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 				String ret = this.message.getType();
 				System.out.println(ret);
 				switch (ret) {
@@ -243,20 +242,13 @@ public class ConexionServidor {
 		try {
 			while (true) {
 
-				Object ret = entradaDatos.readObject();
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 
-				if (ret instanceof Boolean == false && ret instanceof String == false) {
-					// TODO: preguntar al profe
-					this.message = (Message) ret;
-
-					switch (this.message.getType()) {
-					case Param.REQUEST_MOSTRAR_MAPA:
-						System.err.println("mapa " + System.currentTimeMillis());
-						ventanaJuego.dibujarMapa((Juego) this.message.getData());
-					default:
-					}
-				} else {
-					System.err.println("FANTASMIN::: " + ret);
+				switch (this.message.getType()) {
+				case Param.REQUEST_MOSTRAR_MAPA:
+					System.err.println("mapa " + System.currentTimeMillis());
+					ventanaJuego.dibujarMapaJson((String) this.message.getData());
+				default:
 				}
 			}
 
@@ -278,10 +270,10 @@ public class ConexionServidor {
 	}
 
 	public void enviarTecla(Posicion posicion) {
-		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion);
+		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion.ordinal());
 		try {
 			this.salidaDatos.reset();
-			this.salidaDatos.writeObject(this.message);
+			this.salidaDatos.writeObject(this.message.toJson());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -291,30 +283,33 @@ public class ConexionServidor {
 	public String recibirActualizacionDeSala() {
 		try {
 			// se queda esperando que el server env�e alg�n tipo de actualizacion;
-			Object ret = this.entradaDatos.readObject();
-			message = (Message) ret;
-			
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+
 			if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
 				return (String) message.getData();
 			}
-		} catch (ClassNotFoundException | IOException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		return null;
 
 	}
 
-	/** Le envio un mensaje al servidor indicando que me voy a unir a la salaSeleccionada.
-	 *  La representancion del usuario no es necesario mandarla, ya que se encuentra
-	 *  implicito en el Socket.
+	/**
+	 * Le envio un mensaje al servidor indicando que me voy a unir a la
+	 * salaSeleccionada. La representancion del usuario no es necesario mandarla, ya
+	 * que se encuentra implicito en el Socket.
 	 */
-	public String unirseASala(String salaSeleccionada) 
-	{
+	public String unirseASala(String salaSeleccionada) {
 		try {
 			System.err.println("ingreso sala");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada));
-			Message retorno = (Message)this.entradaDatos.readObject();
-			return (String)retorno.getData();
+			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
+			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
+			return (String) retorno.getData();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		} catch (NullPointerException ex) {

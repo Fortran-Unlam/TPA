@@ -7,6 +7,9 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 
 public class VentanaCrearSala extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1876694895241653019L;
 	private JPanel contentPane;
 	private JTextField nombreField;
 	private VentanaMenu ventanaMenu;
@@ -34,7 +37,7 @@ public class VentanaCrearSala extends JFrame {
 	private VentanaSala ventanaSala;
 	private JButton btnAceptar;
 	private JButton btnVolver;
-	
+
 	public VentanaCrearSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
 		this.ventanaMenu.setVisible(false);
@@ -72,105 +75,114 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		/*Bloquea el control c y control v*/
+		/* Bloquea el control c y control v */
 		InputMap mapNombreField = nombreField.getInputMap(nombreField.WHEN_FOCUSED);
 		mapNombreField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/*Limita cantidad de caracteres a ingresar en el campo sala*/
+		/* Limita cantidad de caracteres a ingresar en el campo sala */
 		nombreField.addKeyListener(new KeyAdapter() {
-		public void keyTyped(KeyEvent e) {
-			if (nombreField.getText().length() >= Param.LIMITE_CARACTERES_NOMBRE_SALA) {
-				e.consume();
-				Toolkit.getDefaultToolkit().beep();
-	     		}
+			public void keyTyped(KeyEvent evt) {
+				if (nombreField.getText().length() >= Param.LIMITE_CARACTERES_NOMBRE_SALA) {
+					evt.consume();
+					Toolkit.getDefaultToolkit().beep();
+				}
 			}
-	    });
-		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
+		});
+		nombreField.setToolTipText(
+				"Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
-		
+
 		JLabel lblMaxUsuarios = new JLabel("Cantidad m\u00E1xima de usuarios:");
 		lblMaxUsuarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblMaxUsuarios.setBounds(27, 154, 218, 33);
 		contentPane.add(lblMaxUsuarios);
-		
+
 		maxUsuarioField = new JTextField();
-		/*Bloquea el control c y control v*/
+		/* Bloquea el control c y control v */
 		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(maxUsuarioField.WHEN_FOCUSED);
 		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/*Limita cantidad de caracteres a ingresar en el campo usuarios maximos*/
+		/* Limita cantidad de caracteres a ingresar en el campo usuarios maximos */
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
-		public void keyTyped(KeyEvent e) {
-			if (maxUsuarioField.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
-				e.consume();
-				Toolkit.getDefaultToolkit().beep();
-	     		}
+			public void keyTyped(KeyEvent evt) {
+				if (maxUsuarioField.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
+					evt.consume();
+					Toolkit.getDefaultToolkit().beep();
+				}
 			}
-	    });
-		maxUsuarioField.setToolTipText("Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico. Maximo 99 usuarios.");
+		});
+		maxUsuarioField.setToolTipText(
+				"Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico. Maximo 99 usuarios.");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
 		contentPane.add(maxUsuarioField);
 		maxUsuarioField.setColumns(10);
-		
+
 		addListener();
-		
+
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
-		                JOptionPane.YES_NO_OPTION,
-		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
-		    	System.exit(0);
-		    	}
-		    }
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+					System.exit(0);
+				}
+			}
 		});
 	}
 
 	protected void crearSala() {
 
-		if(this.nombreField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "El nombre de la sala no puede estar vacio.",
-					"Aviso", JOptionPane.WARNING_MESSAGE);
+		if (this.nombreField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "El nombre de la sala no puede estar vacio.", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
 			this.nombreField.setText("");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 			return;
 		}
-		
-		if(this.maxUsuarioField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos no puede estar vacio.",
-					"Aviso", JOptionPane.WARNING_MESSAGE);
+
+		if (this.maxUsuarioField.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 			return;
 		}
-		
-		if(!this.maxUsuarioField.getText().matches("[0-9]+")) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos debe ser numï¿½rico",
-					"Aviso", JOptionPane.WARNING_MESSAGE);
+
+		if (!this.maxUsuarioField.getText().matches("[0-9]+")) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 			return;
 		}
-		
-		
+
 		if (this.nombreField.getText().matches("[a-zA-Z0-9]+")) {
 
 			ArrayList<String> datosSala = new ArrayList<String>();
 			// 0: nombre, 1: cantUsuariosMax
 			datosSala.add(this.nombreField.getText());
 			datosSala.add(this.maxUsuarioField.getText());
-			
+
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
 				musicaFondo.reproducir();
-				
-				Cliente.getconexionServidorBackOff().avisarAlSvQueMandeActualizacionSalas(Param.NOTICE_CREACION_SALA);
-				this.ventanaSala = new VentanaSala(this.ventanaMenu, datosSala, Param.CREACION_SALA_ADMIN);
+				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
+						.add("nombreSala", datosSala.get(0)).build();
+				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, true,
+						this.nombreField.getText());
 				Sincronismo.setVentanaSala(ventanaSala);
+				
+				JsonObject paqueteActualizarSala = 
+						Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+						.add("sala", this.nombreField.getText()).build();
+						
+				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSala);
+				
 				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null,
@@ -179,16 +191,17 @@ public class VentanaCrearSala extends JFrame {
 			}
 
 		} else {
-			JOptionPane.showMessageDialog(null, "Los nombres de sala solo pueden contener letras y numeros (sin espacios).",
-					"Aviso", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					"Los nombres de sala solo pueden contener letras y numeros (sin espacios).", "Aviso",
+					JOptionPane.WARNING_MESSAGE);
 			this.nombreField.setText("");
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 		}
 	}
-	
-	private void addListener() {		
+
+	private void addListener() {
 		btnAceptar.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -210,7 +223,7 @@ public class VentanaCrearSala extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		btnVolver.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -222,7 +235,7 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		
+
 		nombreField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -231,7 +244,7 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		
+
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

@@ -1,10 +1,12 @@
 package core;
 
-import java.io.Serializable;
+import javax.json.Json;
+import javax.json.JsonObject;
 
-public class Coordenada implements Serializable {
+import core.entidad.Coordenable;
 
-	private static final long serialVersionUID = -8552338515159103928L;
+public class Coordenada implements Coordenable {
+
 	private int x;
 	private int y;
 
@@ -105,4 +107,7 @@ public class Coordenada implements Serializable {
 		return true;
 	}
 
+	public JsonObject toJson() {
+		return Json.createObjectBuilder().add("x", this.x).add("y", this.y).build();
+	}
 }

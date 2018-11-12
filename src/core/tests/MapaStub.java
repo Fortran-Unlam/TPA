@@ -6,6 +6,7 @@ import core.mapa.Mapa;
 
 public class MapaStub extends Mapa {
 
+	private static final long serialVersionUID = 1241592794734543707L;
 	private static int numeroJugador = 0;
 
 	public MapaStub(int x, int y) {

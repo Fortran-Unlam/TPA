@@ -3,6 +3,9 @@ package core.mapa;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import core.Jugador;
 import core.JugadorBot;
 import looby.TipoJuego;
@@ -19,9 +22,9 @@ public class Juego implements Serializable {
 	private boolean juegoEnCurso = false;
 	private int segundosTranscurridos = 0;
 
-	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
+	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego, Mapa mapa) {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
-		this.mapa = new MapaUno();
+		this.mapa = mapa;
 		for (Jugador jugador : this.jugadoresEnJuego) {
 			this.mapa.add(jugador, jugador instanceof JugadorBot);
 		}
@@ -89,5 +92,13 @@ public class Juego implements Serializable {
 
 	public int getSegundosTranscurridos() {
 		return this.segundosTranscurridos;
+	}
+	
+	public JsonObject toJson() {
+		return Json.createObjectBuilder()
+				.add("mapa", this.mapa.toJson())
+				.add("terminado", this.terminado())
+				.add("tiempoTranscurrido", this.segundosTranscurridos)
+				.build();
 	}
 }

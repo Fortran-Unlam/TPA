@@ -5,9 +5,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Properties;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import config.Param;
 import config.Posicion;
+import core.mapa.Mapa;
+import core.mapa.MapaUno;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.TipoJuegoFruta;
@@ -44,34 +50,35 @@ public class ConexionCliente extends Thread {
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public void run() {
 		boolean conectado = true;
-
-//		Sala sala = null;
-//		Usuario usuario = null;
+		Properties properties;
 
 		while (conectado) {
 			try {
-				Message message = (Message) this.entradaDatos.readObject();
+				System.out.println("try");
+				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
 				System.out.println("El cliente solicita " + message.getType());
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
-					usuario = UsuarioDAO.loguear((String) ((ArrayList) message.getData()).get(0),
-							(String) ((ArrayList) message.getData()).get(1));
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
+
+					usuario = UsuarioDAO.loguear(properties.getProperty("username"),
+							properties.getProperty("hashPassword"));
 
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrasenia incorrectos");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
 					} else {
 						boolean usuarioInexistente = true;
 						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
 
 							if (usuarioActivo.getId() == usuario.getId()) {
 								System.out.println("Usuario ya logeado");
-								this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null));
+								this.salidaDatos
+										.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
 								usuarioInexistente = false;
 								break;
 							}
@@ -79,31 +86,31 @@ public class ConexionCliente extends Thread {
 						}
 						if (usuarioInexistente) {
 							Servidor.agregarAUsuariosActivos(usuario);
-							usuario.setConexion(this);
 							this.salidaDatos.flush();
-							System.err.println("logeo correcto");
-							this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_CORRECTO, usuario.getId()));
+							this.salidaDatos.writeObject(
+									new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)).toJson());
 						}
 					}
 					break;
 
 				case Param.REQUEST_REGISTRAR_USUARIO:
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
-					int resultado = UsuarioDAO.registrar((String) ((ArrayList) message.getData()).get(0),
-							(String) ((ArrayList) message.getData()).get(1));
+					int resultado = UsuarioDAO.registrar(properties.getProperty("username"),
+							properties.getProperty("hashPassword"));
 
 					switch (resultado) {
 					case -1:
 						System.err.println("registro incorrecto");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null).toJson());
 						break;
 					case 0:
 						System.err.println("registro correcto");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null).toJson());
 						break;
 					case 1:
 						System.err.println("registro duplicado");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null).toJson());
 						break;
 					}
 
@@ -111,7 +118,8 @@ public class ConexionCliente extends Thread {
 
 				case Param.REQUEST_GET_ALL_SALAS:
 					System.err.println("all salas");
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()));
+					this.salidaDatos
+							.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()).toJson());
 					break;
 
 				case Param.REQUEST_CREAR_SALA:
@@ -123,9 +131,10 @@ public class ConexionCliente extends Thread {
 
 						Servidor.agregarASalasActivas(sala);
 						System.err.println("sala cdreada");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
-						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la nueva
+						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la
+						// nueva
 						// sala. Esto deber�a mandarse por el canal de syncro pero por ahora va.
 						String datosSalaNueva;
 
@@ -134,10 +143,11 @@ public class ConexionCliente extends Thread {
 								+ sala.getCantidadUsuarioMaximos();
 
 						System.err.println("actualizar salas");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva));
+						this.salidaDatos
+								.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
 						System.err.println("crear sala");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false));
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
 
 					break;
@@ -152,7 +162,7 @@ public class ConexionCliente extends Thread {
 					// System.out.println("ASD:"+s.getCantidadUsuarioActuales());
 					// Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe
 					// eliminarse de las salas activas.
-					
+
 					if (sala.getCantidadUsuarioActuales() == 0)
 						Servidor.removerDeSalasActivas(sala);
 					break;
@@ -173,54 +183,59 @@ public class ConexionCliente extends Thread {
 					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
 					String usuariosActivos = sala.getUsuariosSeparadosporComa();
 					System.err.println("datos sala");
-					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA, cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos));
+					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
+							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos).toJson());
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
-					String[] data = (String[]) message.getData();
-					sala.agregarUsuarioASala(new UsuarioBot());
-					sala.agregarUsuarioASala(new UsuarioBot());
-					sala.agregarUsuarioASala(new UsuarioBot());
+					properties = new Gson().fromJson((String) message.getData(), Properties.class);
+
+					int cantidadBots = Integer.valueOf(properties.getProperty("cantidadBots"));
+					boolean tipoJuegoFruta = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_FRUTA));
+					boolean tipoJuegoSupervivencia = Boolean
+							.valueOf(properties.getProperty(Param.TIPO_JUEGO_SUPERVIVENCIA));
+					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
+
+					for (int i = 0; i < cantidadBots; i++) {
+						sala.agregarUsuarioASala(new UsuarioBot());
+					}
 
 					System.err.println("juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
-					for (int i = 1; i < data.length; i++) {
-
-						switch (data[i]) {
-						case Param.TIPO_JUEGO_FRUTA:
-							tipoJuego = new TipoJuegoFruta(tipoJuego);
-							break;
-						case Param.TIPO_JUEGO_SUPERVIVENCIA:
-							tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
-							break;
-						case Param.TIPO_JUEGO_TIEMPO:
-							tipoJuego = new TipoJuegoTiempo(tipoJuego);
-							break;
-						}
+					if (tipoJuegoFruta) {
+						tipoJuego = new TipoJuegoFruta(tipoJuego);
 					}
-					System.err.println(Integer.valueOf(data[0]));
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
-							sala.crearPartida(Integer.valueOf(data[0]), tipoJuego)));
+					if (tipoJuegoSupervivencia) {
+						tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
+					}
+					if (tipoJuegoTiempo) {
+						tipoJuego = new TipoJuegoTiempo(tipoJuego);
+					}
+					Mapa mapa = new MapaUno();
+					
+					this.salidaDatos.writeObject(
+							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego, mapa))
+									.toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
-					Posicion posicion = (Posicion) message.getData();
+					Posicion posicion = Posicion.values()[((Double)message.getData()).intValue()];
 					if (posicion != null) {
 						this.usuario.getJugador().setTecla(posicion);
 					}
 					break;
 				case Param.REQUEST_CERRAR_SESION:
-					Usuario usuarioActivo = (Usuario) message.getData();
+					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
-						if (usuarioEnServer.getId() == usuarioActivo.getId()) {
+						if (usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
 							break;
 						}
 					}
 
 					this.salidaDatos.flush();
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null));
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
 					break;
 				default:
 					break;
@@ -236,8 +251,12 @@ public class ConexionCliente extends Thread {
 				} catch (IOException ex2) {
 					System.out.println("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
 				}
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
+			} catch (JsonSyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		Servidor.desconectar(this);

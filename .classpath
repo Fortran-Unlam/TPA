@@ -22,5 +22,7 @@
 	<classpathentry kind="lib" path="lib/libHibernate/slf4j-simple-1.7.7.jar"/>
 	<classpathentry kind="lib" path="lib/libHibernate/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/hash/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/gson-2.6.2-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

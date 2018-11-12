@@ -1,9 +1,13 @@
 package core.mapa;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
+
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 
 import config.Param;
 import config.Posicion;
@@ -12,22 +16,20 @@ import core.Coordenada;
 import core.Jugador;
 import core.Muro;
 import core.Puntaje;
+import core.entidad.Coordenable;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
 import core.entidad.Vibora;
 import core.entidad.ViboraBot;
 
-public class Mapa implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Mapa {
 
 	private Coordenada tamano;
 
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	private ArrayList<Fruta> frutas = new ArrayList<Fruta>();
 	private ArrayList<Obstaculo> obstaculos = new ArrayList<Obstaculo>();
-	private String score;
 
 	private Fruta[][] posicionesDeFrutas;
 	private Jugador[][] posicionesDeJugadores;
@@ -80,17 +82,14 @@ public class Mapa implements Serializable {
 	 * @param vibora
 	 */
 	protected boolean add(final Vibora vibora) {
-		if (!this.estaDentro(vibora.getHead().getX(), vibora.getHead().getY())
-				|| this.getJugador(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getFruta(vibora.getHead().getX(), vibora.getHead().getY()) != null
-				|| this.getObstaculo(vibora.getX(), vibora.getY()) != null) {
+		if (!this.estaDentro(vibora) || this.getJugador(vibora) != null || this.getFruta(vibora) != null
+				|| this.getObstaculo(vibora) != null) {
 			return false;
 		}
 
 		for (CuerpoVibora cuerpo : vibora.getCuerpos()) {
-			if (!this.estaDentro(cuerpo.getX(), cuerpo.getY()) || this.getJugador(cuerpo.getX(), cuerpo.getY()) != null
-					|| this.getFruta(cuerpo.getX(), cuerpo.getY()) != null
-					|| this.getObstaculo(cuerpo.getX(), cuerpo.getY()) != null) {
+			if (!this.estaDentro(cuerpo) || this.getJugador(cuerpo) != null || this.getFruta(cuerpo) != null
+					|| this.getObstaculo(cuerpo) != null) {
 				return false;
 			}
 		}
@@ -132,9 +131,8 @@ public class Mapa implements Serializable {
 	 * @param fruta
 	 */
 	public boolean add(final Fruta fruta) {
-		if (!this.estaDentro(fruta.getX(), fruta.getY()) || this.getJugador(fruta.getX(), fruta.getY()) != null
-				|| this.getFruta(fruta.getX(), fruta.getY()) != null
-				|| this.getObstaculo(fruta.getX(), fruta.getY()) != null) {
+		if (!this.estaDentro(fruta) || this.getJugador(fruta) != null || this.getFruta(fruta) != null
+				|| this.getObstaculo(fruta) != null) {
 			return false;
 		}
 
@@ -150,10 +148,8 @@ public class Mapa implements Serializable {
 	 * @param obstaculo
 	 */
 	public boolean add(final Obstaculo obstaculo) {
-		if (!this.estaDentro(obstaculo.getX(), obstaculo.getY())
-				|| this.getJugador(obstaculo.getX(), obstaculo.getY()) != null
-				|| this.getFruta(obstaculo.getX(), obstaculo.getY()) != null
-				|| this.getObstaculo(obstaculo.getX(), obstaculo.getY()) != null) {
+		if (!this.estaDentro(obstaculo) || this.getJugador(obstaculo) != null || this.getFruta(obstaculo) != null
+				|| this.getObstaculo(obstaculo) != null) {
 			return false;
 		}
 
@@ -172,10 +168,8 @@ public class Mapa implements Serializable {
 		LinkedList<Obstaculo> piedras = muro.getPiedras();
 
 		while (!piedras.isEmpty()) {
-			if (!this.estaDentro(piedras.getFirst().getX(), piedras.getFirst().getY())
-					|| this.getJugador(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
-					|| this.getFruta(piedras.getFirst().getX(), piedras.getFirst().getY()) != null
-					|| this.getObstaculo(piedras.getFirst().getX(), piedras.getFirst().getY()) != null) {
+			if (!this.estaDentro(piedras.getFirst()) || this.getJugador(piedras.getFirst()) != null
+					|| this.getFruta(piedras.getFirst()) != null || this.getObstaculo(piedras.getFirst()) != null) {
 				return false;
 			}
 
@@ -202,13 +196,12 @@ public class Mapa implements Serializable {
 
 			jugador.getVibora().cabecear();
 
-			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora().getHead().getX(),
-					jugador.getVibora().getHead().getY());
+			Obstaculo obstaculo = this.getObstaculo(jugador.getVibora());
 			if (obstaculo != null) {
 				Colisionador.colisionar(jugador, obstaculo);
 			}
 
-			Fruta fruta = this.getFruta(jugador.getVibora().getHead().getX(), jugador.getVibora().getHead().getY());
+			Fruta fruta = this.getFruta(jugador.getVibora());
 			if (fruta != null) {
 				Colisionador.colisionar(jugador, fruta);
 				frutasComidas.add(fruta);
@@ -243,7 +236,7 @@ public class Mapa implements Serializable {
 			Random random = new Random();
 			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
-		
+
 		this.scoring();
 	}
 
@@ -267,15 +260,15 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return Fruta | null
 	 */
-	public Fruta getFruta(final int x, final int y) {
-		if (this.estaDentro(x, y)) {
+	public Fruta getFruta(final Coordenable object) {
+		if (this.estaDentro(object)) {
 
 			if (this.cambioEnFrutas) {
 				this.cargarFrutas();
 				this.cambioEnFrutas = false;
 			}
 			if (this.posicionesDeFrutas != null) {
-				return this.posicionesDeFrutas[x][y];
+				return this.posicionesDeFrutas[object.getX()][object.getY()];
 			}
 		}
 
@@ -292,7 +285,7 @@ public class Mapa implements Serializable {
 		this.posicionesDeJugadores = new Jugador[this.tamano.getX() + 1][this.tamano.getY() + 1];
 		for (Jugador jugador : this.jugadores) {
 			Vibora vibora = jugador.getVibora();
-			if (!this.estaDentro(vibora.getX(), vibora.getY())) {
+			if (!this.estaDentro(vibora)) {
 				vibora.matar();
 				continue;
 			}
@@ -325,12 +318,12 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public Jugador getJugador(final int x, final int y) {
+	public Jugador getJugador(final Coordenable object) {
 		if (this.cambioEnVibora) {
 			this.cargarYVerSiColisionanViboras();
 		}
 		if (this.posicionesDeJugadores != null) {
-			return this.posicionesDeJugadores[x][y];
+			return this.posicionesDeJugadores[object.getX()][object.getY()];
 		}
 		return null;
 	}
@@ -342,13 +335,13 @@ public class Mapa implements Serializable {
 		}
 	}
 
-	public Obstaculo getObstaculo(final int x, final int y) {
-		if (this.estaDentro(x, y)) {
+	public Obstaculo getObstaculo(final Coordenable object) {
+		if (this.estaDentro(object)) {
 			if (this.cambioEnObstaculos) {
 				this.cargarObstaculos();
 			}
 			if (this.posicionesDeObstaculos != null) {
-				return this.posicionesDeObstaculos[x][y];
+				return this.posicionesDeObstaculos[object.getX()][object.getY()];
 			}
 		}
 		return null;
@@ -371,19 +364,11 @@ public class Mapa implements Serializable {
 	 * 
 	 * @return True si esta adentro
 	 */
-	public boolean estaDentro(final int x, final int y) {
-		return x >= 0 && y >= 0 && this.tamano.getX() >= x && this.tamano.getY() >= y;
+	public boolean estaDentro(final Coordenable object) {
+		return object.getX() >= 0 && object.getY() >= 0 && this.tamano.getX() >= object.getX()
+				&& this.tamano.getY() >= object.getY();
 	}
 
-	/**
-	 * Return el score en json
-	 * 
-	 * @return
-	 */
-	public String getScoreJson() {
-		return this.score;
-	}
-	
 	public ArrayList<Puntaje> scoring() {
 		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
 		for (Jugador jugador : this.jugadores) {
@@ -393,18 +378,24 @@ public class Mapa implements Serializable {
 			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
 		}
 		score.sort(null);
-		this.score = "[";
-		boolean primero = true;
-		for (Puntaje puntaje : score) {
-				if (primero == false) {
-					this.score += ",";
-				} else {
-					primero = false;
-				}
-			this.score += "{" + puntaje.getNombre() + ": " + puntaje.getFrutasComidas() + "}";			
-		}
-		this.score += "]";
 		return score;
+	}
+
+	public JsonArray scoringJson() {
+		ArrayList<Puntaje> score = new ArrayList<Puntaje>();
+		for (Jugador jugador : this.jugadores) {
+			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
+		}
+		for (Jugador jugador : this.espectadores) {
+			score.add(new Puntaje(jugador.getNombre(), jugador.getFrutasComidas()));
+		}
+		score.sort(null);
+		JsonArrayBuilder scoreArrayBuilder = Json.createArrayBuilder();
+
+		for (Puntaje puntaje : score) {
+			scoreArrayBuilder.add(puntaje.toString());
+		}
+		return scoreArrayBuilder.build();
 	}
 
 	public ArrayList<Jugador> getJugadores() {
@@ -425,5 +416,30 @@ public class Mapa implements Serializable {
 
 	public boolean getMurioUnJugador() {
 		return this.murioUnJugador;
+	}
+
+	public JsonObject toJson() {
+		// Mando en el orde: jugador -> fruta -> obstaculo
+		JsonArrayBuilder jugadores = Json.createArrayBuilder();
+		JsonArrayBuilder frutas = Json.createArrayBuilder();
+		JsonArrayBuilder obstaculos = Json.createArrayBuilder();
+
+		for (Jugador j : this.jugadores) {
+			jugadores.add(j.toJson());
+		}
+
+		for (Fruta f : this.frutas) {
+			frutas.add(f.toJson());
+		}
+
+		for (Obstaculo o : this.obstaculos) {
+			obstaculos.add(o.toJson());
+		}
+
+		return Json.createObjectBuilder()
+				// Orden: tamaño->jugadores->frutas->obstaculos->score
+				.add("tamano", this.tamano.toJson()).add("jugadores", jugadores).add("frutas", frutas)
+				.add("obstaculos", obstaculos).add("murioUnJugador", this.murioUnJugador)
+				.add("score", this.scoringJson()).build();
 	}
 }
