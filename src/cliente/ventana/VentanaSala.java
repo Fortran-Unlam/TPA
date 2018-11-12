@@ -240,7 +240,7 @@ public class VentanaSala extends JFrame {
 		cantBots.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent evt) {
-				if (cantBots.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
+				if (cantBots.getText().length() >= Param.LIMITE_CARACTERES_CANT_BOTS) {
 					evt.consume();
 					Toolkit.getDefaultToolkit().beep();
 				}

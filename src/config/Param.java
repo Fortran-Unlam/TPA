@@ -90,4 +90,5 @@ public abstract class Param implements Serializable {
 	public static final int LIMITE_CARACTERES_CONTRASENA = 10;
 	public static final int LIMITE_CARACTERES_NOMBRE_SALA = 20;
 	public static final int LIMITE_CARACTERES_USUARIOS_MAX = 2;
+	public static final int LIMITE_CARACTERES_CANT_BOTS = 2;
 }
