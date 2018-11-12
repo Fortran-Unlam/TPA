@@ -14,55 +14,63 @@ import cliente.Cliente;
 import config.Param;
 import servidor.Message;
 
-public class Sincronismo extends Thread{
-	
+public class Sincronismo extends Thread {
+
 	private static VentanaUnirSala ventanaUnirSala;
 	private static VentanaSala ventanaSala;
 	private static JsonArray datosDeSalasDisponibles;
-	
+
 	public Sincronismo() {
 		this.start();
 	}
-	
-	
+
 	public void run() {
 		boolean conectado = true;
 
 		while (conectado) {
 			try {
-				String stringEntrada =(String) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
-				
+				String stringEntrada = (String) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
+
 				JsonReader jsonReader = Json.createReader(new StringReader(stringEntrada));
 				JsonObject entradaJson = jsonReader.readObject();
 				jsonReader.close();
 
 				String tipoMensaje = entradaJson.getString("type");
+
+				switch (tipoMensaje) {
 				
-				if(tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
+				case Param.NOTICE_LOGUEO_BACKOFF_OK:
+					System.out.println("Logueo backoff OK");
+					break;
+
+				case Param.NOTICE_ACTUALIZAR_SALAS:
+					if (tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
+						datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
+					}
+
+					if (ventanaUnirSala != null) {
+						ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
+					}
+					break;
+
+				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
+				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
+					this.ventanaSala.refrescarSala(entradaJson);
+					break;
 				}
-				
-				if(ventanaUnirSala != null) {
-					ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
-				}
-				
-				
-				if(tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
-				}
+
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	public static void setVentanaSala(VentanaSala ventanaSala) {
 		Sincronismo.ventanaSala = ventanaSala;
 	}
-	
+
 	public static void setVentanaUnirSala(VentanaUnirSala ventanaUnirSala) {
 		Sincronismo.ventanaUnirSala = ventanaUnirSala;
 	}
-
 
 }

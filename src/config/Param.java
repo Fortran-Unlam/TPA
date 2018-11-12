@@ -2,6 +2,8 @@ package config;
 
 import java.io.Serializable;
 
+import javax.json.JsonValue;
+
 public abstract class Param implements Serializable {
 	
 	private static final long serialVersionUID = 6653691337938229625L;
@@ -59,7 +61,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";
 	public static final String REQUEST_MOSTRAR_MAPA = "MostrarMapa";
 	public static final String REQUEST_ENVIAR_TECLA = "enviarTecla";
-	public static final String REQUEST_CONEXION_BACKOFF_CLIENTE = "svAsignameLaConexion";
+	public static final String REQUEST_LOGUEO_BACKOFF_CLIENTE = "svAsignameLaConexion";
 	public static final int CANTIDAD_FRUTA_MINIMAS = 25;
 	public static final String SEPARADOR_EN_MENSAJES =";";
 	public static final String DATOS_SALA = "DatosSala";
@@ -80,8 +82,10 @@ public abstract class Param implements Serializable {
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
 	public static final String NOTICE_ACTUALIZAR_SALAS = "ClienteActualizaTusSalas";
 	public static final String NOTICE_SALIR_SALA = "MeFuiDeLaSala";
-	public static final String NOTICE_MODIFICAR_PARAM_SALA = "SvAvisaALosMuchachoQCambieJugabilidadOMapa";
-	public static final String NOTICE_ACTUALIZAR_SALA_PARTICULAR = "clienteActualizaLaSalaEnLaQueTeEncontras";
+	public static final String NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR = "SvRefrescaLosParametrosDeUnaDeterminadaSala";
+	public static final String NOTICE_REFRESCAR_USUARIOS_PARTICULAR = "SvRefrescaLosUsuariosDeUnaDeterminadaSala";
+	public static final String NOTICE_LOGUEO_BACKOFF_OK = "CheClienteTeLogueeReZarpado";
+	
 	public static final int LIMITE_CARACTERES_USUARIO = 20;
 	public static final int LIMITE_CARACTERES_CONTRASENA = 10;
 	public static final int LIMITE_CARACTERES_NOMBRE_SALA = 20;

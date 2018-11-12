@@ -146,12 +146,17 @@ public class VentanaLoginUsuario extends JFrame {
 
 		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
+		//Primero loguea con el server
 		Usuario usuario = Cliente.getConexionServidor().loguear(this.username.getText(), hashPassword);
-		JsonObject paqueteSeteoConexion = 
-		Json.createObjectBuilder().add("type", Param.REQUEST_CONEXION_BACKOFF_CLIENTE)
+		
+		
+		JsonObject paqueteLogueoBackoff = 
+		Json.createObjectBuilder().add("type", Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)
 		.add("username", this.username.getText()).build();
 		
-		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteSeteoConexion);
+		//Luego loguea con el backoff
+		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteLogueoBackoff);
+		
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {

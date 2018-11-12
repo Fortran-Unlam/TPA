@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.swing.DefaultListModel;
@@ -34,9 +35,10 @@ public class VentanaSala extends JFrame {
 
 	private static final long serialVersionUID = 1740234947461105665L;
 	private JList<String> listUsuarios;
-	private DefaultListModel<String> datosLista = new DefaultListModel<String>();
+	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
 	private JLabel lblCantidadBots;
+	private JLabel lblTipoJugabilidad;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
@@ -48,12 +50,15 @@ public class VentanaSala extends JFrame {
 	private JButton btnSalirDeSala;
 	private JLabel lblAdmin;
 	private JTextField cantBots;
+	private boolean visibiliadAdmin;
+	private JLabel lblMapa;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
 		this.nombreSala = nombreSala;
 		this.ventanaMenu.setVisible(false);
-		this.setearComponentes(admin);
+		this.visibiliadAdmin = admin;
+		this.setearComponentes();
 		addListener();
 	}
 
@@ -61,7 +66,7 @@ public class VentanaSala extends JFrame {
 		JsonObjectBuilder nombreSalatipoJuegoYMapa = Json.createObjectBuilder();
 
 		// Agrego parametros
-		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_MODIFICAR_PARAM_SALA);
+		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 
 		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
 		// Agrego el tipo de jugabilidads
@@ -83,7 +88,7 @@ public class VentanaSala extends JFrame {
 		// AgregoElTipoDeMapa
 		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
 
-		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(nombreSalatipoJuegoYMapa.build());
+		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
 				&& comboMapa.getSelectedIndex() != 0) {
 			btnEmpezarJuego.setEnabled(true);
@@ -92,8 +97,8 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
-	//La visibilidad por default es para el admin
-	private void setearComponentes(boolean esAdmin) {
+	// La visibilidad por default es para el admin
+	private void setearComponentes() {
 		setTitle("Sala de juego");
 
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -118,7 +123,7 @@ public class VentanaSala extends JFrame {
 		btnEmpezarJuego.setBounds(111, 346, 168, 40);
 		getContentPane().add(btnEmpezarJuego);
 
-		this.listUsuarios = new JList<String>(datosLista);
+		this.listUsuarios = new JList<String>(modelUsuariosLista);
 		listUsuarios.setFont(new Font("Century Gothic", Font.BOLD, 14));
 		this.listUsuarios.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		this.listUsuarios.setBounds(33, 83, 168, 222);
@@ -178,13 +183,13 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 
-		JLabel lblTipoJugabilidad = new JLabel("");
+		this.lblTipoJugabilidad = new JLabel("\"Aun no se ha determinado\"");
 		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTipoJugabilidad.setBounds(236, 131, 238, 24);
 		lblTipoJugabilidad.setVisible(false);
 		contentPane.add(lblTipoJugabilidad);
 
-		JLabel lblMapa = new JLabel("");
+		this.lblMapa = new JLabel("no esta definido");
 		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblMapa.setBounds(366, 192, 130, 24);
 		lblMapa.setVisible(false);
@@ -196,18 +201,18 @@ public class VentanaSala extends JFrame {
 		lblAdmin.setBounds(382, 48, 202, 24);
 		lblAdmin.setVisible(true);
 		contentPane.add(lblAdmin);
-		
+
 		lblCantidadBots = new JLabel("Cantidad bots:");
 		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCantidadBots.setBounds(236, 250, 111, 20);
 		contentPane.add(lblCantidadBots);
-		
+
 		cantBots = new JTextField();
 		cantBots.setBounds(377, 252, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
 
-		if (esAdmin) {
+		if (this.visibiliadAdmin) {
 			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
@@ -225,8 +230,6 @@ public class VentanaSala extends JFrame {
 					verificarBotones();
 				}
 			});
-			chckbxTiempo.setEnabled(false);
-
 
 			chckbxTiempo.addItemListener(new ItemListener() {
 				@Override
@@ -249,6 +252,8 @@ public class VentanaSala extends JFrame {
 			chckbxSupervivencia.setVisible(false);
 			chckbxTiempo.setVisible(false);
 			btnSalirDeSala.setBounds(236, 346, 162, 40);
+			btnEmpezarJuego.setVisible(false);
+			cantBots.setVisible(false);
 		}
 
 	}
@@ -260,7 +265,8 @@ public class VentanaSala extends JFrame {
 				.add("nombreSala", this.nombreSala).build();
 
 		Cliente.getConexionServidor().SalirSala(this.nombreSala);
-		Cliente.getconexionServidorBackOff().avisarAlSvQueHagaActualizaciones(paqueteSalirSala);
+		Sincronismo.setVentanaSala(null);
+		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteSalirSala);
 	}
 
 	protected void empezarJuego() {
@@ -310,9 +316,27 @@ public class VentanaSala extends JFrame {
 
 	}
 
-	// TODO: falta hacer este metodo
 	// Metodo que usa el Thread para refrescar la Sala a cada cliente
-	public void refrescarSala() {
-
+	public void refrescarSala(JsonObject datosParaRefrescarSala) {
+		String tipoDeActualizacion = datosParaRefrescarSala.getString("type");
+		
+		if(tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+			JsonArray arrayUsuariosConectados = datosParaRefrescarSala.getJsonArray("usuarios");
+			this.modelUsuariosLista.clear(); //Limpio
+			//Cargo
+			for (int i = 0; i < arrayUsuariosConectados.size(); i++) {
+				this.modelUsuariosLista.addElement(arrayUsuariosConectados.getString(i));
+				
+			}
+			//Seteo
+			this.listUsuarios.setModel(this.modelUsuariosLista);
+		}else {
+			
+			if(!this.visibiliadAdmin) {//Si no es admin
+				this.lblTipoJugabilidad.setText(datosParaRefrescarSala.getString("tipoJugabilidad"));
+				this.lblMapa.setText(datosParaRefrescarSala.getString("tipoMapa"));
+				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
+			}
+		}
 	}
 }

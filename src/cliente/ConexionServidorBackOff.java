@@ -37,18 +37,19 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
-	public void avisarAlSvQueHagaActualizaciones(JsonObject paquete) {
+	public void enviarAlServer(JsonObject paquete) {
 
-		/*
-		 * Le aviso al sv que hubo una actualizacion acá el server empieza a tirotear a
-		 * todos los clientes con los datos de las salas actualizadas, tengo que esperar
-		 * que sea mi turno y me lleguen los datos de la sala, recien ahi puedo
-		 * continuar.
-		 */
 		System.out.println(paquete.toString());
+		
+		/*Las respuestas del server las recibe la clase Sincronismo, la cual funcinoa como thread.
+		 * No lo puse acá porque ponerlo acá porque necesitaba que las actualizaciones se hagan
+		 * en todo momento, a pesar de que el usuario esté jugando.
+		 */
+		
 		try {
 			this.salidaDatos.writeObject(paquete.toString());
 		} catch (IOException e) {
+			System.err.println("HUBO UNE ERROR EN EL ENVIO DE DATOS AL SERVIDOR MEDIANTE BACKOFF");
 			e.printStackTrace();
 		}
 
