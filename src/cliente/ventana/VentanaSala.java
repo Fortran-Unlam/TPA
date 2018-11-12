@@ -78,6 +78,14 @@ public class VentanaSala extends JFrame {
 					JOptionPane.WARNING_MESSAGE);
 			cantBots.setText("0");
 		}
+		else {
+			if(!cantBots.getText().matches("[0-9]+")) {
+				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser númerica", "Atencion",
+						JOptionPane.WARNING_MESSAGE);
+				cantBots.setText("0");
+			}
+		}
+
 
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
