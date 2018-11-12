@@ -16,7 +16,7 @@ import core.Coordenada;
 import core.Jugador;
 import core.Muro;
 import core.Puntaje;
-import core.entidad.Coordenable;
+import core.entidad.Posicionable;
 import core.entidad.CuerpoVibora;
 import core.entidad.Fruta;
 import core.entidad.Obstaculo;
@@ -260,7 +260,7 @@ public class Mapa {
 	 * 
 	 * @return Fruta | null
 	 */
-	public Fruta getFruta(final Coordenable object) {
+	public Fruta getFruta(final Posicionable object) {
 		if (this.estaDentro(object)) {
 
 			if (this.cambioEnFrutas) {
@@ -318,7 +318,7 @@ public class Mapa {
 	 * 
 	 * @return Cuerpo de vibora | null
 	 */
-	public Jugador getJugador(final Coordenable object) {
+	public Jugador getJugador(final Posicionable object) {
 		if (this.cambioEnVibora) {
 			this.cargarYVerSiColisionanViboras();
 		}
@@ -335,7 +335,7 @@ public class Mapa {
 		}
 	}
 
-	public Obstaculo getObstaculo(final Coordenable object) {
+	public Obstaculo getObstaculo(final Posicionable object) {
 		if (this.estaDentro(object)) {
 			if (this.cambioEnObstaculos) {
 				this.cargarObstaculos();
@@ -364,7 +364,7 @@ public class Mapa {
 	 * 
 	 * @return True si esta adentro
 	 */
-	public boolean estaDentro(final Coordenable object) {
+	public boolean estaDentro(final Posicionable object) {
 		return object.getX() >= 0 && object.getY() >= 0 && this.tamano.getX() >= object.getX()
 				&& this.tamano.getY() >= object.getY();
 	}
@@ -437,7 +437,7 @@ public class Mapa {
 		}
 
 		return Json.createObjectBuilder()
-				// Orden: tamaño->jugadores->frutas->obstaculos->score
+				// Orden: tamaï¿½o->jugadores->frutas->obstaculos->score
 				.add("tamano", this.tamano.toJson()).add("jugadores", jugadores).add("frutas", frutas)
 				.add("obstaculos", obstaculos).add("murioUnJugador", this.murioUnJugador)
 				.add("score", this.scoringJson()).build();

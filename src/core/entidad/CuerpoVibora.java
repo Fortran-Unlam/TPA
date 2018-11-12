@@ -2,7 +2,7 @@ package core.entidad;
 
 import core.Coordenada;
 
-public class CuerpoVibora implements Coordenable {
+public class CuerpoVibora implements Posicionable {
 
 	private Coordenada coordenada;
 	private boolean isHead = false;

@@ -1,6 +1,6 @@
 package core.entidad;
 
-public interface Coordenable {
+public interface Posicionable {
 
 	public int getX();
 	

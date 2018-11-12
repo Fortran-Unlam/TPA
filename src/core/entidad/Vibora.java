@@ -11,7 +11,7 @@ import javax.json.JsonObjectBuilder;
 import config.Posicion;
 import core.Coordenada;
 
-public class Vibora implements Coordenable {
+public class Vibora implements Posicionable {
 
 	private String nombre;
 	private int id;

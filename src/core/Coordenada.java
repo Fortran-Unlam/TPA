@@ -3,9 +3,9 @@ package core;
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import core.entidad.Coordenable;
+import core.entidad.Posicionable;
 
-public class Coordenada implements Coordenable {
+public class Coordenada implements Posicionable {
 
 	private int x;
 	private int y;

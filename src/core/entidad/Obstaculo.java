@@ -5,7 +5,7 @@ import javax.json.JsonObject;
 
 import core.Coordenada;
 
-public class Obstaculo implements Coordenable {
+public class Obstaculo implements Posicionable {
 
 	private Coordenada ubicacion;
 

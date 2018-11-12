@@ -5,7 +5,7 @@ import javax.json.JsonObject;
 
 import core.Coordenada;
 
-public class Fruta implements Coordenable {
+public class Fruta implements Posicionable {
 
 	private Coordenada coordenada;
 	private boolean fueComida = false;
