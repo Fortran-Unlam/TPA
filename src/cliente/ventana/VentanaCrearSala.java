@@ -151,7 +151,7 @@ public class VentanaCrearSala extends JFrame {
 			return;
 		}
 
-		if (!this.maxUsuarioField.getText().matches("[0-9]+")) {
+		if (!this.maxUsuarioField.getText().matches("[1-9]+")) {
 			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
