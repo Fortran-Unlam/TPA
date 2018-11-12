@@ -3,6 +3,8 @@ package looby;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.mapa.MapaUno;
+
 public class ManejadorSala {
 	private List<Sala> salasActivas = new ArrayList<>();
 	private List<Usuario> usuariosActivos = new ArrayList<>();
@@ -32,6 +34,6 @@ public class ManejadorSala {
 		tipoJuego.setFrutasMaximas(2);
 //		System.out.println(tipoJuego.termina(2, 3, 3));
 		
-		salaPrueba.crearPartida(2,tipoJuego);
+		salaPrueba.crearPartida(2,tipoJuego, new MapaUno());
 	}
 }

@@ -69,23 +69,27 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoYMapa.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 
 		nombreSalatipoJuegoYMapa.add("sala", this.nombreSala);
-		// Agrego el tipo de jugabilidads
-		if (chckbxFruta.isSelected())
+
+		nombreSalatipoJuegoYMapa.add("fruta", false);
+		nombreSalatipoJuegoYMapa.add("supervivencia", false);
+		nombreSalatipoJuegoYMapa.add("tiempo", false);
+		btnEmpezarJuego.setEnabled(false);
+
+		if (chckbxFruta.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("fruta", true);
-		else
-			nombreSalatipoJuegoYMapa.add("fruta", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		if (chckbxSupervivencia.isSelected())
+		if (chckbxSupervivencia.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("supervivencia", true);
-		else
-			nombreSalatipoJuegoYMapa.add("supervivencia", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		if (chckbxTiempo.isSelected())
+		if (chckbxTiempo.isSelected()) {
 			nombreSalatipoJuegoYMapa.add("tiempo", true);
-		else
-			nombreSalatipoJuegoYMapa.add("tiempo", false);
+			btnEmpezarJuego.setEnabled(true);
+		}
 
-		// AgregoElTipoDeMapa
 		nombreSalatipoJuegoYMapa.add("mapa", (String) comboMapa.getSelectedItem());
 
 		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());
@@ -95,7 +99,10 @@ public class VentanaSala extends JFrame {
 		} else {
 			btnEmpezarJuego.setEnabled(false);
 		}
+		
+		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoYMapa.build());	
 	}
+		
 
 	// La visibilidad por default es para el admin
 	private void setearComponentes() {
@@ -162,7 +169,6 @@ public class VentanaSala extends JFrame {
 		comboMapa.setToolTipText("Debe seleccionar un tipo de mapa.");
 
 		comboMapa.setBounds(368, 192, 151, 25);
-		comboMapa.addItem("Seleccionar un mapa");
 		comboMapa.addItem("Mapa 1");
 		comboMapa.addItem("Mapa 2");
 		comboMapa.addItem("Mapa 3");
@@ -319,20 +325,20 @@ public class VentanaSala extends JFrame {
 	// Metodo que usa el Thread para refrescar la Sala a cada cliente
 	public void refrescarSala(JsonObject datosParaRefrescarSala) {
 		String tipoDeActualizacion = datosParaRefrescarSala.getString("type");
-		
-		if(tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+
+		if (tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
 			JsonArray arrayUsuariosConectados = datosParaRefrescarSala.getJsonArray("usuarios");
-			this.modelUsuariosLista.clear(); //Limpio
-			//Cargo
+			this.modelUsuariosLista.clear(); // Limpio
+			// Cargo
 			for (int i = 0; i < arrayUsuariosConectados.size(); i++) {
 				this.modelUsuariosLista.addElement(arrayUsuariosConectados.getString(i));
-				
+
 			}
-			//Seteo
+			// Seteo
 			this.listUsuarios.setModel(this.modelUsuariosLista);
-		}else {
-			
-			if(!this.visibiliadAdmin) {//Si no es admin
+		} else {
+
+			if (!this.visibiliadAdmin) {// Si no es admin
 				this.lblTipoJugabilidad.setText(datosParaRefrescarSala.getString("tipoJugabilidad"));
 				this.lblMapa.setText(datosParaRefrescarSala.getString("tipoMapa"));
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));

@@ -12,6 +12,8 @@ import com.google.gson.JsonSyntaxException;
 
 import config.Param;
 import config.Posicion;
+import core.mapa.Mapa;
+import core.mapa.MapaUno;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.TipoJuegoFruta;
@@ -209,8 +211,10 @@ public class ConexionCliente extends Thread {
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 					}
+					Mapa mapa = new MapaUno();
+					
 					this.salidaDatos.writeObject(
-							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego))
+							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego, mapa))
 									.toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:

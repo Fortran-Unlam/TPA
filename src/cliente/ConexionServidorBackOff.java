@@ -37,6 +37,7 @@ public class ConexionServidorBackOff extends Thread {
 		}
 	}
 
+
 	public void enviarAlServer(JsonObject paquete) {
 
 		System.out.println(paquete.toString());

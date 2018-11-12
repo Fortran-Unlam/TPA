@@ -22,9 +22,9 @@ public class Juego implements Serializable {
 	private boolean juegoEnCurso = false;
 	private int segundosTranscurridos = 0;
 
-	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego) {
+	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego, Mapa mapa) {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
-		this.mapa = new MapaUno();
+		this.mapa = mapa;
 		for (Jugador jugador : this.jugadoresEnJuego) {
 			this.mapa.add(jugador, jugador instanceof JugadorBot);
 		}

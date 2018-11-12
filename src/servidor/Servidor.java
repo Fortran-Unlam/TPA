@@ -42,17 +42,14 @@ public class Servidor {
 
 		try {
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Escuchando al cliente en el puerto: " + Param.PORT_1);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Recibiendo del cliente en el puerto: " + Param.PORT_2);
 
 			servidorBackOffIn = new ServerSocket(Param.PORT_3, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Escuchando al cliente (BackOff) en el puerto: " + Param.PORT_3);
 
 			servidorBackOffOut = new ServerSocket(Param.PORT_4, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
-			System.out.println("Recibiendo del cliente (BackOff) en el puerto: " + Param.PORT_4);
 
+			System.out.println("Recibiendo en el puerto: " + Param.PORT_4);
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();

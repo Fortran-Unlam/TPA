@@ -52,6 +52,7 @@ public class ConexionClienteBackOff extends Thread {
 
 				String tipoDeMensaje = entradaJson.getString("type");
 
+
 				// Guardo el usuario dentro de mi conexiónBackOff
 				if (tipoDeMensaje.equals(Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)) {
 					for (Usuario u : Servidor.getUsuariosActivos()) {
@@ -113,11 +114,12 @@ public class ConexionClienteBackOff extends Thread {
 		JsonArray datosDeSalas = Servidor.getAllSalas();
 		JsonObjectBuilder paqueteActualizacionDeSalas = Json.createObjectBuilder();
 		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS).add("datosDeSalas", datosDeSalas);
-		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
+
+		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
 			// Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las
 			// salas actualizadas
 			try {
-				c.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
+				conexion.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
 			} catch (IOException e) {
 				System.err.println(
 						"Hubo un error, del lado del servidor, en la actualizacion de las salas a los clientes");
@@ -134,6 +136,7 @@ public class ConexionClienteBackOff extends Thread {
 
 		JsonObject paqueteAEnviar;
 		if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+
 
 			JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
 
