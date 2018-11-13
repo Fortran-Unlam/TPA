@@ -3,16 +3,16 @@ package config;
 public enum Posicion {
 	ESTE, SUR, OESTE, NORTE;
 
-	public int rotacion() {
-		switch (this) {
+	public static double rotacion(int posicion) {
+		switch (Posicion.values()[posicion % Posicion.values().length]) {
 		case OESTE:
 			return 0;
 		case SUR:
-			return 90;
+			return Math.PI/2;
 		case ESTE:
-			return 180;
+			return Math.PI;
 		case NORTE:
-			return 270;
+			return Math.PI/2*3;
 		}
 		return 0;
 	}

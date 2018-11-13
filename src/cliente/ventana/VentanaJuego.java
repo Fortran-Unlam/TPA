@@ -32,6 +32,7 @@ import cliente.Cliente;
 import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
+import config.Posicion;
 import core.mapa.Juego;
 
 public class VentanaJuego extends JFrame {
@@ -153,7 +154,6 @@ public class VentanaJuego extends JFrame {
 		this.setVisible(true);
 
 		try {
-			// TODO: esto se debe cargar una sola vez y cambiar direccion aca no mas.
 			Image imagen = ImageIO.read(ClassLoader.class.getResource(Param.IMG_CABEZA_PATH));
 			GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
 					.getDefaultConfiguration();
@@ -206,11 +206,11 @@ public class VentanaJuego extends JFrame {
 			for (int i = 0; i < jugadores.size(); i++) {
 				g2d.setColor(Color.RED);
 				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
+				
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
-				if (vibora.getInt("sentido") > 1) {
-					at.rotate(Math.PI / 4);					
-				}
+				at.rotate(Posicion.rotacion(vibora.getInt("sentido")));
+				
 				g2d.drawImage(imagenCabeza, at, null);
 				g2d.setColor(Color.BLUE);
 				if (vibora.getBoolean("bot")) {
