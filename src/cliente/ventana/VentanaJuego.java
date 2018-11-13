@@ -2,13 +2,20 @@ package cliente.ventana;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.StringReader;
 
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -53,6 +60,8 @@ public class VentanaJuego extends JFrame {
 	private JSeparator separatorBottom;
 	private JLabel lblJugador;
 	private JLabel lblOtrosJugadores;
+
+	private BufferedImage imagenCabeza;
 
 	public VentanaJuego(Juego juego) {
 		super("Snake");
@@ -142,6 +151,21 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
+		try {
+			// TODO: esto se debe cargar una sola vez y cambiar direccion aca no mas.
+			Image imagen = ImageIO.read(ClassLoader.class.getResource(Param.IMG_CABEZA_PATH));
+			GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
+					.getDefaultConfiguration();
+
+			imagenCabeza = gc.createCompatibleImage(imagen.getWidth(null), imagen.getHeight(null),
+					Transparency.TRANSLUCENT);
+			Graphics g = imagenCabeza.getGraphics();
+			g.drawImage(imagen, 0, 0, null);
+			g.dispose();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		Thread thread = new Thread() {
 			public synchronized void run() {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
@@ -181,9 +205,8 @@ public class VentanaJuego extends JFrame {
 			for (int i = 0; i < jugadores.size(); i++) {
 				g2d.setColor(Color.RED);
 				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
-				g2d.setColor(Color.YELLOW);
-				g2d.fillRect(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+				g2d.drawImage(imagenCabeza, vibora.getInt("x") * Param.PIXEL_RESIZE,
+						vibora.getInt("y") * Param.PIXEL_RESIZE, null);
 
 				g2d.setColor(Color.BLUE);
 				if (vibora.getBoolean("bot")) {
