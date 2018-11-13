@@ -57,9 +57,9 @@ public class ConexionCliente extends Thread {
 
 		while (conectado) {
 			try {
-				System.out.println("try");
+//				System.out.println("try");
 				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
-				System.out.println("El cliente solicita " + message.getType());
+//				System.out.println("El cliente solicita " + message.getType());
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:

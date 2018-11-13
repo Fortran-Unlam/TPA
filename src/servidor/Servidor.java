@@ -202,7 +202,6 @@ public class Servidor {
 						if (enviar) {
 							conexionCliente.getSalidaDatos().reset();
 							conexionCliente.getSalidaDatos().flush();
-							System.err.println("mapa " + System.currentTimeMillis());
 							conexionCliente.getSalidaDatos().writeObject(message.toJson());
 						}
 

@@ -1,4 +1,5 @@
 package cliente.ventana;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -109,36 +110,35 @@ public class VentanaJuego extends JFrame {
 		this.panelMapa = new JPanel();
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		this.contentPane.add(panelMapa);
-		
+
 		lblReferencia = new JLabel("Referencias:");
 		lblReferencia.setBounds(10, 397, 180, 21);
 		contentPane.add(lblReferencia);
-		
+
 		lblObstaculoRef = new JLabel("Obstaculos");
 		lblObstaculoRef.setBounds(10, 441, 150, 21);
 		contentPane.add(lblObstaculoRef);
-		
+
 		lblFrutasRef = new JLabel("Frutas");
 		lblFrutasRef.setBounds(10, 473, 150, 21);
 		contentPane.add(lblFrutasRef);
-		
+
 		lblJugador = new JLabel("Jugador");
 		lblJugador.setBounds(10, 505, 150, 21);
 		contentPane.add(lblJugador);
-		
+
 		lblOtrosJugadores = new JLabel("Otros jugadores");
 		lblOtrosJugadores.setBounds(10, 537, 150, 21);
 		contentPane.add(lblOtrosJugadores);
-		
+
 		separatorTop = new JSeparator();
 		separatorTop.setBounds(10, 299, 180, 2);
 		contentPane.add(separatorTop);
-		
+
 		separatorBottom = new JSeparator();
 		separatorBottom.setBounds(10, 384, 180, 2);
 		contentPane.add(separatorBottom);
-		
-		
+
 		this.setFocusable(true);
 		this.setVisible(true);
 
@@ -154,7 +154,7 @@ public class VentanaJuego extends JFrame {
 		musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
 		musicaFondo.repetir();
 	}
-	
+
 	public void dibujarMapaJson(String jsonString) {
 		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
 		JsonObject json = jsonReader.readObject();
@@ -205,19 +205,20 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE, obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE, Param.PIXEL_RESIZE);
+				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+						obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
+						Param.PIXEL_RESIZE);
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
 			String[] listModelJugadores = new String[score.size()];
 			String[] listModelFrutas = new String[score.size()];
-			
+
 			for (int i = 0; i < score.size(); i++) {
 				String[] jugadorFrutas = score.get(i).toString().split(":");
-				//listModel[i] = score.get(i).toString();
+				// listModel[i] = score.get(i).toString();
 				listModelJugadores[i] = jugadorFrutas[0];
-				listModelFrutas[i] =  jugadorFrutas[1];
+				listModelFrutas[i] = jugadorFrutas[1];
 			}
 			jListJugadores.setListData(listModelJugadores);
 			jListFrutas.setListData(listModelFrutas);
@@ -236,6 +237,8 @@ public class VentanaJuego extends JFrame {
 		if (mapa.getBoolean("murioUnJugador")) {
 			new Sonido(Param.GOLPE_PATH).reproducir();
 		}
+		long diff = json.getJsonNumber("currentTimeMillis").longValue();
+		System.out.println("ms: " + (diff - System.currentTimeMillis()));
 	}
 
 	private void addListener() {

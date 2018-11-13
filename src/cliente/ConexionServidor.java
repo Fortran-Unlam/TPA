@@ -211,7 +211,7 @@ public class ConexionServidor {
 		try {
 			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
 					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false }";
-			System.out.println("GGGGGGG " + request);
+			
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message.toJson());
@@ -219,7 +219,7 @@ public class ConexionServidor {
 			while (socketIn.isClosed() == false) {
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 				String ret = this.message.getType();
-				System.out.println(ret);
+				
 				switch (ret) {
 				case Param.REQUEST_JUEGO_EMPEZADO:
 					return (boolean) this.message.getData();
@@ -246,7 +246,6 @@ public class ConexionServidor {
 
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
-					System.err.println("mapa " + System.currentTimeMillis());
 					ventanaJuego.dibujarMapaJson((String) this.message.getData());
 				default:
 				}
@@ -270,6 +269,9 @@ public class ConexionServidor {
 	}
 
 	public void enviarTecla(Posicion posicion) {
+		if (posicion == null) {
+			return;
+		}
 		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion.ordinal());
 		try {
 			this.salidaDatos.reset();

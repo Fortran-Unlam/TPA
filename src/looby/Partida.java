@@ -22,7 +22,8 @@ public class Partida implements Serializable {
 	private ArrayList<Usuario> usuariosActivosEnSala;
 	private Mapa mapa;
 
-	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo, Mapa mapa) {
+	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo,
+			Mapa mapa) {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
@@ -45,16 +46,18 @@ public class Partida implements Serializable {
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
-		try {
-			System.out.println("Ronda " + (numeroRonda + 1));
-			this.partidaEnCurso = true;
-			this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
-			if (this.comienzoDeJuego()) {
-				this.rondasJugadas.add(this.rondaEnCurso);
+		System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
+		if (numeroRonda < this.cantidadDeRondasAJugar) {
+			try {
+				System.out.println("Ronda " + (++numeroRonda));
+				this.partidaEnCurso = true;
+				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
+				if (this.comienzoDeJuego()) {
+					this.rondasJugadas.add(this.rondaEnCurso);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-//			this.rondaEnCurso = null;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		this.partidaEnCurso = false;
 	}
@@ -82,6 +85,8 @@ public class Partida implements Serializable {
 					e.printStackTrace();
 				}
 				rondaEnCurso.start();
+				empezarPartida();
+
 			}
 		};
 		thread.start();
