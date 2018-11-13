@@ -44,7 +44,6 @@ public class VentanaSala extends JFrame {
 	private JLabel labelUsrEnLaSala;
 	private JLabel lblCantidadBots;
 	private JLabel lblBots;
-	private JLabel lblTipoJugabilidad;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
@@ -57,7 +56,7 @@ public class VentanaSala extends JFrame {
 	private JLabel lblAdmin;
 	private JTextField cantBots;
 	private boolean visibiliadAdmin;
-	private JLabel lblMapa;
+	private JLabel mapaParaNoAdmin;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -94,7 +93,6 @@ public class VentanaSala extends JFrame {
 
 		// Agrego parametros
 		nombreSalatipoJuegoMapaYBots.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
-
 		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
 
 		if (chckbxFruta.isSelected()) {
@@ -212,18 +210,6 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo.setBounds(366, 147, 130, 23);
 		contentPane.add(chckbxTiempo);
 
-		this.lblTipoJugabilidad = new JLabel("Aun no se ha determinado");
-		lblTipoJugabilidad.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblTipoJugabilidad.setBounds(236, 131, 238, 24);
-		lblTipoJugabilidad.setVisible(false);
-		contentPane.add(lblTipoJugabilidad);
-
-		this.lblMapa = new JLabel("no esta definido");
-		lblMapa.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblMapa.setBounds(366, 192, 130, 24);
-		lblMapa.setVisible(false);
-		contentPane.add(lblMapa);
-
 		this.lblAdmin = new JLabel("");
 		lblAdmin.setForeground(new Color(184, 134, 11));
 		lblAdmin.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -233,7 +219,7 @@ public class VentanaSala extends JFrame {
 
 		lblCantidadBots = new JLabel("Cantidad bots:");
 		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCantidadBots.setBounds(236, 250, 111, 20);
+		lblCantidadBots.setBounds(236, 237, 111, 20);
 		contentPane.add(lblCantidadBots);
 		cantBots = new JTextField();
 		/* Limita cantidad de caracteres a ingresar en el campo cantidad de bots */
@@ -250,7 +236,7 @@ public class VentanaSala extends JFrame {
 		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
 		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cantBots.setText("0");
-		cantBots.setBounds(377, 252, 32, 20);
+		cantBots.setBounds(368, 237, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
 		
@@ -258,13 +244,19 @@ public class VentanaSala extends JFrame {
 		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblBots.setBounds(377, 250, 32, 20);
 		contentPane.add(lblBots);
+		
+		mapaParaNoAdmin = new JLabel("Aun no se ha determinado");
+		mapaParaNoAdmin.setBounds(368, 194, 151, 20);
+		contentPane.add(mapaParaNoAdmin);
+
 
 		if (this.visibiliadAdmin) {
 			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
-
+			mapaParaNoAdmin.setVisible(false);
+			
 			chckbxSupervivencia.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
@@ -307,15 +299,14 @@ public class VentanaSala extends JFrame {
 
 			lblAdmin.setText("Vos sos el admin");
 		} else {
-			lblMapa.setVisible(true);
-			lblTipoJugabilidad.setVisible(true);
 			comboMapa.setVisible(false);
-			chckbxFruta.setVisible(false);
-			chckbxSupervivencia.setVisible(false);
-			chckbxTiempo.setVisible(false);
 			btnSalirDeSala.setBounds(236, 346, 162, 40);
 			btnEmpezarJuego.setVisible(false);
-			cantBots.setVisible(false);
+			cantBots.setEnabled(false);
+			chckbxFruta.setEnabled(false);
+			chckbxTiempo.setEnabled(false);
+			chckbxSupervivencia.setEnabled(false);
+			mapaParaNoAdmin.setVisible(true);
 		}
 
 	}
@@ -398,9 +389,23 @@ public class VentanaSala extends JFrame {
 		} else {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
-				this.lblTipoJugabilidad.setText(datosParaRefrescarSala.getString("tipoJugabilidad"));
-				this.lblMapa.setText(datosParaRefrescarSala.getString("tipoMapa"));
-				this.lblBots.setText(datosParaRefrescarSala.getString("bots"));
+				
+				String[] tipoJugabilidad = datosParaRefrescarSala.getString("tipoJugabilidad").split(" ");
+				
+				chckbxSupervivencia.setSelected(false);
+				chckbxFruta.setSelected(false);
+				chckbxTiempo.setSelected(false);
+				
+				for (String jugabilidad : tipoJugabilidad) {
+					switch(jugabilidad) {
+						case "supervivencia" : chckbxSupervivencia.setSelected(true); break;
+						case "frutas" 		 : chckbxFruta.setSelected(true); break;
+						case "tiempo" 		 : chckbxTiempo.setSelected(true); break;
+					}
+				}
+				
+				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
+				this.cantBots.setText(datosParaRefrescarSala.getString("bots"));
 			}
 		}
 	}
