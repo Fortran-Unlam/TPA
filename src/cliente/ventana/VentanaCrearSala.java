@@ -87,8 +87,7 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		nombreField.setToolTipText(
-				"Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
+		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
@@ -99,6 +98,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 
 		maxUsuarioField = new JTextField();
+		maxUsuarioField.setText("1");
 		/* Bloquea el control c y control v */
 		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(maxUsuarioField.WHEN_FOCUSED);
 		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
