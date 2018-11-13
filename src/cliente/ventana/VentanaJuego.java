@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import cliente.Cliente;
+import cliente.Imagen;
 import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
@@ -64,6 +65,10 @@ public class VentanaJuego extends JFrame {
 	private JLabel lblOtrosJugadores;
 
 	private BufferedImage imagenCabeza;
+
+	private BufferedImage imagenCuerpo;
+
+	private BufferedImage imagenCuerpoBot;
 
 	public VentanaJuego(Juego juego) {
 		super("Snake");
@@ -153,19 +158,9 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
-		try {
-			Image imagen = ImageIO.read(ClassLoader.class.getResource(Param.IMG_CABEZA_PATH));
-			GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
-					.getDefaultConfiguration();
-
-			imagenCabeza = gc.createCompatibleImage(imagen.getWidth(null), imagen.getHeight(null),
-					Transparency.TRANSLUCENT);
-			Graphics g = imagenCabeza.getGraphics();
-			g.drawImage(imagen, 0, 0, null);
-			g.dispose();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH);
+		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH);
+		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH);
 
 		Thread thread = new Thread() {
 			public synchronized void run() {
@@ -212,17 +207,17 @@ public class VentanaJuego extends JFrame {
 				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth()/2, imagenCabeza.getHeight()/2);
 				
 				g2d.drawImage(imagenCabeza, at, null);
-				g2d.setColor(Color.BLUE);
-				if (vibora.getBoolean("bot")) {
-					g2d.setColor(Color.GREEN);
-				}
 
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");
 
 				for (int j = 0; j < cuerpo.size(); j++) {
-					g2d.fillRect(cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
-							cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-							Param.PIXEL_RESIZE);
+					if (vibora.getBoolean("bot")) {
+						g2d.drawImage(imagenCuerpoBot, cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
+								cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, null);
+					} else {
+						g2d.drawImage(imagenCuerpo, cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
+								cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, null);
+					}
 				}
 			}
 
