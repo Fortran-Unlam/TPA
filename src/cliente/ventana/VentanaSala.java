@@ -48,6 +48,7 @@ public class VentanaSala extends JFrame {
 	private JCheckBox chckbxTiempo;
 	private JCheckBox chckbxSupervivencia;
 	private JComboBox<Object> comboMapa;
+	private JComboBox<Object> comboCantBots;
 	private JButton btnSalirDeSala;
 	private JLabel lblAdmin;
 	private JTextField cantBots;
@@ -224,6 +225,19 @@ public class VentanaSala extends JFrame {
 		cantBots.setBounds(368, 237, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
+		
+		/*
+		comboCantBots = new JComboBox<Object>();
+		comboCantBots.setToolTipText("Debe seleccionar cantidad de bots.");
+		
+		comboCantBots.setBounds(368, 237, 151, 20);
+		comboCantBots.addItem("Seleccione bots");
+		comboCantBots.addItem("1");
+		comboCantBots.addItem("2");
+		comboCantBots.addItem("3");
+		comboCantBots.addItem("4");
+		comboCantBots.addItem("5");
+		contentPane.add(comboCantBots);*/
 
 		lblBots = new JLabel("");
 		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
