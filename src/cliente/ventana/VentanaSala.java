@@ -60,13 +60,12 @@ public class VentanaSala extends JFrame {
 		this.ventanaMenu.setVisible(false);
 		this.visibiliadAdmin = admin;
 		this.setearComponentes();
-		addListener();
+		this.addListener();
 	}
 
 	protected void verificarBotonesYRefrescarCambios() {
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& comboMapa.getSelectedIndex() != 0
-				&& !cantBots.getText().isEmpty()) {
+				&& comboMapa.getSelectedIndex() != 0 && !cantBots.getText().isEmpty()) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
@@ -76,9 +75,8 @@ public class VentanaSala extends JFrame {
 			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
 					JOptionPane.WARNING_MESSAGE);
 			cantBots.setText("0");
-		}
-		else {
-			if(!cantBots.getText().matches("[0-9]+")) {
+		} else {
+			if (!cantBots.getText().matches("[0-9]+")) {
 				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser númerica", "Atencion",
 						JOptionPane.WARNING_MESSAGE);
 				cantBots.setText("0");
@@ -218,16 +216,7 @@ public class VentanaSala extends JFrame {
 		lblCantidadBots.setBounds(236, 237, 111, 20);
 		contentPane.add(lblCantidadBots);
 		cantBots = new JTextField();
-		/* Limita cantidad de caracteres a ingresar en el campo cantidad de bots */
-		cantBots.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent evt) {
-				if (cantBots.getText().length() >= Param.LIMITE_CARACTERES_CANT_BOTS) {
-					evt.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});		
+		
 		cantBots.setHorizontalAlignment(SwingConstants.LEFT);
 		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
 		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -235,16 +224,15 @@ public class VentanaSala extends JFrame {
 		cantBots.setBounds(368, 237, 32, 20);
 		contentPane.add(cantBots);
 		cantBots.setColumns(10);
-		
+
 		lblBots = new JLabel("");
 		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblBots.setBounds(377, 250, 32, 20);
 		contentPane.add(lblBots);
-		
+
 		mapaParaNoAdmin = new JLabel("Aun no se ha determinado");
 		mapaParaNoAdmin.setBounds(368, 194, 151, 20);
 		contentPane.add(mapaParaNoAdmin);
-
 
 		if (this.visibiliadAdmin) {
 			chckbxSupervivencia.setEnabled(true);
@@ -252,46 +240,6 @@ public class VentanaSala extends JFrame {
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
 			mapaParaNoAdmin.setVisible(false);
-			
-			chckbxSupervivencia.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					verificarBotonesYRefrescarCambios();
-				}
-			});
-			chckbxFruta.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					verificarBotonesYRefrescarCambios();
-				}
-			});
-
-			chckbxTiempo.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					verificarBotonesYRefrescarCambios();
-				}
-			});
-
-			comboMapa.addItemListener(new ItemListener() {
-				@Override
-				public void itemStateChanged(ItemEvent e) {
-					verificarBotonesYRefrescarCambios();
-				}
-			});
-			
-			cantBots.addFocusListener(new FocusAdapter() {
-				@Override
-				public void focusLost(FocusEvent arg0) {
-					if (cantBots.getText().isEmpty()) {
-						JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
-								JOptionPane.WARNING_MESSAGE);
-						cantBots.setText("0");
-					}
-					
-					verificarBotonesYRefrescarCambios();
-				}
-			});
 
 			lblAdmin.setText("Vos sos el admin");
 		} else {
@@ -342,11 +290,68 @@ public class VentanaSala extends JFrame {
 			}
 		});
 
+		cantBots.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				empezarJuego();
+			}
+		});
+
 		btnEmpezarJuego.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					empezarJuego();
+				}
+			}
+		});
+
+		chckbxSupervivencia.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+			}
+		});
+		chckbxFruta.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+			}
+		});
+
+		chckbxTiempo.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+			}
+		});
+
+		comboMapa.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+			}
+		});
+
+		cantBots.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if (cantBots.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
+							JOptionPane.WARNING_MESSAGE);
+					cantBots.setText("0");
+				}
+
+				verificarBotonesYRefrescarCambios();
+			}
+		});
+		
+		/* Limita cantidad de caracteres a ingresar en el campo cantidad de bots */
+		cantBots.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent evt) {
+				if (cantBots.getText().length() >= Param.LIMITE_CARACTERES_CANT_BOTS) {
+					evt.consume();
+					Toolkit.getDefaultToolkit().beep();
 				}
 			}
 		});
@@ -379,27 +384,33 @@ public class VentanaSala extends JFrame {
 			}
 			// Seteo
 			this.listUsuarios.setModel(this.modelUsuariosLista);
-			
-			if(!this.visibiliadAdmin)
+
+			if (!this.visibiliadAdmin)
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
-				
+
 				String[] tipoJugabilidad = datosParaRefrescarSala.getString("tipoJugabilidad").split(" ");
-				
+
 				chckbxSupervivencia.setSelected(false);
 				chckbxFruta.setSelected(false);
 				chckbxTiempo.setSelected(false);
-				
+
 				for (String jugabilidad : tipoJugabilidad) {
-					switch(jugabilidad) {
-						case "supervivencia" : chckbxSupervivencia.setSelected(true); break;
-						case "frutas" 		 : chckbxFruta.setSelected(true); break;
-						case "tiempo" 		 : chckbxTiempo.setSelected(true); break;
+					switch (jugabilidad) {
+					case "supervivencia":
+						chckbxSupervivencia.setSelected(true);
+						break;
+					case "frutas":
+						chckbxFruta.setSelected(true);
+						break;
+					case "tiempo":
+						chckbxTiempo.setSelected(true);
+						break;
 					}
 				}
-				
+
 				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
 				this.cantBots.setText(datosParaRefrescarSala.getString("bots"));
 			}

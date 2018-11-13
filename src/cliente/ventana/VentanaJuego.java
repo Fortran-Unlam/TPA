@@ -70,6 +70,10 @@ public class VentanaJuego extends JFrame {
 
 	private BufferedImage imagenCuerpoBot;
 
+	private BufferedImage imagenF;
+
+	private BufferedImage imagenFruta;
+
 	public VentanaJuego(Juego juego) {
 		super("Snake");
 
@@ -161,6 +165,7 @@ public class VentanaJuego extends JFrame {
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH);
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH);
+		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH);
 
 		Thread thread = new Thread() {
 			public synchronized void run() {
@@ -191,9 +196,8 @@ public class VentanaJuego extends JFrame {
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
-				g2d.fillRect(frutas.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
-						frutas.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE);
+				g2d.drawImage(imagenFruta, frutas.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+						frutas.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, null);
 			}
 
 			JsonArray jugadores = mapa.getJsonArray("jugadores");
@@ -201,11 +205,12 @@ public class VentanaJuego extends JFrame {
 			for (int i = 0; i < jugadores.size(); i++) {
 				g2d.setColor(Color.RED);
 				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
-				
+
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
-				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth()/2, imagenCabeza.getHeight()/2);
-				
+				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth() / 2,
+						imagenCabeza.getHeight() / 2);
+
 				g2d.drawImage(imagenCabeza, at, null);
 
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");

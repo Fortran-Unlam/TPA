@@ -80,6 +80,7 @@ public abstract class Param implements Serializable {
 	public static final String IMG_CABEZA_PATH = IMAGEN_PATH + "cabeza.png";
 	public static final String IMG_CUERPO_PATH = IMAGEN_PATH + "cuerpo.png";
 	public static final String IMG_CUERPO_BOT_PATH = IMAGEN_PATH + "cuerpo_bot.png";
+	public static final String IMG_FRUTA_PATH = IMAGEN_PATH + "fruta.png";
 	
 	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
