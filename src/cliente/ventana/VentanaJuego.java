@@ -209,7 +209,7 @@ public class VentanaJuego extends JFrame {
 				
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
-				at.rotate(Posicion.rotacion(vibora.getInt("sentido")));
+				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth()/2, imagenCabeza.getHeight()/2);
 				
 				g2d.drawImage(imagenCabeza, at, null);
 				g2d.setColor(Color.BLUE);
