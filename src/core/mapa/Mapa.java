@@ -45,6 +45,8 @@ public class Mapa {
 
 	private boolean murioUnJugador;
 
+	private boolean comioFruta;
+
 	/**
 	 * Crea un mapa a partir de las coordenadas. Las posiciones van desde el 0.
 	 * 
@@ -188,6 +190,7 @@ public class Mapa {
 	public void actualizar() {
 		this.cambioEnVibora = true;
 		this.murioUnJugador = false;
+		this.comioFruta = false;
 
 		ArrayList<Fruta> frutasComidas = new ArrayList<Fruta>();
 
@@ -214,6 +217,7 @@ public class Mapa {
 			if (fruta.getFueComida()) {
 				this.cambioEnFrutas = true;
 				this.frutas.remove(fruta);
+				this.comioFruta = true;
 			}
 		}
 
@@ -440,6 +444,6 @@ public class Mapa {
 				// Orden: tama�o->jugadores->frutas->obstaculos->score
 				.add("tamano", this.tamano.toJson()).add("jugadores", jugadores).add("frutas", frutas)
 				.add("obstaculos", obstaculos).add("murioUnJugador", this.murioUnJugador)
-				.add("score", this.scoringJson()).build();
+				.add("comioFruta", this.comioFruta).add("score", this.scoringJson()).build();
 	}
 }

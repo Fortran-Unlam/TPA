@@ -2,21 +2,14 @@ package cliente.ventana;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.SystemColor;
-import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.StringReader;
 
-import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -65,13 +58,8 @@ public class VentanaJuego extends JFrame {
 	private JLabel lblOtrosJugadores;
 
 	private BufferedImage imagenCabeza;
-
 	private BufferedImage imagenCuerpo;
-
 	private BufferedImage imagenCuerpoBot;
-
-	private BufferedImage imagenF;
-
 	private BufferedImage imagenFruta;
 
 	public VentanaJuego(Juego juego) {
@@ -172,12 +160,14 @@ public class VentanaJuego extends JFrame {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
+		
+		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
+		musicaFondo.repetir();
+		
 		thread.start();
 
 		addListener();
 
-		musicaFondo = new Sonido(Param.MUSICA_FONDO_PATH);
-		musicaFondo.repetir();
 	}
 
 	public void dibujarMapaJson(String jsonString) {
@@ -260,10 +250,14 @@ public class VentanaJuego extends JFrame {
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
 		if (mapa.getBoolean("murioUnJugador")) {
-			new Sonido(Param.GOLPE_PATH).reproducir();
+			new Sonido(Param.SONIDO_MUERE_PATH).reproducir();
+		}
+		
+		if (mapa.getBoolean("comioFruta")) {
+			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
 		long diff = json.getJsonNumber("currentTimeMillis").longValue();
-		System.out.println("ms: " + (diff - System.currentTimeMillis()));
+//		System.out.println("ms: " + (diff - System.currentTimeMillis()));
 	}
 
 	private void addListener() {

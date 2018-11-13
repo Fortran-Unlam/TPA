@@ -271,7 +271,7 @@ public class VentanaSala extends JFrame {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaJuego(null);
 	}
@@ -279,7 +279,7 @@ public class VentanaSala extends JFrame {
 	private void addListener() {
 		btnSalirDeSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
 				salirSala();
 			}

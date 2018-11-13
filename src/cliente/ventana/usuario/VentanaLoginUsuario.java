@@ -160,7 +160,7 @@ public class VentanaLoginUsuario extends JFrame {
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
-					Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+					Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 					musicaFondo.reproducir();
 					try {
 						VentanaMenu frame = new VentanaMenu();
@@ -188,7 +188,7 @@ public class VentanaLoginUsuario extends JFrame {
 	}
 
 	private void registrarUsuario() {
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaCrearUsuario(this).setVisible(true);
 	}

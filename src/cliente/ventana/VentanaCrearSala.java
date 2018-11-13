@@ -168,7 +168,7 @@ public class VentanaCrearSala extends JFrame {
 			datosSala.add(this.maxUsuarioField.getText());
 
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
-				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
 				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
 						.add("nombreSala", datosSala.get(0)).build();
@@ -217,7 +217,7 @@ public class VentanaCrearSala extends JFrame {
 		});
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
 				ventanaMenu.setVisible(true);
 				dispose();
@@ -228,7 +228,7 @@ public class VentanaCrearSala extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+					Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 					musicaFondo.reproducir();
 					ventanaMenu.setVisible(true);
 					dispose();

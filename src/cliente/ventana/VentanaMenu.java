@@ -118,7 +118,7 @@ public class VentanaMenu extends JFrame {
 	}
 
 	private void abrirVentanaUnirSala() {
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		VentanaUnirSala ventanaUnirSala = new VentanaUnirSala(this);
 		Cliente.getSincronismo().setVentanaUnirSala(ventanaUnirSala);
@@ -127,7 +127,7 @@ public class VentanaMenu extends JFrame {
 	}
 
 	private void abrirVentanaCrearSala() {
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaCrearSala(this).setVisible(true);
 	}

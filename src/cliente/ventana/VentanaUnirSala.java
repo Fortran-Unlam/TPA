@@ -88,7 +88,7 @@ public class VentanaUnirSala extends JFrame {
 
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Sonido click = new Sonido(Param.GOLPE_PATH);
+				Sonido click = new Sonido(Param.SONIDO_GOLPE_PATH);
 				click.reproducir();
 				ventanaMenu.setVisible(true);
 				setVisible(false);
@@ -125,7 +125,7 @@ public class VentanaUnirSala extends JFrame {
 		JsonObject paqueteActualizarSalaParticular = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
 				.add("sala", nombreSala).build();
 		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSalaParticular);
-		Sonido musicaFondo = new Sonido(Param.GOLPE_PATH);
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 
 		ventanaSala.setVisible(true);
