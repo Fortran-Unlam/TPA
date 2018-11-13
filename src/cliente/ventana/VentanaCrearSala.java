@@ -98,7 +98,7 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblMaxUsuarios);
 
 		maxUsuarioField = new JTextField();
-		maxUsuarioField.setText("1");
+		maxUsuarioField.setText("2");
 		/* Bloquea el control c y control v */
 		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(maxUsuarioField.WHEN_FOCUSED);
 		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
@@ -151,8 +151,8 @@ public class VentanaCrearSala extends JFrame {
 			return;
 		}
 
-		if (!this.maxUsuarioField.getText().matches("[1-9]+")) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser numérico", "Aviso",
+		if (!this.maxUsuarioField.getText().matches("[2-9]+")) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser un numero mayor a 2", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
