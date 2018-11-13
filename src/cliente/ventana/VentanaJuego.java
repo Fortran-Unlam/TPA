@@ -11,6 +11,7 @@ import java.awt.SystemColor;
 import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.StringReader;
@@ -205,9 +206,12 @@ public class VentanaJuego extends JFrame {
 			for (int i = 0; i < jugadores.size(); i++) {
 				g2d.setColor(Color.RED);
 				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
-				g2d.drawImage(imagenCabeza, vibora.getInt("x") * Param.PIXEL_RESIZE,
-						vibora.getInt("y") * Param.PIXEL_RESIZE, null);
-
+				AffineTransform at = new AffineTransform();
+				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
+				if (vibora.getInt("sentido") > 1) {
+					at.rotate(Math.PI / 4);					
+				}
+				g2d.drawImage(imagenCabeza, at, null);
 				g2d.setColor(Color.BLUE);
 				if (vibora.getBoolean("bot")) {
 					g2d.setColor(Color.GREEN);

@@ -284,7 +284,7 @@ public class Vibora implements Posicionable {
 
 	public JsonObject toJson() {
 
-		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY());
+		JsonObjectBuilder json = Json.createObjectBuilder().add("x", this.getX()).add("y", this.getY()).add("sentido", this.getSentido().ordinal());
 
 		json.add("bot", false);
 		if (this instanceof ViboraBot) {
