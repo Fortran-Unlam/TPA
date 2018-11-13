@@ -188,8 +188,6 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.BLUE);
 				if (vibora.getBoolean("bot")) {
 					g2d.setColor(Color.GREEN);
-				} else {
-					System.err.println(vibora.getInt("x") + "-" + vibora.getInt("y"));
 				}
 
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");
