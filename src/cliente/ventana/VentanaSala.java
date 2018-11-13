@@ -9,7 +9,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -24,21 +23,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-
 import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
 public class VentanaSala extends JFrame {
 
-	private static final long serialVersionUID = 1740234947461105665L;
+	private static final long serialVersionUID = -1128641003929339105L;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
