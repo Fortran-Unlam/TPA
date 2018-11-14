@@ -49,6 +49,7 @@ public class VentanaSala extends JFrame {
 	private JCheckBox chckbxSupervivencia;
 	private JComboBox<Object> comboMapa;
 	private JComboBox<Object> comboCantBots;
+	private JComboBox<Object> comboCantRondas;
 	private JButton btnSalirDeSala;
 	private JLabel lblAdmin;
 	private JTextField cantBots;
@@ -247,7 +248,30 @@ public class VentanaSala extends JFrame {
 		mapaParaNoAdmin = new JLabel("Aun no se ha determinado");
 		mapaParaNoAdmin.setBounds(368, 194, 151, 20);
 		contentPane.add(mapaParaNoAdmin);
-
+		
+		JLabel labelCantRondas = new JLabel("Cantidad Rondas:");
+		labelCantRondas.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		labelCantRondas.setBounds(236, 268, 111, 20);
+		contentPane.add(labelCantRondas);
+		
+		comboCantRondas = new JComboBox<Object>();
+		comboCantRondas.setToolTipText("Debe seleccionar cantidad de rondas.");
+		comboCantRondas.setBounds(368, 268, 151, 25);
+		contentPane.add(comboCantRondas);
+	
+		comboCantRondas.setBounds(368, 268, 151, 20);
+		comboCantRondas.addItem("Seleccione Rondas");
+		comboCantRondas.addItem("1");
+		comboCantRondas.addItem("2");
+		comboCantRondas.addItem("3");
+		comboCantRondas.addItem("4");
+		comboCantRondas.addItem("6");
+		comboCantRondas.addItem("7");
+		comboCantRondas.addItem("8");
+		comboCantRondas.addItem("9");
+		comboCantRondas.addItem("10");
+		contentPane.add(comboCantRondas);
+		
 		if (this.visibiliadAdmin) {
 			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
