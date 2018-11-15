@@ -278,6 +278,7 @@ public class VentanaSala extends JFrame {
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
 			comboCantRondas.setEnabled(true);
+			//comboCantBots.setEnabled(true);
 			mapaParaNoAdmin.setVisible(false);
 			
 
@@ -291,6 +292,7 @@ public class VentanaSala extends JFrame {
 			chckbxTiempo.setEnabled(false);
 			chckbxSupervivencia.setEnabled(false);
 			comboCantRondas.setEnabled(false);
+			//comboCantBots.setEnabled(false);
 			mapaParaNoAdmin.setVisible(true);
 		}
 
