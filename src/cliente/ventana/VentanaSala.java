@@ -277,7 +277,9 @@ public class VentanaSala extends JFrame {
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
+			comboCantRondas.setEnabled(true);
 			mapaParaNoAdmin.setVisible(false);
+			
 
 			lblAdmin.setText("Vos sos el admin");
 		} else {
@@ -288,6 +290,7 @@ public class VentanaSala extends JFrame {
 			chckbxFruta.setEnabled(false);
 			chckbxTiempo.setEnabled(false);
 			chckbxSupervivencia.setEnabled(false);
+			comboCantRondas.setEnabled(false);
 			mapaParaNoAdmin.setVisible(true);
 		}
 
