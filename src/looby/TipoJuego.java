@@ -12,9 +12,7 @@ public class TipoJuego implements Serializable  {
 	protected int segundosMaximos;
 	protected int frutasMaximas;
 
-	public TipoJuego() {
-
-	}
+	public TipoJuego() {}
 
 	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
 		if (jugadores.size() <= 1) {

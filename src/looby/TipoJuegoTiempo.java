@@ -16,7 +16,6 @@ public class TipoJuegoTiempo extends TipoJuegoDecorator {
 
 	@Override
 	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
-		System.out.println("tiempo");
 		if (tipoJuego.termina(jugadores, segundos)) {
 			return true;
 		}
