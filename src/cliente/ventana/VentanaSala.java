@@ -66,10 +66,10 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotonesYRefrescarCambios() {
-		/*if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& comboMapa.getSelectedIndex() != 0 && !cantBots.getText().isEmpty()) {*/
 		if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
-				&& comboMapa.getSelectedIndex() != 0 && comboCantBots.getSelectedIndex() != 0) {
+				&& comboMapa.getSelectedIndex() != 0 && !cantBots.getText().isEmpty()) {
+		/*if ((chckbxFruta.isSelected() || chckbxSupervivencia.isSelected() || chckbxTiempo.isSelected())
+				&& comboMapa.getSelectedIndex() != 0 && comboCantBots.getSelectedIndex() != 0) {*/
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
