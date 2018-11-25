@@ -107,10 +107,6 @@ public class VentanaJuego extends JFrame {
 		lblFrutas.setBounds(70, 39, 50, 14);
 		this.contentPane.add(lblFrutas);
 
-		btnNewButton = new JButton("Pausa");
-		btnNewButton.setBounds(10, 312, 180, 25);
-		this.contentPane.add(btnNewButton);
-
 		this.btnSalirJuego = new JButton("Salir juego");
 		btnSalirJuego.setBounds(10, 348, 180, 25);
 		this.contentPane.add(btnSalirJuego);
