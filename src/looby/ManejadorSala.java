@@ -34,6 +34,6 @@ public class ManejadorSala {
 		tipoJuego.setFrutasMaximas(2);
 //		System.out.println(tipoJuego.termina(2, 3, 3));
 		
-		salaPrueba.crearPartida(2,tipoJuego, new MapaUno());
+		salaPrueba.crearPartida(2,tipoJuego,1,1);
 	}
 }
