@@ -213,10 +213,12 @@ public class ConexionCliente extends Thread {
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 					}
-					Mapa mapa = new MapaUno();
+					
+					//Traer desde la conexion.
+					int tipoMapa = 1;
 					
 					this.salidaDatos.writeObject(
-							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego, mapa, cantidadTotalRondas))
+							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego, tipoMapa, cantidadTotalRondas))
 									.toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:

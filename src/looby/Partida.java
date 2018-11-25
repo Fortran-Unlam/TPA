@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.swing.InternalFrameFocusTraversalPolicy;
 
 import core.Jugador;
 import core.JugadorBot;
+import core.entidad.ViboraBot;
 import core.mapa.Juego;
 import core.mapa.Mapa;
+import core.mapa.MapaUno;
 
 public class Partida implements Serializable {
 
@@ -24,9 +27,10 @@ public class Partida implements Serializable {
 	private int numeroRonda = 0;
 	private ArrayList<Usuario> usuariosActivosEnSala;
 	private Mapa mapa;
+	private int tipoMapa;
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
-			Mapa mapa) {
+			int tipoMapa) {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
@@ -43,7 +47,8 @@ public class Partida implements Serializable {
 		}
 		this.cantidadDeRondasAJugar = cantidadTotalRondas;
 		this.tipoDeJuegoDeLaPartida = tipo;
-		this.mapa = mapa;
+		
+		this.tipoMapa = tipoMapa;
 	}
 
 	public void empezarPartida() {
@@ -55,6 +60,8 @@ public class Partida implements Serializable {
 			try {
 				System.out.println("Ronda " + (numeroRonda));
 				this.partidaEnCurso = true;
+				//Inicia el mapa antes de cada ronda.
+				this.mapa = crearMapa(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
 					numeroRonda++;
@@ -91,20 +98,31 @@ public class Partida implements Serializable {
 				}
 				rondaEnCurso.start();
 				
-				//Termina una ronda y comienza otra.
+				// Termina una ronda y comienza otra.
 				try {
-					//Sleep entre ronda y ronda
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 				empezarPartida();
 			}
 		};
 		thread.start();
 
 		return true;
+	}
+	
+	public Mapa crearMapa(int tipoMapa) {
+
+		switch(tipoMapa) {
+			case 1:
+				return new MapaUno();
+//			case 2:
+//				return new MapaDos();
+		}
+		return new MapaUno();
 	}
 
 	public boolean getPartidaEnCurso() {

@@ -48,7 +48,6 @@ public class VentanaJuego extends JFrame {
 
 	private Sonido musicaFondo;
 
-	private JButton btnNewButton;
 	private JLabel lblReferencia;
 	private JLabel lblObstaculoRef;
 	private JLabel lblFrutasRef;
@@ -61,6 +60,9 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpo;
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
+	
+	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
+	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
 
 	public VentanaJuego(Juego juego) {
 		super("Snake");
@@ -151,7 +153,7 @@ public class VentanaJuego extends JFrame {
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH);
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH);
 
-		Thread thread = new Thread() {
+		thread = new Thread() {
 			public synchronized void run() {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
@@ -163,6 +165,8 @@ public class VentanaJuego extends JFrame {
 		thread.start();
 
 		addListener();
+		
+		v = this;
 
 	}
 
@@ -258,14 +262,17 @@ public class VentanaJuego extends JFrame {
 
 	private void addListener() {
 		this.addKeyListener(new GestorInput().teclado);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// stop();
-			}
-		});
 		this.btnSalirJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+			public void actionPerformed(ActionEvent e) 
+			{
+				Cliente.getConexionServidor().detenerJuego(); //Detengo la accion iniciado por ComenzarJuego.
+				thread.stop(); //Esto esta deprecado pero por ahora funciona.
+				/* Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de recibir
+				 * el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo ok.
+				 * 
+				 */
+				musicaFondo.stop(); //Se para la musica.
+				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo volver para atras.
 			}
 		});
 	}

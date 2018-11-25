@@ -26,6 +26,8 @@ public class ConexionServidor {
 
 	private Socket socketIn;
 	private Socket socketOut;
+	
+	private boolean recibirMapa; //Fix
 
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
@@ -36,6 +38,7 @@ public class ConexionServidor {
 	public ConexionServidor(Socket socketOut, Socket socketIn) {
 		this.socketOut = socketOut;
 		this.socketIn = socketIn;
+		this.recibirMapa = true;
 		try {
 			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
 
@@ -217,7 +220,7 @@ public class ConexionServidor {
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message.toJson());
 
-			while (socketIn.isClosed() == false) {
+			while (socketIn.isClosed() == false && recibirMapa) {
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 				String ret = this.message.getType();
 				
@@ -237,6 +240,12 @@ public class ConexionServidor {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	//Este metodo es invocado por VentanaJuego y detiene la accion iniciada por ComenzarJuego.
+	public void detenerJuego()
+	{
+		this.recibirMapa = false;
 	}
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
