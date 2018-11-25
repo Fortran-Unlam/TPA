@@ -74,12 +74,12 @@ public class VentanaSala extends JFrame {
 		}
 
 		if (cantBots.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
+			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacï¿½a", "Atencion",
 					JOptionPane.WARNING_MESSAGE);
 			cantBots.setText("0");
 		} else {
 			if (!cantBots.getText().matches("[0-9]+")) {
-				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser númerica", "Atencion",
+				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser nï¿½merica", "Atencion",
 						JOptionPane.WARNING_MESSAGE);
 				cantBots.setText("0");
 			}
@@ -309,7 +309,7 @@ public class VentanaSala extends JFrame {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
-		this.dispose();
+		//this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaJuego(null);
@@ -383,7 +383,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (cantBots.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacía", "Atencion",
+					JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacï¿½a", "Atencion",
 							JOptionPane.WARNING_MESSAGE);
 					cantBots.setText("0");
 				}
