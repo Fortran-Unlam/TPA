@@ -219,6 +219,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(lblCantidadBots);
 		cantBots = new JTextField();
 		
+
 		cantBots.setHorizontalAlignment(SwingConstants.LEFT);
 		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
 		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -238,8 +239,8 @@ public class VentanaSala extends JFrame {
 		comboCantBots.addItem("3");
 		comboCantBots.addItem("4");
 		comboCantBots.addItem("5");
-		contentPane.add(comboCantBots);*/
-
+		contentPane.add(comboCantBots);
+*/
 		lblBots = new JLabel("");
 		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblBots.setBounds(377, 250, 32, 20);
@@ -291,8 +292,8 @@ public class VentanaSala extends JFrame {
 			chckbxFruta.setEnabled(false);
 			chckbxTiempo.setEnabled(false);
 			chckbxSupervivencia.setEnabled(false);
-			comboCantRondas.setEnabled(false);
-			//comboCantBots.setEnabled(false);
+			//comboCantRondas.setEnabled(false);
+			comboCantBots.setEnabled(false);
 			mapaParaNoAdmin.setVisible(true);
 		}
 
@@ -338,7 +339,13 @@ public class VentanaSala extends JFrame {
 				empezarJuego();
 			}
 		});
-
+		/*
+		comboCantBots.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				empezarJuego();
+			}
+		});*/
+		
 		btnEmpezarJuego.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -374,7 +381,15 @@ public class VentanaSala extends JFrame {
 				verificarBotonesYRefrescarCambios();
 			}
 		});
-
+		
+		/*
+		comboCantBots.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+			}
+		}); 
+*/
 		cantBots.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent arg0) {
