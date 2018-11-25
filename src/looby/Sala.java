@@ -61,11 +61,11 @@ public class Sala implements Serializable {
 	 * 
 	 * @return
 	 */
-	public boolean crearPartida(int cantidadDeRondasDePartida, TipoJuego tipoJuego, Mapa mapa) {
+	public boolean crearPartida(int cantidadBots, TipoJuego tipoJuego, Mapa mapa, int cantidadTotalRondas) {
 		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
 
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					cantidadDeRondasDePartida, tipoJuego, mapa);
+					cantidadTotalRondas, tipoJuego, mapa);
 
 			return this.comenzarPartida();
 		}

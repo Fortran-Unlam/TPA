@@ -63,6 +63,7 @@ public abstract class Param implements Serializable {
 	public static final int CANTIDAD_FRUTA_MINIMAS = 25;
 	public static final String SEPARADOR_EN_MENSAJES =";";
 	public static final String DATOS_SALA = "DatosSala";
+	public static final String CANTIDAD_RONDAS = "CantidadRondas";
 	
 	//Mensaje para cerrar ventana.
 	public static final String MENSAJE_CERRAR_VENTANA ="�Esta seguro que desea salir de la Viborita?";
@@ -97,4 +98,5 @@ public abstract class Param implements Serializable {
 	public static final int LIMITE_CARACTERES_NOMBRE_SALA = 20;
 	public static final int LIMITE_CARACTERES_USUARIOS_MAX = 2;
 	public static final int LIMITE_CARACTERES_CANT_BOTS = 2;
+	
 }
