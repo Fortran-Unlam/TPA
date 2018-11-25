@@ -309,6 +309,7 @@ public class VentanaSala extends JFrame {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
+		this.dispose();
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		new VentanaJuego(null);
