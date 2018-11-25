@@ -57,7 +57,6 @@ public class ConexionCliente extends Thread {
 
 		while (conectado) {
 			try {
-//				System.out.println("try");
 				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
 //				System.out.println("El cliente solicita " + message.getType());
 
@@ -70,21 +69,23 @@ public class ConexionCliente extends Thread {
 
 					if (usuario == null) {
 						System.out.println("Usuario y/o contrasenia incorrectos");
+						this.salidaDatos.flush();
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
 					} else {
-						boolean usuarioInexistente = true;
+						boolean usuarioDuplicado = false;
 						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
 
 							if (usuarioActivo.getId() == usuario.getId()) {
 								System.out.println("Usuario ya logeado");
+								this.salidaDatos.flush();
 								this.salidaDatos
 										.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
-								usuarioInexistente = false;
+								usuarioDuplicado = true;
 								break;
 							}
 
 						}
-						if (usuarioInexistente) {
+						if (!usuarioDuplicado) {
 							Servidor.agregarAUsuariosActivos(usuario);
 							this.salidaDatos.flush();
 							this.salidaDatos.writeObject(
@@ -101,15 +102,15 @@ public class ConexionCliente extends Thread {
 
 					switch (resultado) {
 					case -1:
-						System.err.println("registro incorrecto");
+						//System.err.println("registro incorrecto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null).toJson());
 						break;
 					case 0:
-						System.err.println("registro correcto");
+						//System.err.println("registro correcto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null).toJson());
 						break;
 					case 1:
-						System.err.println("registro duplicado");
+						//System.err.println("registro duplicado");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null).toJson());
 						break;
 					}
@@ -117,7 +118,7 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_GET_ALL_SALAS:
-					System.err.println("all salas");
+					//System.err.println("Obtener todas las Salas");
 					this.salidaDatos
 							.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()).toJson());
 					break;
@@ -130,23 +131,23 @@ public class ConexionCliente extends Thread {
 						sala = usuario.crearSala(dataSala.get(0), Integer.valueOf(dataSala.get(1)));
 
 						Servidor.agregarASalasActivas(sala);
-						System.err.println("sala cdreada");
+						//System.err.println("Sala creada");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
-						// Envio a los clientes que estaban en "unir sala" la actualizaci�n de la
+						// Envio a los clientes que estaban en "unir sala" la actualizacion de la
 						// nueva
-						// sala. Esto deber�a mandarse por el canal de syncro pero por ahora va.
+						// sala. Esto deberia mandarse por el canal de syncro pero por ahora va.
 						String datosSalaNueva;
 
 						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES
 								+ sala.getCantidadUsuarioActuales() + Param.SEPARADOR_EN_MENSAJES
 								+ sala.getCantidadUsuarioMaximos();
 
-						System.err.println("actualizar salas");
+						//System.err.println("Actualizar Salas");
 						this.salidaDatos
 								.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
-						System.err.println("crear sala");
+						//System.err.println("Error al crear sala");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
 
@@ -182,7 +183,7 @@ public class ConexionCliente extends Thread {
 					int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
 					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
 					String usuariosActivos = sala.getUsuariosSeparadosporComa();
-					System.err.println("datos sala");
+					//System.err.println("Datos de sala");
 					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
 							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos).toJson());
 					break;
