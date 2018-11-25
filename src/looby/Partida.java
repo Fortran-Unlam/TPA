@@ -3,6 +3,9 @@ package looby;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+
 import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
@@ -22,7 +25,7 @@ public class Partida implements Serializable {
 	private ArrayList<Usuario> usuariosActivosEnSala;
 	private Mapa mapa;
 
-	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadDeRondasDePartida, TipoJuego tipo,
+	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
 			Mapa mapa) {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
@@ -38,7 +41,7 @@ public class Partida implements Serializable {
 			}
 			usuario.setJugador(jugador);
 		}
-		this.cantidadDeRondasAJugar = cantidadDeRondasDePartida;
+		this.cantidadDeRondasAJugar = cantidadTotalRondas;
 		this.tipoDeJuegoDeLaPartida = tipo;
 		this.mapa = mapa;
 	}
@@ -47,12 +50,14 @@ public class Partida implements Serializable {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
 		System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
+		
 		if (numeroRonda < this.cantidadDeRondasAJugar) {
 			try {
-				System.out.println("Ronda " + (++numeroRonda));
+				System.out.println("Ronda " + (numeroRonda));
 				this.partidaEnCurso = true;
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
+					numeroRonda++;
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
 			} catch (Exception e) {
@@ -85,8 +90,16 @@ public class Partida implements Serializable {
 					e.printStackTrace();
 				}
 				rondaEnCurso.start();
+				
+				//Termina una ronda y comienza otra.
+				try {
+					//Sleep entre ronda y ronda
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				empezarPartida();
-
 			}
 		};
 		thread.start();

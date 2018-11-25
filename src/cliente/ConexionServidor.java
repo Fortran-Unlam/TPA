@@ -207,10 +207,11 @@ public class ConexionServidor {
 		}
 	}
 
-	public boolean comenzarJuego(String cantidadBots) {
+	public boolean comenzarJuego(String cantidadBots, int cantidadRondas) {
 		try {
 			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
-					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false }";
+					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false, \""
+					+ Param.CANTIDAD_RONDAS + "\": " + cantidadRondas + "}";
 			
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			System.err.println("empezar juego");
