@@ -5,16 +5,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.net.Socket;
-import java.util.ArrayList;
-
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
-import javax.json.JsonValue;
-
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -161,7 +157,9 @@ public class ConexionClienteBackOff extends Thread {
 				tipoJugabilidad += " tiempo";
 
 			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-					.add("tipoJugabilidad", tipoJugabilidad).add("tipoMapa", entradaJson.getString("mapa"))
+					.add("tipoJugabilidad", tipoJugabilidad)
+					.add("tipoMapa", entradaJson.getString("mapa"))
+					.add("rondas", entradaJson.getString("rondas"))
 					.add("bots", entradaJson.getString("bots")).build();
 		}
 
