@@ -125,6 +125,17 @@ public class VentanaSala extends JFrame {
 
 		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoMapaYBots.build());
 	}
+	
+	//Este metodo pretende avisarle a los otros usuarios de la sala que ya pueden arrancar la VentanaJuego.
+	private void AvisarAOtrosUsuariosSala() 
+	{
+		JsonObjectBuilder JuegoEmpezado = Json.createObjectBuilder();
+		JuegoEmpezado.add("sala", this.nombreSala);
+
+		// Agrego parametros
+		JuegoEmpezado.add("type", Param.NOTICE_EMPEZAR_JUEGO);
+		Cliente.getconexionServidorBackOff().enviarAlServer(JuegoEmpezado.build());
+	}
 
 	// La visibilidad por default es para el admin
 	private void setearComponentes() {
@@ -309,6 +320,15 @@ public class VentanaSala extends JFrame {
 			System.out.println("no pudo crear el juego");
 			return;
 		}
+		AvisarAOtrosUsuariosSala();
+		//this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor volver a la VentanaSala que volver a crear una nueva instancia.
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
+		musicaFondo.reproducir();
+		new VentanaJuego(null);
+	}
+	
+	//Esto en realidad deberia ser el mismo que empezarJuego y que haya una variable que condicione el if.
+	protected void empezarJuegoNoAdmin() {
 		//this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();

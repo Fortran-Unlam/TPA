@@ -2,17 +2,14 @@ package cliente.ventana;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 
 import javax.json.Json;
 import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import cliente.Cliente;
 import config.Param;
-import servidor.Message;
 
 public class Sincronismo extends Thread {
 
@@ -52,10 +49,13 @@ public class Sincronismo extends Thread {
 						ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
 					}
 					break;
-
+				//Hasta aca todo OK 26/11 cuando el juego empezo el servidor me avisa.
+				//Hay que ver como arrancar la ventana de juego tambien.
+				case Param.NOTICE_EMPEZA_JUEGO_CLIENTE:
+					Sincronismo.ventanaSala.empezarJuegoNoAdmin();
 				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
 				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
-					this.ventanaSala.refrescarSala(entradaJson);
+					Sincronismo.ventanaSala.refrescarSala(entradaJson);
 					break;
 				}
 

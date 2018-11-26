@@ -49,7 +49,7 @@ public class ConexionClienteBackOff extends Thread {
 				String tipoDeMensaje = entradaJson.getString("type");
 
 
-				// Guardo el usuario dentro de mi conexiónBackOff
+				// Guardo el usuario dentro de mi conexiï¿½nBackOff
 				if (tipoDeMensaje.equals(Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)) {
 					for (Usuario u : Servidor.getUsuariosActivos()) {
 						if (u.getUsername().equals(entradaJson.getString("username"))) {
@@ -74,13 +74,19 @@ public class ConexionClienteBackOff extends Thread {
 				/*
 				 * Aguante boca. Cada vez que se crea una nueva sala Empiezo a gatillar, como
 				 * policia a trabajador despedido, a todos los usuarios de esa sala, para
-				 * avisarle los cambios que hizo el admin o bien si un usuario entró o se fue de
+				 * avisarle los cambios que hizo el admin o bien si un usuario entrï¿½ o se fue de
 				 * la sala
 				 */
 
 				if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
 						|| tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
 					enviarActualizacionAClientesDeUnaSalaParticular(entradaJson);
+				}
+				
+				//Si recibo un mensaje de que se empezo un juego, informo a todos los clientes o usuarios de su sala.
+				if(tipoDeMensaje.equals(Param.NOTICE_EMPEZAR_JUEGO))
+				{
+					enviarEmpezarJuegoAClientesDeUnaSalaParticular(entradaJson);
 				}
 
 			} catch (IOException ex) {
@@ -99,6 +105,27 @@ public class ConexionClienteBackOff extends Thread {
 			}
 		}
 		Servidor.desconectarBackOff(this);
+	}
+
+	//Metodo que pretende avisarle a todos los usuarios de una sala que el juego ya empezo.
+	private void enviarEmpezarJuegoAClientesDeUnaSalaParticular(JsonObject entradaJson) 
+	{
+		//Obtengo el nombre de la sala que ya empezo el juego.
+		Sala salaARefrescar = Servidor.getSalaPorNombre(entradaJson.getString("sala"));
+		JsonObject paqueteAEnviar;
+		paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build();
+
+		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
+			try {
+				//Le voy a informar a todos menos al admin que el ya se entera cuando empieza.
+				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar) && c.getUsuario() != salaARefrescar.getAdministrador()) {
+					c.salidaDatos.writeObject(paqueteAEnviar.toString());
+				}
+			} catch (IOException e) {
+				System.err.println("Fallo la escritura de datos de actualizar parametros sala");
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public Usuario getUsuario() {
@@ -177,7 +204,7 @@ public class ConexionClienteBackOff extends Thread {
 	}
 
 	/*
-	 * Dada una sala y un usuario, busca si ese usuario está en esa sala.
+	 * Dada una sala y un usuario, busca si ese usuario estï¿½ en esa sala.
 	 */
 	private boolean usuarioEstaEnLaSala(Usuario user, Sala salaARefrescar) {
 		for (Usuario usuarioActual : salaARefrescar.getUsuariosActivos()) {
