@@ -110,7 +110,7 @@ public class VentanaJuego extends JFrame {
 		this.contentPane.add(lblFrutas);
 
 		this.btnSalirJuego = new JButton("Salir juego");
-		btnSalirJuego.setBounds(10, 348, 180, 25);
+		btnSalirJuego.setBounds(10, 331, 180, 25);
 		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
