@@ -55,7 +55,10 @@ public class Sincronismo extends Thread {
 					Sincronismo.ventanaSala.empezarJuegoNoAdmin();
 				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
 				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
-					Sincronismo.ventanaSala.refrescarSala(entradaJson);
+					//Reflejo 26/11 sucede cuando yo ya empece el juego.
+					//Recibo mensajes de mapa, los interpreta bien, pero tambien piensa que son de tipo refrescarSala.
+					try{Sincronismo.ventanaSala.refrescarSala(entradaJson);}
+					catch(Exception e) {}
 					break;
 				}
 
