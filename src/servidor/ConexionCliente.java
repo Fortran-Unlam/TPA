@@ -197,12 +197,16 @@ public class ConexionCliente extends Thread {
 					Sala s = this.sala;
 					Partida partidaActual = s.getPartidaActual();
 					Juego jg = partidaActual.getRondaEnCurso();
+					
 					///25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver crearSala en ConexionServidor.
 					//Lo saco de los jugadores en el juego actual.
-					if(jg.getJugadoresEnJuego().remove(j))
-					//Lo saco de los jugadores en la partida actual.
-					partidaActual.getJugadoresEnPartida().remove(j);
+					if(jg.getJugadoresEnJuego().remove(j)) {
+						//Lo saco de los jugadores en la partida actual.
+						partidaActual.getJugadoresEnPartida().remove(j);
+						j.getVibora().matar();
+					}
 					break;
+					
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
