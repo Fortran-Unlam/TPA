@@ -211,13 +211,13 @@ public class ConexionCliente extends Thread {
 					boolean tipoJuegoSupervivencia = Boolean
 							.valueOf(properties.getProperty(Param.TIPO_JUEGO_SUPERVIVENCIA));
 					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
-					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS,"1"));
+					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
 
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
 
-					System.err.println("juego empezado");
+					//System.err.println("Juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
 					if (tipoJuegoFruta) {
