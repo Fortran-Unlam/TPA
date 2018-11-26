@@ -238,7 +238,7 @@ public class Mapa {
 
 		while (this.frutas.size() < Param.CANTIDAD_FRUTA_MINIMAS) {
 			Random random = new Random();
-			this.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
+			this.frutas.add(new Fruta(random.nextInt(Param.MAPA_MAX_X), random.nextInt(Param.MAPA_MAX_Y)));
 		}
 
 		this.scoring();

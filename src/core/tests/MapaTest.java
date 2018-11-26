@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import org.junit.Assert;
 import org.junit.Test;
 
+import config.Param;
 import config.Posicion;
 import core.Coordenada;
 import core.Muro;
@@ -453,7 +454,7 @@ public class MapaTest {
 	public void testRanking() {
 		// Dos viboras comen frutas, una come 3 y la otra 1. Pruebo que el ranking
 		// funcione ok
-		MapaStub mapa = new MapaStub(6, 6);
+		MapaStub mapa = new MapaStub(Param.MAPA_MAX_X, Param.MAPA_MAX_Y);
 		Vibora vibA = new Vibora(new Coordenada(1, 3), 1, Posicion.ESTE);
 		Vibora vibB = new Vibora(new Coordenada(1, 2), 1, Posicion.ESTE);
 		Fruta fr1 = new Fruta(2, 3);
