@@ -316,6 +316,9 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void empezarJuego() {
+		if (this.cantBots.getText().isEmpty()) {
+			return;
+		}
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),Integer.parseInt((String)comboCantRondas.getSelectedItem())) == false) {
 			System.out.println("no pudo crear el juego");
 			return;
