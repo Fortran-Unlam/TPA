@@ -102,4 +102,44 @@ public class Jugador implements Comparable<Jugador> {
 				.add("frutasComidasEnRonda", this.frutasComidasEnRonda)
 				.build();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + frutasComidasEnRonda;
+		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((teclado == null) ? 0 : teclado.hashCode());
+		result = prime * result + ((vibora == null) ? 0 : vibora.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Jugador other = (Jugador) obj;
+		if (frutasComidasEnRonda != other.frutasComidasEnRonda)
+			return false;
+		if (nombre == null) {
+			if (other.nombre != null)
+				return false;
+		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (teclado == null) {
+			if (other.teclado != null)
+				return false;
+		} else if (!teclado.equals(other.teclado))
+			return false;
+		if (vibora == null) {
+			if (other.vibora != null)
+				return false;
+		} else if (!vibora.equals(other.vibora))
+			return false;
+		return true;
+	}
 }

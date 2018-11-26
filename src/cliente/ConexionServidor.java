@@ -171,6 +171,10 @@ public class ConexionServidor {
 			this.salidaDatos.writeObject(this.message.toJson());
 
 			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			//Cuando creo una partida y salgo y vuelvo a crear una sala, no tiene que decir MostrarMapa.
+			//Esto pasa porque me desconecte, pero el servidor me sigue mandando informacion del juego
+			//Y yo estoy esperando otros mensajes no informacion de un juego al que no pertenezco.
+			System.out.println(this.message.getType());
 			switch (this.message.getType()) {
 			case Param.REQUEST_SALA_CREADA:
 				return true;
@@ -246,11 +250,14 @@ public class ConexionServidor {
 	public void detenerJuego()
 	{
 		this.recibirMapa = false;
+		this.message = new Message(Param.REQUEST_SALIR_JUEGO, "");
+		System.err.println("Salir juego");
+		try {this.salidaDatos.writeObject(this.message.toJson());}catch (IOException e) {}
 	}
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
-			while (true) {
+			while (true && recibirMapa) {
 
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 

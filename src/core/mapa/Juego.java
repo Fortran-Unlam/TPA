@@ -104,4 +104,12 @@ public class Juego implements Serializable {
 				.add("currentTimeMillis", this.currentTimeMillis)
 				.build();
 	}
+
+	public List<Jugador> getJugadoresEnJuego() {
+		return jugadoresEnJuego;
+	}
+
+	public void setJugadoresEnJuego(List<Jugador> jugadoresEnJuego) {
+		this.jugadoresEnJuego = jugadoresEnJuego;
+	}
 }

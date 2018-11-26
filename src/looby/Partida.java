@@ -142,4 +142,20 @@ public class Partida implements Serializable {
 	public ArrayList<Usuario> getUsuariosActivosEnSala() {
 		return this.usuariosActivosEnSala;
 	}
+
+	public ArrayList<Jugador> getJugadoresEnPartida() {
+		return jugadoresEnPartida;
+	}
+
+	public void setJugadoresEnPartida(ArrayList<Jugador> jugadoresEnPartida) {
+		this.jugadoresEnPartida = jugadoresEnPartida;
+	}
+
+	public void setRondaEnCurso(Juego rondaEnCurso) {
+		this.rondaEnCurso = rondaEnCurso;
+	}
+
+	public void setPartidaEnCurso(boolean partidaEnCurso) {
+		this.partidaEnCurso = partidaEnCurso;
+	}
 }

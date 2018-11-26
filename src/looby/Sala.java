@@ -112,7 +112,7 @@ public class Sala implements Serializable {
 	}
 
 	public Partida getPartidaActual() {
-		return partidaActual;
+		return this.partidaActual;
 	}
 
 	@Override
@@ -147,5 +147,13 @@ public class Sala implements Serializable {
 		// Elimino la ultima coma.
 		retorno = retorno.substring(0, retorno.length() - 1);
 		return retorno;
+	}
+
+	public ArrayList<Partida> getPartidasJugadas() {
+		return partidasJugadas;
+	}
+
+	public void setPartidasJugadas(ArrayList<Partida> partidasJugadas) {
+		this.partidasJugadas = partidasJugadas;
 	}
 }

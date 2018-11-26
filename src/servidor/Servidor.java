@@ -180,10 +180,9 @@ public class Servidor {
 			for (ConexionCliente conexionCliente : conexionClientes) {
 				enviar = false;
 				Usuario usuario = conexionCliente.getUsuario();
-				if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null) {
+				if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null && usuario.inJuego) {
 					try {
 						for (Jugador jugadorMapa : mapa.getJugadores()) {
-
 							if (usuario.getJugador().equals(jugadorMapa)) {
 								enviar = true;
 								break;

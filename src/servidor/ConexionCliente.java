@@ -12,8 +12,11 @@ import com.google.gson.JsonSyntaxException;
 
 import config.Param;
 import config.Posicion;
+import core.Jugador;
+import core.mapa.Juego;
 import core.mapa.Mapa;
 import core.mapa.MapaUno;
+import looby.Partida;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.TipoJuegoFruta;
@@ -186,6 +189,19 @@ public class ConexionCliente extends Thread {
 					//System.err.println("Datos de sala");
 					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
 							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos).toJson());
+					break;
+				//Si el usuario pide irse de la partida.
+				case Param.REQUEST_SALIR_JUEGO:
+					this.usuario.inJuego = false;
+					Jugador j = this.usuario.getJugador();
+					Sala s = this.sala;
+					Partida partidaActual = s.getPartidaActual();
+					Juego jg = partidaActual.getRondaEnCurso();
+					///25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver crearSala en ConexionServidor.
+					//Lo saco de los jugadores en el juego actual.
+					if(jg.getJugadoresEnJuego().remove(j))
+					//Lo saco de los jugadores en la partida actual.
+					partidaActual.getJugadoresEnPartida().remove(j);
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
