@@ -123,12 +123,6 @@ public class VentanaSala extends JFrame {
 			nombreSalatipoJuegoMapaYBots.add("fruta", false);
 		}
 
-//		if (chckbxSupervivencia.isSelected()) {
-//			nombreSalatipoJuegoMapaYBots.add("supervivencia", true);
-//		} else {
-//			nombreSalatipoJuegoMapaYBots.add("supervivencia", false);
-//		}
-
 		if (chckbxTiempo.isSelected()) {
 			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
 			nombreSalatipoJuegoMapaYBots.add("cantidadDeTiempo", this.tiempoTextField.getText());
@@ -344,7 +338,6 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeFrutasLabel);
 
 		if (this.visibiliadAdmin) {
-//			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
@@ -542,19 +535,15 @@ public class VentanaSala extends JFrame {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
 
-//				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("supervivencia"))
-//					chckbxSupervivencia.setSelected(true);
-//				else
-//					chckbxSupervivencia.setSelected(false);
-
-				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("frutas")) {
+				
+				if (datosParaRefrescarSala.getBoolean("fruta")) {
 					chckbxFruta.setSelected(true);
-					System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas").trim());
-					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas").trim());
+					System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas"));
+					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
 				} else
 					chckbxFruta.setSelected(false);
 
-				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("tiempo")) {
+				if (datosParaRefrescarSala.getBoolean("tiempo")) {
 					chckbxTiempo.setSelected(true);
 					System.err.println(datosParaRefrescarSala.getString("cantidadDeTiempo"));
 					this.tiempoTextField.setText(datosParaRefrescarSala.getString("cantidadDeTiempo"));
