@@ -533,22 +533,22 @@ public class VentanaSala extends JFrame {
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
+			System.out.println("ME LLEGO MENSAJE DE REFRESACAR PARAMETROS DE SALA");
 			if (!this.visibiliadAdmin) {// Si no es admin
 
-				
-				if (datosParaRefrescarSala.getBoolean("fruta")) {
-					chckbxFruta.setSelected(true);
-					System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas"));
-					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
-				} else
-					chckbxFruta.setSelected(false);
-
-				if (datosParaRefrescarSala.getBoolean("tiempo")) {
-					chckbxTiempo.setSelected(true);
-					System.err.println(datosParaRefrescarSala.getString("cantidadDeTiempo"));
-					this.tiempoTextField.setText(datosParaRefrescarSala.getString("cantidadDeTiempo"));
-				} else
-					chckbxTiempo.setSelected(false);
+//				if (datosParaRefrescarSala.getBoolean("fruta")) {
+//					chckbxFruta.setSelected(true);
+//					System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas"));
+//					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
+//				} else
+//					chckbxFruta.setSelected(false);
+//
+//				if (datosParaRefrescarSala.getBoolean("tiempo")) {
+//					chckbxTiempo.setSelected(true);
+//					System.err.println(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+//					this.tiempoTextField.setText(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+//				} else
+//					chckbxTiempo.setSelected(false);
 
 				this.rondasParaNoAdmin.setText(datosParaRefrescarSala.getString("rondas"));
 				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
