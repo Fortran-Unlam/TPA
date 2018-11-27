@@ -34,17 +34,17 @@ public class Servidor {
 	private static final Logger LOGGER = Logger.getAnonymousLogger();
 
 	public static void main(String[] args) {
-		
+
 		FileHandler fh = null;
 		try {
-            fh = new FileHandler("logger.log", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			fh = new FileHandler("logger.log", true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        fh.setFormatter(new SimpleFormatter());
-        LOGGER.addHandler(fh);
-        
+		fh.setFormatter(new SimpleFormatter());
+		LOGGER.addHandler(fh);
+
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
 		ServerSocket servidorBackOffIn = null;
@@ -69,7 +69,7 @@ public class Servidor {
 				socketOut = servidorOut.accept();
 
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
-				conexionCliente.start();	
+				conexionCliente.start();
 				conexionClientes.add(conexionCliente);
 
 				socketBackOffIn = servidorBackOffIn.accept();
@@ -81,7 +81,8 @@ public class Servidor {
 				conexionClienteBackOff.start();
 				conexionesClientesBackOff.add(conexionClienteBackOff);
 
-				LOGGER.log(Level.INFO, "Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
+				LOGGER.log(Level.INFO,
+						"Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -165,9 +166,9 @@ public class Servidor {
 		for (Sala salaActiva : Servidor.salasActivas) {
 			JsonObjectBuilder sala = Json.createObjectBuilder();
 			sala.add("nombre", salaActiva.getNombre())
-			.add("cantidadUsuariosActivos", String.valueOf(salaActiva.getCantidadUsuarioActuales()))
-			.add("cantidadUsuariosMaximos", String.valueOf(salaActiva.getCantidadUsuarioMaximos()))
-			.add("administrador", salaActiva.getAdministrador().getUsername()).build();
+					.add("cantidadUsuariosActivos", String.valueOf(salaActiva.getCantidadUsuarioActuales()))
+					.add("cantidadUsuariosMaximos", String.valueOf(salaActiva.getCantidadUsuarioMaximos()))
+					.add("administrador", salaActiva.getAdministrador().getUsername()).build();
 			datosDeSalas.add(sala);
 		}
 		return datosDeSalas.build();
@@ -188,46 +189,42 @@ public class Servidor {
 	 * @param juego
 	 */
 	public static boolean actualizarJuego(Juego juego) {
-		try {
-			Mapa mapa = juego.getMapa();
-			Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
-			boolean enviar = false;
-			for (ConexionCliente conexionCliente : conexionClientes) {
-				enviar = false;
-				Usuario usuario = conexionCliente.getUsuario();
-				if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null && usuario.inJuego) {
+		Mapa mapa = juego.getMapa();
+		Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
+		boolean enviar = false;
+		for (ConexionCliente conexionCliente : conexionClientes) {
+			enviar = false;
+			Usuario usuario = conexionCliente.getUsuario();
+			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null && usuario.inJuego) {
+				for (Jugador jugadorMapa : mapa.getJugadores()) {
+					if (usuario.getJugador().equals(jugadorMapa)) {
+						enviar = true;
+						break;
+					}
+				}
+
+				if (enviar == false) {
+					for (Jugador espectador : mapa.getEspectadores()) {
+						if (usuario.getJugador().equals(espectador)) {
+							enviar = true;
+							break;
+						}
+					}
+				}
+
+				if (enviar) {
 					try {
-						for (Jugador jugadorMapa : mapa.getJugadores()) {
-							if (usuario.getJugador().equals(jugadorMapa)) {
-								enviar = true;
-								break;
-							}
-						}
-						
-						if (enviar == false) {
-							for (Jugador espectador : mapa.getEspectadores()) {
-								if (usuario.getJugador().equals(espectador)) {
-									enviar = true;
-									break;
-								}
-							}
-						}
-
-						if (enviar) {
-							conexionCliente.getSalidaDatos().reset();
-							conexionCliente.getSalidaDatos().flush();
-							conexionCliente.getSalidaDatos().writeObject(message.toJson());
-						}
-
+						conexionCliente.getSalidaDatos().reset();
+						conexionCliente.getSalidaDatos().flush();
+						conexionCliente.getSalidaDatos().writeObject(message.toJson());
 					} catch (IOException e) {
-						System.out.println("sucede porque todavia no envie un mapa");
+						LOGGER.log(Level.INFO, "No se pudo actualizar el mapa ");
 						return false;
 					}
 				}
 
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
 		}
 		return true;
 	}
@@ -274,5 +271,5 @@ public class Servidor {
 	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff() {
 		return Servidor.conexionesClientesBackOff;
 	}
-	
+
 }
