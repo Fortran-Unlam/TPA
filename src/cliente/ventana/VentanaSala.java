@@ -377,7 +377,7 @@ public class VentanaSala extends JFrame {
 
 	protected void empezarJuego() {
 
-		if (this.cantBots.getText().isEmpty()) {
+		if ((this.cantBots.getText().isEmpty()) || (!cantBots.getText().matches("[0-9]+"))) {
 			return;
 		}
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),
