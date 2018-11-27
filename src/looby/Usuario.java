@@ -178,7 +178,7 @@ public class Usuario implements Serializable {
 		this.sala = sala;
 	}
 
-	public boolean actualizarEstadisticas(boolean muerte, boolean ganador, int frutasComidas) {
+	public boolean actualizarEstadisticasRonda(boolean muerte, boolean ganador, int frutasComidas) {
 		//this.partidasJugadas++;
 		if (muerte)
 			this.muertes++;
@@ -194,7 +194,14 @@ public class Usuario implements Serializable {
 		if (UsuarioDAO.updateEstadisticas(this))
 			return true;
 		return false;
+	}
+	
+	public boolean actualizarEstadisticasPartida() {
+		this.partidasGanadas++;
 		
+		if (UsuarioDAO.updateEstadisticas(this))
+			return true;
+		return false;
 	}
 
 }

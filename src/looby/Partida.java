@@ -29,6 +29,7 @@ public class Partida implements Serializable {
 	private ArrayList<Usuario> usuariosActivosEnSala;
 	private Mapa mapa;
 	private int tipoMapa;
+	private Jugador ganadorPartida;
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
 			int tipoMapa) {
@@ -55,21 +56,37 @@ public class Partida implements Serializable {
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
-		System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
+		//System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
 		
 		if (numeroRonda < this.cantidadDeRondasAJugar) {
 			try {
-				System.out.println("Ronda " + (numeroRonda));
+				System.out.println("Ronda " + (++numeroRonda));
 				this.partidaEnCurso = true;
 				//Inicia el mapa antes de cada ronda.
 				this.mapa = crearMapa(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
-					numeroRonda++;
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
+		}else {
+			//Termina la partida, actualizo g.
+			int maxPuntos = jugadoresEnPartida.get(0).getPuntosPartida();
+			this.ganadorPartida = jugadoresEnPartida.get(0);
+			for (Jugador jug : jugadoresEnPartida) {
+				if (jug.getFrutasComidas() > maxPuntos) {
+					this.ganadorPartida = jug;
+				}
+			}
+			if (!(this.ganadorPartida instanceof JugadorBot)) {
+				for (Usuario u : usuariosActivosEnSala) {
+					if (u.getJugador().equals(this.ganadorPartida)) {
+						usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasPartida();
+						break;
+					}
+				}
 			}
 		}
 		this.partidaEnCurso = false;
@@ -101,23 +118,29 @@ public class Partida implements Serializable {
 				
 				// Termina una ronda y comienza otra.
 				try {
+					
 					for (Jugador jug : rondaEnCurso.getJugadoresEnJuego()) {
-						if (!(jug instanceof JugadorBot)) {
-							boolean jugadorMuerto = true;
-							boolean ganador = false;
-							if (!jug.getVibora().isDead()) {
-								jugadorMuerto = false;
-								ganador = true;
+						//Itero por jugadores, no bots.
+							boolean esGanador = false;
 							
+							//Determino el ganador de cada ronda.
+							if (!jug.getVibora().isDead()) {
+								esGanador = true;							
 							}
 							int frutasComidas = jug.getFrutasComidas();
-							for (Usuario u : usuariosActivosEnSala) {
-								if (u.getJugador().equals(jug))
-								usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticas(jugadorMuerto,ganador,frutasComidas);
-								continue;
+							
+							//Guardo las estadisticas en la base.
+							if (!(jug instanceof JugadorBot)) {
+								for (Usuario u : usuariosActivosEnSala) {
+									if (u.getJugador().equals(jug)) {
+										usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasRonda(jug.getVibora().isDead(),esGanador,frutasComidas);
+										break;
+									}
+								}
 							}
-						}
-						jug.resetEstadisticaRonda();
+						// Reset estadisticas en cada ronda
+						jug.actualizarEstadisticasPartida(frutasComidas,esGanador);
+						jug.resetEstadisticasRonda();
 					}
 					
 					Thread.sleep(3000);
@@ -131,7 +154,6 @@ public class Partida implements Serializable {
 			}
 		};
 		thread.start();
-
 		
 		return true;
 	}

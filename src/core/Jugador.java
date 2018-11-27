@@ -14,6 +14,8 @@ public class Jugador implements Comparable<Jugador> {
 	private Vibora vibora;
 	private String nombre;
 	private int frutasComidasEnRonda;
+	//private int frutasComidasEnPartida;
+	private int puntosPorPartida;
 	private GestorInput teclado = new GestorInput();
 	
 	/**
@@ -25,6 +27,8 @@ public class Jugador implements Comparable<Jugador> {
 		this.vibora = vibora;
 		this.nombre = nombre;
 		this.frutasComidasEnRonda = 0;
+		//this.frutasComidasEnPartida = 0;
+		this.puntosPorPartida = 0;
 	}
 
 	/**
@@ -65,6 +69,10 @@ public class Jugador implements Comparable<Jugador> {
 	public int getFrutasComidas() {
 		return this.frutasComidasEnRonda;
 	}
+	
+	public int getPuntosPartida() {
+		return this.puntosPorPartida;
+	}
 
 	public void setTecla(Posicion posicion) {
 		this.teclado.setUltimaTecla(posicion);
@@ -85,7 +93,14 @@ public class Jugador implements Comparable<Jugador> {
 		}
 	}
 	
-	public void resetEstadisticaRonda() {
+	public void actualizarEstadisticasPartida(int frutasComidasRonda, boolean esGanador) {
+		//this.frutasComidasEnPartida += frutasComidasEnRonda;
+		
+		if (esGanador)
+			this.puntosPorPartida += 20;
+	}
+	
+	public void resetEstadisticasRonda() {
 		this.frutasComidasEnRonda = 0;
 	}
 
