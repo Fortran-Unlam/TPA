@@ -15,7 +15,6 @@ import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
 import looby.Usuario;
-import servidor.Message;
 
 public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;

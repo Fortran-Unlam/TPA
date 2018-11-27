@@ -19,8 +19,8 @@ import javax.swing.KeyStroke;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import cliente.Cliente;
+import cliente.Message;
 import config.Param;
-import servidor.Message;
 
 public class VentanaCrearUsuario extends JFrame {
 

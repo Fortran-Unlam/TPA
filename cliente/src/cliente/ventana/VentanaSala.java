@@ -394,7 +394,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego(null);
+		new VentanaJuego();
 	}
 
 	// Esto en realidad deberia ser el mismo que empezarJuego y que haya una
@@ -404,7 +404,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego(null);
+		new VentanaJuego();
 	}
 
 	private void addListener() {

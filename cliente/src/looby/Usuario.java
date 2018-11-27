@@ -7,7 +7,6 @@ import javax.json.JsonObject;
 
 import config.Param;
 import core.Jugador;
-import servidor.ConexionClienteBackOff;
 
 public class Usuario implements Serializable {
 
@@ -21,7 +20,6 @@ public class Usuario implements Serializable {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	private Sala sala;
 	private Jugador jugador;
 	public boolean inJuego = true; //Pasar a privado
 
@@ -58,20 +56,6 @@ public class Usuario implements Serializable {
 		this.username = jsonObject.get("username").toString();
 		this.password = jsonObject.get("password").toString();
 		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
-	}
-
-	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
-		Sala sala = new Sala(nombreSala, cantDeUsrMaximos, this);
-		sala.agregarUsuarioASala(this);
-		return sala;
-	}
-
-	public Usuario salirDeSala() {
-		if (this.sala != null) {
-			this.sala.quitarUsuario(this);
-			this.sala = null;
-		}
-		return this;
 	}
 
 	public int getId() {
@@ -162,21 +146,6 @@ public class Usuario implements Serializable {
 		this.jugador = jugador;
 	}
 
-	public Jugador getJugador() {
-		if (this.jugador != null) {
-			return this.jugador;			
-		}
-		
-		return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
-	}
-
-	public Sala getSala() {
-		return sala;
-	}
-
-	public void setSala(Sala sala) {
-		this.sala = sala;
-	}
 
 	public boolean actualizarEstadisticasRonda(boolean muerte, boolean ganador, int frutasComidas) {
 		//this.partidasJugadas++;
@@ -191,16 +160,16 @@ public class Usuario implements Serializable {
 		this.puntos += frutasComidas;
 		this.cantidadFrutaComida += frutasComidas;
 		
-		if (UsuarioDAO.updateEstadisticas(this))
-			return true;
+//		if (UsuarioDAO.updateEstadisticas(this))
+//			return true;
 		return false;
 	}
 	
 	public boolean actualizarEstadisticasPartida() {
 		this.partidasGanadas++;
 		
-		if (UsuarioDAO.updateEstadisticas(this))
-			return true;
+//		if (UsuarioDAO.updateEstadisticas(this))
+//			return true;
 		return false;
 	}
 

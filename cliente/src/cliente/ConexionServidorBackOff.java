@@ -11,7 +11,6 @@ import javax.json.JsonObjectBuilder;
 
 import config.Param;
 import looby.Usuario;
-import servidor.Message;
 
 public class ConexionServidorBackOff extends Thread {
 

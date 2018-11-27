@@ -27,7 +27,6 @@ import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
-import core.mapa.Juego;
 
 public class VentanaJuego extends JFrame {
 
@@ -65,7 +64,7 @@ public class VentanaJuego extends JFrame {
 	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
 	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
 
-	public VentanaJuego(Juego juego) {
+	public VentanaJuego() {
 		super("Snake");
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
