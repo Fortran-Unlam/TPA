@@ -245,6 +245,10 @@ public class VentanaJuego extends JFrame {
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+			
+			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
+			//Pendiente.
+			g2d.drawString("Próxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			musicaFondo.stop();
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
