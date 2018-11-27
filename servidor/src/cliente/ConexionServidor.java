@@ -11,7 +11,6 @@ import javax.json.Json;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
 import looby.Usuario;
@@ -252,27 +251,7 @@ public class ConexionServidor {
 		try {this.salidaDatos.writeObject(this.message.toJson());}catch (IOException e) {}
 	}
 
-	public void recibirMapa(VentanaJuego ventanaJuego) {
-		try {
-			while (true && recibirMapa) {
 
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-
-				switch (this.message.getType()) {
-				case Param.REQUEST_MOSTRAR_MAPA:
-					ventanaJuego.dibujarMapaJson((String) this.message.getData());
-				default:
-				}
-			}
-
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	public Usuario getUsuario() {
 		return usuario;
