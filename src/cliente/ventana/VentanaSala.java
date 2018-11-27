@@ -1,6 +1,7 @@
 package cliente.ventana;
 
 import java.awt.Color;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +31,8 @@ import config.Param;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
@@ -269,6 +273,9 @@ public class VentanaSala extends JFrame {
 		lblCantidadBots.setBounds(236, 237, 111, 20);
 		contentPane.add(lblCantidadBots);
 		cantBots = new JTextField();
+		/* Bloquea el control c y control v */
+		InputMap MapCantBotsField = cantBots.getInputMap(cantBots.WHEN_FOCUSED);
+		MapCantBotsField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 
 		cantBots.setHorizontalAlignment(SwingConstants.LEFT);
 		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
@@ -374,7 +381,7 @@ public class VentanaSala extends JFrame {
 
 	protected void empezarJuego() {
 
-		if (this.cantBots.getText().isEmpty()) {
+		if ((this.cantBots.getText().isEmpty()) || (!cantBots.getText().matches("[0-9]+"))) {
 			return;
 		}
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),
