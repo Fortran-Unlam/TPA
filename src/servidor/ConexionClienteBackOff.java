@@ -177,8 +177,9 @@ public class ConexionClienteBackOff extends Thread {
 			if (entradaJson.getBoolean("fruta")) {
 				tipoJugabilidad = "frutas";
 			}
-			if (entradaJson.getBoolean("supervivencia"))
-				tipoJugabilidad += " supervivencia";
+			
+//			if (entradaJson.getBoolean("supervivencia"))
+//				tipoJugabilidad += " supervivencia";
 
 			if (entradaJson.getBoolean("tiempo"))
 				tipoJugabilidad += " tiempo";

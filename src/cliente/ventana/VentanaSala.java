@@ -46,7 +46,6 @@ public class VentanaSala extends JFrame {
 	private JButton btnEmpezarJuego;
 	private JCheckBox chckbxFruta;
 	private JCheckBox chckbxTiempo;
-	private JCheckBox chckbxSupervivencia;
 	private JComboBox<Object> comboMapa;
 	private JComboBox<Object> comboCantRondas;
 	private JButton btnSalirDeSala;
@@ -57,8 +56,9 @@ public class VentanaSala extends JFrame {
 	private JTextField rondasParaNoAdmin;
 	private JTextField cantidadDeFrutasTextField;
 	private JTextField tiempoTextField;
-	private boolean cantidadDeFrutasCorrectas = false;
-	private boolean cantidadDeTiempoCorrecto = false;
+	private boolean cantidadDeFrutasCorrectas = true;
+	private boolean cantidadDeTiempoCorrecto = true;
+	private JLabel cantidadDeFrutasLabel;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -70,21 +70,21 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotonesYRefrescarCambios() {
-		if (((chckbxFruta.isSelected() && this.cantidadDeFrutasCorrectas) || chckbxSupervivencia.isSelected() || (chckbxTiempo.isSelected()) && this.cantidadDeTiempoCorrecto)
-				&& comboMapa.getSelectedIndex() != 0 && !cantBots.getText().isEmpty()
-				&& comboCantRondas.getSelectedIndex() != 0) {
+		if (this.cantidadDeFrutasCorrectas && this.cantidadDeTiempoCorrecto && comboMapa.getSelectedIndex() != 0
+				&& !cantBots.getText().isEmpty() && comboCantRondas.getSelectedIndex() != 0) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
 		}
 
-		if (chckbxFruta.isSelected()) {
+		if (chckbxFruta.isSelected() && this.visibiliadAdmin) {
 			this.cantidadDeFrutasTextField.setEnabled(true);
 		}
 
-		if (!chckbxFruta.isSelected()) {
+		if (!chckbxFruta.isSelected() && this.visibiliadAdmin) {
 			this.cantidadDeFrutasTextField.setEnabled(false);
 			this.cantidadDeFrutasTextField.setText("");
+			this.cantidadDeFrutasCorrectas = true;
 		}
 
 		if (chckbxTiempo.isSelected()) {
@@ -94,15 +94,16 @@ public class VentanaSala extends JFrame {
 		if (!chckbxTiempo.isSelected()) {
 			this.tiempoTextField.setEnabled(false);
 			this.tiempoTextField.setText("");
+			this.cantidadDeTiempoCorrecto = true;
 		}
 
 		if (cantBots.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vac�a", "Atencion",
+			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacia", "Atencion",
 					JOptionPane.WARNING_MESSAGE);
 			cantBots.setText("0");
 		} else {
 			if (!cantBots.getText().matches("[0-9]+")) {
-				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser n�merica", "Atencion",
+				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser numerica", "Atencion",
 						JOptionPane.WARNING_MESSAGE);
 				cantBots.setText("0");
 			}
@@ -114,18 +115,19 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoMapaYBots.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
 
-		if (chckbxFruta.isSelected()) {
+		if (chckbxFruta.isSelected() && cantidadDeFrutasCorrectas) {
 			nombreSalatipoJuegoMapaYBots.add("fruta", true);
-			nombreSalatipoJuegoMapaYBots.add("cantidadDeFrutas",this.cantidadDeFrutasTextField.getText());
+			System.out.println(this.cantidadDeFrutasTextField.getText());
+			nombreSalatipoJuegoMapaYBots.add("cantidadDeFrutas", this.cantidadDeFrutasTextField.getText());
 		} else {
 			nombreSalatipoJuegoMapaYBots.add("fruta", false);
 		}
 
-		if (chckbxSupervivencia.isSelected()) {
-			nombreSalatipoJuegoMapaYBots.add("supervivencia", true);
-		} else {
-			nombreSalatipoJuegoMapaYBots.add("supervivencia", false);
-		}
+//		if (chckbxSupervivencia.isSelected()) {
+//			nombreSalatipoJuegoMapaYBots.add("supervivencia", true);
+//		} else {
+//			nombreSalatipoJuegoMapaYBots.add("supervivencia", false);
+//		}
 
 		if (chckbxTiempo.isSelected()) {
 			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
@@ -152,9 +154,11 @@ public class VentanaSala extends JFrame {
 	}
 
 	private void verificarFrutas() {
-		if (chckbxFruta.isSelected() && (cantidadDeFrutasTextField.getText().isEmpty()
-				|| Integer.valueOf(cantidadDeFrutasTextField.getText()) <= 0
-				|| Integer.valueOf(cantidadDeFrutasTextField.getText()) > 1000)) {
+		if (chckbxFruta.isSelected()
+				&& (cantidadDeFrutasTextField.getText().isEmpty()
+						|| Integer.valueOf(cantidadDeFrutasTextField.getText()) <= 0
+						|| Integer.valueOf(cantidadDeFrutasTextField.getText()) > 1000)
+				|| !this.cantidadDeFrutasTextField.getText().matches("[0-9]+")) {
 			JOptionPane.showMessageDialog(null,
 					"La cantidad de fruta no puede estar vacia, ser negativa o mayor a mil.", "Atencion",
 					JOptionPane.WARNING_MESSAGE);
@@ -257,19 +261,14 @@ public class VentanaSala extends JFrame {
 		comboMapa.addItem("Mapa 3");
 		contentPane.add(comboMapa);
 
-		chckbxSupervivencia = new JCheckBox("Supervivencia");
-		chckbxSupervivencia.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
-		chckbxSupervivencia.setBounds(366, 95, 130, 23);
-		contentPane.add(chckbxSupervivencia);
-
 		chckbxFruta = new JCheckBox("Fruta");
 		chckbxFruta.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
-		chckbxFruta.setBounds(366, 121, 130, 23);
+		chckbxFruta.setBounds(366, 95, 130, 23);
 		contentPane.add(chckbxFruta);
 
 		chckbxTiempo = new JCheckBox("Tiempo");
 		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
-		chckbxTiempo.setBounds(366, 147, 130, 23);
+		chckbxTiempo.setBounds(366, 136, 130, 23);
 		contentPane.add(chckbxTiempo);
 
 		this.lblAdmin = new JLabel("");
@@ -330,24 +329,29 @@ public class VentanaSala extends JFrame {
 
 		cantidadDeFrutasTextField = new JTextField();
 		cantidadDeFrutasTextField.setEnabled(false);
-		cantidadDeFrutasTextField.setBounds(498, 122, 86, 20);
+		cantidadDeFrutasTextField.setBounds(498, 96, 86, 20);
 		contentPane.add(cantidadDeFrutasTextField);
 		cantidadDeFrutasTextField.setColumns(10);
 
 		tiempoTextField = new JTextField();
 		tiempoTextField.setEnabled(false);
-		tiempoTextField.setBounds(498, 148, 86, 20);
+		tiempoTextField.setBounds(498, 137, 86, 20);
 		contentPane.add(tiempoTextField);
 		tiempoTextField.setColumns(10);
+		
+		cantidadDeFrutasLabel = new JLabel("New label");
+		cantidadDeFrutasLabel.setBounds(427, 100, 61, 15);
+		contentPane.add(cantidadDeFrutasLabel);
 
 		if (this.visibiliadAdmin) {
-			chckbxSupervivencia.setEnabled(true);
+//			chckbxSupervivencia.setEnabled(true);
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
 			comboMapa.setEnabled(true);
 			comboCantRondas.setEnabled(true);
 			mapaParaNoAdmin.setVisible(false);
 			rondasParaNoAdmin.setVisible(false);
+			cantidadDeFrutasLabel.setVisible(false);
 			lblAdmin.setText("Tu eres el Administrador");
 		} else {
 			comboMapa.setVisible(false);
@@ -356,10 +360,13 @@ public class VentanaSala extends JFrame {
 			cantBots.setEnabled(false);
 			chckbxFruta.setEnabled(false);
 			chckbxTiempo.setEnabled(false);
-			chckbxSupervivencia.setEnabled(false);
+//			chckbxSupervivencia.setEnabled(false);
 			comboCantRondas.setVisible(false);
 			mapaParaNoAdmin.setVisible(true);
 			rondasParaNoAdmin.setEnabled(false);
+			cantidadDeFrutasTextField.setVisible(false);
+			tiempoTextField.setEnabled(false);
+			cantidadDeFrutasLabel.setVisible(true);
 		}
 
 	}
@@ -380,8 +387,9 @@ public class VentanaSala extends JFrame {
 		if (this.cantBots.getText().isEmpty()) {
 			return;
 		}
-		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),Integer.parseInt((String)comboCantRondas.getSelectedItem())) == false) {
-			System.out.println("no pudo crear el juego");
+		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),
+				Integer.parseInt((String) comboCantRondas.getSelectedItem())) == false) {
+			System.out.println("No se pudo creear el Juego");
 			return;
 		}
 		AvisarAOtrosUsuariosSala();
@@ -429,13 +437,6 @@ public class VentanaSala extends JFrame {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					empezarJuego();
 				}
-			}
-		});
-
-		chckbxSupervivencia.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
 			}
 		});
 		chckbxFruta.addItemListener(new ItemListener() {
@@ -541,19 +542,23 @@ public class VentanaSala extends JFrame {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
 
-				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("supervivencia"))
-					chckbxSupervivencia.setSelected(true);
-				else
-					chckbxSupervivencia.setSelected(false);
+//				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("supervivencia"))
+//					chckbxSupervivencia.setSelected(true);
+//				else
+//					chckbxSupervivencia.setSelected(false);
 
-				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("frutas"))
+				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("frutas")) {
 					chckbxFruta.setSelected(true);
-				else
+					System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas").trim());
+					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas").trim());
+				} else
 					chckbxFruta.setSelected(false);
 
-				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("tiempo"))
+				if (datosParaRefrescarSala.getString("tipoJugabilidad").contains("tiempo")) {
 					chckbxTiempo.setSelected(true);
-				else
+					System.err.println(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+					this.tiempoTextField.setText(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+				} else
 					chckbxTiempo.setSelected(false);
 
 				this.rondasParaNoAdmin.setText(datosParaRefrescarSala.getString("rondas"));
