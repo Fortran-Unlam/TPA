@@ -4,19 +4,13 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-
-import config.Param;
 
 public class ConexionServidorBackOff extends Thread {
 
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
-
-	private Message message = new Message(null, null);
 
 	private Socket socketIn;
 	private Socket socketOut;

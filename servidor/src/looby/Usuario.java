@@ -1,17 +1,13 @@
 package looby;
 
-import java.io.Serializable;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 
 import config.Param;
 import core.Jugador;
-import servidor.ConexionClienteBackOff;
 
-public class Usuario implements Serializable {
+public class Usuario {
 
-	private static final long serialVersionUID = -2637338189236421497L;
 	private int id;
 	private String username;
 	private String password;
