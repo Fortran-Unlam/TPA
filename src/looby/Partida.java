@@ -101,10 +101,27 @@ public class Partida implements Serializable {
 				
 				// Termina una ronda y comienza otra.
 				try {
+					for (Jugador jug : rondaEnCurso.getJugadoresEnJuego()) {
+						if (!(jug instanceof JugadorBot)) {
+							boolean jugadorMuerto = true;
+							boolean ganador = false;
+							if (!jug.getVibora().isDead()) {
+								ganador = true;
+								jugadorMuerto = true;
+							}
+							int frutasComidas = jug.getFrutasComidas();
+							for (Usuario u : usuariosActivosEnSala) {
+								if (u.getJugador().equals(jug))
+								usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticas(jugadorMuerto,ganador,frutasComidas);
+								continue;
+							}
+						}
+						jug.resetEstadisticaRonda();
+					}
 					
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
-					// TODO Poner algo por si falla el sleep.
+					// TODO Poner algo por si falla el update del usuario.
 					
 					e.printStackTrace();
 				}
@@ -114,14 +131,7 @@ public class Partida implements Serializable {
 		};
 		thread.start();
 
-//		for (Juego ronda : rondasJugadas) {
-//			int i = 1;
-//			List<Jugador> jugadores = ronda.getJugadoresEnJuego();
-//			for (Jugador jug : jugadores) {
-//				System.out.println("Ron: " + i + "- jug: " + jug.getNombre() + "frutasComidas: " + jug.getFrutasComidas());
-//			}
-//			i++;
-//		}
+		
 		return true;
 	}
 	

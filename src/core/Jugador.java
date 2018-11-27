@@ -84,6 +84,10 @@ public class Jugador implements Comparable<Jugador> {
 			}
 		}
 	}
+	
+	public void resetEstadisticaRonda() {
+		this.frutasComidasEnRonda = 0;
+	}
 
 	@Override
 	public int compareTo(Jugador otro) {

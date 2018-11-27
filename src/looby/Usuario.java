@@ -178,4 +178,22 @@ public class Usuario implements Serializable {
 		this.sala = sala;
 	}
 
+	public boolean actualizarEstadisticas(boolean muerte, boolean ganador, int frutasComidas) {
+		//this.partidasJugadas++;
+		if (muerte)
+			this.muertes++;
+		
+		if (ganador)
+			this.puntos += 20;
+			this.rondasGanadas++;
+			
+		this.puntos += frutasComidas;
+		this.cantidadFrutaComida += frutasComidas;
+		
+		if (UsuarioDAO.updateEstadisticas(this))
+			return true;
+		return false;
+		
+	}
+
 }

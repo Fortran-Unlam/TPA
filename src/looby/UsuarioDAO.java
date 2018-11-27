@@ -76,4 +76,21 @@ public class UsuarioDAO {
 		}
 		return -1;
 	}
+	
+	public static boolean updateEstadisticas(Usuario usuario) {
+		Transaction txReg = null;
+
+		try {
+			txReg = Servidor.getSessionHibernate().beginTransaction();
+			Servidor.getSessionHibernate().merge(usuario);
+			return true;
+		} catch (HibernateException e) {
+			if (txReg != null)
+				txReg.rollback();
+			e.printStackTrace();
+		} finally {
+			txReg.commit();
+		}
+		return false;
+	}
 }
