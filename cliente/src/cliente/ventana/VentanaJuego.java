@@ -60,6 +60,7 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpo;
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
+	private boolean musicaEncendida = false;
 	
 	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
 	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
@@ -160,7 +161,7 @@ public class VentanaJuego extends JFrame {
 		};
 		
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-		musicaFondo.repetir();
+		//musicaFondo.repetir();
 		
 		thread.start();
 
@@ -171,6 +172,7 @@ public class VentanaJuego extends JFrame {
 	}
 
 	public void dibujarMapaJson(String jsonString) {
+		if(!this.musicaEncendida) { this.musicaEncendida=true; musicaFondo.repetir();} //Para que la musica de fondo se active al empezar una nueva ronda.
 		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
 		JsonObject json = jsonReader.readObject();
 		jsonReader.close();
@@ -248,8 +250,9 @@ public class VentanaJuego extends JFrame {
 			
 			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
 			//Pendiente.
-			g2d.drawString("Próxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
-			musicaFondo.stop();
+			g2d.drawString("Prï¿½xima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
+			musicaFondo.stop(); //Entre ronda y ronda la musica de fondo se desactiva?
+			this.musicaEncendida = false;
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
