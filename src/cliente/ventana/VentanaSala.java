@@ -129,7 +129,7 @@ public class VentanaSala extends JFrame {
 //			nombreSalatipoJuegoMapaYBots.add("supervivencia", false);
 //		}
 
-		if (chckbxTiempo.isSelected()) {
+		if (chckbxTiempo.isSelected() && cantidadDeTiempoCorrecto) {
 			nombreSalatipoJuegoMapaYBots.add("tiempo", true);
 			nombreSalatipoJuegoMapaYBots.add("cantidadDeTiempo", this.tiempoTextField.getText());
 		} else {
