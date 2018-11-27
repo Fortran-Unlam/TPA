@@ -1,1 +1,3 @@
 /bin/
+logger.log
+logger.log.lck
