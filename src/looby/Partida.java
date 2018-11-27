@@ -106,8 +106,9 @@ public class Partida implements Serializable {
 							boolean jugadorMuerto = true;
 							boolean ganador = false;
 							if (!jug.getVibora().isDead()) {
+								jugadorMuerto = false;
 								ganador = true;
-								jugadorMuerto = true;
+							
 							}
 							int frutasComidas = jug.getFrutasComidas();
 							for (Usuario u : usuariosActivosEnSala) {

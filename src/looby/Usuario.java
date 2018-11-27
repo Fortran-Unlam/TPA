@@ -183,9 +183,10 @@ public class Usuario implements Serializable {
 		if (muerte)
 			this.muertes++;
 		
-		if (ganador)
+		if (ganador) {
 			this.puntos += 20;
 			this.rondasGanadas++;
+		}
 			
 		this.puntos += frutasComidas;
 		this.cantidadFrutaComida += frutasComidas;
