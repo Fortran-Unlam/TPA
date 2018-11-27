@@ -2,6 +2,7 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -100,9 +101,11 @@ public class Partida implements Serializable {
 				
 				// Termina una ronda y comienza otra.
 				try {
+					
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
+					// TODO Poner algo por si falla el sleep.
+					
 					e.printStackTrace();
 				}
 				
@@ -111,6 +114,14 @@ public class Partida implements Serializable {
 		};
 		thread.start();
 
+//		for (Juego ronda : rondasJugadas) {
+//			int i = 1;
+//			List<Jugador> jugadores = ronda.getJugadoresEnJuego();
+//			for (Jugador jug : jugadores) {
+//				System.out.println("Ron: " + i + "- jug: " + jug.getNombre() + "frutasComidas: " + jug.getFrutasComidas());
+//			}
+//			i++;
+//		}
 		return true;
 	}
 	
