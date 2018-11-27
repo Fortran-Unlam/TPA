@@ -48,7 +48,6 @@ public class ConexionClienteBackOff extends Thread {
 
 				String tipoDeMensaje = entradaJson.getString("type");
 
-
 				// Guardo el usuario dentro de mi conexi�nBackOff
 				if (tipoDeMensaje.equals(Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)) {
 					for (Usuario u : Servidor.getUsuariosActivos()) {
@@ -74,18 +73,18 @@ public class ConexionClienteBackOff extends Thread {
 				/*
 				 * Aguante boca. Cada vez que se crea una nueva sala Empiezo a gatillar, como
 				 * policia a trabajador despedido, a todos los usuarios de esa sala, para
-				 * avisarle los cambios que hizo el admin o bien si un usuario entr� o se fue de
-				 * la sala
+				 * avisarle los cambios que hizo el admin o bien si un usuario entr� o se fue
+				 * de la sala
 				 */
 
 				if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
 						|| tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
 					enviarActualizacionAClientesDeUnaSalaParticular(entradaJson);
 				}
-				
-				//Si recibo un mensaje de que se empezo un juego, informo a todos los clientes o usuarios de su sala.
-				if(tipoDeMensaje.equals(Param.NOTICE_EMPEZAR_JUEGO))
-				{
+
+				// Si recibo un mensaje de que se empezo un juego, informo a todos los clientes
+				// o usuarios de su sala.
+				if (tipoDeMensaje.equals(Param.NOTICE_EMPEZAR_JUEGO)) {
 					enviarEmpezarJuegoAClientesDeUnaSalaParticular(entradaJson);
 				}
 
@@ -107,18 +106,19 @@ public class ConexionClienteBackOff extends Thread {
 		Servidor.desconectarBackOff(this);
 	}
 
-	//Metodo que pretende avisarle a todos los usuarios de una sala que el juego ya empezo.
-	private void enviarEmpezarJuegoAClientesDeUnaSalaParticular(JsonObject entradaJson) 
-	{
-		//Obtengo el nombre de la sala que ya empezo el juego.
+	// Metodo que pretende avisarle a todos los usuarios de una sala que el juego ya
+	// empezo.
+	private void enviarEmpezarJuegoAClientesDeUnaSalaParticular(JsonObject entradaJson) {
+		// Obtengo el nombre de la sala que ya empezo el juego.
 		Sala salaARefrescar = Servidor.getSalaPorNombre(entradaJson.getString("sala"));
 		JsonObject paqueteAEnviar;
 		paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build();
 
 		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
 			try {
-				//Le voy a informar a todos menos al admin que el ya se entera cuando empieza.
-				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar) && c.getUsuario() != salaARefrescar.getAdministrador()) {
+				// Le voy a informar a todos menos al admin que el ya se entera cuando empieza.
+				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)
+						&& c.getUsuario() != salaARefrescar.getAdministrador()) {
 					c.salidaDatos.writeObject(paqueteAEnviar.toString());
 				}
 			} catch (IOException e) {
@@ -160,7 +160,6 @@ public class ConexionClienteBackOff extends Thread {
 		JsonObject paqueteAEnviar;
 		if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
 
-
 			JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
 
 			for (Usuario u : salaARefrescar.getUsuariosActivos()) {
@@ -171,21 +170,24 @@ public class ConexionClienteBackOff extends Thread {
 					.add("usuarios", usernamesConectadosALaSala.build())
 					.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
 		} else {
+			int cantidadDeFrutas = 0;
+			int cantidadDeTiempo = 0;
 
-			String tipoJugabilidad = "Aun no se ha determinado";
-
-			if (entradaJson.getBoolean("fruta")) {
-				tipoJugabilidad = "frutas";
-			}
-			
-//			if (entradaJson.getBoolean("supervivencia"))
-//				tipoJugabilidad += " supervivencia";
-
-			if (entradaJson.getBoolean("tiempo"))
-				tipoJugabilidad += " tiempo";
+//			if (entradaJson.getBoolean("fruta")) {
+//				cantidadDeFrutas = Integer.valueOf(entradaJson.getString("cantidadDeFrutas"));
+//			} else
+//				cantidadDeFrutas = 0;
+//
+//			if (entradaJson.getBoolean("tiempo")) {
+//				cantidadDeTiempo = entradaJson.getInt("cantidadDeTiempo");
+//			} else
+//				cantidadDeTiempo = 0;
 
 			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-					.add("tipoJugabilidad", tipoJugabilidad)
+					.add("fruta", entradaJson.getBoolean("fruta"))
+					.add("cantidadDeFrutas",entradaJson.getString("cantidadDeFrutas").equals("") ? "0": entradaJson.getString("cantidadDeFrutas"))
+					.add("tiempo", entradaJson.getBoolean("tiempo"))
+					.add("cantidadDetiempo",entradaJson.getString("cantidadDeTiempo").equals("") ? "0": entradaJson.getString("cantidadDeTiempo"))
 					.add("tipoMapa", entradaJson.getString("mapa"))
 					.add("rondas", entradaJson.getString("rondas"))
 					.add("bots", entradaJson.getString("bots")).build();
