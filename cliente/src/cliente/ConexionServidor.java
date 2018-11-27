@@ -24,8 +24,8 @@ public class ConexionServidor {
 
 	private Socket socketIn;
 	private Socket socketOut;
-	
-	private boolean recibirMapa; //Fix
+
+	private boolean recibirMapa; // Fix
 
 	/**
 	 * A partir del socket prepara el stream de entrada y salida
@@ -117,39 +117,6 @@ public class ConexionServidor {
 	}
 
 	/**
-	 * Pide las salas al servidor (solo trae los nombres) y espera a que este le
-	 * responda
-	 * 
-	 * @return
-	 * @throws ClassNotFoundException
-	 */
-	@SuppressWarnings("unchecked")
-	public ArrayList<String> getAllSalas() {
-		try {
-			this.message = new Message(Param.REQUEST_GET_ALL_SALAS, "");
-			System.err.println("all salas");
-			this.salidaDatos.writeObject(message.toJson());
-
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-			switch (this.message.getType()) {
-			case Param.REQUEST_GET_ALL_SALAS:
-				return (ArrayList<String>) this.message.getData();
-			default:
-				return null;
-			}
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return null;
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/**
 	 * Pide al servidor que cree una sala a partir de los datos y espera a que el
 	 * servidor responda
 	 * 
@@ -164,17 +131,22 @@ public class ConexionServidor {
 			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
 			System.err.println("crear sala");
 			this.salidaDatos.writeObject(this.message.toJson());
+			while (true) {
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-			//Cuando creo una partida y salgo y vuelvo a crear una sala, no tiene que decir MostrarMapa.
-			//Esto pasa porque me desconecte, pero el servidor me sigue mandando informacion del juego
-			//Y yo estoy esperando otros mensajes no informacion de un juego al que no pertenezco.
-			System.out.println(this.message.getType());
-			switch (this.message.getType()) {
-			case Param.REQUEST_SALA_CREADA:
-				return true;
-			case Param.REQUEST_ERROR_CREAR_SALA:
-				return false;
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				// Cuando creo una partida y salgo y vuelvo a crear una sala, no tiene que decir
+				// MostrarMapa.
+				// Esto pasa porque me desconecte, pero el servidor me sigue mandando
+				// informacion del juego
+				// Y yo estoy esperando otros mensajes no informacion de un juego al que no
+				// pertenezco.
+				System.out.println(this.message.getType());
+				switch (this.message.getType()) {
+				case Param.REQUEST_SALA_CREADA:
+					return true;
+				case Param.REQUEST_ERROR_CREAR_SALA:
+					return false;
+				}
 			}
 
 		} catch (IOException ex) {
@@ -214,16 +186,15 @@ public class ConexionServidor {
 			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
 					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false, \""
 					+ Param.CANTIDAD_RONDAS + "\": " + cantidadRondas + "}";
-			
+
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message.toJson());
 
 			while (socketIn.isClosed() == false && recibirMapa) {
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-				String ret = this.message.getType();
-				
-				switch (ret) {
+
+				switch (this.message.getType()) {
 				case Param.REQUEST_JUEGO_EMPEZADO:
 					return (boolean) this.message.getData();
 				}
@@ -240,14 +211,17 @@ public class ConexionServidor {
 		}
 		return false;
 	}
-	
-	//Este metodo es invocado por VentanaJuego y detiene la accion iniciada por ComenzarJuego.
-	public void detenerJuego()
-	{
+
+	// Este metodo es invocado por VentanaJuego y detiene la accion iniciada por
+	// ComenzarJuego.
+	public void detenerJuego() {
 		this.recibirMapa = false;
 		this.message = new Message(Param.REQUEST_SALIR_JUEGO, "");
 		System.err.println("Salir juego");
-		try {this.salidaDatos.writeObject(this.message.toJson());}catch (IOException e) {}
+		try {
+			this.salidaDatos.writeObject(this.message.toJson());
+		} catch (IOException e) {
+		}
 	}
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
@@ -259,7 +233,6 @@ public class ConexionServidor {
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
 					ventanaJuego.dibujarMapaJson((String) this.message.getData());
-				default:
 				}
 			}
 
@@ -297,17 +270,22 @@ public class ConexionServidor {
 	public String recibirActualizacionDeSala() {
 		try {
 			// se queda esperando que el server env�e alg�n tipo de actualizacion;
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-
-			if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
-				return (String) message.getData();
+			while(true) {				
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				
+				if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
+					return (String) message.getData();
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			//TODO: log
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
+			//TODO: log
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			//TODO: log
 		}
 		return null;
 
