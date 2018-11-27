@@ -2,7 +2,6 @@ package cliente;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Calendar;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +10,6 @@ import java.util.logging.SimpleFormatter;
 import cliente.ventana.Sincronismo;
 import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
-import javassist.bytecode.stackmap.TypeData.ClassName;
 
 public class Cliente {
 

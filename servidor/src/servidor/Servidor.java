@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -27,9 +31,20 @@ public class Servidor {
 	private static ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
+	private static final Logger LOGGER = Logger.getAnonymousLogger();
 
 	public static void main(String[] args) {
+		
+		FileHandler fh = null;
+		try {
+            fh = new FileHandler("logger.log", true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        fh.setFormatter(new SimpleFormatter());
+        LOGGER.addHandler(fh);
+        
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
 		ServerSocket servidorBackOffIn = null;
@@ -54,7 +69,7 @@ public class Servidor {
 				socketOut = servidorOut.accept();
 
 				ConexionCliente conexionCliente = new ConexionCliente(socketIn, socketOut);
-				conexionCliente.start();
+				conexionCliente.start();	
 				conexionClientes.add(conexionCliente);
 
 				socketBackOffIn = servidorBackOffIn.accept();
@@ -66,7 +81,7 @@ public class Servidor {
 				conexionClienteBackOff.start();
 				conexionesClientesBackOff.add(conexionClienteBackOff);
 
-				System.out.println("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
+				LOGGER.log(Level.INFO, "Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
