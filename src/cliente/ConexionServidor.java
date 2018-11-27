@@ -63,12 +63,9 @@ public class ConexionServidor {
 		try {
 			String request = Json.createObjectBuilder().add("username", username).add("hashPassword", hashPassword)
 					.build().toString();
-			System.out.println("envio loguear");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request).toJson());
-			System.out.println("espero logueo");
 
 			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
-			System.out.println("recibo el logueo");
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
 				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
