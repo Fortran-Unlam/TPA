@@ -14,7 +14,6 @@ import com.google.gson.JsonSyntaxException;
 import cliente.ventana.VentanaJuego;
 import config.Param;
 import config.Posicion;
-import looby.Usuario;
 
 public class ConexionServidor {
 	private ObjectOutputStream salidaDatos;

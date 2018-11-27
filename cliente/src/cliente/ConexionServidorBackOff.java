@@ -10,7 +10,6 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import config.Param;
-import looby.Usuario;
 
 public class ConexionServidorBackOff extends Thread {
 

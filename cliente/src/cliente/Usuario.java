@@ -1,4 +1,4 @@
-package looby;
+package cliente;
 
 import java.io.Serializable;
 
@@ -6,7 +6,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 
 import config.Param;
-import core.Jugador;
 
 public class Usuario implements Serializable {
 
@@ -20,7 +19,6 @@ public class Usuario implements Serializable {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	private Jugador jugador;
 	public boolean inJuego = true; //Pasar a privado
 
 	public Usuario(String username, String password) {
@@ -141,11 +139,6 @@ public class Usuario implements Serializable {
 				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
 				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
 	}*/
-
-	public void setJugador(Jugador jugador) {
-		this.jugador = jugador;
-	}
-
 
 	public boolean actualizarEstadisticasRonda(boolean muerte, boolean ganador, int frutasComidas) {
 		//this.partidasJugadas++;

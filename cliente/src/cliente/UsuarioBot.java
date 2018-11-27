@@ -1,4 +1,4 @@
-package looby;
+package cliente;
 
 import java.io.Serializable;
 import java.util.Random;

@@ -23,9 +23,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import cliente.Cliente;
 import cliente.Sonido;
+import cliente.Usuario;
 import cliente.ventana.VentanaMenu;
 import config.Param;
-import looby.Usuario;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 

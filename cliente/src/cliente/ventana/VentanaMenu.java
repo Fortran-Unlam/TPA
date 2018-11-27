@@ -17,9 +17,9 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
 import cliente.Sonido;
+import cliente.Usuario;
 import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
-import looby.Usuario;
 
 public class VentanaMenu extends JFrame {
 
