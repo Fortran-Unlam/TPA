@@ -18,7 +18,7 @@ public class Cliente {
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static Sincronismo sincronismo;
-	private static Logger LOGGER;
+	private static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
 		new Cliente();
@@ -26,8 +26,6 @@ public class Cliente {
 
 	public Cliente() {
 		try {
-			LOGGER = Logger.getLogger("");
-
 			socketOut = new Socket(Param.HOST, Param.PORT_1);
 			socketIn = new Socket(Param.HOST, Param.PORT_2);
 
