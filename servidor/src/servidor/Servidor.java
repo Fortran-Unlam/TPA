@@ -29,7 +29,7 @@ public class Servidor {
 	private static ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
-	private static Logger LOGGER = Logger.getLogger(Class.class);
+	public static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
 		ServerSocket servidorIn = null;

@@ -183,7 +183,7 @@ public class Partida implements Serializable {
 		this.rondaEnCurso = null;
 	}
 
-	public Juego getRondaEnCurso() {
+	public Juego getJuegoEnCurso() {
 		return rondaEnCurso;
 	}
 
