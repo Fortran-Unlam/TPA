@@ -41,6 +41,7 @@ import javax.swing.ImageIcon;
 public class VentanaSala extends JFrame {
 
 	private static final long serialVersionUID = -1128641003929339105L;
+	private boolean visibiliadAdmin;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
@@ -54,7 +55,6 @@ public class VentanaSala extends JFrame {
 	private JButton btnSalirDeSala;
 	private JButton btnActualizarParamSala;
 	private JLabel lblAdmin;
-	private boolean visibiliadAdmin;
 	private JLabel mapaParaNoAdmin;
 	private JLabel cantidadDeFrutasLabel;
 	private JLabel cantidadDeTiempoLabel;
@@ -101,7 +101,7 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
-	private void enviarCambiosDeSala() {
+	private void prepararCambiosDeSala() {
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
 		// Agrego parametros
@@ -136,7 +136,7 @@ public class VentanaSala extends JFrame {
 	}
 
 	// Este metodo pretende avisarle a los otros usuarios de la sala que ya pueden
-	// arrancar la VentanaJuego.
+	// Arrancar la VentanaJuego.
 	private void AvisarAOtrosUsuariosSala() {
 		JsonObjectBuilder JuegoEmpezado = Json.createObjectBuilder();
 		JuegoEmpezado.add("sala", this.nombreSala);
@@ -346,11 +346,9 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void empezarJuego() {
-		int totalBots = Integer.parseInt((String)cantidadDeBotsComboBox.getSelectedItem());
+		int totalBots = Integer.parseInt((String) cantidadDeBotsComboBox.getSelectedItem());
 		int totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
-		if (Cliente.getConexionServidor().comenzarJuego(totalBots,
-				totalRondas) == false) {
-
+		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas) == false) {
 			System.out.println("No se pudo creear el Juego");
 			return;
 		}
@@ -452,7 +450,7 @@ public class VentanaSala extends JFrame {
 
 		btnActualizarParamSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -482,25 +480,13 @@ public class VentanaSala extends JFrame {
 				this.modelUsuariosLista.addElement(arrayUsuariosConectados.getString(i));
 
 			}
-			// Seteo
 			this.listUsuarios.setModel(this.modelUsuariosLista);
 
 			if (!this.visibiliadAdmin)
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
-			if (!this.visibiliadAdmin) {// Si no es admin
-//				System.out.println("CONDICION FRUTA " + datosParaRefrescarSala.getBoolean("fruta"));
-//				System.err.println("CANTIDADA DE FRUTAS " + datosParaRefrescarSala.getString("cantidadDeFrutas"));
-//				System.err.println("CANTIDAD DE RONDAS" + datosParaRefrescarSala.getString("rondas"));
-//				System.err.println("TIPO DE MAPA" + datosParaRefrescarSala.getString("tipoMapa"));
-//				System.err.println("CANTIDAD DE BOTS " + datosParaRefrescarSala.getString("bots"));
-//				System.err.println("Condicion Tiempo " + datosParaRefrescarSala.getBoolean("tiempo"));
-//				System.err.println("CANTIDAD DE TIEMPO " + datosParaRefrescarSala.getString("cantidadDeTiempo"));
-
-//				String cantidadDeTiempo = datosParaRefrescarSala.getString("cantTiempo");
-//				System.out.println(cantidadDeTiempo);
-
+			if (!this.visibiliadAdmin) {//USUARIO INVITADO
 				if (datosParaRefrescarSala.getBoolean("fruta")) {
 					chckbxFruta.setSelected(true);
 					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
@@ -516,7 +502,6 @@ public class VentanaSala extends JFrame {
 					chckbxTiempo.setSelected(false);
 					this.cantidadDeTiempoLabel.setText("");
 				}
-
 				this.cantidadDeRondasLabel.setText(datosParaRefrescarSala.getString("rondas"));
 				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
 				this.cantidadDeBotsLabel.setText(datosParaRefrescarSala.getString("bots"));
