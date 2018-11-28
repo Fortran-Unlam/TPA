@@ -25,7 +25,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import cliente.Cliente;
-import cliente.ConexionServidor;
 import cliente.Imagen;
 import cliente.Sonido;
 import cliente.input.GestorInput;
@@ -196,9 +195,9 @@ public class VentanaJuego extends JFrame {
 	}
 
 	public void dibujarMapaJson(String jsonString) {
-		
+
 		long msActual = System.currentTimeMillis();
-		
+
 		if (!this.musicaEncendida) {
 			this.musicaEncendida = true;
 			musicaFondo.repetir();
@@ -225,37 +224,46 @@ public class VentanaJuego extends JFrame {
 			JsonArray jugadores = mapa.getJsonArray("jugadores");
 
 			for (int i = 0; i < jugadores.size(); i++) {
-				JsonObject currentObject = jugadores.getJsonObject(i);
-				JsonObject vibora = currentObject.getJsonObject("vibora");
+				JsonObject jugadorJson = jugadores.getJsonObject(i);
+				JsonObject vibora = jugadorJson.getJsonObject("vibora");
 
-				Color color = new Color(currentObject.getInt("color_red"), currentObject.getInt("color_green"),
-						currentObject.getInt("color_blue"));
+				Color color = new Color(jugadorJson.getInt("color_red"), jugadorJson.getInt("color_green"),
+						jugadorJson.getInt("color_blue"));
+
 				g2d.setColor(color);
 				g2d.setFont(new Font("default", Font.BOLD, 12));
-				g2d.drawString(currentObject.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
+				g2d.drawString(jugadorJson.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
 						(vibora.getInt("y")) * Param.PIXEL_RESIZE - 5);
+				
 				g2d.setFont(null);
 				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
-				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
-				
+				int xAnterior = vibora.getInt("x");
+				int yAnterior = vibora.getInt("y");
+				at.translate(xAnterior * Param.PIXEL_RESIZE, yAnterior * Param.PIXEL_RESIZE);
+
 				Posicion posicion = Posicion.values()[vibora.getInt("sentido") % Posicion.values().length];
-				
+
 				at.rotate(Posicion.rotacion(posicion.ordinal()), imagenCabeza.getWidth() / 2,
 						imagenCabeza.getHeight() / 2);
 
 				g2d.drawImage(imagenCabeza, at, null);
 
 				JsonArray cuerpo = vibora.getJsonArray("cuerpo");
-
+				int x;
+				int y;
 				for (int j = 0; j < cuerpo.size(); j++) {
+					x = cuerpo.getJsonObject(j).getInt("x");
+					y = cuerpo.getJsonObject(j).getInt("y");
+
 					if (vibora.getBoolean("bot")) {
-						g2d.drawImage(imagenCuerpoBot, cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
-								cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, null);
+						this.dibujarCuerpo(g2d, imagenCuerpoBot, xAnterior, yAnterior, x, y);
 					} else {
-						g2d.drawImage(imagenCuerpo, cuerpo.getJsonObject(j).getInt("x") * Param.PIXEL_RESIZE,
-								cuerpo.getJsonObject(j).getInt("y") * Param.PIXEL_RESIZE, null);
+						this.dibujarCuerpo(g2d, imagenCuerpo, xAnterior, yAnterior, x, y);
 					}
+
+					xAnterior = x;
+					yAnterior = y;
 				}
 			}
 
@@ -284,7 +292,7 @@ public class VentanaJuego extends JFrame {
 
 		g2d.setColor(Color.WHITE);
 		g2d.drawString("Time: " + String.valueOf(json.getInt("tiempoTranscurrido")) + "seg", Param.MAPA_WIDTH - 90, 30);
-		
+
 		long diff = json.getJsonNumber("currentTimeMillis").longValue();
 		g2d.drawString("Ping: " + (msActual - diff) + "ms", Param.MAPA_WIDTH - 90, 60);
 
@@ -294,17 +302,17 @@ public class VentanaJuego extends JFrame {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
 			if (json.getInt("numeroRonda") < this.totalRondas) {
-				//Termino la ronda
+				// Termino la ronda
 				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
-				
-				//TraterGanador.
+
+				// TraterGanador.
 				if (JOptionPane.showConfirmDialog(panelMapa, "El ganador es: ", "Felicitaciones!!!",
 						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-							this.dispose();
-						}
+					this.dispose();
+				}
 			}
 
 		}
@@ -318,6 +326,18 @@ public class VentanaJuego extends JFrame {
 		}
 
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+	}
+
+	private void dibujarCuerpo(Graphics2D g2d, BufferedImage imagen, int xAnterior, int yAnterior, int x, int y) {
+
+		AffineTransform at = new AffineTransform();
+		at.translate(x * Param.PIXEL_RESIZE, y * Param.PIXEL_RESIZE);
+
+		Posicion posicion = Posicion.getPosicion(xAnterior, yAnterior, x, y);
+
+		at.rotate(Posicion.rotacion(posicion.ordinal()), imagen.getWidth() / 2, imagen.getHeight() / 2);
+
+		g2d.drawImage(imagen, at, null);
 	}
 
 	private void addListener() {
