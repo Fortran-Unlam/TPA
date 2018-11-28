@@ -24,13 +24,13 @@ public abstract class Param implements Serializable {
 	public static final int MAPA_MAX_X = MAPA_WIDTH / PIXEL_RESIZE;
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
 
-	public static final int PORT_1 = 9001;
-	public static final int PORT_2 = 9002;
-	public static final int PORT_3 = 9003;	//Back off port
-	public static final int PORT_4 = 9004;	//Back off port
+	public static int PORT_1 = 9001;
+	public static int PORT_2 = 9002;
+	public static int PORT_3 = 9003;	//Back off port
+	public static int PORT_4 = 9004;	//Back off port
 	
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
-	public static final String HOST = "localhost";
+	public static String HOST = "localhost";
 	
 	public static final String CREACION_SALA_ADMIN = "admin";
 	public static final String UNION_SALA = "unionUsuarioSala";
