@@ -27,6 +27,8 @@ import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class VentanaJuego extends JFrame {
 
@@ -44,8 +46,10 @@ public class VentanaJuego extends JFrame {
 	private JButton btnSalirJuego;
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
+	private JTextField textRonda;
 
 	private Sonido musicaFondo;
+	private int totalRondas;
 
 	private JLabel lblReferencia;
 	private JLabel lblObstaculoRef;
@@ -61,13 +65,15 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private boolean musicaEncendida = false;
 
-	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
-					// de los botones.
-	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
-							// ejecucion.
+	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
+	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
+	
+	
 
-	public VentanaJuego() {
+	public VentanaJuego(int totalRondas) {
 		super("Snake");
+		
+		this.totalRondas = totalRondas;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
@@ -82,13 +88,13 @@ public class VentanaJuego extends JFrame {
 
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblScore.setBounds(16, 7, 67, 21);
+		lblScore.setBounds(10, 43, 67, 21);
 		contentPane.add(lblScore);
 
 		jListJugadores = new JList<String>();
 		jListJugadores.setBackground(SystemColor.control);
 		jListJugadores.setBorder(null);
-		jListJugadores.setBounds(10, 54, 50, 247);
+		jListJugadores.setBounds(10, 90, 50, 247);
 		jListJugadores.setOpaque(false);
 		jListJugadores.setEnabled(false);
 		contentPane.add(jListJugadores);
@@ -98,21 +104,21 @@ public class VentanaJuego extends JFrame {
 		jListFrutas.setEnabled(false);
 		jListFrutas.setBorder(null);
 		jListFrutas.setBackground(SystemColor.menu);
-		jListFrutas.setBounds(70, 54, 50, 247);
+		jListFrutas.setBounds(70, 90, 50, 247);
 		contentPane.add(jListFrutas);
 
 		lblVib = new JLabel("Viborita");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblVib.setBounds(10, 39, 50, 14);
+		lblVib.setBounds(10, 75, 50, 14);
 		contentPane.add(lblVib);
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFrutas.setBounds(70, 39, 50, 14);
+		lblFrutas.setBounds(70, 75, 50, 14);
 		this.contentPane.add(lblFrutas);
 
 		this.btnSalirJuego = new JButton("Salir juego");
-		btnSalirJuego.setBounds(10, 331, 180, 25);
+		btnSalirJuego.setBounds(10, 348, 180, 25);
 		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
@@ -140,12 +146,27 @@ public class VentanaJuego extends JFrame {
 		contentPane.add(lblOtrosJugadores);
 
 		separatorTop = new JSeparator();
-		separatorTop.setBounds(10, 299, 180, 2);
+		separatorTop.setBounds(10, 335, 180, 2);
 		contentPane.add(separatorTop);
 
 		separatorBottom = new JSeparator();
 		separatorBottom.setBounds(10, 384, 180, 2);
 		contentPane.add(separatorBottom);
+		
+		textRonda = new JTextField();
+		textRonda.setForeground(Color.WHITE);
+		textRonda.setHorizontalAlignment(SwingConstants.CENTER);
+		textRonda.setBackground(Color.BLACK);
+		textRonda.setFont(new Font("Tahoma", Font.BOLD, 13));
+		textRonda.setEditable(false);
+		textRonda.setBounds(88, 14, 72, 20);
+		contentPane.add(textRonda);
+		textRonda.setColumns(10);
+		
+		JLabel lblRonda = new JLabel("RONDA");
+		lblRonda.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblRonda.setBounds(10, 11, 67, 21);
+		contentPane.add(lblRonda);
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -255,17 +276,22 @@ public class VentanaJuego extends JFrame {
 
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(String.valueOf(json.getInt("tiempoTranscurrido")), Param.MAPA_WIDTH - 30, 30);
+		
+		this.textRonda.setText(String.valueOf(json.getInt("numeroRonda")) + " / " + String.valueOf(this.totalRondas));
 
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+			
+			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
+			//Pendiente.
+			if (json.getInt("numeroRonda") < this.totalRondas) {
+				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
+			}else{
+				musicaFondo.stop();
+				this.musicaEncendida = false;
+			}
 
-			// Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en
-			// base a eso.
-			// Pendiente.
-			g2d.drawString("Pr�xima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
-			musicaFondo.stop(); // Entre ronda y ronda la musica de fondo se desactiva?
-			this.musicaEncendida = false;
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
