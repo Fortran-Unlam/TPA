@@ -301,7 +301,7 @@ public class VentanaJuego extends JFrame {
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
-			
+
 			if (json.getInt("numeroRonda") < this.totalRondas) {
 				// Termino la ronda
 				g2d.drawString("Proxima Ronda en 2 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
@@ -309,13 +309,12 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 
-				//Traer Ganador Partida.
+				// Traer Ganador Partida.
 				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-				String mensaje = "El ganador es " + datosGanador[0] +
-								 "con " + datosGanador[1] + " frutas comidas" + 
-								 " y " + datosGanador[2] + " puntos";
-				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
-						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+				String mensaje = "El ganador es " + datosGanador[0] + "con " + datosGanador[1] + " frutas comidas"
+						+ " y " + datosGanador[2] + " puntos";
+				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!", JOptionPane.PLAIN_MESSAGE,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 					this.dispose();
 				}
 			}
@@ -329,8 +328,9 @@ public class VentanaJuego extends JFrame {
 		if (mapa.getBoolean("comioFruta")) {
 			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
-
-		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		if (this.panelMapa.getGraphics() != null) {
+			this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		}
 	}
 
 	private void dibujarCuerpo(Graphics2D g2d, BufferedImage imagen, int xAnterior, int yAnterior, int x, int y) {
@@ -338,7 +338,7 @@ public class VentanaJuego extends JFrame {
 		AffineTransform at = new AffineTransform();
 		Random r = new Random();
 		int numero = r.nextInt();
-		
+
 		Posicion posicion = Posicion.getPosicion(xAnterior, yAnterior, x, y);
 		switch (posicion) {
 		case ESTE:
