@@ -18,7 +18,7 @@ public class Cliente {
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static Sincronismo sincronismo;
-	private static Logger LOGGER = Logger.getLogger(Class.class);
+	public static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
 		new Cliente();
