@@ -205,9 +205,10 @@ public class VentanaJuego extends JFrame {
 				Color color = new Color(currentObject.getInt("color_red"), currentObject.getInt("color_green"),
 						currentObject.getInt("color_blue"));
 				g2d.setColor(color);
-				g2d.drawString(currentObject.getString("nombre"), vibora.getInt("x") * Param.PIXEL_RESIZE,
+				g2d.setFont(new Font("default", Font.BOLD, 12));
+				g2d.drawString(currentObject.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
 						(vibora.getInt("y")) * Param.PIXEL_RESIZE - 5);
-
+				g2d.setFont(null);
 				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
