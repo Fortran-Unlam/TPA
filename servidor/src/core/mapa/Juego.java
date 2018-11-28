@@ -53,8 +53,8 @@ public class Juego implements Serializable {
 
 			Servidor.actualizarJuego(this);
 			Thread.sleep(1000);
+			this.tipoJuego = new TipoJuego();
 			long tiempoInicial = System.currentTimeMillis();
-			this.tipoJuego = new TipoJuego(); // REVISAR TIPO DE JUEGO
 			while (puedeActualizar && this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
 				this.currentTimeMillis = System.currentTimeMillis();
 				this.mapa.actualizar();

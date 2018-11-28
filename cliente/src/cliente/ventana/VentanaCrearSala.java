@@ -88,7 +88,8 @@ public class VentanaCrearSala extends JFrame {
 				}
 			}
 		});
-		nombreField.setToolTipText("Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
+		nombreField.setToolTipText(
+				"Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
 		nombreField.setBounds(289, 120, 151, 25);
 		contentPane.add(nombreField);
 		nombreField.setColumns(10);
@@ -144,7 +145,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 
 		if (this.maxUsuarioField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos no puede estar vacio.", "Aviso",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios mï¿½ximos no puede estar vacio.", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -154,7 +155,8 @@ public class VentanaCrearSala extends JFrame {
 
 		int cantidadMaxJugadores = Integer.valueOf(this.maxUsuarioField.getText());
 		if (cantidadMaxJugadores < 2 || cantidadMaxJugadores >= 100) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser un numero mayor a 2 y menor a 100", "Aviso",
+			JOptionPane.showMessageDialog(null,
+					"La cantidad de usuarios mï¿½ximos debe ser un numero mayor a 2 y menor a 100", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -166,27 +168,26 @@ public class VentanaCrearSala extends JFrame {
 
 			ArrayList<String> datosSala = new ArrayList<String>();
 			// 0: nombre, 1: cantUsuariosMax
-			System.out.println("nombre sala " + this.nombreField.getText());
-			System.out.println("max usuarios " + this.maxUsuarioField.getText());
 			datosSala.add(this.nombreField.getText());
 			datosSala.add(this.maxUsuarioField.getText());
 
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
+				
 				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
 						.add("nombreSala", datosSala.get(0)).build();
 				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
-				this.ventanaSala = new VentanaSala(this.ventanaMenu, true,
-						this.nombreField.getText());
+				
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, true, this.nombreField.getText());
 				Sincronismo.setVentanaSala(ventanaSala);
-				
-				JsonObject paqueteActualizarSala = 
-						Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
-						.add("sala", this.nombreField.getText()).build();
-						
+
+				JsonObject paqueteActualizarSala = Json.createObjectBuilder()
+						.add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR).add("sala", this.nombreField.getText())
+						.build();
+
 				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSala);
-				
+
 				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null,
@@ -198,8 +199,10 @@ public class VentanaCrearSala extends JFrame {
 			JOptionPane.showMessageDialog(null,
 					"Los nombres de sala solo pueden contener letras y numeros (sin espacios).", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
+			
 			this.nombreField.setText("");
 			this.maxUsuarioField.setText("");
+			
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 		}

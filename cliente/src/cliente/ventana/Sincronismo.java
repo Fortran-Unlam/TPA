@@ -35,30 +35,32 @@ public class Sincronismo extends Thread {
 				String tipoMensaje = entradaJson.getString("type");
 
 				switch (tipoMensaje) {
-				
+
 				case Param.NOTICE_LOGUEO_BACKOFF_OK:
-					System.out.println("Logueo backoff OK");
+					Cliente.LOGGER.info("Logueo backoff OK");
 					break;
 
 				case Param.NOTICE_ACTUALIZAR_SALAS:
-					if (tipoMensaje.equals(Param.NOTICE_ACTUALIZAR_SALAS)) {
-						datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
-					}
+					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
 
 					if (ventanaUnirSala != null) {
 						ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
 					}
 					break;
-				//Hasta aca todo OK 26/11 cuando el juego empezo el servidor me avisa.
-				//Hay que ver como arrancar la ventana de juego tambien.
+				// Hasta aca todo OK 26/11 cuando el juego empezo el servidor me avisa.
+				// Hay que ver como arrancar la ventana de juego tambien.
 				case Param.NOTICE_EMPEZA_JUEGO_CLIENTE:
 					Sincronismo.ventanaSala.empezarJuegoNoAdmin();
 				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
 				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
-					//Reflejo 26/11 sucede cuando yo ya empece el juego.
-					//Recibo mensajes de mapa, los interpreta bien, pero tambien piensa que son de tipo refrescarSala.
-					try{Sincronismo.ventanaSala.refrescarSala(entradaJson);}
-					catch(Exception e) {}
+					// Reflejo 26/11 sucede cuando yo ya empece el juego.
+					// Recibo mensajes de mapa, los interpreta bien, pero tambien piensa que son de
+					// tipo refrescarSala.
+					try {
+						Sincronismo.ventanaSala.refrescarSala(entradaJson);
+					} catch (Exception e) {
+						Cliente.LOGGER.error("No se pudo refresacar salas");
+					}
 					break;
 				}
 
