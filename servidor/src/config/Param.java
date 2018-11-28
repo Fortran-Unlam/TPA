@@ -68,7 +68,6 @@ public abstract class Param implements Serializable {
 	public static final String MENSAJE_CERRAR_VENTANA ="�Esta seguro que desea salir de la Viborita?";
 	public static final String TITLE_CERRAR_VENTANA ="�Salir del juego?";
 	public static final String TIPO_JUEGO_FRUTA = "tipoJuegoFruta";
-	public static final String TIPO_JUEGO_SUPERVIVENCIA = "tipoJuegoSupervivencia";
 	public static final String TIPO_JUEGO_TIEMPO = "tipoJuegoTiempo";
 
 	public static final String SONIDO_PATH = "/sonido/";
@@ -101,5 +100,8 @@ public abstract class Param implements Serializable {
 	public static final int LIMITE_CARACTERES_CANT_BOTS = 2;
 	public static final String REQUEST_SALIR_JUEGO = "SalirDeJuego";
 	public static int BOT_NUMBER = 0;
+	public static final String CANTIDAD_DE_BOTS = "cantidadDeBots";
+	public static final String CANTIDAD_DE_FRUTAS = "cantidadDeFrutas";
+	public static final String CANTIDAD_DE_TIEMPO = "cantidadDeTiempo";
 	
 }

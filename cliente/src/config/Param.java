@@ -100,5 +100,8 @@ public abstract class Param implements Serializable {
 	public static final int LIMITE_CARACTERES_USUARIOS_MAX = 2;
 	public static final int LIMITE_CARACTERES_CANT_BOTS = 2;
 	public static final String REQUEST_SALIR_JUEGO = "SalirDeJuego";
+	public static final String CANTIDAD_DE_BOTS = "cantidadDeBots";
+	public static final String CANTIDAD_DE_FRUTAS = "cantidadDeFrutas";
+	public static final String CANTIDAD_DE_TIEMPO = "cantidadDeTiempo";
 	
 }

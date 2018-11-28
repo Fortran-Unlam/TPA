@@ -181,11 +181,12 @@ public class ConexionServidor {
 		}
 	}
 
-	public boolean comenzarJuego(int cantidadBots, int cantidadRondas) {
+	public boolean comenzarJuego(int cantidadBots, int cantidadRondas,String mapa,boolean tipoDeJuegoFruta,int cantidadDeFrutas,boolean tipoDeJuegoTiempo,int cantidadDeTiempo) {
 		try {
-			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
-					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false, \""
-					+ Param.CANTIDAD_RONDAS + "\": " + cantidadRondas + "}";
+			String request = "{\"" + Param.CANTIDAD_DE_BOTS + "\":\"" + cantidadBots + "\",\"" + Param.TIPO_JUEGO_FRUTA + "\":\""
+					+ tipoDeJuegoFruta + "\",\"" + Param.CANTIDAD_DE_FRUTAS + "\":\"" + cantidadDeFrutas + "\",\""
+					+ Param.TIPO_JUEGO_TIEMPO + "\":\"" + tipoDeJuegoTiempo + "\",\"" + Param.CANTIDAD_DE_TIEMPO + "\":\""
+					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas + "\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			System.err.println("empezar juego");
