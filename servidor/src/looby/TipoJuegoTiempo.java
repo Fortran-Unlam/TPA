@@ -14,6 +14,12 @@ public class TipoJuegoTiempo extends TipoJuegoDecorator {
 		this.tipoJuego = tipoJuego;
 	}
 
+	/**
+	 * Retorna true cuando hay menos segundos que la cantidad de segundos maximos
+	 * 
+	 * @param jugadores
+	 * @param segundos
+	 */
 	@Override
 	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
 		if (tipoJuego.termina(jugadores, segundos)) {
@@ -22,7 +28,7 @@ public class TipoJuegoTiempo extends TipoJuegoDecorator {
 		if (segundos >= this.segundosMaximos) {
 			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	public TipoJuego getTipoJuego() {
