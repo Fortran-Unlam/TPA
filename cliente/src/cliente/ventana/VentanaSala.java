@@ -338,7 +338,7 @@ public class VentanaSala extends JFrame {
 		String mapa = (String) comboMapa.getSelectedItem();
 		
 		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas,mapa,tipoDeJuegoFruta,cantidadDeFrutas,tipoDeJuegoTiempo,cantidadDeTiempo) == false) {
-			System.out.println("No se pudo creear el Juego");
+			Cliente.LOGGER.error("No se pudo creear el Juego");
 			return;
 		}
 		AvisarAOtrosUsuariosSala();

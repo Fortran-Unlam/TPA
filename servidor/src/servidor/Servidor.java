@@ -87,11 +87,11 @@ public class Servidor {
 		}
 	}
 
-	protected static boolean agregarASalasActivas(Sala sala) {
+	protected static boolean agregarASalasActivas(final Sala sala) {
 		return Servidor.salasActivas.add(sala);
 	}
 
-	protected static void removerDeSalasActivas(Sala sala) {
+	protected static void removerDeSalasActivas(final Sala sala) {
 		Servidor.salasActivas.remove(sala);
 	}
 
@@ -101,7 +101,7 @@ public class Servidor {
 	 * @param nombre El nombre de la sala a buscar
 	 * @return True si existe
 	 */
-	protected static boolean existeSala(String nombre) {
+	protected static boolean existeSala(final String nombre) {
 		for (Sala sala : Servidor.salasActivas) {
 			if (sala.getNombre().equals(nombre)) {
 				return true;
@@ -116,7 +116,7 @@ public class Servidor {
 	 * @param usuario
 	 * @return
 	 */
-	protected static boolean removerUsuarioActivo(Usuario usuario) {
+	protected static boolean removerUsuarioActivo(final Usuario usuario) {
 		return Servidor.usuariosActivos.remove(usuario);
 	}
 
@@ -126,7 +126,7 @@ public class Servidor {
 	 * @param usuario
 	 * @return
 	 */
-	protected static boolean agregarAUsuariosActivos(Usuario usuario) {
+	protected static boolean agregarAUsuariosActivos(final Usuario usuario) {
 		return Servidor.usuariosActivos.add(usuario);
 	}
 
@@ -175,7 +175,7 @@ public class Servidor {
 	 * 
 	 * @param juego
 	 */
-	public static boolean actualizarJuego(Juego juego) {
+	public static boolean actualizarJuego(final Juego juego) {
 		Mapa mapa = juego.getMapa();
 		Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
 		boolean enviar = false;
@@ -205,7 +205,7 @@ public class Servidor {
 						conexionCliente.getSalidaDatos().flush();
 						conexionCliente.getSalidaDatos().writeObject(message.toJson());
 					} catch (IOException e) {
-						LOGGER.log(Level.INFO, "No se pudo actualizar el mapa ");
+						LOGGER.error("No se pudo actualizar el mapa ");
 						return false;
 					}
 				}
@@ -221,7 +221,7 @@ public class Servidor {
 	 * 
 	 * @param conexionCliente
 	 */
-	public static void desconectar(ConexionCliente conexionCliente) {
+	public static void desconectar(final ConexionCliente conexionCliente) {
 		conexionCliente.interrupt();
 		conexionClientes.remove(conexionCliente);
 	}
@@ -231,7 +231,7 @@ public class Servidor {
 	 * 
 	 * @param conexionClienteBackOff
 	 */
-	public static void desconectarBackOff(ConexionClienteBackOff conexionClienteBackOff) {
+	public static void desconectarBackOff(final ConexionClienteBackOff conexionClienteBackOff) {
 		conexionClienteBackOff.interrupt();
 		conexionesClientesBackOff.remove(conexionClienteBackOff);
 	}
@@ -241,7 +241,7 @@ public class Servidor {
 	 * el nombre de la sala. no el id, y la informacion que envia el cliente sobre
 	 * la sala, esta basado en los datos de las ventanas.
 	 */
-	public static Sala getSalaPorNombre(String Nombre) {
+	public static Sala getSalaPorNombre(final String Nombre) {
 		for (int i = 0; i < salasActivas.size(); i++) {
 			if (salasActivas.get(i).getNombre().equals(Nombre)) {
 				return salasActivas.get(i);

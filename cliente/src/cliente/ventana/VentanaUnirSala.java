@@ -135,7 +135,6 @@ public class VentanaUnirSala extends JFrame {
 	public void refrescarListaDeSalas(JsonArray datosDeSalasDisponibles) {
 		String data[][] = new String[datosDeSalasDisponibles.size()][3];
 
-		System.out.println(data);
 		for (int i = 0; i < datosDeSalasDisponibles.size(); i++) {
 
 			data[i][0] = datosDeSalasDisponibles.getJsonObject(i).getString("nombre");

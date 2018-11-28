@@ -46,7 +46,7 @@ public class ConexionCliente extends Thread {
 			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
-			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
+			Servidor.LOGGER.error("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
 	}
 
@@ -58,7 +58,6 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
-				// System.out.println("El cliente solicita " + message.getType());
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
@@ -68,7 +67,6 @@ public class ConexionCliente extends Thread {
 							properties.getProperty("hashPassword"));
 
 					if (usuario == null) {
-						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.flush();
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
 					} else {
@@ -76,7 +74,6 @@ public class ConexionCliente extends Thread {
 						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
 
 							if (usuarioActivo.getId() == usuario.getId()) {
-								System.out.println("Usuario ya logeado");
 								this.salidaDatos.flush();
 								this.salidaDatos
 										.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
@@ -259,7 +256,7 @@ public class ConexionCliente extends Thread {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
 				} catch (IOException ex2) {
-					System.out.println("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
+					Servidor.LOGGER.error("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
 				}
 			} catch (JsonSyntaxException e) {
 				Servidor.LOGGER.error("Error de sintaxis en el json " + e.getMessage());
