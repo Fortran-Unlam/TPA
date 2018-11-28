@@ -5,13 +5,14 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,9 +28,6 @@ import cliente.Usuario;
 import cliente.ventana.VentanaMenu;
 import config.Param;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-
 public class VentanaLoginUsuario extends JFrame {
 
 	private static final long serialVersionUID = 6592698064274884489L;
@@ -40,9 +38,9 @@ public class VentanaLoginUsuario extends JFrame {
 
 	public VentanaLoginUsuario() {
 
-		setTitle("Snake");
-		setResizable(false);
-		setLocationRelativeTo(null);
+		this.setTitle("Snake");
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 		this.getContentPane().setLayout(null);
 		JLabel usernameLabel = new JLabel("Usuario");
 		usernameLabel.setToolTipText("");
@@ -54,69 +52,62 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-		/*Bloquea el control c y control v*/
-		InputMap mapUsername = username.getInputMap(username.WHEN_FOCUSED);
-		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/*Limitar cantidad de caracteres a ingresar en el campo de texto usuario*/
-		username.addKeyListener(new KeyAdapter() {
-		public void keyTyped(KeyEvent e) {
-			if (username.getText().length() >= Param.LIMITE_CARACTERES_USUARIO) {
-				e.consume();
-				Toolkit.getDefaultToolkit().beep();
-	     		}
-			}
-	    });
-			
+
+		this.limitar(this.username, Param.LIMITE_CARACTERES_USUARIO);
+
 		this.username.setToolTipText("Ingrese su usuario aqu\u00ED. Maximo 20 caracteres.");
 		this.username.setBounds(162, 61, 86, 20);
-		this.getContentPane().add(username);
 		this.username.setColumns(10);
+		this.getContentPane().add(this.username);
 
 		this.password = new JPasswordField();
-		/*Bloquea el control c y control v*/
-		InputMap mapPassword = password.getInputMap(username.WHEN_FOCUSED);
-		mapPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/*Limitar cantidad de caracteres a ingresar en el campo de texto contrase�a*/
-		password.addKeyListener(new KeyAdapter() {
-		public void keyTyped(KeyEvent e) {
-			if (password.getText().length() >= Param.LIMITE_CARACTERES_CONTRASENA) {
-				e.consume();
-				Toolkit.getDefaultToolkit().beep();
-	     		}
-			}
-	    });
+
+		this.limitar(this.password, Param.LIMITE_CARACTERES_CONTRASENA);
+
 		this.password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED. Maximo 10 caracteres.");
 		this.password.setBounds(162, 86, 86, 20);
-		this.getContentPane().add(password);
 		this.password.setColumns(10);
+		this.getContentPane().add(this.password);
 
-		btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
-		btnCrearUsuario.setBounds(96, 131, 122, 23);
-		this.getContentPane().add(btnCrearUsuario);
+		this.btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
+		this.btnCrearUsuario.setBounds(96, 131, 122, 23);
+		this.getContentPane().add(this.btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
 		lblCrearUsuario.setBounds(108, 25, 122, 14);
 		this.getContentPane().add(lblCrearUsuario);
 
-		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(96, 165, 122, 23);
-		getContentPane().add(btnRegistrarse);
+		this.btnRegistrarse = new JButton("Registrarse");
+		this.btnRegistrarse.setBounds(96, 165, 122, 23);
+		getContentPane().add(this.btnRegistrarse);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, 326, 230);
 		this.setLocationRelativeTo(null);
-		
+
 		addListener();
-		
-		this.addWindowListener(new java.awt.event.WindowAdapter() {
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		    	if (JOptionPane.showConfirmDialog(getContentPane(), Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA, 
-		                JOptionPane.YES_NO_OPTION,
-		                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
-		    	System.exit(0);
-		    	}
-		    }
+
+	}
+
+	/**
+	 * Limitar cantidad de caracteres a ingresar en el campo de texto Bloquea el
+	 * control c y control v
+	 * 
+	 * @param jTextField
+	 * @param limiteCaracteresUsuario
+	 */
+	private void limitar(final JTextField jTextField, final int limiteCaracteresUsuario) {
+		InputMap mapUsername = jTextField.getInputMap(JComponent.WHEN_FOCUSED);
+
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), null);
+
+		jTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (jTextField.getText().length() >= limiteCaracteresUsuario) {
+					e.consume();
+					Toolkit.getDefaultToolkit().beep();
+				}
+			}
 		});
 	}
 
@@ -145,19 +136,13 @@ public class VentanaLoginUsuario extends JFrame {
 			return;
 		}
 
-		// Calculo hash MD5
 		String hashPassword = DigestUtils.md5Hex(this.password.getText());
-		//Primero loguea con el server
+
 		Usuario usuario = Cliente.getConexionServidor().loguear(this.username.getText(), hashPassword);
-		
-		
-		JsonObject paqueteLogueoBackoff = 
-		Json.createObjectBuilder().add("type", Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)
-		.add("username", this.username.getText()).build();
-		
-		//Luego loguea con el backoff
-		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteLogueoBackoff);
-		
+
+		Cliente.getconexionServidorBackOff().enviarAlServer(Json.createObjectBuilder()
+				.add("type", Param.REQUEST_LOGUEO_BACKOFF_CLIENTE).add("username", this.username.getText()).build());
+
 		if (usuario != null && usuario.getId() != -1) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
@@ -173,7 +158,7 @@ public class VentanaLoginUsuario extends JFrame {
 			});
 
 			this.dispose();
-			// Usuario duplicado.
+
 		} else if (usuario != null && usuario.getId() == -1) {
 			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login", JOptionPane.ERROR_MESSAGE);
 			this.username.setText("");
@@ -195,12 +180,33 @@ public class VentanaLoginUsuario extends JFrame {
 	}
 
 	private void addListener() {
-		btnRegistrarse.addActionListener(new ActionListener() {
+
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(getContentPane(), Param.MENSAJE_CERRAR_VENTANA,
+						Param.TITLE_CERRAR_VENTANA, JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
+			}
+		});
+
+		this.btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				registrarUsuario();
 			}
 		});
-		username.addActionListener(new ActionListener() {
+		this.username.addActionListener(iniciarSessionPerformed());
+
+		this.password.addActionListener(iniciarSessionPerformed());
+
+		this.btnCrearUsuario.addActionListener(iniciarSessionPerformed());
+
+	}
+
+	private ActionListener iniciarSessionPerformed() {
+		return new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					iniciarSession();
@@ -208,24 +214,6 @@ public class VentanaLoginUsuario extends JFrame {
 					e.printStackTrace();
 				}
 			}
-		});
-		password.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					iniciarSession();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		btnCrearUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					iniciarSession();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		};
 	}
 }
