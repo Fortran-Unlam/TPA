@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.StringReader;
+import java.util.Random;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -172,10 +173,10 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
-		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH);
-		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH);
-		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH);
-		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH);
+		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
+		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
+		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
+		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
 
 		thread = new Thread() {
 			public synchronized void run() {
@@ -234,7 +235,7 @@ public class VentanaJuego extends JFrame {
 				g2d.setFont(new Font("default", Font.BOLD, 12));
 				g2d.drawString(jugadorJson.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
 						(vibora.getInt("y")) * Param.PIXEL_RESIZE - 5);
-				
+
 				g2d.setFont(null);
 				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
@@ -261,7 +262,6 @@ public class VentanaJuego extends JFrame {
 					} else {
 						this.dibujarCuerpo(g2d, imagenCuerpo, xAnterior, yAnterior, x, y);
 					}
-
 					xAnterior = x;
 					yAnterior = y;
 				}
@@ -336,10 +336,27 @@ public class VentanaJuego extends JFrame {
 	private void dibujarCuerpo(Graphics2D g2d, BufferedImage imagen, int xAnterior, int yAnterior, int x, int y) {
 
 		AffineTransform at = new AffineTransform();
-		at.translate(x * Param.PIXEL_RESIZE, y * Param.PIXEL_RESIZE);
-
+		Random r = new Random();
+		int numero = r.nextInt();
+		
 		Posicion posicion = Posicion.getPosicion(xAnterior, yAnterior, x, y);
-
+		switch (posicion) {
+		case ESTE:
+		case OESTE:
+			if (numero % 3 == 0 || numero % 4 == 0) {
+				at.translate(x * Param.PIXEL_RESIZE, y * Param.PIXEL_RESIZE);
+			} else {
+				at.translate(x * Param.PIXEL_RESIZE + 1, y * Param.PIXEL_RESIZE);
+			}
+			break;
+		default:
+			if (numero % 3 == 0 || numero % 4 == 0) {
+				at.translate(x * Param.PIXEL_RESIZE, y * Param.PIXEL_RESIZE + 1);
+			} else {
+				at.translate(x * Param.PIXEL_RESIZE, y * Param.PIXEL_RESIZE);
+			}
+			break;
+		}
 		at.rotate(Posicion.rotacion(posicion.ordinal()), imagen.getWidth() / 2, imagen.getHeight() / 2);
 
 		g2d.drawImage(imagen, at, null);

@@ -21,7 +21,7 @@ public class Sonido {
 			this.sonido = (Clip) AudioSystem.getLine(info);
 			this.sonido.open(ais);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Cliente.LOGGER.error("No se pudo reproducir el sonido " + ruta);
 		}
 	}
 	

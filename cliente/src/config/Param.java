@@ -19,7 +19,7 @@ public abstract class Param implements Serializable {
 	public static final int MAPA_WIDTH = 1000;
 	public static final int MAPA_HEIGHT = 700;
 
-	public static final int PIXEL_RESIZE = 10;
+	public static final int PIXEL_RESIZE = 12;
 
 	public static final int MAPA_MAX_X = MAPA_WIDTH / PIXEL_RESIZE;
 	public static final int MAPA_MAX_Y = MAPA_HEIGHT / PIXEL_RESIZE;
