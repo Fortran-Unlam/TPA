@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import config.Param;
@@ -31,19 +29,9 @@ public class Servidor {
 	private static ArrayList<Usuario> usuariosActivos = new ArrayList<Usuario>();
 	private static ArrayList<ConexionCliente> conexionClientes = new ArrayList<ConexionCliente>();
 	private static ArrayList<ConexionClienteBackOff> conexionesClientesBackOff = new ArrayList<ConexionClienteBackOff>();
-	private static final Logger LOGGER = Logger.getAnonymousLogger();
+	private static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
-
-		FileHandler fh = null;
-		try {
-			fh = new FileHandler("logger.log", true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		fh.setFormatter(new SimpleFormatter());
-		LOGGER.addHandler(fh);
 
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
@@ -63,7 +51,7 @@ public class Servidor {
 
 			servidorBackOffOut = new ServerSocket(Param.PORT_4, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
 
-			System.out.println("Recibiendo en el puerto: " + Param.PORT_4);
+			LOGGER.log(Level.INFO, "Corriendo en el puerto: " + Param.PORT_4);
 			while (true) {
 				socketIn = servidorIn.accept();
 				socketOut = servidorOut.accept();
@@ -81,11 +69,10 @@ public class Servidor {
 				conexionClienteBackOff.start();
 				conexionesClientesBackOff.add(conexionClienteBackOff);
 
-				LOGGER.log(Level.INFO,
-						"Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
+				LOGGER.info("Cliente con la IP " + socketIn.getInetAddress().getHostAddress() + " conectado.");
 			}
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			LOGGER.log(Level.ERROR, "No pudo abrir las conexiones " + ex.getMessage());
 		} finally {
 			try {
 				if (servidorIn != null) {
@@ -95,7 +82,7 @@ public class Servidor {
 					socketIn.close();
 				}
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				LOGGER.log(Level.ERROR, "No pudo cerrar las conexiones " + ex.getMessage());
 			}
 		}
 	}

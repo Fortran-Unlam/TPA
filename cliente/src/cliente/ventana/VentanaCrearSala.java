@@ -6,12 +6,15 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -20,12 +23,10 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 public class VentanaCrearSala extends JFrame {
 
@@ -76,7 +77,7 @@ public class VentanaCrearSala extends JFrame {
 
 		nombreField = new JTextField();
 		/* Bloquea el control c y control v */
-		InputMap mapNombreField = nombreField.getInputMap(nombreField.WHEN_FOCUSED);
+		InputMap mapNombreField = nombreField.getInputMap(JTextField.WHEN_FOCUSED);
 		mapNombreField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/* Limita cantidad de caracteres a ingresar en el campo sala */
 		nombreField.addKeyListener(new KeyAdapter() {
@@ -100,7 +101,7 @@ public class VentanaCrearSala extends JFrame {
 		maxUsuarioField = new JTextField();
 		maxUsuarioField.setText("2");
 		/* Bloquea el control c y control v */
-		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(maxUsuarioField.WHEN_FOCUSED);
+		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(JComponent.WHEN_FOCUSED);
 		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 		/* Limita cantidad de caracteres a ingresar en el campo usuarios maximos */
 		maxUsuarioField.addKeyListener(new KeyAdapter() {
@@ -151,8 +152,9 @@ public class VentanaCrearSala extends JFrame {
 			return;
 		}
 
-		if (!this.maxUsuarioField.getText().matches("[2-9]+")) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser un numero mayor a 2", "Aviso",
+		int cantidadMaxJugadores = Integer.valueOf(this.maxUsuarioField.getText());
+		if (cantidadMaxJugadores < 2 || cantidadMaxJugadores >= 100) {
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios máximos debe ser un numero mayor a 2 y menor a 100", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);
@@ -164,6 +166,8 @@ public class VentanaCrearSala extends JFrame {
 
 			ArrayList<String> datosSala = new ArrayList<String>();
 			// 0: nombre, 1: cantUsuariosMax
+			System.out.println("nombre sala " + this.nombreField.getText());
+			System.out.println("max usuarios " + this.maxUsuarioField.getText());
 			datosSala.add(this.nombreField.getText());
 			datosSala.add(this.maxUsuarioField.getText());
 

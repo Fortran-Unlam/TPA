@@ -27,6 +27,8 @@ import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class VentanaJuego extends JFrame {
 
@@ -44,8 +46,10 @@ public class VentanaJuego extends JFrame {
 	private JButton btnSalirJuego;
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
+	private JTextField textRonda;
 
 	private Sonido musicaFondo;
+	private int totalRondas;
 
 	private JLabel lblReferencia;
 	private JLabel lblObstaculoRef;
@@ -60,12 +64,16 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
 	private boolean musicaEncendida = false;
-	
+
 	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
 	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
+	
+	
 
-	public VentanaJuego() {
+	public VentanaJuego(int totalRondas) {
 		super("Snake");
+		
+		this.totalRondas = totalRondas;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
@@ -80,13 +88,13 @@ public class VentanaJuego extends JFrame {
 
 		lblScore = new JLabel("SCORE");
 		lblScore.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lblScore.setBounds(16, 7, 67, 21);
+		lblScore.setBounds(10, 43, 67, 21);
 		contentPane.add(lblScore);
 
 		jListJugadores = new JList<String>();
 		jListJugadores.setBackground(SystemColor.control);
 		jListJugadores.setBorder(null);
-		jListJugadores.setBounds(10, 54, 50, 247);
+		jListJugadores.setBounds(10, 90, 50, 247);
 		jListJugadores.setOpaque(false);
 		jListJugadores.setEnabled(false);
 		contentPane.add(jListJugadores);
@@ -96,21 +104,21 @@ public class VentanaJuego extends JFrame {
 		jListFrutas.setEnabled(false);
 		jListFrutas.setBorder(null);
 		jListFrutas.setBackground(SystemColor.menu);
-		jListFrutas.setBounds(70, 54, 50, 247);
+		jListFrutas.setBounds(70, 90, 50, 247);
 		contentPane.add(jListFrutas);
 
 		lblVib = new JLabel("Viborita");
 		lblVib.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblVib.setBounds(10, 39, 50, 14);
+		lblVib.setBounds(10, 75, 50, 14);
 		contentPane.add(lblVib);
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFrutas.setBounds(70, 39, 50, 14);
+		lblFrutas.setBounds(70, 75, 50, 14);
 		this.contentPane.add(lblFrutas);
 
 		this.btnSalirJuego = new JButton("Salir juego");
-		btnSalirJuego.setBounds(10, 331, 180, 25);
+		btnSalirJuego.setBounds(10, 348, 180, 25);
 		this.contentPane.add(btnSalirJuego);
 
 		this.panelMapa = new JPanel();
@@ -138,12 +146,27 @@ public class VentanaJuego extends JFrame {
 		contentPane.add(lblOtrosJugadores);
 
 		separatorTop = new JSeparator();
-		separatorTop.setBounds(10, 299, 180, 2);
+		separatorTop.setBounds(10, 335, 180, 2);
 		contentPane.add(separatorTop);
 
 		separatorBottom = new JSeparator();
 		separatorBottom.setBounds(10, 384, 180, 2);
 		contentPane.add(separatorBottom);
+		
+		textRonda = new JTextField();
+		textRonda.setForeground(Color.WHITE);
+		textRonda.setHorizontalAlignment(SwingConstants.CENTER);
+		textRonda.setBackground(Color.BLACK);
+		textRonda.setFont(new Font("Tahoma", Font.BOLD, 13));
+		textRonda.setEditable(false);
+		textRonda.setBounds(88, 14, 72, 20);
+		contentPane.add(textRonda);
+		textRonda.setColumns(10);
+		
+		JLabel lblRonda = new JLabel("RONDA");
+		lblRonda.setFont(new Font("Tahoma", Font.BOLD, 17));
+		lblRonda.setBounds(10, 11, 67, 21);
+		contentPane.add(lblRonda);
 
 		this.setFocusable(true);
 		this.setVisible(true);
@@ -158,20 +181,23 @@ public class VentanaJuego extends JFrame {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
-		
+
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-		//musicaFondo.repetir();
-		
+		// musicaFondo.repetir();
+
 		thread.start();
 
 		addListener();
-		
+
 		v = this;
 
 	}
 
 	public void dibujarMapaJson(String jsonString) {
-		if(!this.musicaEncendida) { this.musicaEncendida=true; musicaFondo.repetir();} //Para que la musica de fondo se active al empezar una nueva ronda.
+		if (!this.musicaEncendida) {
+			this.musicaEncendida = true;
+			musicaFondo.repetir();
+		} // Para que la musica de fondo se active al empezar una nueva ronda.
 		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
 		JsonObject json = jsonReader.readObject();
 		jsonReader.close();
@@ -194,9 +220,17 @@ public class VentanaJuego extends JFrame {
 			JsonArray jugadores = mapa.getJsonArray("jugadores");
 
 			for (int i = 0; i < jugadores.size(); i++) {
-				g2d.setColor(Color.RED);
-				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
+				JsonObject currentObject = jugadores.getJsonObject(i);
+				JsonObject vibora = currentObject.getJsonObject("vibora");
 
+				Color color = new Color(currentObject.getInt("color_red"), currentObject.getInt("color_green"),
+						currentObject.getInt("color_blue"));
+				g2d.setColor(color);
+				g2d.setFont(new Font("default", Font.BOLD, 12));
+				g2d.drawString(currentObject.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
+						(vibora.getInt("y")) * Param.PIXEL_RESIZE - 5);
+				g2d.setFont(null);
+				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
 				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth() / 2,
@@ -242,6 +276,8 @@ public class VentanaJuego extends JFrame {
 
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(String.valueOf(json.getInt("tiempoTranscurrido")), Param.MAPA_WIDTH - 30, 30);
+		
+		this.textRonda.setText(String.valueOf(json.getInt("numeroRonda")) + " / " + String.valueOf(this.totalRondas));
 
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
@@ -249,16 +285,20 @@ public class VentanaJuego extends JFrame {
 			
 			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
 			//Pendiente.
-			g2d.drawString("Pr�xima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
-			musicaFondo.stop(); //Entre ronda y ronda la musica de fondo se desactiva?
-			this.musicaEncendida = false;
+			if (json.getInt("numeroRonda") < this.totalRondas) {
+				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
+			}else{
+				musicaFondo.stop();
+				this.musicaEncendida = false;
+			}
+
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
 		if (mapa.getBoolean("murioUnJugador")) {
 			new Sonido(Param.SONIDO_MUERE_PATH).reproducir();
 		}
-		
+
 		if (mapa.getBoolean("comioFruta")) {
 			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
@@ -269,16 +309,18 @@ public class VentanaJuego extends JFrame {
 	private void addListener() {
 		this.addKeyListener(new GestorInput().teclado);
 		this.btnSalirJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				Cliente.getConexionServidor().detenerJuego(); //Detengo la accion iniciado por ComenzarJuego.
-				thread.stop(); //Esto esta deprecado pero por ahora funciona.
-				/* Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de recibir
-				 * el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo ok.
+			public void actionPerformed(ActionEvent e) {
+				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
+				thread.stop(); // Esto esta deprecado pero por ahora funciona.
+				/*
+				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de
+				 * recibir el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo
+				 * ok.
 				 * 
 				 */
-				musicaFondo.stop(); //Se para la musica.
-				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo volver para atras.
+				musicaFondo.stop(); // Se para la musica.
+				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
+								// volver para atras.
 			}
 		});
 	}
