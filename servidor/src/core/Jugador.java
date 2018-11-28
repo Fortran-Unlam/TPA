@@ -1,5 +1,8 @@
 package core;
 
+import java.awt.Color;
+import java.util.Random;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -12,6 +15,7 @@ import looby.Usuario;
 public class Jugador implements Comparable<Jugador> {
 
 	private Vibora vibora;
+	private Color color;
 	private String nombre;
 	private int frutasComidasEnRonda;
 	//private int frutasComidasEnPartida;
@@ -27,7 +31,6 @@ public class Jugador implements Comparable<Jugador> {
 		this.vibora = vibora;
 		this.nombre = nombre;
 		this.frutasComidasEnRonda = 0;
-		//this.frutasComidasEnPartida = 0;
 		this.puntosPorPartida = 0;
 	}
 
@@ -40,6 +43,12 @@ public class Jugador implements Comparable<Jugador> {
 	public Jugador(final Usuario usuario) {
 		this.nombre = usuario.getUsername();
 		this.frutasComidasEnRonda = 0;
+		Random rand = new Random();
+		this.color = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
+	}
+
+	public Color getColor() {
+		return color;
 	}
 
 	public Vibora getVibora() {
@@ -118,6 +127,9 @@ public class Jugador implements Comparable<Jugador> {
 		return Json.createObjectBuilder()
 				.add("vibora", this.vibora.toJson())
 				.add("nombre", this.nombre)
+				.add("color_red", this.color.getRed())
+				.add("color_green", this.color.getGreen())
+				.add("color_blue", this.color.getBlue())
 				.add("frutasComidasEnRonda", this.frutasComidasEnRonda)
 				.build();
 	}
