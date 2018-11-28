@@ -35,7 +35,6 @@ public class Sala implements Serializable {
 		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
 			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
-
 			return true;
 		}
 		this.salaLlena = true;
@@ -63,7 +62,6 @@ public class Sala implements Serializable {
 	 */
 	public boolean crearPartida(int cantidadBots, TipoJuego tipoJuego, int tipoMapa, int cantidadTotalRondas) {
 		if (this.partidaActual == null && this.cantidadUsuarioActuales > 1) {
-
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					cantidadTotalRondas, tipoJuego, tipoMapa);
 

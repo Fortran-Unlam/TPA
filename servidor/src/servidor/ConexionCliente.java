@@ -210,28 +210,29 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
-					int cantidadBots = Integer.valueOf(properties.getProperty("cantidadBots"));
+					int cantidadBots = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_BOTS));
 					boolean tipoJuegoFruta = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_FRUTA));
-					boolean tipoJuegoSupervivencia = Boolean
-							.valueOf(properties.getProperty(Param.TIPO_JUEGO_SUPERVIVENCIA));
+					int cantidadDeFrutas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_FRUTAS));
 					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
+					int cantidadDeTiempo = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_TIEMPO));
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
-
+						
+					System.out.println(cantidadBots + " " + tipoJuegoFruta + " " + cantidadDeFrutas + " " + tipoJuegoTiempo + " " + cantidadDeTiempo);
+					
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
 
-					//System.err.println("Juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
 					if (tipoJuegoFruta) {
 						tipoJuego = new TipoJuegoFruta(tipoJuego);
+						tipoJuego.setFrutasMaximas(cantidadDeFrutas);
 					}
-					if (tipoJuegoSupervivencia) {
-						tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
-					}
+
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
+						tipoJuego.setSegundos(cantidadDeTiempo);
 					}
 					
 					//Traer desde la conexion.

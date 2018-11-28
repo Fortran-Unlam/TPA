@@ -338,7 +338,13 @@ public class VentanaSala extends JFrame {
 	protected void empezarJuego() {
 		int totalBots = Integer.parseInt((String) cantidadDeBotsComboBox.getSelectedItem());
 		int totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
-		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas) == false) {
+		boolean tipoDeJuegoFruta = chckbxFruta.isSelected();
+		boolean tipoDeJuegoTiempo = chckbxTiempo.isSelected();
+		int cantidadDeFrutas = chckbxFruta.isSelected() ? Integer.parseInt((String) cantidadDeFrutascomboBox.getSelectedItem()) : 0;
+		int cantidadDeTiempo = chckbxTiempo.isSelected() ? Integer.parseInt((String) cantidadDeTiempoComboBox.getSelectedItem()) : 0;
+		String mapa = (String) comboMapa.getSelectedItem();
+		
+		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas,mapa,tipoDeJuegoFruta,cantidadDeFrutas,tipoDeJuegoTiempo,cantidadDeTiempo) == false) {
 			System.out.println("No se pudo creear el Juego");
 			return;
 		}
