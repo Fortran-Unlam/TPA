@@ -301,15 +301,20 @@ public class VentanaJuego extends JFrame {
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
+			
 			if (json.getInt("numeroRonda") < this.totalRondas) {
 				// Termino la ronda
-				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
+				g2d.drawString("Proxima Ronda en 2 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 
-				// TraterGanador.
-				if (JOptionPane.showConfirmDialog(panelMapa, "El ganador es: ", "Felicitaciones!!!",
+				//Traer Ganador Partida.
+				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
+				String mensaje = "El ganador es " + datosGanador[0] +
+								 "con " + datosGanador[1] + " frutas comidas" + 
+								 " y " + datosGanador[2] + " puntos";
+				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
 						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 					this.dispose();
 				}

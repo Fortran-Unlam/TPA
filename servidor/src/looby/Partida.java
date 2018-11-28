@@ -27,6 +27,7 @@ public class Partida implements Serializable {
 	private Mapa mapa;
 	private int tipoMapa;
 	private Jugador ganadorPartida;
+	private int puntosGanador;
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
 			int tipoMapa) {
@@ -68,19 +69,14 @@ public class Partida implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else {
-			//Termina la partida, actualizo estadistica.
-			int maxPuntos = jugadoresEnPartida.get(0).getPuntosPartida();
-			this.ganadorPartida = jugadoresEnPartida.get(0);
-			for (Jugador jug : jugadoresEnPartida) {
-				if (jug.getFrutasComidas() > maxPuntos) {
-					this.ganadorPartida = jug;
-				}
-			}
-			if (!(this.ganadorPartida instanceof JugadorBot)) {
+		}
+		
+		if (this.numeroRonda == this.cantidadDeRondasAJugar) {
+			this.ganadorPartida = calcularGanadorPartida();
+			if (!(ganadorPartida instanceof JugadorBot)) {
 				for (Usuario u : usuariosActivosEnSala) {
 					if (u.getJugador().equals(this.ganadorPartida)) {
-						usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasPartida();
+						usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasPartidasGanadas();
 						break;
 					}
 				}
@@ -119,28 +115,26 @@ public class Partida implements Serializable {
 					
 					for (Jugador jug : rondaEnCurso.getJugadoresEnJuego()) {
 						//Itero por jugadores, no bots.
-							boolean esGanador = false;
+							boolean sobrevivioRonda = false;
 							
 							//Determino el ganador de cada ronda.
 							if (!jug.getVibora().isDead()) {
-								esGanador = true;							
+								sobrevivioRonda = true;
+								jug.sumarPuntosSobrevivirRonda();			
 							}
-							int frutasComidas = jug.getFrutasComidas();
 							
 							//Guardo las estadisticas en la base.
 							if (!(jug instanceof JugadorBot)) {
 								for (Usuario u : usuariosActivosEnSala) {
 									if (u.getJugador().equals(jug)) {
-										usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasRonda(jug.getVibora().isDead(),esGanador,frutasComidas);
+										usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasRonda(sobrevivioRonda,jug.getFrutasComidas());
 										break;
 									}
 								}
 							}
-						// Reset estadisticas en cada ronda
-						jug.actualizarEstadisticasPartida(frutasComidas,esGanador);
 						jug.resetEstadisticasRonda();
 					}
-					Thread.sleep(3000);
+					Thread.sleep(1500);
 				} catch (InterruptedException e) {
 					// TODO Poner algo por si falla el update del usuario.
 					
@@ -153,6 +147,17 @@ public class Partida implements Serializable {
 		thread.start();
 		
 		return true;
+	}
+	
+	public Jugador calcularGanadorPartida() {
+		int maxPuntos = 0;
+		Jugador mejorJugador = jugadoresEnPartida.get(0);
+		for (Jugador jug : this.jugadoresEnPartida) {
+			if (jug.getPuntosEnPartida() > maxPuntos) {
+				mejorJugador = jug;
+			}
+		}
+		return mejorJugador;
 	}
 	
 	public Mapa crearMapaTipo(int tipoMapa) {
@@ -202,9 +207,7 @@ public class Partida implements Serializable {
 		this.partidaEnCurso = partidaEnCurso;
 	}
 	
-	public JsonObject toJson() {
-		return Json.createObjectBuilder()
-				.add("ganadorPartida", this.ganadorPartida.toJson())
-				.build();
+	public Jugador getGanador() {
+		return this.ganadorPartida;
 	}
 }

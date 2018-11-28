@@ -3,10 +3,13 @@ package cliente;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.StringReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -245,10 +248,31 @@ public class ConexionServidor {
 		}
 	}
 	
-	public String recibirGanador() {
+	public String[] recibirGanador(boolean partidaTerminada) {
 		//Recibir el ganador de cada partida. Pendiente.
+		String[] datosGanador = {"Jugador1","0","0"};
+		
 		try {
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			//El request esta al pedo me pa.
+			//String request = "{\"partidaTerminada\":" + partidaTerminada + "}";
+			this.message = new Message(Param.REQUEST_MOSTRAR_GANADOR, true);
+			this.salidaDatos.writeObject(this.message.toJson());
+			
+			Message retorno = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			datosGanador = ((String)retorno.getData()).split(";");
+			
+			switch (this.message.getType()) {
+			case Param.REQUEST_GANADOR_ENVIADO:
+				return datosGanador;
+//				
+//				"vibora"
+//				"nombre"
+//				"color_red",
+//				"color_green"
+//				"color_blue"
+//				"frutasComidasEnRonda"
+				
+			}
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -259,8 +283,7 @@ public class ConexionServidor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return "ganador 1";
+		return datosGanador;
 	}
 
 	public Usuario getUsuario() {
