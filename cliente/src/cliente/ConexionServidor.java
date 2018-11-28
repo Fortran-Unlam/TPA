@@ -3,16 +3,12 @@ package cliente;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.StringReader;
 import java.net.Socket;
 import java.util.ArrayList;
 
 import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import cliente.ventana.VentanaJuego;
 import config.Param;
@@ -46,9 +42,9 @@ public class ConexionServidor {
 			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
 
 		} catch (IOException ex) {
-			ex.printStackTrace();
+			Cliente.LOGGER.error("No puede abrir la conexion con el servidor " + ex.getMessage());
 		} catch (NullPointerException ex) {
-			ex.printStackTrace();
+			Cliente.LOGGER.error("Algun socket es null " + ex.getMessage());
 		}
 	}
 
@@ -72,17 +68,14 @@ public class ConexionServidor {
 				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 				return this.usuario;
 			case Param.REQUEST_LOGUEO_INCORRECTO:
-				System.out.println("no loguee");
 				return null;
 			case Param.REQUEST_LOGUEO_DUPLICADO:
-				System.out.println("no loguee, usuario ya logeado.");
 				return new Usuario(-1);
 			default:
 				return null;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("no pudo loguear " + e.getMessage());
+			Cliente.LOGGER.error("no pudo loguear " + e.getMessage());
 		}
 		return null;
 	}
@@ -99,22 +92,20 @@ public class ConexionServidor {
 			return this.message;
 
 		} catch (Exception e) {
-			System.out.println("no pudo registrar " + e.getMessage());
+			Cliente.LOGGER.error("no pudo registrar " + e.getMessage());
 		}
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
 
 	public Message cerrarSesionUsuario(Usuario usuario) {
 		try {
-			System.err.println("cerrar sesion");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
 
 			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 			return this.message;
 
 		} catch (Exception e) {
-			System.out.println("No se pudo cerrar sesion" + e.getMessage());
-			e.printStackTrace();
+			Cliente.LOGGER.error("No se pudo cerrar sesion" + e.getMessage());
 		}
 		return new Message(Param.REQUEST_CERRAR_SESION, null);
 	}
@@ -132,7 +123,6 @@ public class ConexionServidor {
 		try {
 
 			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
-			System.err.println("crear sala");
 			this.salidaDatos.writeObject(this.message.toJson());
 			while (true) {
 
@@ -143,7 +133,6 @@ public class ConexionServidor {
 				// informacion del juego
 				// Y yo estoy esperando otros mensajes no informacion de un juego al que no
 				// pertenezco.
-				System.out.println(this.message.getType());
 				switch (this.message.getType()) {
 				case Param.REQUEST_SALA_CREADA:
 					return true;
@@ -152,14 +141,8 @@ public class ConexionServidor {
 				}
 			}
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return false;
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
 		}
 		return false;
 	}
@@ -173,14 +156,9 @@ public class ConexionServidor {
 	public void SalirSala(String nombreSala) {
 		try {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
-			System.err.println("salir sala");
 			this.salidaDatos.writeObject(this.message.toJson());
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
 		}
 	}
 
@@ -192,7 +170,6 @@ public class ConexionServidor {
 					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas + "\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
-			System.err.println("empezar juego");
 			this.salidaDatos.writeObject(this.message.toJson());
 
 			while (socketIn.isClosed() == false && recibirMapa) {
@@ -204,14 +181,8 @@ public class ConexionServidor {
 				}
 			}
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
-			return false;
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-			return false;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en comenzar juego " + ex.getMessage());
 		}
 		return false;
 	}
@@ -221,10 +192,10 @@ public class ConexionServidor {
 	public void detenerJuego() {
 		this.recibirMapa = false;
 		this.message = new Message(Param.REQUEST_SALIR_JUEGO, "");
-		System.err.println("Salir juego");
 		try {
 			this.salidaDatos.writeObject(this.message.toJson());
-		} catch (IOException e) {
+		} catch (IOException ex) {
+			Cliente.LOGGER.error("Error al detener juego " + ex.getMessage());
 		}
 	}
 
@@ -240,22 +211,21 @@ public class ConexionServidor {
 				}
 			}
 
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
 		}
 	}
 	
+	/**
+	 * Recibir el ganador de cada partida. Pendiente.
+	 * 
+	 * @param partidaTerminada
+	 * @return
+	 */
 	public String[] recibirGanador(boolean partidaTerminada) {
-		//Recibir el ganador de cada partida. Pendiente.
 		String[] datosGanador = {"Jugador1","0","0"};
 		
 		try {
-			//El request esta al pedo me pa.
-			//String request = "{\"partidaTerminada\":" + partidaTerminada + "}";
 			this.message = new Message(Param.REQUEST_MOSTRAR_GANADOR, true);
 			this.salidaDatos.writeObject(this.message.toJson());
 			
@@ -265,7 +235,6 @@ public class ConexionServidor {
 			switch (this.message.getType()) {
 			case Param.REQUEST_GANADOR_ENVIADO:
 				return datosGanador;
-//				
 //				"vibora"
 //				"nombre"
 //				"color_red",
@@ -274,15 +243,8 @@ public class ConexionServidor {
 //				"frutasComidasEnRonda"
 				
 			}
-		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en recibir ganador " + ex.getMessage());
 		}
 		return datosGanador;
 	}
@@ -303,15 +265,18 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos.reset();
 			this.salidaDatos.writeObject(this.message.toJson());
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException ex) {
+			Cliente.LOGGER.error("Error al enviar tecla " + ex.getMessage());
 		}
 
 	}
-
+	
+	/**
+	 * Se queda esperando que el servidor le envie las salas
+	 * @return
+	 */
 	public String recibirActualizacionDeSala() {
 		try {
-			// se queda esperando que el server env�e alg�n tipo de actualizacion;
 			while(true) {				
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 				
@@ -319,15 +284,8 @@ public class ConexionServidor {
 					return (String) message.getData();
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			//TODO: log
-		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
-			//TODO: log
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			//TODO: log
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en recibir actualizar sala" + ex.getMessage());
 		}
 		return null;
 
@@ -340,16 +298,11 @@ public class ConexionServidor {
 	 */
 	public String unirseASala(String salaSeleccionada) {
 		try {
-			System.err.println("ingreso sala");
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
 			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
 			return (String) retorno.getData();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} catch (NullPointerException ex) {
-			ex.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			Cliente.LOGGER.error("Error en unirse a sala " + ex.getMessage());
 		}
 		return null;
 	}
