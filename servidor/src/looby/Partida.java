@@ -2,15 +2,12 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.json.Json;
 import javax.json.JsonObject;
-import javax.swing.InternalFrameFocusTraversalPolicy;
 
 import core.Jugador;
 import core.JugadorBot;
-import core.entidad.ViboraBot;
 import core.mapa.Juego;
 import core.mapa.Mapa;
 import core.mapa.MapaUno;
@@ -30,7 +27,6 @@ public class Partida implements Serializable {
 	private Mapa mapa;
 	private int tipoMapa;
 	private Jugador ganadorPartida;
-	private int contadorProximaPartida = 0;
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
 			int tipoMapa) {
@@ -64,7 +60,7 @@ public class Partida implements Serializable {
 				System.out.println("Ronda " + (++this.numeroRonda));
 				this.partidaEnCurso = true;
 				//Inicia el mapa antes de cada ronda.
-				this.mapa = crearMapa(tipoMapa);
+				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
 					this.rondasJugadas.add(this.rondaEnCurso);
@@ -159,13 +155,15 @@ public class Partida implements Serializable {
 		return true;
 	}
 	
-	public Mapa crearMapa(int tipoMapa) {
-
+	public Mapa crearMapaTipo(int tipoMapa) {
+		//Devuelve un mapa en base al tipo enviado.
 		switch(tipoMapa) {
 			case 1:
 				return new MapaUno();
 //			case 2:
 //				return new MapaDos();
+//			case 3:
+//				return new MapaTres();
 		}
 		return new MapaUno();
 	}
@@ -206,8 +204,6 @@ public class Partida implements Serializable {
 	
 	public JsonObject toJson() {
 		return Json.createObjectBuilder()
-				.add("cantidadDeRondasAJugar", cantidadDeRondasAJugar)
-				.add("numeroRonda", this.numeroRonda)
 				.add("ganadorPartida", this.ganadorPartida.toJson())
 				.build();
 	}

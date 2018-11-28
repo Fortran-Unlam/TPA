@@ -244,6 +244,24 @@ public class ConexionServidor {
 			e.printStackTrace();
 		}
 	}
+	
+	public String recibirGanador() {
+		//Recibir el ganador de cada partida. Pendiente.
+		try {
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+		} catch (JsonSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "ganador 1";
+	}
 
 	public Usuario getUsuario() {
 		return usuario;

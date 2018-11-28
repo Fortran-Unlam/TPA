@@ -10,6 +10,7 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -32,7 +33,7 @@ public class Servidor {
 	private static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
-
+		//BasicConfigurator.configure();
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
 		ServerSocket servidorBackOffIn = null;
@@ -43,6 +44,7 @@ public class Servidor {
 		Socket socketBackOffOut = null;
 
 		try {
+			
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);

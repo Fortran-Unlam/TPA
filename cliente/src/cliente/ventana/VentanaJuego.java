@@ -18,10 +18,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import cliente.Cliente;
+import cliente.ConexionServidor;
 import cliente.Imagen;
 import cliente.Sonido;
 import cliente.input.GestorInput;
@@ -283,13 +285,19 @@ public class VentanaJuego extends JFrame {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
 			
-			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
-			//Pendiente.
 			if (json.getInt("numeroRonda") < this.totalRondas) {
+				//Termino la ronda
 				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			}else{
+				//Termino la partida
 				musicaFondo.stop();
 				this.musicaEncendida = false;
+				
+				//TraterGanador.
+				if (JOptionPane.showConfirmDialog(panelMapa, "El ganador es: ", "Felicitaciones!!!",
+						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+							this.dispose();
+						}
 			}
 
 		}
