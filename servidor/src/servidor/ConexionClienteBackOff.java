@@ -30,7 +30,7 @@ public class ConexionClienteBackOff extends Thread {
 			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
-			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
+			Servidor.LOGGER.error("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
 	}
 
@@ -48,7 +48,6 @@ public class ConexionClienteBackOff extends Thread {
 
 				String tipoDeMensaje = entradaJson.getString("type");
 
-				// Guardo el usuario dentro de mi conexi�nBackOff
 				if (tipoDeMensaje.equals(Param.REQUEST_LOGUEO_BACKOFF_CLIENTE)) {
 					for (Usuario u : Servidor.getUsuariosActivos()) {
 						if (u.getUsername().equals(entradaJson.getString("username"))) {
@@ -63,10 +62,10 @@ public class ConexionClienteBackOff extends Thread {
 					}
 				}
 
-				// Este if es el que actualiza la ventana sala
 				if (tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) || tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
 						|| tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)
 						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
+
 					enviarActualizacionSalasALosClientes();
 				}
 
@@ -82,48 +81,51 @@ public class ConexionClienteBackOff extends Thread {
 					enviarActualizacionAClientesDeUnaSalaParticular(entradaJson);
 				}
 
-				// Si recibo un mensaje de que se empezo un juego, informo a todos los clientes
-				// o usuarios de su sala.
+				/*
+				 * Si recibo un mensaje de que se empezo un juego, informo a todos los clientes
+				 * o usuarios de su sala.
+				 */
 				if (tipoDeMensaje.equals(Param.NOTICE_EMPEZAR_JUEGO)) {
 					enviarEmpezarJuegoAClientesDeUnaSalaParticular(entradaJson);
 				}
 
 			} catch (IOException ex) {
-				System.out.println(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
+				Servidor.LOGGER.error(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
 						+ " desconectado del backOff.");
 				conectado = false;
 				try {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
 				} catch (IOException ex2) {
-					System.out
-							.println("Error al cerrar los stream de entrada y salida del backoff:" + ex2.getMessage());
+					Servidor.LOGGER
+							.error("Error al cerrar los stream de entrada y salida del backoff:" + ex2.getMessage());
 				}
-			} catch (ClassNotFoundException e1) {
-				e1.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				Servidor.LOGGER.error("Error en el backoff" + e.getMessage());
 			}
 		}
 		Servidor.desconectarBackOff(this);
 	}
 
-	// Metodo que pretende avisarle a todos los usuarios de una sala que el juego ya
-	// empezo.
+	/**
+	 * Metodo que pretende avisarle a todos los usuarios de una sala que el juego ya
+	 * empezo. Menos al admin que es el que va a ejecutar el juego
+	 * 
+	 * @param entradaJson
+	 */
 	private void enviarEmpezarJuegoAClientesDeUnaSalaParticular(JsonObject entradaJson) {
-		// Obtengo el nombre de la sala que ya empezo el juego.
 		Sala salaARefrescar = Servidor.getSalaPorNombre(entradaJson.getString("sala"));
 		JsonObject paqueteAEnviar;
 		paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build();
 
 		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
 			try {
-				// Le voy a informar a todos menos al admin que el ya se entera cuando empieza.
 				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)
 						&& c.getUsuario() != salaARefrescar.getAdministrador()) {
 					c.salidaDatos.writeObject(paqueteAEnviar.toString());
 				}
 			} catch (IOException e) {
-				System.err.println("Fallo la escritura de datos de actualizar parametros sala");
-				e.printStackTrace();
+				Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 			}
 		}
 	}
@@ -132,21 +134,20 @@ public class ConexionClienteBackOff extends Thread {
 		return this.usuario;
 	}
 
+	/**
+	 * Envia a todos los clientes las salas
+	 */
 	public void enviarActualizacionSalasALosClientes() {
-		// Pido los datos de las salas
 		JsonArray datosDeSalas = Servidor.getAllSalas();
 		JsonObjectBuilder paqueteActualizacionDeSalas = Json.createObjectBuilder();
 		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS).add("datosDeSalas", datosDeSalas);
 
 		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
-			// Recorro todo el ArrayList de Conexiones de clientes de backoff y le envio las
-			// salas actualizadas
 			try {
 				conexion.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
 			} catch (IOException e) {
-				System.err.println(
-						"Hubo un error, del lado del servidor, en la actualizacion de las salas a los clientes");
-				e.printStackTrace();
+				Servidor.LOGGER
+						.error("Hubo un error, del lado del servidor, en la actualizacion de las salas a los clientes");
 			}
 		}
 	}
@@ -175,8 +176,7 @@ public class ConexionClienteBackOff extends Thread {
 					.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
 					.add("tiempo", entradaJson.getBoolean("tiempo"))
 					.add("cantTiempo", entradaJson.getString("cantTiempo"))
-					.add("tipoMapa", entradaJson.getString("mapa"))
-					.add("rondas", entradaJson.getString("rondas"))
+					.add("tipoMapa", entradaJson.getString("mapa")).add("rondas", entradaJson.getString("rondas"))
 					.add("bots", entradaJson.getString("bots")).build();
 		}
 
@@ -186,8 +186,7 @@ public class ConexionClienteBackOff extends Thread {
 					c.salidaDatos.writeObject(paqueteAEnviar.toString());
 				}
 			} catch (IOException e) {
-				System.err.println("Fallo la escritura de datos de actualizar parametros sala");
-				e.printStackTrace();
+				Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 			}
 		}
 
