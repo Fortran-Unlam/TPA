@@ -172,10 +172,10 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
-		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH);
-		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH);
-		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH);
-		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH);
+		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
+		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
+		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
+		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
 
 		thread = new Thread() {
 			public synchronized void run() {

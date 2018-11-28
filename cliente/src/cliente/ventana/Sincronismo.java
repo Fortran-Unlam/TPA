@@ -65,7 +65,7 @@ public class Sincronismo extends Thread {
 				}
 
 			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
+				Cliente.LOGGER.error("Hubo un error al sincronizar" + e.getMessage());
 			}
 		}
 	}
