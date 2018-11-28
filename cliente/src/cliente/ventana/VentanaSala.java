@@ -1,22 +1,23 @@
 package cliente.ventana;
 
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -25,18 +26,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+
 import cliente.Cliente;
 import cliente.Sonido;
 import config.Param;
-import javax.swing.JComboBox;
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
-import javax.swing.KeyStroke;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 
 public class VentanaSala extends JFrame {
 
@@ -172,12 +165,12 @@ public class VentanaSala extends JFrame {
 
 		cantidadDeFrutascomboBox = new JComboBox<Object>();
 
-		cantidadDeFrutascomboBox.setModel(new DefaultComboBoxModel(new String[] { "50", "75", "100", "125", "150" }));
+		cantidadDeFrutascomboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "10", "15", "20", "25", "30", "35" }));
 		cantidadDeFrutascomboBox.setBounds(496, 95, 72, 24);
 		contentPane.add(cantidadDeFrutascomboBox);
 
 		cantidadDeTiempoComboBox = new JComboBox<Object>();
-		cantidadDeTiempoComboBox.setModel(new DefaultComboBoxModel(new String[] { "50", "75", "100", "1000" }));
+		cantidadDeTiempoComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "20", "30", "40", "50" }));
 		cantidadDeTiempoComboBox.setBounds(496, 135, 72, 24);
 		contentPane.add(cantidadDeTiempoComboBox);
 
@@ -284,7 +277,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeFrutasLabel);
 
 		cantidadDeBotsComboBox = new JComboBox<Object>();
-		cantidadDeBotsComboBox.setModel(new DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5" }));
+		cantidadDeBotsComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
 		cantidadDeBotsComboBox.setBounds(450, 239, 69, 20);
 		contentPane.add(cantidadDeBotsComboBox);
 
