@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import cliente.Cliente;
 import cliente.Imagen;
@@ -27,8 +29,6 @@ import cliente.Sonido;
 import cliente.input.GestorInput;
 import config.Param;
 import config.Posicion;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class VentanaJuego extends JFrame {
 
@@ -65,14 +65,14 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private boolean musicaEncendida = false;
 
-	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
-	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
-	
-	
+	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
+					// de los botones.
+	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
+							// ejecucion.
 
 	public VentanaJuego(int totalRondas) {
 		super("Snake");
-		
+
 		this.totalRondas = totalRondas;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -152,7 +152,7 @@ public class VentanaJuego extends JFrame {
 		separatorBottom = new JSeparator();
 		separatorBottom.setBounds(10, 384, 180, 2);
 		contentPane.add(separatorBottom);
-		
+
 		textRonda = new JTextField();
 		textRonda.setForeground(Color.WHITE);
 		textRonda.setHorizontalAlignment(SwingConstants.CENTER);
@@ -162,7 +162,7 @@ public class VentanaJuego extends JFrame {
 		textRonda.setBounds(88, 14, 72, 20);
 		contentPane.add(textRonda);
 		textRonda.setColumns(10);
-		
+
 		JLabel lblRonda = new JLabel("RONDA");
 		lblRonda.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblRonda.setBounds(10, 11, 67, 21);
@@ -194,6 +194,9 @@ public class VentanaJuego extends JFrame {
 	}
 
 	public void dibujarMapaJson(String jsonString) {
+		
+		long msActual = System.currentTimeMillis();
+		
 		if (!this.musicaEncendida) {
 			this.musicaEncendida = true;
 			musicaFondo.repetir();
@@ -275,25 +278,28 @@ public class VentanaJuego extends JFrame {
 		}
 
 		g2d.setColor(Color.WHITE);
-		g2d.drawString(String.valueOf(json.getInt("tiempoTranscurrido")), Param.MAPA_WIDTH - 30, 30);
+		g2d.drawString("Time: " + String.valueOf(json.getInt("tiempoTranscurrido")) + "seg", Param.MAPA_WIDTH - 90, 30);
 		
+		long diff = json.getJsonNumber("currentTimeMillis").longValue();
+		g2d.drawString("Ping: " + (msActual - diff) + "ms", Param.MAPA_WIDTH - 90, 60);
+
 		this.textRonda.setText(String.valueOf(json.getInt("numeroRonda")) + " / " + String.valueOf(this.totalRondas));
 
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
-			
-			//Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en base a eso.
-			//Pendiente.
+
+			// Se deberia mandar de alguna manera el numero de ronda y poner este mensaje en
+			// base a eso.
+			// Pendiente.
 			if (json.getInt("numeroRonda") < this.totalRondas) {
 				g2d.drawString("Proxima Ronda en 3 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
-			}else{
+			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 			}
 
 		}
-		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
 		if (mapa.getBoolean("murioUnJugador")) {
 			new Sonido(Param.SONIDO_MUERE_PATH).reproducir();
@@ -302,8 +308,8 @@ public class VentanaJuego extends JFrame {
 		if (mapa.getBoolean("comioFruta")) {
 			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
-		long diff = json.getJsonNumber("currentTimeMillis").longValue();
-//		System.out.println("ms: " + (diff - System.currentTimeMillis()));
+
+		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 	}
 
 	private void addListener() {
