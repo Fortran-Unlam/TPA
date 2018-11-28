@@ -209,7 +209,7 @@ public class ConexionServidor {
 		}
 	}
 
-	public boolean comenzarJuego(String cantidadBots, int cantidadRondas) {
+	public boolean comenzarJuego(int cantidadBots, int cantidadRondas) {
 		try {
 			String request = "{\"cantidadBots\":" + cantidadBots + ",\"" + Param.TIPO_JUEGO_FRUTA + "\": true, \""
 					+ Param.TIPO_JUEGO_SUPERVIVENCIA + "\": true, \"" + Param.TIPO_JUEGO_TIEMPO + "\": false, \""

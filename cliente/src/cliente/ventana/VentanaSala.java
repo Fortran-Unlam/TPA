@@ -35,6 +35,8 @@ import javax.swing.KeyStroke;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 
 public class VentanaSala extends JFrame {
 
@@ -43,27 +45,26 @@ public class VentanaSala extends JFrame {
 	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
 	private JLabel lblCantidadBots;
-	private JLabel lblBots;
 	private JPanel contentPane;
 	private JFrame ventanaMenu;
 	private String nombreSala;
 	private JButton btnEmpezarJuego;
 	private JCheckBox chckbxFruta;
 	private JCheckBox chckbxTiempo;
-	private JComboBox<Object> comboMapa;
-	private JComboBox<Object> comboCantRondas;
 	private JButton btnSalirDeSala;
+	private JButton btnActualizarParamSala;
 	private JLabel lblAdmin;
-	private JTextField cantBots;
 	private boolean visibiliadAdmin;
 	private JLabel mapaParaNoAdmin;
-	private JTextField rondasParaNoAdmin;
-	private JTextField cantidadDeFrutasTextField;
-	private JTextField tiempoTextField;
-	private boolean cantidadDeFrutasCorrectas = true;
-	private boolean cantidadDeTiempoCorrecto = true;
 	private JLabel cantidadDeFrutasLabel;
 	private JLabel cantidadDeTiempoLabel;
+	private JLabel cantidadDeBotsLabel;
+	private JLabel cantidadDeRondasLabel;
+	private JComboBox<Object> comboMapa;
+	private JComboBox<Object> comboCantRondas;
+	private JComboBox<Object> cantidadDeTiempoComboBox;
+	private JComboBox<Object> cantidadDeFrutascomboBox;
+	private JComboBox<Object> cantidadDeBotsComboBox;
 
 	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -75,45 +76,32 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotonesYRefrescarCambios() {
-		if (this.cantidadDeFrutasCorrectas && this.cantidadDeTiempoCorrecto && comboMapa.getSelectedIndex() != 0
-				&& !cantBots.getText().isEmpty() && comboCantRondas.getSelectedIndex() != 0) {
+		if (comboMapa.getSelectedIndex() != 0 && comboCantRondas.getSelectedIndex() != 0) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
 		}
 
 		if (chckbxFruta.isSelected() && this.visibiliadAdmin) {
-			this.cantidadDeFrutasTextField.setEnabled(true);
+			this.cantidadDeFrutascomboBox.setEnabled(true);
 		}
 
 		if (!chckbxFruta.isSelected() && this.visibiliadAdmin) {
-			this.cantidadDeFrutasTextField.setEnabled(false);
-			this.cantidadDeFrutasTextField.setText("");
-			this.cantidadDeFrutasCorrectas = true;
+			this.cantidadDeFrutascomboBox.setSelectedIndex(0);
+			this.cantidadDeFrutascomboBox.setEnabled(false);
 		}
 
 		if (chckbxTiempo.isSelected() && this.visibiliadAdmin) {
-			this.tiempoTextField.setEnabled(true);
+			this.cantidadDeTiempoComboBox.setEnabled(true);
 		}
 
 		if (!chckbxTiempo.isSelected() && this.visibiliadAdmin) {
-			this.tiempoTextField.setEnabled(false);
-			this.tiempoTextField.setText("");
-			this.cantidadDeTiempoCorrecto = true;
+			this.cantidadDeTiempoComboBox.setSelectedIndex(0);
+			this.cantidadDeTiempoComboBox.setEnabled(false);
 		}
+	}
 
-		if (cantBots.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacia", "Atencion",
-					JOptionPane.WARNING_MESSAGE);
-			cantBots.setText("0");
-		} else {
-			if (!cantBots.getText().matches("[0-9]+")) {
-				JOptionPane.showMessageDialog(null, "La cantidad de bots debe ser numerica", "Atencion",
-						JOptionPane.WARNING_MESSAGE);
-				cantBots.setText("0");
-			}
-		}
-
+	private void enviarCambiosDeSala() {
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
 		// Agrego parametros
@@ -121,10 +109,14 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
 
 		nombreSalatipoJuegoMapaYBots.add("fruta", chckbxFruta.isSelected());
-		nombreSalatipoJuegoMapaYBots.add("cantidadDeFrutas", this.cantidadDeFrutasTextField.getText());
+
+		nombreSalatipoJuegoMapaYBots.add("cantidadDeFrutas",
+				String.valueOf(chckbxFruta.isSelected() ? this.cantidadDeFrutascomboBox.getSelectedItem() : "0"));
 
 		nombreSalatipoJuegoMapaYBots.add("tiempo", chckbxTiempo.isSelected());
-		nombreSalatipoJuegoMapaYBots.add("cantidadDeTiempo", this.tiempoTextField.getText());
+
+		nombreSalatipoJuegoMapaYBots.add("cantTiempo",
+				String.valueOf(chckbxTiempo.isSelected() ? this.cantidadDeTiempoComboBox.getSelectedItem() : "0"));
 
 		if (comboMapa.getSelectedIndex() == 0) {
 			nombreSalatipoJuegoMapaYBots.add("mapa", "Aun no se ha determinado");
@@ -138,35 +130,9 @@ public class VentanaSala extends JFrame {
 			nombreSalatipoJuegoMapaYBots.add("rondas", (String) comboCantRondas.getSelectedItem());
 		}
 
-		nombreSalatipoJuegoMapaYBots.add("bots", cantBots.getText());
+		nombreSalatipoJuegoMapaYBots.add("bots", String.valueOf(cantidadDeBotsComboBox.getSelectedItem()));
 
 		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoMapaYBots.build());
-	}
-
-	private void verificarFrutas() {
-		if (chckbxFruta.isSelected()
-				&& (cantidadDeFrutasTextField.getText().isEmpty()
-						|| Integer.valueOf(cantidadDeFrutasTextField.getText()) <= 0
-						|| Integer.valueOf(cantidadDeFrutasTextField.getText()) > 1000)
-				|| !this.cantidadDeFrutasTextField.getText().matches("[0-9]+")) {
-			JOptionPane.showMessageDialog(null,
-					"La cantidad de fruta no puede estar vacia, ser negativa o mayor a mil.", "Atencion",
-					JOptionPane.WARNING_MESSAGE);
-			this.cantidadDeFrutasCorrectas = false;
-		} else
-			this.cantidadDeFrutasCorrectas = true;
-	}
-
-	private void verificarTiempo() {
-		if (chckbxTiempo.isSelected()
-				&& (tiempoTextField.getText().isEmpty() || Integer.valueOf(tiempoTextField.getText()) <= 0
-						|| Integer.valueOf(tiempoTextField.getText()) > 1000)) {
-			JOptionPane.showMessageDialog(null,
-					"La cantidad de tiempo no puede estar vacia, ser negativa o mayor a mil segundos.", "Atencion",
-					JOptionPane.WARNING_MESSAGE);
-			this.cantidadDeTiempoCorrecto = false;
-		} else
-			this.cantidadDeTiempoCorrecto = true;
 	}
 
 	// Este metodo pretende avisarle a los otros usuarios de la sala que ya pueden
@@ -196,6 +162,25 @@ public class VentanaSala extends JFrame {
 		setVisible(true);
 
 		getContentPane().setLayout(null);
+
+		cantidadDeBotsLabel = new JLabel();
+		cantidadDeBotsLabel.setBounds(368, 238, 72, 18);
+		contentPane.add(cantidadDeBotsLabel);
+
+		cantidadDeTiempoLabel = new JLabel();
+		cantidadDeTiempoLabel.setBounds(436, 135, 52, 24);
+		contentPane.add(cantidadDeTiempoLabel);
+
+		cantidadDeFrutascomboBox = new JComboBox<Object>();
+
+		cantidadDeFrutascomboBox.setModel(new DefaultComboBoxModel(new String[] { "50", "75", "100", "125", "150" }));
+		cantidadDeFrutascomboBox.setBounds(496, 95, 72, 24);
+		contentPane.add(cantidadDeFrutascomboBox);
+
+		cantidadDeTiempoComboBox = new JComboBox<Object>();
+		cantidadDeTiempoComboBox.setModel(new DefaultComboBoxModel(new String[] { "50", "75", "100", "1000" }));
+		cantidadDeTiempoComboBox.setBounds(496, 135, 72, 24);
+		contentPane.add(cantidadDeTiempoComboBox);
 
 		btnSalirDeSala = new JButton("Salir de sala");
 		btnSalirDeSala.setBounds(326, 346, 162, 40);
@@ -253,12 +238,12 @@ public class VentanaSala extends JFrame {
 
 		chckbxFruta = new JCheckBox("Fruta");
 		chckbxFruta.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
-		chckbxFruta.setBounds(366, 95, 130, 23);
+		chckbxFruta.setBounds(366, 95, 68, 23);
 		contentPane.add(chckbxFruta);
 
 		chckbxTiempo = new JCheckBox("Tiempo");
 		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
-		chckbxTiempo.setBounds(366, 136, 130, 23);
+		chckbxTiempo.setBounds(366, 136, 68, 23);
 		contentPane.add(chckbxTiempo);
 
 		this.lblAdmin = new JLabel("");
@@ -272,23 +257,6 @@ public class VentanaSala extends JFrame {
 		lblCantidadBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCantidadBots.setBounds(236, 237, 111, 20);
 		contentPane.add(lblCantidadBots);
-		cantBots = new JTextField();
-		/* Bloquea el control c y control v */
-		InputMap MapCantBotsField = cantBots.getInputMap(cantBots.WHEN_FOCUSED);
-		MapCantBotsField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-
-		cantBots.setHorizontalAlignment(SwingConstants.LEFT);
-		cantBots.setToolTipText("Debe ingresar la cantidad de bots si lo desea.");
-		cantBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cantBots.setText("0");
-		cantBots.setBounds(368, 237, 32, 20);
-		contentPane.add(cantBots);
-		cantBots.setColumns(10);
-
-		lblBots = new JLabel("");
-		lblBots.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblBots.setBounds(377, 250, 32, 20);
-		contentPane.add(lblBots);
 
 		mapaParaNoAdmin = new JLabel("Aun no se ha determinado");
 		mapaParaNoAdmin.setBounds(368, 194, 151, 20);
@@ -301,7 +269,7 @@ public class VentanaSala extends JFrame {
 
 		comboCantRondas = new JComboBox<Object>();
 		comboCantRondas.setToolTipText("Debe seleccionar cantidad de rondas.");
-		comboCantRondas.setBounds(368, 268, 151, 25);
+		comboCantRondas.setBounds(368, 285, 151, 25);
 		contentPane.add(comboCantRondas);
 		comboCantRondas.setBounds(368, 268, 151, 20);
 		comboCantRondas.addItem("Seleccione Rondas");
@@ -312,33 +280,24 @@ public class VentanaSala extends JFrame {
 		comboCantRondas.addItem("5");
 		contentPane.add(comboCantRondas);
 
-		rondasParaNoAdmin = new JTextField();
-		rondasParaNoAdmin.setText("0");
-		rondasParaNoAdmin.setHorizontalAlignment(SwingConstants.LEFT);
-		rondasParaNoAdmin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		rondasParaNoAdmin.setColumns(10);
-		rondasParaNoAdmin.setBounds(368, 268, 32, 20);
-		contentPane.add(rondasParaNoAdmin);
-
-		cantidadDeFrutasTextField = new JTextField();
-		cantidadDeFrutasTextField.setEnabled(false);
-		cantidadDeFrutasTextField.setBounds(498, 96, 86, 20);
-		contentPane.add(cantidadDeFrutasTextField);
-		cantidadDeFrutasTextField.setColumns(10);
-
-		tiempoTextField = new JTextField();
-		tiempoTextField.setEnabled(false);
-		tiempoTextField.setBounds(498, 137, 86, 20);
-		contentPane.add(tiempoTextField);
-		tiempoTextField.setColumns(10);
-
 		cantidadDeFrutasLabel = new JLabel();
-		cantidadDeFrutasLabel.setBounds(427, 95, 69, 20);
+		cantidadDeFrutasLabel.setBounds(436, 95, 52, 24);
 		contentPane.add(cantidadDeFrutasLabel);
 
-		cantidadDeTiempoLabel = new JLabel();
-		cantidadDeTiempoLabel.setBounds(430, 138, 66, 18);
-		contentPane.add(cantidadDeTiempoLabel);
+		cantidadDeBotsComboBox = new JComboBox<Object>();
+		cantidadDeBotsComboBox.setModel(new DefaultComboBoxModel(new String[] { "0", "1", "2", "3", "4", "5" }));
+		cantidadDeBotsComboBox.setBounds(450, 239, 69, 20);
+		contentPane.add(cantidadDeBotsComboBox);
+
+		cantidadDeRondasLabel = new JLabel();
+		cantidadDeRondasLabel.setBounds(368, 268, 66, 20);
+		contentPane.add(cantidadDeRondasLabel);
+
+		btnActualizarParamSala = new JButton();
+
+		btnActualizarParamSala.setIcon(new ImageIcon(VentanaSala.class.getResource("/iconos/ico_refresh.png")));
+		btnActualizarParamSala.setBounds(510, 346, 46, 40);
+		contentPane.add(btnActualizarParamSala);
 
 		if (this.visibiliadAdmin) {
 			chckbxFruta.setEnabled(true);
@@ -346,24 +305,31 @@ public class VentanaSala extends JFrame {
 			comboMapa.setEnabled(true);
 			comboCantRondas.setEnabled(true);
 			mapaParaNoAdmin.setVisible(false);
-			rondasParaNoAdmin.setVisible(false);
+			cantidadDeFrutascomboBox.setEnabled(false);
+			cantidadDeTiempoComboBox.setEnabled(false);
 			cantidadDeFrutasLabel.setVisible(false);
 			cantidadDeTiempoLabel.setVisible(false);
+			cantidadDeBotsLabel.setVisible(false);
+			cantidadDeRondasLabel.setVisible(false);
+			btnActualizarParamSala.setVisible(false);
+			btnActualizarParamSala.setVisible(true);
 			lblAdmin.setText("Tu eres el Administrador");
 		} else {
 			comboMapa.setVisible(false);
 			btnSalirDeSala.setBounds(236, 346, 162, 40);
 			btnEmpezarJuego.setVisible(false);
-			cantBots.setEnabled(false);
 			chckbxFruta.setEnabled(false);
 			chckbxTiempo.setEnabled(false);
 			comboCantRondas.setVisible(false);
 			mapaParaNoAdmin.setVisible(true);
-			rondasParaNoAdmin.setEnabled(false);
-			cantidadDeFrutasTextField.setVisible(false);
-			tiempoTextField.setVisible(false);
 			cantidadDeFrutasLabel.setVisible(true);
 			cantidadDeTiempoLabel.setVisible(true);
+			cantidadDeBotsLabel.setVisible(true);
+			cantidadDeRondasLabel.setVisible(true);
+			cantidadDeFrutascomboBox.setVisible(false);
+			cantidadDeTiempoComboBox.setVisible(false);
+			cantidadDeBotsComboBox.setVisible(false);
+			btnActualizarParamSala.setVisible(false);
 		}
 
 	}
@@ -381,10 +347,10 @@ public class VentanaSala extends JFrame {
 
 	protected void empezarJuego() {
 
-		if ((this.cantBots.getText().isEmpty()) || (!cantBots.getText().matches("[0-9]+"))) {
-			return;
-		}
-		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),
+//		if ((this.cantBots.getText().isEmpty()) || (!cantBots.getText().matches("[0-9]+"))) {
+//			return;
+//		}
+		if (Cliente.getConexionServidor().comenzarJuego(this.cantidadDeBotsComboBox.getSelectedIndex(),
 				Integer.parseInt((String) comboCantRondas.getSelectedItem())) == false) {
 			System.out.println("No se pudo creear el Juego");
 			return;
@@ -422,12 +388,6 @@ public class VentanaSala extends JFrame {
 			}
 		});
 
-		cantBots.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				empezarJuego();
-			}
-		});
-
 		btnEmpezarJuego.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -439,36 +399,16 @@ public class VentanaSala extends JFrame {
 		chckbxFruta.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (!cantidadDeFrutasTextField.isEnabled())
-					cantidadDeFrutasTextField.setEnabled(true);
-				else
-					cantidadDeFrutasTextField.setEnabled(false);
-			}
-		});
-
-		cantidadDeFrutasTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				verificarFrutas();
 				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
 			}
 		});
 
 		chckbxTiempo.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (!tiempoTextField.isEnabled())
-					tiempoTextField.setEnabled(true);
-				else
-					tiempoTextField.setEnabled(false);
-			}
-		});
-
-		tiempoTextField.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				verificarTiempo();
 				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
 			}
 		});
 
@@ -476,6 +416,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
 			}
 		});
 
@@ -483,30 +424,36 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
 			}
 		});
 
-		cantBots.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				if (cantBots.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "La cantidad de bots no puede estar vacia", "Atencion",
-							JOptionPane.WARNING_MESSAGE);
-					cantBots.setText("0");
-				}
-
+		cantidadDeFrutascomboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
 			}
 		});
 
-		/* Limita cantidad de caracteres a ingresar en el campo cantidad de bots */
-		cantBots.addKeyListener(new KeyAdapter() {
+		cantidadDeBotsComboBox.addItemListener(new ItemListener() {
 			@Override
-			public void keyTyped(KeyEvent evt) {
-				if (cantBots.getText().length() >= Param.LIMITE_CARACTERES_CANT_BOTS) {
-					evt.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
+			}
+		});
+
+		cantidadDeTiempoComboBox.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				verificarBotonesYRefrescarCambios();
+//				enviarCambiosDeSala();
+			}
+		});
+
+		btnActualizarParamSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				enviarCambiosDeSala();
 			}
 		});
 
@@ -544,31 +491,36 @@ public class VentanaSala extends JFrame {
 		} else {
 
 			if (!this.visibiliadAdmin) {// Si no es admin
-				System.out.println("CONDICION FRUTA" + datosParaRefrescarSala.getBoolean("fruta"));
-				System.err.println(datosParaRefrescarSala.getString("cantidadDeFrutas"));
-				System.err.println(datosParaRefrescarSala.getString("rondas"));
-				System.err.println(datosParaRefrescarSala.getString("tipoMapa"));
-				System.err.println(datosParaRefrescarSala.getString("bots"));
-				System.err.println("Condicion Tiempo" + datosParaRefrescarSala.getBoolean("tiempo"));
-				System.err.println(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+//				System.out.println("CONDICION FRUTA " + datosParaRefrescarSala.getBoolean("fruta"));
+//				System.err.println("CANTIDADA DE FRUTAS " + datosParaRefrescarSala.getString("cantidadDeFrutas"));
+//				System.err.println("CANTIDAD DE RONDAS" + datosParaRefrescarSala.getString("rondas"));
+//				System.err.println("TIPO DE MAPA" + datosParaRefrescarSala.getString("tipoMapa"));
+//				System.err.println("CANTIDAD DE BOTS " + datosParaRefrescarSala.getString("bots"));
+//				System.err.println("Condicion Tiempo " + datosParaRefrescarSala.getBoolean("tiempo"));
+//				System.err.println("CANTIDAD DE TIEMPO " + datosParaRefrescarSala.getString("cantidadDeTiempo"));
+
+//				String cantidadDeTiempo = datosParaRefrescarSala.getString("cantTiempo");
+//				System.out.println(cantidadDeTiempo);
 
 				if (datosParaRefrescarSala.getBoolean("fruta")) {
 					chckbxFruta.setSelected(true);
 					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
 				} else {
 					chckbxFruta.setSelected(false);
+					this.cantidadDeFrutasLabel.setText("");
 				}
 
 				if (datosParaRefrescarSala.getBoolean("tiempo")) {
 					chckbxTiempo.setSelected(true);
-					this.cantidadDeTiempoLabel.setText(datosParaRefrescarSala.getString("cantidadDeTiempo"));
+					this.cantidadDeTiempoLabel.setText(datosParaRefrescarSala.getString("cantTiempo"));
 				} else {
 					chckbxTiempo.setSelected(false);
+					this.cantidadDeTiempoLabel.setText("");
 				}
 
-				this.rondasParaNoAdmin.setText(datosParaRefrescarSala.getString("rondas"));
+				this.cantidadDeRondasLabel.setText(datosParaRefrescarSala.getString("rondas"));
 				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
-				this.cantBots.setText(datosParaRefrescarSala.getString("bots"));
+				this.cantidadDeBotsLabel.setText(datosParaRefrescarSala.getString("bots"));
 			}
 		}
 	}

@@ -170,24 +170,11 @@ public class ConexionClienteBackOff extends Thread {
 					.add("usuarios", usernamesConectadosALaSala.build())
 					.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
 		} else {
-			int cantidadDeFrutas = 0;
-			int cantidadDeTiempo = 0;
-
-//			if (entradaJson.getBoolean("fruta")) {
-//				cantidadDeFrutas = Integer.valueOf(entradaJson.getString("cantidadDeFrutas"));
-//			} else
-//				cantidadDeFrutas = 0;
-//
-//			if (entradaJson.getBoolean("tiempo")) {
-//				cantidadDeTiempo = entradaJson.getInt("cantidadDeTiempo");
-//			} else
-//				cantidadDeTiempo = 0;
-
 			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
 					.add("fruta", entradaJson.getBoolean("fruta"))
-					.add("cantidadDeFrutas",entradaJson.getString("cantidadDeFrutas").equals("") ? "0": entradaJson.getString("cantidadDeFrutas"))
+					.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
 					.add("tiempo", entradaJson.getBoolean("tiempo"))
-					.add("cantidadDetiempo",entradaJson.getString("cantidadDeTiempo").equals("") ? "0": entradaJson.getString("cantidadDeTiempo"))
+					.add("cantTiempo", entradaJson.getString("cantTiempo"))
 					.add("tipoMapa", entradaJson.getString("mapa"))
 					.add("rondas", entradaJson.getString("rondas"))
 					.add("bots", entradaJson.getString("bots")).build();
@@ -211,11 +198,9 @@ public class ConexionClienteBackOff extends Thread {
 	 */
 	private boolean usuarioEstaEnLaSala(Usuario user, Sala salaARefrescar) {
 		for (Usuario usuarioActual : salaARefrescar.getUsuariosActivos()) {
-			if (usuarioActual.getId() == user.getId()) {
+			if (usuarioActual != null && usuarioActual.getId() == user.getId())
 				return true;
-			}
 		}
 		return false;
 	}
-
 }
