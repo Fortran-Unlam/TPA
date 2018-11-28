@@ -30,6 +30,7 @@ public class Partida implements Serializable {
 	private Mapa mapa;
 	private int tipoMapa;
 	private Jugador ganadorPartida;
+	private int contadorProximaPartida = 0;
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
 			int tipoMapa) {
@@ -58,9 +59,9 @@ public class Partida implements Serializable {
 		// deberiamos decir que cuando termine el juego cree otro juego
 		//System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
 		
-		if (numeroRonda < this.cantidadDeRondasAJugar) {
+		if (this.numeroRonda < this.cantidadDeRondasAJugar) {
 			try {
-				System.out.println("Ronda " + (++numeroRonda));
+				System.out.println("Ronda " + (++this.numeroRonda));
 				this.partidaEnCurso = true;
 				//Inicia el mapa antes de cada ronda.
 				this.mapa = crearMapa(tipoMapa);
@@ -72,7 +73,7 @@ public class Partida implements Serializable {
 				e.printStackTrace();
 			}
 		}else {
-			//Termina la partida, actualizo g.
+			//Termina la partida, actualizo estadistica.
 			int maxPuntos = jugadoresEnPartida.get(0).getPuntosPartida();
 			this.ganadorPartida = jugadoresEnPartida.get(0);
 			for (Jugador jug : jugadoresEnPartida) {
@@ -114,6 +115,7 @@ public class Partida implements Serializable {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				rondaEnCurso.setRonda(numeroRonda);
 				rondaEnCurso.start();
 				
 				// Termina una ronda y comienza otra.
@@ -142,7 +144,6 @@ public class Partida implements Serializable {
 						jug.actualizarEstadisticasPartida(frutasComidas,esGanador);
 						jug.resetEstadisticasRonda();
 					}
-					
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Poner algo por si falla el update del usuario.
@@ -201,5 +202,13 @@ public class Partida implements Serializable {
 
 	public void setPartidaEnCurso(boolean partidaEnCurso) {
 		this.partidaEnCurso = partidaEnCurso;
+	}
+	
+	public JsonObject toJson() {
+		return Json.createObjectBuilder()
+				.add("cantidadDeRondasAJugar", cantidadDeRondasAJugar)
+				.add("numeroRonda", this.numeroRonda)
+				.add("ganadorPartida", this.ganadorPartida.toJson())
+				.build();
 	}
 }

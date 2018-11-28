@@ -384,8 +384,9 @@ public class VentanaSala extends JFrame {
 		if ((this.cantBots.getText().isEmpty()) || (!cantBots.getText().matches("[0-9]+"))) {
 			return;
 		}
+		int totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
 		if (Cliente.getConexionServidor().comenzarJuego(cantBots.getText(),
-				Integer.parseInt((String) comboCantRondas.getSelectedItem())) == false) {
+				totalRondas) == false) {
 			System.out.println("No se pudo creear el Juego");
 			return;
 		}
@@ -394,7 +395,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego();
+		new VentanaJuego(totalRondas);
 	}
 
 	// Esto en realidad deberia ser el mismo que empezarJuego y que haya una
@@ -404,7 +405,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego();
+		new VentanaJuego(Integer.parseInt((String) comboCantRondas.getSelectedItem()));
 	}
 
 	private void addListener() {

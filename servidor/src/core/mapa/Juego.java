@@ -22,6 +22,7 @@ public class Juego implements Serializable {
 	private boolean juegoEnCurso = false;
 	private int segundosTranscurridos = 0;
 	private long currentTimeMillis;
+	private int numeroRonda = 0;
 
 	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego, Mapa mapa) {
 		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
@@ -87,6 +88,10 @@ public class Juego implements Serializable {
 	public Mapa getMapa() {
 		return mapa;
 	}
+	
+	public void setRonda(int rondaEnCurso) {
+		this.numeroRonda = rondaEnCurso;
+	}
 
 	public boolean terminado() {
 		return this.juegoEnCurso == false;
@@ -102,6 +107,7 @@ public class Juego implements Serializable {
 				.add("terminado", this.terminado())
 				.add("tiempoTranscurrido", this.segundosTranscurridos)
 				.add("currentTimeMillis", this.currentTimeMillis)
+				.add("numeroRonda", this.numeroRonda)
 				.build();
 	}
 
