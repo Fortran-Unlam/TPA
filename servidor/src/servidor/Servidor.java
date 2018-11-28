@@ -33,7 +33,6 @@ public class Servidor {
 	private static Logger LOGGER = Logger.getLogger(Class.class);
 
 	public static void main(String[] args) {
-		//BasicConfigurator.configure();
 		ServerSocket servidorIn = null;
 		ServerSocket servidorOut = null;
 		ServerSocket servidorBackOffIn = null;
