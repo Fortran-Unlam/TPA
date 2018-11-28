@@ -45,7 +45,7 @@ public class Juego implements Serializable {
 	 * COMIENZA EL JUEGO (RONDA) REFRESCANDO EL MAPA CADA CIERTO TIEMPO
 	 */
 	public void start() {
-		// Score score = new Score();
+		//Score score = new Score();
 		// score.add(this.mapa.getJugadores());
 		boolean puedeActualizar = true;
 		this.juegoEnCurso = true;

@@ -174,12 +174,12 @@ public class Usuario {
 		this.sala = sala;
 	}
 
-	public boolean actualizarEstadisticasRonda(boolean muerte, boolean ganador, int frutasComidas) {
+	public boolean actualizarEstadisticasRonda(boolean sobrevivio, int frutasComidas) {
 		//this.partidasJugadas++;
-		if (muerte)
+		if (!sobrevivio)
 			this.muertes++;
 		
-		if (ganador) {
+		if (sobrevivio) {
 			this.puntos += 20;
 			this.rondasGanadas++;
 		}
@@ -192,7 +192,7 @@ public class Usuario {
 		return false;
 	}
 	
-	public boolean actualizarEstadisticasPartida() {
+	public boolean actualizarEstadisticasPartidasGanadas() {
 		this.partidasGanadas++;
 		
 		if (UsuarioDAO.updateEstadisticas(this))

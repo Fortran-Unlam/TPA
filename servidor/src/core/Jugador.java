@@ -19,7 +19,7 @@ public class Jugador implements Comparable<Jugador> {
 	private String nombre;
 	private int frutasComidasEnRonda;
 	//private int frutasComidasEnPartida;
-	private int puntosPorPartida;
+	private int puntosEnPartida;
 	private GestorInput teclado = new GestorInput();
 	
 	/**
@@ -31,7 +31,7 @@ public class Jugador implements Comparable<Jugador> {
 		this.vibora = vibora;
 		this.nombre = nombre;
 		this.frutasComidasEnRonda = 0;
-		this.puntosPorPartida = 0;
+		this.puntosEnPartida = 0;
 	}
 
 	/**
@@ -43,6 +43,7 @@ public class Jugador implements Comparable<Jugador> {
 	public Jugador(final Usuario usuario) {
 		this.nombre = usuario.getUsername();
 		this.frutasComidasEnRonda = 0;
+		this.puntosEnPartida = 0;
 		Random rand = new Random();
 		this.color = new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255));
 	}
@@ -69,6 +70,7 @@ public class Jugador implements Comparable<Jugador> {
 
 	public void aumentarFrutasComidas() {
 		this.frutasComidasEnRonda++;
+		this.puntosEnPartida++;
 		if (this.getVibora() != null) {
 			this.getVibora().comer();
 			this.getVibora().marcarCrecimiento();			
@@ -79,8 +81,8 @@ public class Jugador implements Comparable<Jugador> {
 		return this.frutasComidasEnRonda;
 	}
 	
-	public int getPuntosPartida() {
-		return this.puntosPorPartida;
+	public int getPuntosEnPartida() {
+		return this.puntosEnPartida;
 	}
 
 	public void setTecla(Posicion posicion) {
@@ -102,11 +104,8 @@ public class Jugador implements Comparable<Jugador> {
 		}
 	}
 	
-	public void actualizarEstadisticasPartida(int frutasComidasRonda, boolean esGanador) {
-		//this.frutasComidasEnPartida += frutasComidasEnRonda;
-		
-		if (esGanador)
-			this.puntosPorPartida += 20;
+	public void sumarPuntosSobrevivirRonda() {
+		this.puntosEnPartida += 20;
 	}
 	
 	public void resetEstadisticasRonda() {

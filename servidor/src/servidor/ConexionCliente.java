@@ -61,7 +61,7 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
-//				System.out.println("El cliente solicita " + message.getType());
+				//System.out.println("El cliente solicita " + message.getType());
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
@@ -261,6 +261,16 @@ public class ConexionCliente extends Thread {
 
 					this.salidaDatos.flush();
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
+					break;
+				case Param.REQUEST_MOSTRAR_GANADOR:
+					Jugador jugadorGanador = sala.getPartidaActual().calcularGanadorPartida();
+					
+
+					this.salidaDatos.flush();
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO,
+							jugadorGanador.getNombre() + ";" +
+							jugadorGanador.getFrutasComidas() + ";" + 
+							jugadorGanador.getPuntosEnPartida()).toJson());
 					break;
 				default:
 					break;
