@@ -46,6 +46,7 @@ public class VentanaJuego extends JFrame {
 	private JButton btnSalirJuego;
 	private JPanel panelMapa;
 	private VentanaJuego ventanaJuego = this;
+	private JTextField textRonda;
 
 	private Sonido musicaFondo;
 	private int totalRondas;
@@ -63,10 +64,11 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
 	private boolean musicaEncendida = false;
-	
+
 	VentanaJuego v; //Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos de los botones.
 	Thread thread = null; //Fix para tener una referencia al thread de la VentanaJuego y finalizar su ejecucion.
-	private JTextField textRonda;
+	
+	
 
 	public VentanaJuego(int totalRondas) {
 		super("Snake");
@@ -179,20 +181,23 @@ public class VentanaJuego extends JFrame {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
-		
+
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-		//musicaFondo.repetir();
-		
+		// musicaFondo.repetir();
+
 		thread.start();
 
 		addListener();
-		
+
 		v = this;
 
 	}
 
 	public void dibujarMapaJson(String jsonString) {
-		if(!this.musicaEncendida) { this.musicaEncendida=true; musicaFondo.repetir();} //Para que la musica de fondo se active al empezar una nueva ronda.
+		if (!this.musicaEncendida) {
+			this.musicaEncendida = true;
+			musicaFondo.repetir();
+		} // Para que la musica de fondo se active al empezar una nueva ronda.
 		JsonReader jsonReader = Json.createReader(new StringReader(jsonString));
 		JsonObject json = jsonReader.readObject();
 		jsonReader.close();
@@ -215,9 +220,17 @@ public class VentanaJuego extends JFrame {
 			JsonArray jugadores = mapa.getJsonArray("jugadores");
 
 			for (int i = 0; i < jugadores.size(); i++) {
-				g2d.setColor(Color.RED);
-				JsonObject vibora = jugadores.getJsonObject(i).getJsonObject("vibora");
+				JsonObject currentObject = jugadores.getJsonObject(i);
+				JsonObject vibora = currentObject.getJsonObject("vibora");
 
+				Color color = new Color(currentObject.getInt("color_red"), currentObject.getInt("color_green"),
+						currentObject.getInt("color_blue"));
+				g2d.setColor(color);
+				g2d.setFont(new Font("default", Font.BOLD, 12));
+				g2d.drawString(currentObject.getString("nombre").toUpperCase(), vibora.getInt("x") * Param.PIXEL_RESIZE,
+						(vibora.getInt("y")) * Param.PIXEL_RESIZE - 5);
+				g2d.setFont(null);
+				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
 				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth() / 2,
@@ -278,13 +291,14 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 			}
+
 		}
 		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
 
 		if (mapa.getBoolean("murioUnJugador")) {
 			new Sonido(Param.SONIDO_MUERE_PATH).reproducir();
 		}
-		
+
 		if (mapa.getBoolean("comioFruta")) {
 			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
@@ -295,16 +309,18 @@ public class VentanaJuego extends JFrame {
 	private void addListener() {
 		this.addKeyListener(new GestorInput().teclado);
 		this.btnSalirJuego.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				Cliente.getConexionServidor().detenerJuego(); //Detengo la accion iniciado por ComenzarJuego.
-				thread.stop(); //Esto esta deprecado pero por ahora funciona.
-				/* Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de recibir
-				 * el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo ok.
+			public void actionPerformed(ActionEvent e) {
+				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
+				thread.stop(); // Esto esta deprecado pero por ahora funciona.
+				/*
+				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de
+				 * recibir el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo
+				 * ok.
 				 * 
 				 */
-				musicaFondo.stop(); //Se para la musica.
-				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo volver para atras.
+				musicaFondo.stop(); // Se para la musica.
+				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
+								// volver para atras.
 			}
 		});
 	}
