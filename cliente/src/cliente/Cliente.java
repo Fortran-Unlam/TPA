@@ -2,10 +2,8 @@ package cliente;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+
+import org.apache.log4j.Logger;
 
 import cliente.ventana.Sincronismo;
 import cliente.ventana.usuario.VentanaLoginUsuario;
@@ -20,7 +18,7 @@ public class Cliente {
 	private static ConexionServidor conexionServidor;
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static Sincronismo sincronismo;
-	private static final Logger LOGGER = Logger.getAnonymousLogger();
+	private static Logger LOGGER;
 
 	public static void main(String[] args) {
 		new Cliente();
@@ -28,16 +26,8 @@ public class Cliente {
 
 	public Cliente() {
 		try {
-			FileHandler fh = null;
-			try {
-	            fh = new FileHandler("logger.log", true);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
+			LOGGER = Logger.getLogger("");
 
-	        fh.setFormatter(new SimpleFormatter());
-	        LOGGER.addHandler(fh);
-	        
 			socketOut = new Socket(Param.HOST, Param.PORT_1);
 			socketIn = new Socket(Param.HOST, Param.PORT_2);
 
@@ -54,7 +44,7 @@ public class Cliente {
 			login.setVisible(true);
 
 		} catch (IOException ex) {
-			LOGGER.log(Level.SEVERE, "No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
+			LOGGER.error("No se ha podido conectar con el servidor (" + ex.getMessage() + ").");
 		}
 	}
 

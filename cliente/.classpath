@@ -23,5 +23,6 @@
 	<classpathentry kind="lib" path="lib/hash/commons-codec-1.11.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/gson-2.6.2-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

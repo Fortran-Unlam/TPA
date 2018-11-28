@@ -2,10 +2,7 @@ package cliente;
 
 import java.io.Serializable;
 
-import javax.json.Json;
 import javax.json.JsonObject;
-
-import config.Param;
 
 public class Usuario implements Serializable {
 
@@ -19,34 +16,14 @@ public class Usuario implements Serializable {
 	private int muertes;
 	private int partidasGanadas;
 	private int rondasGanadas;
-	public boolean inJuego = true; //Pasar a privado
 
 	public Usuario(String username, String password) {
 		this.username = username;
 		this.password = password;
 	}
 
-	// Constructor necesario para el Hibernate
-	public Usuario() {
-	}
-	
-	//Constructor de usuario solamente utilizando el Id
-	public Usuario(int id) 
-	{
+	public Usuario(int id) {
 		this.id = id;
-	}
-
-	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
-			int muertes, int partidasGanadas, int rondasGanadas) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.puntos = puntos;
-		this.cantidadFrutaComida = cantidadFrutaComida;
-		this.asesinatos = asesinatos;
-		this.muertes = muertes;
-		this.partidasGanadas = partidasGanadas;
-		this.rondasGanadas = rondasGanadas;
 	}
 
 	public Usuario(JsonObject jsonObject) {
@@ -122,48 +99,6 @@ public class Usuario implements Serializable {
 
 	public int getRondasGanadas() {
 		return rondasGanadas;
-	}
-
-	public void setRondasGanadas(int rondasGanadas) {
-		this.rondasGanadas = rondasGanadas;
-	}
-
-	public String getUsuarioLogueado() {
-		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
-				.add("username", this.username).add("password", this.password).build().toString();
-	}
-/*
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
-				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
-				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
-	}*/
-
-	public boolean actualizarEstadisticasRonda(boolean muerte, boolean ganador, int frutasComidas) {
-		//this.partidasJugadas++;
-		if (muerte)
-			this.muertes++;
-		
-		if (ganador) {
-			this.puntos += 20;
-			this.rondasGanadas++;
-		}
-			
-		this.puntos += frutasComidas;
-		this.cantidadFrutaComida += frutasComidas;
-		
-//		if (UsuarioDAO.updateEstadisticas(this))
-//			return true;
-		return false;
-	}
-	
-	public boolean actualizarEstadisticasPartida() {
-		this.partidasGanadas++;
-		
-//		if (UsuarioDAO.updateEstadisticas(this))
-//			return true;
-		return false;
 	}
 
 }
