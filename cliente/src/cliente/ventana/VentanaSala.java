@@ -41,7 +41,6 @@ import javax.swing.ImageIcon;
 public class VentanaSala extends JFrame {
 
 	private static final long serialVersionUID = -1128641003929339105L;
-	private boolean visibiliadAdmin;
 	private JList<String> listUsuarios;
 	private DefaultListModel<String> modelUsuariosLista = new DefaultListModel<String>();
 	private JLabel labelUsrEnLaSala;
@@ -53,8 +52,8 @@ public class VentanaSala extends JFrame {
 	private JCheckBox chckbxFruta;
 	private JCheckBox chckbxTiempo;
 	private JButton btnSalirDeSala;
-	private JButton btnActualizarParamSala;
 	private JLabel lblAdmin;
+	private boolean visibiliadAdmin;
 	private JLabel mapaParaNoAdmin;
 	private JLabel cantidadDeFrutasLabel;
 	private JLabel cantidadDeTiempoLabel;
@@ -293,12 +292,6 @@ public class VentanaSala extends JFrame {
 		cantidadDeRondasLabel.setBounds(368, 268, 66, 20);
 		contentPane.add(cantidadDeRondasLabel);
 
-		btnActualizarParamSala = new JButton();
-
-		btnActualizarParamSala.setIcon(new ImageIcon(VentanaSala.class.getResource("/iconos/ico_refresh.png")));
-		btnActualizarParamSala.setBounds(510, 346, 46, 40);
-		contentPane.add(btnActualizarParamSala);
-
 		if (this.visibiliadAdmin) {
 			chckbxFruta.setEnabled(true);
 			chckbxTiempo.setEnabled(true);
@@ -311,8 +304,6 @@ public class VentanaSala extends JFrame {
 			cantidadDeTiempoLabel.setVisible(false);
 			cantidadDeBotsLabel.setVisible(false);
 			cantidadDeRondasLabel.setVisible(false);
-			btnActualizarParamSala.setVisible(false);
-			btnActualizarParamSala.setVisible(true);
 			lblAdmin.setText("Tu eres el Administrador");
 		} else {
 			comboMapa.setVisible(false);
@@ -329,7 +320,6 @@ public class VentanaSala extends JFrame {
 			cantidadDeFrutascomboBox.setVisible(false);
 			cantidadDeTiempoComboBox.setVisible(false);
 			cantidadDeBotsComboBox.setVisible(false);
-			btnActualizarParamSala.setVisible(false);
 		}
 
 	}
@@ -397,7 +387,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -405,7 +395,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -413,7 +403,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -421,14 +411,14 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
 		cantidadDeFrutascomboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -436,7 +426,7 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
+				prepararCambiosDeSala();
 			}
 		});
 
@@ -444,12 +434,6 @@ public class VentanaSala extends JFrame {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				verificarBotonesYRefrescarCambios();
-//				enviarCambiosDeSala();
-			}
-		});
-
-		btnActualizarParamSala.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
 				prepararCambiosDeSala();
 			}
 		});
