@@ -236,7 +236,10 @@ public class VentanaJuego extends JFrame {
 				g2d.setColor(Color.RED);
 				AffineTransform at = new AffineTransform();
 				at.translate(vibora.getInt("x") * Param.PIXEL_RESIZE, vibora.getInt("y") * Param.PIXEL_RESIZE);
-				at.rotate(Posicion.rotacion(vibora.getInt("sentido")), imagenCabeza.getWidth() / 2,
+				
+				Posicion posicion = Posicion.values()[vibora.getInt("sentido") % Posicion.values().length];
+				
+				at.rotate(Posicion.rotacion(posicion.ordinal()), imagenCabeza.getWidth() / 2,
 						imagenCabeza.getHeight() / 2);
 
 				g2d.drawImage(imagenCabeza, at, null);
@@ -317,7 +320,7 @@ public class VentanaJuego extends JFrame {
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
-				thread.stop(); // Esto esta deprecado pero por ahora funciona.
+				thread.interrupt();
 				/*
 				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de
 				 * recibir el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo
