@@ -193,7 +193,9 @@ public class ConexionCliente extends Thread {
 					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
 					int cantidadDeTiempo = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_TIEMPO));
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
-
+					String mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO));
+					int numeroDeMapaDeJuego = Integer.valueOf(mapaDeJuego.charAt(mapaDeJuego.length()-1));
+					
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
@@ -211,10 +213,11 @@ public class ConexionCliente extends Thread {
 					}
 
 					// TODO: Traer desde la conexion.
-					int tipoMapa = 1;
+					
+					
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
-							sala.crearPartida(cantidadBots, tipoJuego, tipoMapa, cantidadTotalRondas)).toJson());
+							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas)).toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 

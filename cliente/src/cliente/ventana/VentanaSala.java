@@ -337,7 +337,7 @@ public class VentanaSala extends JFrame {
 		int cantidadDeTiempo = chckbxTiempo.isSelected() ? Integer.parseInt((String) cantidadDeTiempoComboBox.getSelectedItem()) : 0;
 		String mapa = (String) comboMapa.getSelectedItem();
 		
-		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas,mapa,tipoDeJuegoFruta,cantidadDeFrutas,tipoDeJuegoTiempo,cantidadDeTiempo) == false) {
+		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas,tipoDeJuegoFruta,cantidadDeFrutas,tipoDeJuegoTiempo,cantidadDeTiempo,mapa) == false) {
 			Cliente.LOGGER.error("No se pudo creear el Juego");
 			return;
 		}
