@@ -57,6 +57,8 @@ public class VentanaSala extends JFrame {
 	private JComboBox<Object> cantidadDeTiempoComboBox;
 	private JComboBox<Object> cantidadDeFrutascomboBox;
 	private JComboBox<Object> cantidadDeBotsComboBox;
+	private char numeroDeMapa;
+	private int totalRondas;
 
 	public VentanaSala(VentanaMenu ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
@@ -267,7 +269,7 @@ public class VentanaSala extends JFrame {
 
 		comboCantRondas = new JComboBox<Object>();
 		comboCantRondas.setToolTipText("Debe seleccionar cantidad de rondas.");
-		comboCantRondas.setBounds(368, 285, 151, 25);
+		comboCantRondas.setBounds(368, 268, 151, 51);
 		contentPane.add(comboCantRondas);
 		comboCantRondas.setBounds(368, 268, 151, 20);
 		comboCantRondas.addItem("Seleccione Rondas");
@@ -286,11 +288,11 @@ public class VentanaSala extends JFrame {
 		cantidadDeBotsComboBox = new JComboBox<Object>();
 		cantidadDeBotsComboBox
 				.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
-		cantidadDeBotsComboBox.setBounds(450, 239, 69, 20);
+		cantidadDeBotsComboBox.setBounds(411, 236, 69, 20);
 		contentPane.add(cantidadDeBotsComboBox);
 
 		cantidadDeRondasLabel = new JLabel();
-		cantidadDeRondasLabel.setBounds(368, 268, 151, 20);
+		cantidadDeRondasLabel.setBounds(368, 268, 111, 20);
 		contentPane.add(cantidadDeRondasLabel);
 
 		if (this.visibiliadAdmin) {
@@ -336,9 +338,19 @@ public class VentanaSala extends JFrame {
 		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteSalirSala);
 	}
 
+	protected void empezarJuegoNoAdmin() {
+		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
+		// volver a la VentanaSala que volver a crear una nueva instancia.
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
+		musicaFondo.reproducir();
+		this.setVisible(false);
+		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario());
+		this.setVisible(true);
+	}
+
 	protected void empezarJuego() {
 		int totalBots = Integer.parseInt((String) cantidadDeBotsComboBox.getSelectedItem());
-		int totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
+		this.totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
 		boolean tipoDeJuegoFruta = chckbxFruta.isSelected();
 		boolean tipoDeJuegoTiempo = chckbxTiempo.isSelected();
 		int cantidadDeFrutas = chckbxFruta.isSelected()
@@ -360,9 +372,9 @@ public class VentanaSala extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 
-		char numeroDeMapa = mapa.charAt(mapa.length() - 1);
-		
-		new VentanaJuego(totalRondas, numeroDeMapa, ventanaMenu.getUsuario());
+		this.numeroDeMapa = mapa.charAt(mapa.length() - 1);
+		this.setVisible(false);
+		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario());
 	}
 
 	private void addListener() {
@@ -497,10 +509,10 @@ public class VentanaSala extends JFrame {
 			}
 		}
 	}
-	
-	
+
 	public void cerrarSalaPorqueSalioAdmin() {
-		JOptionPane.showMessageDialog(this, "Ha salido el admin de la sala", "Sala terminada", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(this, "Ha salido el admin de la sala", "Sala terminada",
+				JOptionPane.INFORMATION_MESSAGE);
 		this.setVisible(false);
 	}
 }

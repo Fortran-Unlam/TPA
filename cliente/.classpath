@@ -33,6 +33,7 @@
 	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-glfw-sources.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-debug.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl.dll"/>
 
 	<classpathentry kind="output" path="bin"/>
 </classpath>

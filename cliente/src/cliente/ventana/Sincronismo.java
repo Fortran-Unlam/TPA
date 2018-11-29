@@ -50,7 +50,7 @@ public class Sincronismo extends Thread {
 				// Hasta aca todo OK 26/11 cuando el juego empezo el servidor me avisa.
 				// Hay que ver como arrancar la ventana de juego tambien.
 				case Param.NOTICE_EMPEZA_JUEGO_CLIENTE:
-					//Sincronismo.ventanaSala.empezarJuegoNoAdmin();
+					Sincronismo.ventanaSala.empezarJuegoNoAdmin();
 				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
 				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
 					// Reflejo 26/11 sucede cuando yo ya empece el juego.
