@@ -58,62 +58,24 @@ public class VentanaCrearUsuario extends JFrame {
 		getContentPane().add(lblNewLabel_2);
 
 		this.username = new JTextField();
+		this.limitar(this.username, Param.LIMITE_CARACTERES_USUARIO);
 		
-		/* Bloquea el control c y control v */
-		InputMap mapUsername = username.getInputMap(JComponent.WHEN_FOCUSED);
-		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		
-		/* Limita cantidad de caracteres a ingresar en el campo de texto usuario */
-		username.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
-				if (username.getText().length() >= Param.LIMITE_CARACTERES_USUARIO) {
-					e.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
-		this.username.setToolTipText(
-				"Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros. Maximo 20 caracteres.");
+		this.username.setToolTipText("Ingrese el usuario que desee aqu\u00ED . Solo pueden contener letras y numeros. Maximo 20 caracteres.");
 		this.username.setBounds(193, 36, 86, 20);
 		getContentPane().add(username);
 		this.username.setColumns(10);
 
 		this.password = new JPasswordField();
+		this.limitar(this.password, Param.LIMITE_CARACTERES_CONTRASENA);
 		
-		/* Bloquea el control c y control v */
-		InputMap mapPassword = password.getInputMap(JComponent.WHEN_FOCUSED);
-		mapPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		
-		/* Limita cantidad de caracteres a ingresar en el campo de texto contrase�a */
-		password.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
-				if (password.getText().length() >= Param.LIMITE_CARACTERES_CONTRASENA) {
-					e.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
-		this.password.setToolTipText(
-				"Ingrese la contrase\u00F1a que desee aqui. Solo pueden contener letras y numeros. Maximo 10 caracteres.");
+		this.password.setToolTipText("Ingrese la contrase\u00F1a que desee aqui. Solo pueden contener letras y numeros. Maximo 10 caracteres.");
 		this.password.setBounds(193, 61, 86, 20);
 		getContentPane().add(password);
 		this.password.setColumns(10);
 
 		this.confirmPassword = new JPasswordField();
+		this.limitar(this.confirmPassword, Param.LIMITE_CARACTERES_CONTRASENA);
 		
-		/* Bloquea el control c y control v */
-		InputMap mapConfirmPassword = confirmPassword.getInputMap(JComponent.WHEN_FOCUSED);
-		mapConfirmPassword.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		
-		/* Limita cantidad de caracteres a ingresar en el campo de texto contrase�a */
-		password.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
-				if (confirmPassword.getText().length() >= Param.LIMITE_CARACTERES_CONTRASENA) {
-					e.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
 		this.confirmPassword.setToolTipText("Repita la contrase\u00F1a nuevamente. Maximo 10 caracteres.");
 		this.confirmPassword.setBounds(193, 86, 86, 20);
 		getContentPane().add(confirmPassword);
@@ -132,6 +94,28 @@ public class VentanaCrearUsuario extends JFrame {
 		getContentPane().add(btnVolver);
 
 		addListener();
+	}
+	
+	
+	/**
+	 * Limitar cantidad de caracteres a ingresar en el campo de texto Bloquea el
+	 * control c y control v
+	 * 
+	 * @param jTextField
+	 * @param limiteCaracteresUsuario
+	 */	
+	 private void limitar(final JTextField jTextField, final int limiteCaracteresUsuario) {
+		InputMap mapUsername = jTextField.getInputMap(JComponent.WHEN_FOCUSED);
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+
+		jTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (jTextField.getText().length() >= limiteCaracteresUsuario) {
+					e.consume();
+					Toolkit.getDefaultToolkit().beep();
+				}
+			}
+		});
 	}
 
 	protected void registrarUsuario(JFrame ventanaLogin) throws IOException {
