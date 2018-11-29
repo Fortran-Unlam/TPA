@@ -357,7 +357,8 @@ public class VentanaSala extends JFrame {
 		musicaFondo.reproducir();
 
 		char numeroDeMapa = mapa.charAt(mapa.length() - 1);
-		new VentanaJuego(totalRondas, numeroDeMapa, ventanaMenu);
+		
+		new VentanaJuego(totalRondas, numeroDeMapa, ventanaMenu.getUsuario());
 	}
 
 	private void addListener() {

@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 import cliente.Cliente;
 import cliente.Imagen;
 import cliente.Sonido;
+import cliente.Usuario;
 import cliente.input.Input;
 import config.Param;
 import config.Posicion;
@@ -68,20 +69,17 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
-	private VentanaMenu ventanaMenu = null;
+	private Usuario usuario;
 
-	VentanaJuego ventana; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
-	// de los botones.
-	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
+	VentanaJuego ventana;
+	Thread thread = null;
 
 	private BufferedImage imagenBomba;
-	// ejecucion.
 
-	public VentanaJuego(int totalRondas, char numeroDeMapa, VentanaMenu ventanaMenu) {
+	public VentanaJuego(int totalRondas, char numeroDeMapa, Usuario usuario) {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
-		this.ventanaMenu = ventanaMenu;
 
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -336,7 +334,7 @@ public class VentanaJuego extends JFrame {
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 						Input.terminate();
-						
+
 						this.dispose();
 					}
 				} catch (InterruptedException e) {
@@ -395,7 +393,7 @@ public class VentanaJuego extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
+					Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
 					System.exit(0);
 				}
 			}
@@ -415,7 +413,7 @@ public class VentanaJuego extends JFrame {
 				 */
 				musicaFondo.stop(); // Se para la musica.
 				ventana.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
-									// volver para atras.
+				// volver para atras.
 			}
 		});
 	}
