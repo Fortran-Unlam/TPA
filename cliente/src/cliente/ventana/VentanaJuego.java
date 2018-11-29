@@ -334,8 +334,6 @@ public class VentanaJuego extends JFrame {
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 						Input.terminate();
-
-						this.dispose();
 					}
 				} catch (InterruptedException e) {
 					Cliente.LOGGER.error("error al cerrar el juego " + e.getMessage());
