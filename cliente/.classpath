@@ -25,5 +25,11 @@
 	<classpathentry kind="lib" path="lib/gson-2.6.2-javadoc.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="lib/accordion-1.2.0-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-glfw-javadoc.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-glfw-sources.jar"/>
+	<classpathentry kind="lib" path="lib/lwjgl/lwjgl-javadoc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

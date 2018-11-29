@@ -2,12 +2,9 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-
-import core.mapa.Mapa;
 
 public class Sala implements Serializable {
 

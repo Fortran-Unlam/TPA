@@ -22,7 +22,6 @@ public class Teclado implements KeyListener, Serializable {
 		case KeyEvent.VK_S:
 		case KeyEvent.VK_DOWN:
 			ultimaPulsada = Posicion.NORTE;
-			
 			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_LEFT:

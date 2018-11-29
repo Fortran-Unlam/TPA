@@ -12,6 +12,7 @@ import servidor.Servidor;
 
 public class UsuarioDAO {
 
+	@SuppressWarnings("unused")
 	public static Usuario loguear(String username, String hashPassword) {
 		Transaction tx = null;
 
