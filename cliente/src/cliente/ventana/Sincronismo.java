@@ -64,7 +64,7 @@ public class Sincronismo extends Thread {
 					break;
 					
 				case Param.SALA_TERMINADA:
-					this.ventanaSala.cerrarSalaPorqueSalioAdmin();
+					Sincronismo.ventanaSala.cerrarSalaPorqueSalioAdmin();
 					break;
 				}
 
@@ -80,6 +80,9 @@ public class Sincronismo extends Thread {
 
 	public static void setVentanaUnirSala(VentanaUnirSala ventanaUnirSala) {
 		Sincronismo.ventanaUnirSala = ventanaUnirSala;
+		if (datosDeSalasDisponibles != null) {
+			ventanaUnirSala.refrescarListaDeSalas(datosDeSalasDisponibles);
+		}
 	}
 
 }

@@ -31,6 +31,8 @@ public class VentanaUnirSala extends JFrame {
 	private String nombreSalaSeleccionada;
 	private TableModelSalas tableModelSalas = new TableModelSalas();
 	private JTable tableSalas;
+	private JButton btnUnirse;
+	private JButton btnVolver;
 
 	public VentanaUnirSala(VentanaMenu ventanaMenu) {
 		this.ventanaMenu = ventanaMenu;
@@ -52,9 +54,33 @@ public class VentanaUnirSala extends JFrame {
 		lblSalasDisponibles.setBounds(10, 54, 190, 27);
 		contentPane.add(lblSalasDisponibles);
 
-		JButton btnUnirse = new JButton("Unirse");
+		btnUnirse = new JButton("Unirse");
 		btnUnirse.setBounds(68, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnUnirse);
+		setLocationRelativeTo(this.ventanaMenu);
+
+		btnVolver = new JButton("Volver");
+		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		contentPane.add(btnVolver);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 92, 403, 207);
+		contentPane.add(scrollPane);
+
+		tableSalas = new JTable();
+		scrollPane.setViewportView(tableSalas);
+
+		JsonObject paqueteIngresoVentanaUnirSala = Json.createObjectBuilder()
+				.add("type", Param.REQUEST_INGRESO_VENTANA_UNIR_SALA).build();
+
+		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
+		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteIngresoVentanaUnirSala);
+
+		this.addListener();
+
+	}
+
+	private void addListener() {
 		btnUnirse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -66,26 +92,26 @@ public class VentanaUnirSala extends JFrame {
 				}
 			}
 		});
-		setLocationRelativeTo(this.ventanaMenu);
-
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.setBounds(267, 309, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
-		contentPane.add(btnVolver);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 92, 403, 207);
-		contentPane.add(scrollPane);
-
-		tableSalas = new JTable();
+		
 		tableSalas.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				int filaSeleccionada = tableSalas.rowAtPoint(e.getPoint());
-				nombreSalaSeleccionada = (String) tableSalas.getValueAt(filaSeleccionada, 0);
+			public void mouseClicked(MouseEvent event) {
+				if (event.getClickCount() == 2) {
+					if (!(nombreSalaSeleccionada == null)) {
+						unirseASala(nombreSalaSeleccionada);
+					} else {
+						JOptionPane.showMessageDialog(null, "Por favor, seleccionar sala", "Sala no seleccionada",
+								JOptionPane.WARNING_MESSAGE);
+					}
+				} else {
+					int filaSeleccionada = tableSalas.rowAtPoint(event.getPoint());
+					nombreSalaSeleccionada = (String) tableSalas.getValueAt(filaSeleccionada, 0);
+					
+				}
 			}
+			
 		});
-		scrollPane.setViewportView(tableSalas);
-
+		
 		btnVolver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Sonido click = new Sonido(Param.SONIDO_GOLPE_PATH);
@@ -94,7 +120,7 @@ public class VentanaUnirSala extends JFrame {
 				setVisible(false);
 			}
 		});
-
+		
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -105,11 +131,6 @@ public class VentanaUnirSala extends JFrame {
 				}
 			}
 		});
-		JsonObject paqueteIngresoVentanaUnirSala = Json.createObjectBuilder()
-				.add("type", Param.REQUEST_INGRESO_VENTANA_UNIR_SALA).build();
-		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
-		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteIngresoVentanaUnirSala);
-
 	}
 
 	private void unirseASala(String nombreSala) {
@@ -119,9 +140,9 @@ public class VentanaUnirSala extends JFrame {
 					.add("nombreSala", nombreSala).build();
 			Cliente.getconexionServidorBackOff().enviarAlServer(paqueteUnirSala);
 			VentanaSala ventanaSala = new VentanaSala(ventanaMenu, false, nombreSala);
-			
+
 			this.setVisible(false);
-			
+
 			Sincronismo.setVentanaSala(ventanaSala);
 
 			JsonObject paqueteActualizarSalaParticular = Json.createObjectBuilder()
