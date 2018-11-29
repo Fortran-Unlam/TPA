@@ -70,12 +70,15 @@ public class VentanaMenu extends JFrame {
 		contentPane.add(lblTusEstadsticas);
 
 		JLabel lblNewLabel = new JLabel("Puntaje hist\u00F3rico: " + usuario.getPuntos());
-		lblNewLabel.setBounds(24, 141, 135, 14);
+		lblNewLabel.setBounds(14, 141, 135, 14);
+		lblNewLabel.setSize(lblNewLabel.getPreferredSize());
 		contentPane.add(lblNewLabel);
 
 		JLabel lblFrutasComidas = new JLabel("Frutas comidas: " + usuario.getCantidadFrutaComida());
-		lblFrutasComidas.setBounds(24, 166, 135, 14);
+		lblFrutasComidas.setBounds(14, 166, 135, 14);
+		lblFrutasComidas.setSize(lblFrutasComidas.getPreferredSize());
 		contentPane.add(lblFrutasComidas);
+		
 
 		JLabel lblAsesinatos = new JLabel("Asesinatos: " + usuario.getAsesinatos());
 		lblAsesinatos.setBounds(182, 141, 118, 14);
@@ -86,11 +89,13 @@ public class VentanaMenu extends JFrame {
 		contentPane.add(lblMuertes);
 
 		JLabel lblTPartidasGanadas = new JLabel("T. Partidas Ganadas: " + usuario.getPartidasGanadas());
-		lblTPartidasGanadas.setBounds(322, 141, 150, 14);
+		lblTPartidasGanadas.setBounds(302, 141, 150, 14);
+		lblTPartidasGanadas.setSize(lblTPartidasGanadas.getPreferredSize());
 		contentPane.add(lblTPartidasGanadas);
 
 		JLabel lblTRondasGanadas = new JLabel("T. Rondas Ganadas: " + usuario.getRondasGanadas());
-		lblTRondasGanadas.setBounds(322, 166, 150, 14);
+		lblTRondasGanadas.setBounds(302, 166, 150, 14);
+		lblTRondasGanadas.setSize(lblTRondasGanadas.getPreferredSize());
 		contentPane.add(lblTRondasGanadas);
 
 		btnAtras = new JButton("Cerrar sesi\u00F3n");

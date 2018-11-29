@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 import cliente.Cliente;
 import config.Posicion;
 
-public class Teclado implements KeyListener, DispositivoEntrada {
+public class Teclado implements KeyListener {
 
 	public Posicion ultimaPulsada = null;
 
@@ -33,7 +33,7 @@ public class Teclado implements KeyListener, DispositivoEntrada {
 //			System.exit(0);
 			break;
 		}
-		
+
 		Cliente.getConexionServidor().enviarTecla(ultimaPulsada);
 	}
 
@@ -57,13 +57,5 @@ public class Teclado implements KeyListener, DispositivoEntrada {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-	}
-
-	public Posicion getUltimaPulsada() {
-		return ultimaPulsada;
-	}
-	
-	public void setUltimaPulsada(Posicion ultimaPulsada) {
-		this.ultimaPulsada = ultimaPulsada;
 	}
 }

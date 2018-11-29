@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
 import cliente.Cliente;
 import config.Posicion;
 
-public class Joystick implements DispositivoEntrada, Runnable {
+public class Joystick implements Runnable {
 
 	public Posicion ultimaPulsada = null;
 
@@ -23,6 +23,7 @@ public class Joystick implements DispositivoEntrada, Runnable {
 		System.setProperty("org.lwjgl.util.Debug","false");
 		glfwInit();
 		glfwPollEvents();
+		
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class Joystick implements DispositivoEntrada, Runnable {
 
 	@Override
 	public void run() {
-		
+
 		Posicion posicion = getUltimaPulsada();
 		long miliSeg = System.currentTimeMillis();
 		while (true) {

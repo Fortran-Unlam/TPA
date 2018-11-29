@@ -6,7 +6,7 @@ import java.util.Random;
 import javax.json.Json;
 import javax.json.JsonObject;
 
-import cliente.input.GestorInput;
+import cliente.input.Input;
 import config.Posicion;
 import core.entidad.Vibora;
 import core.mapa.Mapa;
@@ -21,7 +21,7 @@ public class Jugador implements Comparable<Jugador> {
 	private int frutasComidasEnPartida;
 	private int puntosEnPartida;
 	
-	private GestorInput teclado = new GestorInput();
+	private Input teclado = new Input();
 	
 	/**
 	 * 
