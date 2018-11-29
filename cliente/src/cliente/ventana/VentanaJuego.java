@@ -71,20 +71,20 @@ public class VentanaJuego extends JFrame {
 	private VentanaMenu ventanaMenu = null;
 
 	VentanaJuego ventana; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
-					// de los botones.
+	// de los botones.
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
 
 	private BufferedImage imagenBomba;
 	// ejecucion.
 
-	public VentanaJuego(int totalRondas,char numeroDeMapa, VentanaMenu ventanaMenu) {
+	public VentanaJuego(int totalRondas, char numeroDeMapa, VentanaMenu ventanaMenu) {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
 		this.ventanaMenu = ventanaMenu;
-		
+
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		
+
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
 		contentPane = new JPanel();
@@ -184,7 +184,11 @@ public class VentanaJuego extends JFrame {
 		case '1':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
 			break;
-		case '2': imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
+		case '2':
+			imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
+			break;
+		case '3':
+			imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
 			break;
 		}
 
@@ -409,7 +413,7 @@ public class VentanaJuego extends JFrame {
 				 */
 				musicaFondo.stop(); // Se para la musica.
 				ventana.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
-								// volver para atras.
+									// volver para atras.
 			}
 		});
 	}

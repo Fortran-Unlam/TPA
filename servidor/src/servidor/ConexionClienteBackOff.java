@@ -190,7 +190,6 @@ public class ConexionClienteBackOff extends Thread {
 				Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 			}
 		}
-
 	}
 
 	/*
