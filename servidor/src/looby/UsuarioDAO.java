@@ -12,13 +12,10 @@ import servidor.Servidor;
 
 public class UsuarioDAO {
 
-	@SuppressWarnings("unchecked")
 	public static Usuario loguear(String username, String hashPassword) {
 		Transaction tx = null;
 
 		try {
-			tx = Servidor.getSessionHibernate().beginTransaction();
-			tx.commit();
 			String query = "SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
 					+ hashPassword + "'";
 			Query queryLogueo = Servidor.getSessionHibernate().createQuery(query);
