@@ -67,6 +67,7 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private BufferedImage imagenMapaUno;
 	private boolean musicaEncendida = false;
+	private JFrame ventanaMenu = null;
 
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
 					// de los botones.
@@ -75,10 +76,11 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenBomba;
 	// ejecucion.
 
-	public VentanaJuego(int totalRondas) {
+	public VentanaJuego(int totalRondas, JFrame ventanaMenu) {
 		super("Snake");
 
 		this.totalRondas = totalRondas;
+		this.ventanaMenu = ventanaMenu;
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
@@ -373,6 +375,18 @@ public class VentanaJuego extends JFrame {
 	}
 
 	private void addListener() {
+		
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					System.exit(0);
+				}
+			}
+		});
+		
 		this.addKeyListener(new GestorInput().teclado);
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

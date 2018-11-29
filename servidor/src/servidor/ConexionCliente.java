@@ -234,6 +234,7 @@ public class ConexionCliente extends Thread {
 
 					this.salidaDatos.flush();
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
+					conectado = false;
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
 					Jugador jugadorGanador = sala.getPartidaActual().calcularGanadorPartida();

@@ -353,7 +353,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego(totalRondas);
+		new VentanaJuego(totalRondas, ventanaMenu);
 	}
 
 	// Esto en realidad deberia ser el mismo que empezarJuego y que haya una
@@ -363,7 +363,7 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		new VentanaJuego(Integer.parseInt((String) comboCantRondas.getSelectedItem()));
+		new VentanaJuego(Integer.parseInt((String) comboCantRondas.getSelectedItem()), ventanaMenu);
 	}
 
 	private void addListener() {
