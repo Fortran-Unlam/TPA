@@ -1,7 +1,6 @@
 package cliente;
 
 import java.io.Serializable;
-
 import javax.json.JsonObject;
 
 public class Usuario implements Serializable {

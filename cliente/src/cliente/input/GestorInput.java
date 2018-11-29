@@ -1,7 +1,6 @@
 package cliente.input;
 
 import java.io.Serializable;
-
 import config.Posicion;
 
 public class GestorInput implements Serializable {

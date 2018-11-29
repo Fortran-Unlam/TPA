@@ -1,7 +1,6 @@
 package cliente;
 
 import java.io.Serializable;
-
 import com.google.gson.Gson;
 
 public class Message implements Serializable {

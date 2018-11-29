@@ -15,6 +15,7 @@ import config.Param;
 import config.Posicion;
 
 public class ConexionServidor {
+	
 	private ObjectOutputStream salidaDatos;
 	private ObjectInputStream entradaDatos;
 
