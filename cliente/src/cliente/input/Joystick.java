@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
 import cliente.Cliente;
 import config.Posicion;
 
-public class Joystick implements DispositivoEntrada, Runnable {
+public class Joystick implements Runnable {
 
 	public Posicion ultimaPulsada = null;
 

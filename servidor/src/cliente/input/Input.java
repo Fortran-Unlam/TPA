@@ -2,7 +2,7 @@ package cliente.input;
 
 import config.Posicion;
 
-public class GestorInput {
+public class Input {
 
 	
 	private Posicion ultimaPulsada;
