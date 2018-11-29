@@ -118,7 +118,10 @@ public class VentanaUnirSala extends JFrame {
 			JsonObject paqueteUnirSala = Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
 					.add("nombreSala", nombreSala).build();
 			Cliente.getconexionServidorBackOff().enviarAlServer(paqueteUnirSala);
-			VentanaSala ventanaSala = new VentanaSala(ventanaMenu, this, false, nombreSala);
+			VentanaSala ventanaSala = new VentanaSala(ventanaMenu, false, nombreSala);
+			
+			this.setVisible(false);
+			
 			Sincronismo.setVentanaSala(ventanaSala);
 
 			JsonObject paqueteActualizarSalaParticular = Json.createObjectBuilder()

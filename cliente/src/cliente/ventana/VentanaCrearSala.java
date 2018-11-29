@@ -179,7 +179,7 @@ public class VentanaCrearSala extends JFrame {
 						.add("nombreSala", datosSala.get(0)).build();
 				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
 
-				this.ventanaSala = new VentanaSala(this.ventanaMenu, null, true, this.nombreField.getText());
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, true, this.nombreField.getText());
 				Sincronismo.setVentanaSala(ventanaSala);
 
 				JsonObject paqueteActualizarSala = Json.createObjectBuilder()
