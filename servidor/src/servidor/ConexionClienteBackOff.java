@@ -198,7 +198,7 @@ public class ConexionClienteBackOff extends Thread {
 	 */
 	private boolean usuarioEstaEnLaSala(Usuario user, Sala salaARefrescar) {
 		for (Usuario usuarioActual : salaARefrescar.getUsuariosActivos()) {
-			if (usuarioActual != null && usuarioActual.getId() == user.getId())
+			if (user != null && usuarioActual.getId() == user.getId())
 				return true;
 		}
 		return false;
