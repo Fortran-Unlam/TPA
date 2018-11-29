@@ -117,7 +117,7 @@ public class VentanaSala extends JFrame {
 		}
 
 		if (comboCantRondas.getSelectedIndex() == 0) {
-			nombreSalatipoJuegoMapaYBots.add("rondas", "0");
+			nombreSalatipoJuegoMapaYBots.add("rondas", "Aun no se ha determinado");
 		} else {
 			nombreSalatipoJuegoMapaYBots.add("rondas", (String) comboCantRondas.getSelectedItem());
 		}
@@ -194,7 +194,8 @@ public class VentanaSala extends JFrame {
 
 		JLabel lblUsuariosConectados = new JLabel("Usuarios conectados a la sala:");
 		lblUsuariosConectados.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblUsuariosConectados.setBounds(33, 48, 186, 24);
+		lblUsuariosConectados.setBounds(33, 48, 200, 24);
+		lblUsuariosConectados.setSize(lblUsuariosConectados.getPreferredSize());
 		getContentPane().add(lblUsuariosConectados);
 
 		this.labelUsrEnLaSala = new JLabel("");
@@ -212,6 +213,7 @@ public class VentanaSala extends JFrame {
 		JLabel labelTipoJuego = new JLabel("Tipo de jugabilidad:");
 		labelTipoJuego.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		labelTipoJuego.setBounds(236, 95, 124, 20);
+		labelTipoJuego.setSize(labelTipoJuego.getPreferredSize());
 		contentPane.add(labelTipoJuego);
 
 		JLabel labelMapa = new JLabel("Mapa:");
@@ -227,6 +229,7 @@ public class VentanaSala extends JFrame {
 		comboMapa.addItem("Mapa 1");
 		comboMapa.addItem("Mapa 2");
 		comboMapa.addItem("Mapa 3");
+		comboMapa.setSize(comboMapa.getPreferredSize());
 		contentPane.add(comboMapa);
 
 		chckbxFruta = new JCheckBox("Fruta");
@@ -237,6 +240,7 @@ public class VentanaSala extends JFrame {
 		chckbxTiempo = new JCheckBox("Tiempo");
 		chckbxTiempo.setToolTipText("Debe ckeckear un tipo de jugabiliad.");
 		chckbxTiempo.setBounds(366, 136, 68, 23);
+		chckbxTiempo.setSize(chckbxTiempo.getPreferredSize());
 		contentPane.add(chckbxTiempo);
 
 		this.lblAdmin = new JLabel("");
@@ -258,6 +262,7 @@ public class VentanaSala extends JFrame {
 		JLabel labelCantRondas = new JLabel("Cantidad Rondas:");
 		labelCantRondas.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		labelCantRondas.setBounds(236, 268, 111, 20);
+		labelCantRondas.setSize(labelCantRondas.getPreferredSize());
 		contentPane.add(labelCantRondas);
 
 		comboCantRondas = new JComboBox<Object>();
@@ -271,6 +276,7 @@ public class VentanaSala extends JFrame {
 		comboCantRondas.addItem("3");
 		comboCantRondas.addItem("4");
 		comboCantRondas.addItem("5");
+		comboCantRondas.setSize(comboCantRondas.getPreferredSize());
 		contentPane.add(comboCantRondas);
 
 		cantidadDeFrutasLabel = new JLabel();
@@ -284,7 +290,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeBotsComboBox);
 
 		cantidadDeRondasLabel = new JLabel();
-		cantidadDeRondasLabel.setBounds(368, 268, 66, 20);
+		cantidadDeRondasLabel.setBounds(368, 268, 151, 20);
 		contentPane.add(cantidadDeRondasLabel);
 
 		if (this.visibiliadAdmin) {
