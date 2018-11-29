@@ -323,7 +323,7 @@ public class VentanaSala extends JFrame {
 		ventanaMenu.setVisible(true);
 		setVisible(false);
 		JsonObject paqueteSalirSala = Json.createObjectBuilder().add("type", Param.NOTICE_SALIR_SALA)
-				.add("nombreSala", this.nombreSala).build();
+				.add("sala", this.nombreSala).build();
 
 		Cliente.getConexionServidor().SalirSala(this.nombreSala);
 		Sincronismo.setVentanaSala(null);

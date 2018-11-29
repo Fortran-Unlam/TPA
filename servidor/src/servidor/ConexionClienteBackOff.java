@@ -65,7 +65,6 @@ public class ConexionClienteBackOff extends Thread {
 				if (tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) || tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
 						|| tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)
 						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
-
 					enviarActualizacionSalasALosClientes();
 				}
 
@@ -77,7 +76,8 @@ public class ConexionClienteBackOff extends Thread {
 				 */
 
 				if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-						|| tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+						|| tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 					enviarActualizacionAClientesDeUnaSalaParticular(entradaJson);
 				}
 
@@ -159,7 +159,8 @@ public class ConexionClienteBackOff extends Thread {
 		Sala salaARefrescar = Servidor.getSalaPorNombre(entradaJson.getString("sala"));
 
 		JsonObject paqueteAEnviar;
-		if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+		if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+				|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 
 			JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
 

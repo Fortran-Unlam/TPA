@@ -1,4 +1,4 @@
 /bin
 logger.log
 logger.log.lck
-/DB
+DB/Usuarios.db
