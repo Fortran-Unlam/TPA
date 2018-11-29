@@ -70,7 +70,8 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(this.password);
 
 		this.btnCrearUsuario = new JButton("Iniciar Sesi\u00F3n");
-		this.btnCrearUsuario.setBounds(96, 131, 122, 23);
+		//Minimo tamano para que el texto Iniciar Sesion se muestre con el tipo de letra elegido.
+		this.btnCrearUsuario.setBounds(96, 131, 129, 23);
 		this.getContentPane().add(this.btnCrearUsuario);
 
 		JLabel lblCrearUsuario = new JLabel("Inciar Sesi\u00F3n");
@@ -78,7 +79,7 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(lblCrearUsuario);
 
 		this.btnRegistrarse = new JButton("Registrarse");
-		this.btnRegistrarse.setBounds(96, 165, 122, 23);
+		this.btnRegistrarse.setBounds(96, 165, 129, 23);
 		getContentPane().add(this.btnRegistrarse);
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
