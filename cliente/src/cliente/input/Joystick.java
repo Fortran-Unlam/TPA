@@ -12,9 +12,15 @@ import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
+import config.Posicion;
+
 public class Joystick {
 
-	void Joystick() {
+	public Posicion ultimaPulsada = null;
+	
+	
+	public Joystick() {
+		
 		// TODO: se supone que con esto leo el joystick
 		glfwInit();
 		glfwPollEvents();
@@ -33,8 +39,21 @@ public class Joystick {
 			for (int i = 0; i < gampepadAxes.capacity(); i++) {
 				System.out.print((int) gampepadAxes.get(i) + " ");
 				// casteado a entero va a de -1 a 1 para x y -1 a 1 para y
-				if (gampepadAxes.get(i) == 1) {
-				}
+			}
+			int x = (int) gampepadAxes.get(0);
+			
+			if (x >= 0) {
+				this.ultimaPulsada = Posicion.ESTE;
+			} else {
+				this.ultimaPulsada = Posicion.OESTE;
+			}
+			
+			int y = (int) gampepadAxes.get(1);
+			
+			if (y >= 0) {
+				this.ultimaPulsada = Posicion.NORTE;
+			} else {
+				this.ultimaPulsada = Posicion.SUR;
 			}
 
 			for (int i = 0; i < gamepadButton.capacity(); i++) {
