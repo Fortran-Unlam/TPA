@@ -32,7 +32,7 @@ public class Sala implements Serializable {
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
-		if (this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) {
+		if ((this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) && partidaActual == null) {
 			this.usuariosActivos.add(usuario);
 			this.cantidadUsuarioActuales++;
 			return true;

@@ -114,21 +114,24 @@ public class VentanaUnirSala extends JFrame {
 
 	private void unirseASala(String nombreSala) {
 		// le paso el nombre
-		Cliente.getConexionServidor().unirseASala(nombreSala);
-		
-		JsonObject paqueteUnirSala = Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
-				.add("nombreSala", nombreSala).build();
-		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteUnirSala);
-		VentanaSala ventanaSala = new VentanaSala(ventanaMenu, false, nombreSala);
-		Sincronismo.setVentanaSala(ventanaSala);
-		
-		JsonObject paqueteActualizarSalaParticular = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
-				.add("sala", nombreSala).build();
-		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSalaParticular);
-		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
-		musicaFondo.reproducir();
+		if (Cliente.getConexionServidor().unirseASala(nombreSala)) {
+			JsonObject paqueteUnirSala = Json.createObjectBuilder().add("type", Param.NOTICE_UNION_SALA)
+					.add("nombreSala", nombreSala).build();
+			Cliente.getconexionServidorBackOff().enviarAlServer(paqueteUnirSala);
+			VentanaSala ventanaSala = new VentanaSala(ventanaMenu, this, false, nombreSala);
+			Sincronismo.setVentanaSala(ventanaSala);
 
-		ventanaSala.setVisible(true);
+			JsonObject paqueteActualizarSalaParticular = Json.createObjectBuilder()
+					.add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR).add("sala", nombreSala).build();
+			Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSalaParticular);
+			Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
+			musicaFondo.reproducir();
+			ventanaSala.setVisible(true);
+			this.dispose();
+		} else {
+			JOptionPane.showMessageDialog(null, "Sala llena o con partida en curso, por favor seleccione otra.",
+					"Error al ingresar", JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 	// Metodo que usa el Thread para refrescarle las salas a la ventana.

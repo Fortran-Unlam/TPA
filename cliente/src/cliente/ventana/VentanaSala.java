@@ -58,10 +58,12 @@ public class VentanaSala extends JFrame {
 	private JComboBox<Object> cantidadDeFrutascomboBox;
 	private JComboBox<Object> cantidadDeBotsComboBox;
 
-	public VentanaSala(VentanaMenu ventanaMenu, boolean admin, String nombreSala) {
+	public VentanaSala(VentanaMenu ventanaMenu, VentanaUnirSala ventanaUnirSala, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
 		this.nombreSala = nombreSala;
 		this.ventanaMenu.setVisible(false);
+		if (ventanaUnirSala != null)
+			ventanaUnirSala.setVisible(false);
 		this.visibiliadAdmin = admin;
 		this.setearComponentes();
 		this.addListener();
@@ -355,7 +357,7 @@ public class VentanaSala extends JFrame {
 		musicaFondo.reproducir();
 
 		char numeroDeMapa = mapa.charAt(mapa.length() - 1);
-		new VentanaJuego(totalRondas,numeroDeMapa, ventanaMenu);
+		new VentanaJuego(totalRondas, numeroDeMapa, ventanaMenu);
 	}
 
 	private void addListener() {

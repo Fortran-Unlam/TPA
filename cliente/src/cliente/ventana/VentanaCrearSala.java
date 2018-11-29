@@ -174,12 +174,12 @@ public class VentanaCrearSala extends JFrame {
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
-				
+
 				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
 						.add("nombreSala", datosSala.get(0)).build();
 				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
-				
-				this.ventanaSala = new VentanaSala(this.ventanaMenu, true, this.nombreField.getText());
+
+				this.ventanaSala = new VentanaSala(this.ventanaMenu, null, true, this.nombreField.getText());
 				Sincronismo.setVentanaSala(ventanaSala);
 
 				JsonObject paqueteActualizarSala = Json.createObjectBuilder()
@@ -199,10 +199,10 @@ public class VentanaCrearSala extends JFrame {
 			JOptionPane.showMessageDialog(null,
 					"Los nombres de sala solo pueden contener letras y numeros (sin espacios).", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
-			
+
 			this.nombreField.setText("");
 			this.maxUsuarioField.setText("");
-			
+
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 		}

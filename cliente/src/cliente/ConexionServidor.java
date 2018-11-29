@@ -289,14 +289,14 @@ public class ConexionServidor {
 	 * salaSeleccionada. La representancion del usuario no es necesario mandarla, ya
 	 * que se encuentra implicito en el Socket.
 	 */
-	public String unirseASala(String salaSeleccionada) {
+	public boolean unirseASala(String salaSeleccionada) {
 		try {
 			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
 			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
-			return (String) retorno.getData();
+			return (boolean) retorno.getData();
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en unirse a sala " + ex.getMessage());
 		}
-		return null;
+		return false;
 	}
 }

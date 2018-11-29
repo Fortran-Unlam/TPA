@@ -159,16 +159,18 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_INGRESO_SALA:
 					sala = Servidor.getSalaPorNombre((String) message.getData());
 
-					sala.agregarUsuarioASala(usuario);
 					/*
 					 * El servidor me devuelve los datos de la sala, para que la vista me represente
 					 * los datos de la sala que me importan como usuario
 					 */
-					int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
-					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
-					String usuariosActivos = sala.getUsuariosSeparadosporComa();
-					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
-							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos).toJson());
+//						int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
+//						int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
+//						String usuariosActivos = sala.getUsuariosSeparadosporComa();
+//						this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
+//								cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos)
+//										.toJson());
+					this.salidaDatos.writeObject(
+							new Message(Param.NOTICE_INGRESAR_SALA, sala.agregarUsuarioASala(usuario)).toJson());
 					break;
 				case Param.REQUEST_SALIR_JUEGO:
 					this.usuario.inJuego = false;
@@ -194,8 +196,8 @@ public class ConexionCliente extends Thread {
 					int cantidadDeTiempo = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_TIEMPO));
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
 					String mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO));
-					int numeroDeMapaDeJuego = Integer.valueOf(mapaDeJuego.charAt(mapaDeJuego.length()-1));
-					
+					int numeroDeMapaDeJuego = Integer.valueOf(mapaDeJuego.charAt(mapaDeJuego.length() - 1));
+
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
@@ -210,10 +212,11 @@ public class ConexionCliente extends Thread {
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 						tipoJuego.setSegundos(cantidadDeTiempo);
-					}					
+					}
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
-							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas)).toJson());
+							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas))
+									.toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
