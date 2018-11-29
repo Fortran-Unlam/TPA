@@ -28,7 +28,7 @@ import javax.swing.SwingConstants;
 import cliente.Cliente;
 import cliente.Imagen;
 import cliente.Sonido;
-import cliente.input.GestorInput;
+import cliente.input.Input;
 import config.Param;
 import config.Posicion;
 
@@ -400,7 +400,8 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 
-		this.addKeyListener(new GestorInput().teclado);
+		this.addKeyListener(new Input().teclado);
+		
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
