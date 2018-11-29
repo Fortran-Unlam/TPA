@@ -201,7 +201,7 @@ public class ConexionServidor {
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
-			while (true && recibirMapa) {
+			while (recibirMapa) {
 
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
 
