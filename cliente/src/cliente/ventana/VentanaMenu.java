@@ -121,7 +121,8 @@ public class VentanaMenu extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		VentanaUnirSala ventanaUnirSala = new VentanaUnirSala(this);
-		Cliente.getSincronismo().setVentanaUnirSala(ventanaUnirSala);
+		Cliente.getSincronismo();
+		Sincronismo.setVentanaUnirSala(ventanaUnirSala);
 		ventanaUnirSala.setVisible(true);
 		this.setVisible(false);
 	}

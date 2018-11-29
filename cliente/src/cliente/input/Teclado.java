@@ -33,7 +33,7 @@ public class Teclado implements KeyListener, Serializable {
 			ultimaPulsada = Posicion.ESTE;
 			break;
 		case KeyEvent.VK_ESCAPE:
-			System.exit(0);
+//			System.exit(0);
 			break;
 		}
 		

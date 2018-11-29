@@ -68,21 +68,23 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
-	private JFrame ventanaMenu = null;
+	private VentanaMenu ventanaMenu = null;
 
-	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
+	VentanaJuego ventana; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
 					// de los botones.
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
 
 	private BufferedImage imagenBomba;
 	// ejecucion.
 
-	public VentanaJuego(int totalRondas,char numeroDeMapa, JFrame ventanaMenu) {
+	public VentanaJuego(int totalRondas,char numeroDeMapa, VentanaMenu ventanaMenu) {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
 		this.ventanaMenu = ventanaMenu;
-
+		
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
 		contentPane = new JPanel();
@@ -202,10 +204,9 @@ public class VentanaJuego extends JFrame {
 
 		thread.start();
 
-		addListener();
+		this.addListener();
 
-		v = this;
-
+		ventana = this;
 	}
 
 	public void dibujarMapaJson(String jsonString) {
@@ -388,7 +389,8 @@ public class VentanaJuego extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					System.out.println(ventanaMenu.getUsuario());
+					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 					System.exit(0);
 				}
 			}
@@ -406,7 +408,7 @@ public class VentanaJuego extends JFrame {
 				 * 
 				 */
 				musicaFondo.stop(); // Se para la musica.
-				v.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
+				ventana.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
 								// volver para atras.
 			}
 		});

@@ -39,7 +39,7 @@ public class VentanaSala extends JFrame {
 	private JLabel labelUsrEnLaSala;
 	private JLabel lblCantidadBots;
 	private JPanel contentPane;
-	private JFrame ventanaMenu;
+	private VentanaMenu ventanaMenu;
 	private String nombreSala;
 	private JButton btnEmpezarJuego;
 	private JCheckBox chckbxFruta;
@@ -58,7 +58,7 @@ public class VentanaSala extends JFrame {
 	private JComboBox<Object> cantidadDeFrutascomboBox;
 	private JComboBox<Object> cantidadDeBotsComboBox;
 
-	public VentanaSala(JFrame ventanaMenu, boolean admin, String nombreSala) {
+	public VentanaSala(VentanaMenu ventanaMenu, boolean admin, String nombreSala) {
 		this.ventanaMenu = ventanaMenu;
 		this.nombreSala = nombreSala;
 		this.ventanaMenu.setVisible(false);
@@ -442,7 +442,7 @@ public class VentanaSala extends JFrame {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					salirSala();
-					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 					System.exit(0);
 				}
 			}
