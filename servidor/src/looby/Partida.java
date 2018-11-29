@@ -150,14 +150,14 @@ public class Partida implements Serializable {
 		return true;
 	}
 
-	public void calcularGanadorPartida() {
+	public Jugador calcularGanadorPartida() {
 		for (Jugador jug : this.jugadoresEnPartida) {
 			if (jug.getPuntosEnPartida() > this.puntajeMaximo) {
 				this.ganadorPartida = jug;
 				this.puntajeMaximo = jug.getPuntosEnPartida();
 			}
 		}
-		//return this.ganadorPartida;
+		return this.ganadorPartida;
 	}
 
 	public Mapa crearMapaTipo(int tipoMapa) {
