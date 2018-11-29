@@ -52,7 +52,7 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(passwordLabel);
 
 		this.username = new JTextField();
-
+	
 		this.limitar(this.username, Param.LIMITE_CARACTERES_USUARIO);
 
 		this.username.setToolTipText("Ingrese su usuario aqu\u00ED. Maximo 20 caracteres.");
@@ -96,11 +96,11 @@ public class VentanaLoginUsuario extends JFrame {
 	 * 
 	 * @param jTextField
 	 * @param limiteCaracteresUsuario
-	 */
-	private void limitar(final JTextField jTextField, final int limiteCaracteresUsuario) {
+	 */	
+	
+	 private void limitar(final JTextField jTextField, final int limiteCaracteresUsuario) {
 		InputMap mapUsername = jTextField.getInputMap(JComponent.WHEN_FOCUSED);
-
-		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), null);
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
 
 		jTextField.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
