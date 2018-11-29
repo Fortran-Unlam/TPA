@@ -333,13 +333,15 @@ public class VentanaJuego extends JFrame {
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
 					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
 							+ " y " + datosGanador[2] + " puntos";
-					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
+					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+						Input.terminate();
+						
 						this.dispose();
 					}
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Cliente.LOGGER.error("error al cerrar el juego " + e.getMessage());
+					Input.terminate();
 				}
 
 			}
@@ -393,7 +395,6 @@ public class VentanaJuego extends JFrame {
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
 				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-					System.out.println(ventanaMenu.getUsuario());
 					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 					System.exit(0);
 				}
@@ -401,7 +402,7 @@ public class VentanaJuego extends JFrame {
 		});
 
 		this.addKeyListener(new Input().teclado);
-		
+
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
@@ -413,7 +414,7 @@ public class VentanaJuego extends JFrame {
 				 * 
 				 */
 				musicaFondo.stop(); // Se para la musica.
-				ventana.dispose(); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
+				ventana.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
 									// volver para atras.
 			}
 		});
