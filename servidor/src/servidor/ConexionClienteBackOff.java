@@ -159,35 +159,38 @@ public class ConexionClienteBackOff extends Thread {
 		Sala salaARefrescar = Servidor.getSalaPorNombre(entradaJson.getString("sala"));
 
 		JsonObject paqueteAEnviar;
-		if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
-				|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
+		if (salaARefrescar != null) {
 
-			JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
+			if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+					|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 
-			for (Usuario u : salaARefrescar.getUsuariosActivos()) {
-				usernamesConectadosALaSala.add(u.getUsername());
+				JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
+
+				for (Usuario u : salaARefrescar.getUsuariosActivos()) {
+					usernamesConectadosALaSala.add(u.getUsername());
+				}
+
+				paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+						.add("usuarios", usernamesConectadosALaSala.build())
+						.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
+			} else {
+				paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
+						.add("fruta", entradaJson.getBoolean("fruta"))
+						.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
+						.add("tiempo", entradaJson.getBoolean("tiempo"))
+						.add("cantTiempo", entradaJson.getString("cantTiempo"))
+						.add("tipoMapa", entradaJson.getString("mapa")).add("rondas", entradaJson.getString("rondas"))
+						.add("bots", entradaJson.getString("bots")).build();
 			}
 
-			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
-					.add("usuarios", usernamesConectadosALaSala.build())
-					.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
-		} else {
-			paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-					.add("fruta", entradaJson.getBoolean("fruta"))
-					.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
-					.add("tiempo", entradaJson.getBoolean("tiempo"))
-					.add("cantTiempo", entradaJson.getString("cantTiempo"))
-					.add("tipoMapa", entradaJson.getString("mapa")).add("rondas", entradaJson.getString("rondas"))
-					.add("bots", entradaJson.getString("bots")).build();
-		}
-
-		for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
-			try {
-				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)) {
-					c.salidaDatos.writeObject(paqueteAEnviar.toString());
+			for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
+				try {
+					if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)) {
+						c.salidaDatos.writeObject(paqueteAEnviar.toString());
+					}
+				} catch (IOException e) {
+					Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 				}
-			} catch (IOException e) {
-				Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 			}
 		}
 	}
