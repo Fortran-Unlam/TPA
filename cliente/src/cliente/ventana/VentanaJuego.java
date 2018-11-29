@@ -315,7 +315,7 @@ public class VentanaJuego extends JFrame {
 					thread.wait(250);
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
 					String mensaje = "El ganador es " + datosGanador[0] +
-							 "con " + datosGanador[1] + " frutas comidas" + 
+							 " con " + datosGanador[1] + " frutas comidas" + 
 							 " y " + datosGanador[2] + " puntos";
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
