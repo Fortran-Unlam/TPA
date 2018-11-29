@@ -190,6 +190,8 @@ public class VentanaJuego extends JFrame {
 		case '3':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
 			break;
+		case '3': imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
+			break;
 		}
 
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
