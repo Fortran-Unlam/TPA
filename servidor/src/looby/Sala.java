@@ -41,13 +41,15 @@ public class Sala implements Serializable {
 		return false; // SALA LLENA
 	}
 
-	public boolean sacarUsuarioDeSala(Usuario usuario) { // VER TEMA SI SACAN AL ADMIN DE LA SALA
+	public boolean sacarUsuarioDeSala(Usuario usuario) { 
 		if (this.usuariosActivos.remove(usuario)) {
 			this.cantidadUsuarioActuales--;
 			return true;
 		}
-		if (this.salaLlena)
+		if (this.salaLlena) {
 			this.salaLlena = false;
+		}
+		
 		return false;
 
 	}
@@ -154,4 +156,9 @@ public class Sala implements Serializable {
 	public void setPartidasJugadas(ArrayList<Partida> partidasJugadas) {
 		this.partidasJugadas = partidasJugadas;
 	}
+	
+	public boolean esElAdmin(Usuario user) {
+		return this.usuarioCreador.getUsername().equals(user.getUsername()); 
+	}
 }
+

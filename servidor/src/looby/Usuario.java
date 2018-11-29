@@ -19,7 +19,7 @@ public class Usuario {
 	private int rondasGanadas;
 	private Sala sala;
 	private Jugador jugador;
-	public boolean inJuego = true; //Pasar a privado
+	public boolean inJuego = true; // Pasar a privado
 
 	public Usuario(String username, String password) {
 		this.username = username;
@@ -29,10 +29,9 @@ public class Usuario {
 	// Constructor necesario para el Hibernate
 	public Usuario() {
 	}
-	
-	//Constructor de usuario solamente utilizando el Id
-	public Usuario(int id) 
-	{
+
+	// Constructor de usuario solamente utilizando el Id
+	public Usuario(int id) {
 		this.id = id;
 	}
 
@@ -62,12 +61,8 @@ public class Usuario {
 		return sala;
 	}
 
-	public Usuario salirDeSala() {
-		if (this.sala != null) {
-			this.sala.quitarUsuario(this);
-			this.sala = null;
-		}
-		return this;
+	public void salirDeSala() {
+		this.sala = null;
 	}
 
 	public int getId() {
@@ -146,13 +141,13 @@ public class Usuario {
 		return Json.createObjectBuilder().add("request", Param.REQUEST_LOGUEO_CORRECTO).add("id", this.id)
 				.add("username", this.username).add("password", this.password).build().toString();
 	}
-/*
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", username=" + username + ", password=" + password + ", puntos=" + puntos
-				+ ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos + ", muertes=" + muertes
-				+ ", partidasGanadas=" + partidasGanadas + ", rondasGanadas=" + rondasGanadas + "]";
-	}*/
+	/*
+	 * @Override public String toString() { return "Usuario [id=" + id +
+	 * ", username=" + username + ", password=" + password + ", puntos=" + puntos +
+	 * ", cantidadFrutaComida=" + cantidadFrutaComida + ", asesinatos=" + asesinatos
+	 * + ", muertes=" + muertes + ", partidasGanadas=" + partidasGanadas +
+	 * ", rondasGanadas=" + rondasGanadas + "]"; }
+	 */
 
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
@@ -160,9 +155,9 @@ public class Usuario {
 
 	public Jugador getJugador() {
 		if (this.jugador != null) {
-			return this.jugador;			
+			return this.jugador;
 		}
-		
+
 		return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
 	}
 
@@ -175,26 +170,26 @@ public class Usuario {
 	}
 
 	public boolean actualizarEstadisticasRonda(boolean sobrevivio, int frutasComidas) {
-		//this.partidasJugadas++;
+		// this.partidasJugadas++;
 		if (!sobrevivio)
 			this.muertes++;
-		
+
 		if (sobrevivio) {
 			this.puntos += 20;
 			this.rondasGanadas++;
 		}
-			
+
 		this.puntos += frutasComidas;
 		this.cantidadFrutaComida += frutasComidas;
-		
+
 		if (UsuarioDAO.updateEstadisticas(this))
 			return true;
 		return false;
 	}
-	
+
 	public boolean actualizarEstadisticasPartidasGanadas() {
 		this.partidasGanadas++;
-		
+
 		if (UsuarioDAO.updateEstadisticas(this))
 			return true;
 		return false;

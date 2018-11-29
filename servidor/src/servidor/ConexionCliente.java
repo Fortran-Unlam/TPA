@@ -152,7 +152,7 @@ public class ConexionCliente extends Thread {
 					sala = Servidor.getSalaPorNombre((String) message.getData());
 					sala.sacarUsuarioDeSala(usuario);
 
-					if (sala.getCantidadUsuarioActuales() == 0) {
+					if (sala.getCantidadUsuarioActuales() == 0 || sala.esElAdmin(usuario)) {
 						Servidor.removerDeSalasActivas(sala);
 					}
 					break;
