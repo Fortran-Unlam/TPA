@@ -119,7 +119,7 @@ public class VentanaSala extends JFrame {
 		}
 
 		if (comboCantRondas.getSelectedIndex() == 0) {
-			nombreSalatipoJuegoMapaYBots.add("rondas", "0");
+			nombreSalatipoJuegoMapaYBots.add("rondas", "Aun no se ha determinado");
 		} else {
 			nombreSalatipoJuegoMapaYBots.add("rondas", (String) comboCantRondas.getSelectedItem());
 		}
@@ -286,7 +286,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeBotsComboBox);
 
 		cantidadDeRondasLabel = new JLabel();
-		cantidadDeRondasLabel.setBounds(368, 268, 66, 20);
+		cantidadDeRondasLabel.setBounds(368, 268, 151, 20);
 		contentPane.add(cantidadDeRondasLabel);
 
 		if (this.visibiliadAdmin) {
