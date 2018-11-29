@@ -92,6 +92,7 @@ public abstract class Param implements Serializable {
 	public static final String IMG_MAPA_DOS_PATH = IMAGEN_PATH + "mapaDos.png";
 	public static final String IMG_MAPA_TRES_PATH = IMAGEN_PATH + "mapaTres.png";
 	public static final String IMG_BOMBA_PATH = IMAGEN_PATH + "bomba.png";
+	public static final String IMG_BLOQUE_RETRO_PATH = IMAGEN_PATH + "retro_bloque.png";
 
 	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";

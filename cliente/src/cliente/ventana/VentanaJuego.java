@@ -74,7 +74,7 @@ public class VentanaJuego extends JFrame {
 	VentanaJuego ventana;
 	Thread thread = null;
 
-	private BufferedImage imagenBomba;
+	private BufferedImage imagenObstaculo;
 
 	public VentanaJuego(int totalRondas, char numeroDeMapa, Usuario usuario) {
 		super("Snake");
@@ -181,9 +181,11 @@ public class VentanaJuego extends JFrame {
 		switch (this.numeroDeMapa) {
 		case '1':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
+			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 			break;
 		case '2':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
+			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, false);
 			break;
 		case '3':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
@@ -194,7 +196,6 @@ public class VentanaJuego extends JFrame {
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
-		imagenBomba = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 
 		thread = new Thread() {
 			public synchronized void run() {
@@ -287,7 +288,7 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.drawImage(imagenBomba, obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+				g2d.drawImage(imagenObstaculo, obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
 						obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
 						Param.PIXEL_RESIZE, null);
 			}
