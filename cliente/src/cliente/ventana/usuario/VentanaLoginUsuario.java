@@ -51,8 +51,7 @@ public class VentanaLoginUsuario extends JFrame {
 		passwordLabel.setBounds(60, 89, 92, 14);
 		this.getContentPane().add(passwordLabel);
 
-		this.username = new JTextField();
-	
+		this.username = new JTextField();	
 		this.limitar(this.username, Param.LIMITE_CARACTERES_USUARIO);
 
 		this.username.setToolTipText("Ingrese su usuario aqu\u00ED. Maximo 20 caracteres.");
@@ -61,7 +60,6 @@ public class VentanaLoginUsuario extends JFrame {
 		this.getContentPane().add(this.username);
 
 		this.password = new JPasswordField();
-
 		this.limitar(this.password, Param.LIMITE_CARACTERES_CONTRASENA);
 
 		this.password.setToolTipText("Ingrese su contrase\u00F1a aqu\u00ED. Maximo 10 caracteres.");
