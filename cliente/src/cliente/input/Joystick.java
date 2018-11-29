@@ -29,8 +29,6 @@ public class Joystick {
 				// System.out.println(i);
 			}
 		}
-		// System.out.println(glfwJoystickPresent(GLFW_JOYSTICK_1));
-		// System.out.println(glfwJoystickIsGamepad(GLFW_JOYSTICK_1));
 		if (glfwJoystickIsGamepad(GLFW_JOYSTICK_1)) {
 			ByteBuffer gamepadButton = glfwGetJoystickButtons(GLFW_JOYSTICK_1);
 
@@ -64,5 +62,11 @@ public class Joystick {
 
 			System.out.println();
 		}
+	}
+
+
+	public boolean isActive() {
+		//TODO: ver como saber si esta activo
+		return false;
 	}
 }
