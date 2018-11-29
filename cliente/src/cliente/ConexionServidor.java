@@ -235,13 +235,6 @@ public class ConexionServidor {
 			switch (this.message.getType()) {
 			case Param.REQUEST_GANADOR_ENVIADO:
 				return datosGanador;
-//				"vibora"
-//				"nombre"
-//				"color_red",
-//				"color_green"
-//				"color_blue"
-//				"frutasComidasEnRonda"
-				
 			}
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en recibir ganador " + ex.getMessage());

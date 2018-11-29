@@ -210,11 +210,7 @@ public class ConexionCliente extends Thread {
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 						tipoJuego.setSegundos(cantidadDeTiempo);
-					}
-
-					// TODO: Traer desde la conexion.
-					
-					
+					}					
 
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
 							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas)).toJson());

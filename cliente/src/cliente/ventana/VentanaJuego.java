@@ -65,6 +65,7 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpo;
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
+	private BufferedImage imagenMapaUno;
 	private boolean musicaEncendida = false;
 
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
@@ -173,6 +174,7 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
+		imagenMapaUno = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
@@ -185,7 +187,6 @@ public class VentanaJuego extends JFrame {
 		};
 
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-		// musicaFondo.repetir();
 
 		thread.start();
 
@@ -212,9 +213,9 @@ public class VentanaJuego extends JFrame {
 
 		JsonObject mapa = json.getJsonObject("mapa");
 		if (!mapa.isEmpty()) {
-			g2d.setColor(Color.BLACK);
-			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
+			g2d.setColor(Color.WHITE);
+			g2d.drawImage(imagenMapaUno, 0, 0, null);
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
@@ -308,17 +309,24 @@ public class VentanaJuego extends JFrame {
 			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
-
-				// Traer Ganador Partida.
-				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-				String mensaje = "El ganador es " + datosGanador[0] + "con " + datosGanador[1] + " frutas comidas"
-						+ " y " + datosGanador[2] + " puntos";
-				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!", JOptionPane.PLAIN_MESSAGE,
-						JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-					this.dispose();
+				try {
+					//Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
+					//Era mas rapida la conexion que el calculo del ganador.
+					thread.wait(250);
+					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
+					String mensaje = "El ganador es " + datosGanador[0] +
+							 "con " + datosGanador[1] + " frutas comidas" + 
+							 " y " + datosGanador[2] + " puntos";
+					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
+							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+						this.dispose();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
 			}
-
 		}
 
 		if (mapa.getBoolean("murioUnJugador")) {
