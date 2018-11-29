@@ -73,7 +73,6 @@ public class VentanaJuego extends JFrame {
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
 							// ejecucion.
 
-
 	public VentanaJuego(int totalRondas) {
 		super("Snake");
 
@@ -214,10 +213,9 @@ public class VentanaJuego extends JFrame {
 
 		JsonObject mapa = json.getJsonObject("mapa");
 		if (!mapa.isEmpty()) {
-			
+
 			g2d.setColor(Color.WHITE);
-			g2d.fillRect(10, 10, 100, 30);
-//			g2d.drawImage(imagenMapaUno, 0,0, 20, 20, null);
+			g2d.drawImage(imagenMapaUno, 0, 0, null);
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
