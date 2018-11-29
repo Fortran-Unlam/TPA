@@ -71,7 +71,9 @@ public class VentanaJuego extends JFrame {
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
 					// de los botones.
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
-							// ejecucion.
+
+	private BufferedImage imagenBomba;
+	// ejecucion.
 
 	public VentanaJuego(int totalRondas) {
 		super("Snake");
@@ -179,6 +181,7 @@ public class VentanaJuego extends JFrame {
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
+		imagenBomba = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 
 		thread = new Thread() {
 			public synchronized void run() {
@@ -272,9 +275,9 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+				g2d.drawImage(imagenBomba, obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
 						obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE);
+						Param.PIXEL_RESIZE, null);
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
@@ -310,13 +313,12 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 				try {
-					//Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
-					//Era mas rapida la conexion que el calculo del ganador.
+					// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
+					// Era mas rapida la conexion que el calculo del ganador.
 					thread.wait(250);
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-					String mensaje = "El ganador es " + datosGanador[0] +
-							 " con " + datosGanador[1] + " frutas comidas" + 
-							 " y " + datosGanador[2] + " puntos";
+					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
+							+ " y " + datosGanador[2] + " puntos";
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 						this.dispose();
@@ -325,7 +327,7 @@ public class VentanaJuego extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
 

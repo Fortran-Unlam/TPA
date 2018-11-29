@@ -165,7 +165,8 @@ public class VentanaSala extends JFrame {
 
 		cantidadDeFrutascomboBox = new JComboBox<Object>();
 
-		cantidadDeFrutascomboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "10", "15", "20", "25", "30", "35" }));
+		cantidadDeFrutascomboBox
+				.setModel(new DefaultComboBoxModel<Object>(new String[] { "10", "15", "20", "25", "30", "35" }));
 		cantidadDeFrutascomboBox.setBounds(496, 95, 72, 24);
 		contentPane.add(cantidadDeFrutascomboBox);
 
@@ -277,7 +278,8 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeFrutasLabel);
 
 		cantidadDeBotsComboBox = new JComboBox<Object>();
-		cantidadDeBotsComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
+		cantidadDeBotsComboBox
+				.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
 		cantidadDeBotsComboBox.setBounds(450, 239, 69, 20);
 		contentPane.add(cantidadDeBotsComboBox);
 
@@ -333,11 +335,16 @@ public class VentanaSala extends JFrame {
 		int totalRondas = Integer.parseInt((String) comboCantRondas.getSelectedItem());
 		boolean tipoDeJuegoFruta = chckbxFruta.isSelected();
 		boolean tipoDeJuegoTiempo = chckbxTiempo.isSelected();
-		int cantidadDeFrutas = chckbxFruta.isSelected() ? Integer.parseInt((String) cantidadDeFrutascomboBox.getSelectedItem()) : 0;
-		int cantidadDeTiempo = chckbxTiempo.isSelected() ? Integer.parseInt((String) cantidadDeTiempoComboBox.getSelectedItem()) : 0;
+		int cantidadDeFrutas = chckbxFruta.isSelected()
+				? Integer.parseInt((String) cantidadDeFrutascomboBox.getSelectedItem())
+				: 0;
+		int cantidadDeTiempo = chckbxTiempo.isSelected()
+				? Integer.parseInt((String) cantidadDeTiempoComboBox.getSelectedItem())
+				: 0;
 		String mapa = (String) comboMapa.getSelectedItem();
-		
-		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas,tipoDeJuegoFruta,cantidadDeFrutas,tipoDeJuegoTiempo,cantidadDeTiempo,mapa) == false) {
+
+		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas, tipoDeJuegoFruta, cantidadDeFrutas,
+				tipoDeJuegoTiempo, cantidadDeTiempo, mapa) == false) {
 			Cliente.LOGGER.error("No se pudo creear el Juego");
 			return;
 		}
@@ -469,7 +476,7 @@ public class VentanaSala extends JFrame {
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
 
-			if (!this.visibiliadAdmin) {//USUARIO INVITADO
+			if (!this.visibiliadAdmin) {// USUARIO INVITADO
 				if (datosParaRefrescarSala.getBoolean("fruta")) {
 					chckbxFruta.setSelected(true);
 					this.cantidadDeFrutasLabel.setText(datosParaRefrescarSala.getString("cantidadDeFrutas"));
