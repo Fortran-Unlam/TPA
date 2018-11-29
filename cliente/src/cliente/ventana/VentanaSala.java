@@ -353,19 +353,10 @@ public class VentanaSala extends JFrame {
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
-		char numeroDeMapa = mapa.charAt(mapa.length() - 1);
-		new VentanaJuego(totalRondas, numeroDeMapa);
-	}
 
-//	// Esto en realidad deberia ser el mismo que empezarJuego y que haya una
-//	// variable que condicione el if.
-//	protected void empezarJuegoNoAdmin() {
-//		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
-//		// volver a la VentanaSala que volver a crear una nueva instancia.
-//		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
-//		musicaFondo.reproducir();
-//		//new VentanaJuego(Integer.parseInt((String) comboCantRondas.getSelectedItem()));
-//	}
+		char numeroDeMapa = mapa.charAt(mapa.length() - 1);
+		new VentanaJuego(totalRondas,numeroDeMapa, ventanaMenu);
+	}
 
 	private void addListener() {
 		btnSalirDeSala.addActionListener(new ActionListener() {

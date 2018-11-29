@@ -68,18 +68,21 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenFruta;
 	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
+	private JFrame ventanaMenu = null;
 
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
 					// de los botones.
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
-							// ejecucion.
 
-	public VentanaJuego(int totalRondas, char numeroDeMapa) {
+	private BufferedImage imagenBomba;
+	// ejecucion.
+
+	public VentanaJuego(int totalRondas,char numeroDeMapa, JFrame ventanaMenu) {
 		super("Snake");
-
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
-		System.out.println(this.numeroDeMapa);
+		this.ventanaMenu = ventanaMenu;
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
@@ -179,16 +182,16 @@ public class VentanaJuego extends JFrame {
 		switch (this.numeroDeMapa) {
 		case '1':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
-			System.out.println("ENTRO AL CASE UNO");
 			break;
-		case '2':
+		case '2': imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
 			break;
 		}
-		
+
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
+		imagenBomba = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 
 		thread = new Thread() {
 			public synchronized void run() {
@@ -282,9 +285,9 @@ public class VentanaJuego extends JFrame {
 
 			for (int i = 0; i < obstaculos.size(); i++) {
 				g2d.setColor(Color.WHITE);
-				g2d.fillRect(obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
+				g2d.drawImage(imagenBomba, obstaculos.getJsonObject(i).getInt("x") * Param.PIXEL_RESIZE,
 						obstaculos.getJsonObject(i).getInt("y") * Param.PIXEL_RESIZE, Param.PIXEL_RESIZE,
-						Param.PIXEL_RESIZE);
+						Param.PIXEL_RESIZE, null);
 			}
 
 			JsonArray score = mapa.getJsonArray("score");
@@ -380,6 +383,18 @@ public class VentanaJuego extends JFrame {
 	}
 
 	private void addListener() {
+
+		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(contentPane, Param.MENSAJE_CERRAR_VENTANA, Param.TITLE_CERRAR_VENTANA,
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+					Cliente.getConexionServidor().cerrarSesionUsuario(((VentanaMenu) ventanaMenu).getUsuario());
+					System.exit(0);
+				}
+			}
+		});
+
 		this.addKeyListener(new GestorInput().teclado);
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
