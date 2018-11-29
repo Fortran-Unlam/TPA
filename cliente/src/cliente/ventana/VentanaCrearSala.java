@@ -76,18 +76,8 @@ public class VentanaCrearSala extends JFrame {
 		contentPane.add(lblNewLabel);
 
 		nombreField = new JTextField();
-		/* Bloquea el control c y control v */
-		InputMap mapNombreField = nombreField.getInputMap(JTextField.WHEN_FOCUSED);
-		mapNombreField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/* Limita cantidad de caracteres a ingresar en el campo sala */
-		nombreField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent evt) {
-				if (nombreField.getText().length() >= Param.LIMITE_CARACTERES_NOMBRE_SALA) {
-					evt.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
+		this.limitar(this.nombreField, Param.LIMITE_CARACTERES_NOMBRE_SALA);
+		
 		nombreField.setToolTipText(
 				"Ingrese el nombre de la sala que desea. Solo pueden contener letras y numeros (sin espacios). Maximo 20 caracteres.");
 		nombreField.setBounds(289, 120, 151, 25);
@@ -101,18 +91,7 @@ public class VentanaCrearSala extends JFrame {
 
 		maxUsuarioField = new JTextField();
 		maxUsuarioField.setText("2");
-		/* Bloquea el control c y control v */
-		InputMap MapMaxUsuarioField = maxUsuarioField.getInputMap(JComponent.WHEN_FOCUSED);
-		MapMaxUsuarioField.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
-		/* Limita cantidad de caracteres a ingresar en el campo usuarios maximos */
-		maxUsuarioField.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent evt) {
-				if (maxUsuarioField.getText().length() >= Param.LIMITE_CARACTERES_USUARIOS_MAX) {
-					evt.consume();
-					Toolkit.getDefaultToolkit().beep();
-				}
-			}
-		});
+		this.limitar(this.maxUsuarioField, Param.LIMITE_CARACTERES_USUARIOS_MAX);
 		maxUsuarioField.setToolTipText(
 				"Ingrese la cantidad m\u00E1xima de usuarios. Debe ser num\u00E9rico. Maximo 99 usuarios.");
 		maxUsuarioField.setBounds(400, 159, 40, 26);
@@ -128,6 +107,27 @@ public class VentanaCrearSala extends JFrame {
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 					Cliente.getConexionServidor().cerrarSesionUsuario(ventanaMenu.getUsuario());
 					System.exit(0);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Limitar cantidad de caracteres a ingresar en el campo de texto Bloquea el
+	 * control c y control v
+	 * 
+	 * @param jTextField
+	 * @param limiteCaracteres
+	 */	
+	 private void limitar(final JTextField jTextField, final int limiteCaracteres) {
+		InputMap mapUsername = jTextField.getInputMap(JComponent.WHEN_FOCUSED);
+		mapUsername.put(KeyStroke.getKeyStroke(KeyEvent.VK_V, Event.CTRL_MASK), "null");
+
+		jTextField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				if (jTextField.getText().length() >= limiteCaracteres) {
+					e.consume();
+					Toolkit.getDefaultToolkit().beep();
 				}
 			}
 		});
