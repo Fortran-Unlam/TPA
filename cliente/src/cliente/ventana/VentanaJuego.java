@@ -83,7 +83,6 @@ public class VentanaJuego extends JFrame {
 		this.numeroDeMapa = numeroDeMapa;
 		this.ventanaMenu = ventanaMenu;
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
 		contentPane = new JPanel();
