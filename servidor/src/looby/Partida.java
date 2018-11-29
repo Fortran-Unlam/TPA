@@ -57,6 +57,8 @@ public class Partida implements Serializable {
 		if (this.numeroRonda < this.cantidadDeRondasAJugar) {
 			try {
 				this.partidaEnCurso = true;
+				this.numeroRonda++;
+				
 				// Inicia el mapa antes de cada ronda.
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
