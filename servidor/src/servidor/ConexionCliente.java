@@ -196,9 +196,8 @@ public class ConexionCliente extends Thread {
 					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
 					int cantidadDeTiempo = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_TIEMPO));
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
-					String mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO));
-					int numeroDeMapaDeJuego = Integer.valueOf(mapaDeJuego.charAt(mapaDeJuego.length() - 1));
-
+					String[] mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO)).split(" ");
+					int numeroDeMapaDeJuego = Integer.parseInt(mapaDeJuego[1]);
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}

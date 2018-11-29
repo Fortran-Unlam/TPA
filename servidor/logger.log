@@ -945,3 +945,5 @@ INFORMACIÓN: Cliente con la IP 127.0.0.1 conectado.
 11/29/2018 07:57:22 PM|INFO |Class                         | Corriendo en el puerto: 9004
 11/29/2018 07:57:23 PM|INFO |Class                         | Cliente con la IP 127.0.0.1 conectado.
 11/29/2018 07:57:24 PM|INFO |QueryTranslatorFactoryInitiator| HHH000397: Using ASTQueryTranslatorFactory
+11/29/2018 08:04:21 PM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado.
+11/29/2018 08:04:21 PM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado del backOff.

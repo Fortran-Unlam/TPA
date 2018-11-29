@@ -6,6 +6,7 @@ import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
 import core.mapa.Mapa;
+import core.mapa.MapaDos;
 import core.mapa.MapaUno;
 
 public class Partida implements Serializable {
@@ -25,8 +26,8 @@ public class Partida implements Serializable {
 	private Jugador ganadorPartida;
 	private int puntajeMaximo;
 
-	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, int cantidadTotalRondas, TipoJuego tipo,
-			int tipoMapa) {
+	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, TipoJuego tipo,
+			int tipoMapa, int cantidadTotalRondas) {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
@@ -161,8 +162,8 @@ public class Partida implements Serializable {
 		switch (tipoMapa) {
 		case 1:
 			return new MapaUno();
-//			case 2:
-//				return new MapaDos();
+		case 2:
+			return new MapaDos();
 //			case 3:
 //				return new MapaTres();
 		}
