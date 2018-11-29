@@ -2,10 +2,6 @@ package looby;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-
 import core.Jugador;
 import core.JugadorBot;
 import core.mapa.Juego;
