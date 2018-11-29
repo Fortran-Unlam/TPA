@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+
 
 import config.Param;
 import core.Jugador;
@@ -257,6 +259,19 @@ public class Servidor {
 	 */
 	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff() {
 		return Servidor.conexionesClientesBackOff;
+	}
+	
+	
+	static void avisarALosClientesQueLaSalaTermino(Sala sala) {
+		JsonObject paqueteSalaTerminada = Json.createObjectBuilder().add("type", Param.SALA_TERMINADA).build();
+		
+		for(Usuario userSala: sala.getUsuariosActivos()) {
+			for(ConexionClienteBackOff cliente: conexionesClientesBackOff) {
+				if(cliente.getUsuario().equals(userSala)) {
+					cliente.escribirSalida(paqueteSalaTerminada);
+				}
+			}
+		}
 	}
 
 }

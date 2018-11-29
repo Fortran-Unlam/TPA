@@ -205,4 +205,12 @@ public class ConexionClienteBackOff extends Thread {
 		}
 		return false;
 	}
+	
+	void escribirSalida(JsonObject dato) {
+		try {
+			this.salidaDatos.writeObject(dato.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

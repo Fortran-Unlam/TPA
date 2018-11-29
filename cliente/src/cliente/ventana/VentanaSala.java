@@ -490,4 +490,10 @@ public class VentanaSala extends JFrame {
 			}
 		}
 	}
+	
+	
+	public void cerrarSalaPorqueSalioAdmin() {
+		JOptionPane.showMessageDialog(this, "Ha salido el admin de la sala", "Sala terminada", JOptionPane.INFORMATION_MESSAGE);
+		this.setVisible(false);
+	}
 }

@@ -66,6 +66,7 @@ public abstract class Param implements Serializable {
 	public static final String SEPARADOR_EN_MENSAJES = ";";
 	public static final String DATOS_SALA = "DatosSala";
 	public static final String CANTIDAD_RONDAS = "CantidadRondas";
+	public static final String SALA_TERMINADA = "laSalaTerminoXqElAdmSeFue";
 
 	//Mensaje para cerrar ventana.
 	public static final String MENSAJE_CERRAR_VENTANA ="¿Esta seguro que desea salir de la Viborita?";
