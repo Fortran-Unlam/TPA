@@ -16,7 +16,6 @@ public class TipoJuegoSupervivencia extends TipoJuegoDecorator {
 
 	@Override
 	public boolean termina(ArrayList<Jugador> jugadores, int segundos) {
-		System.out.println("supervivencia");
 		if (tipoJuego.termina(jugadores, segundos)) {
 			return true;
 		}

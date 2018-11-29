@@ -65,6 +65,7 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpo;
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
+	private BufferedImage imagenMapaUno;
 	private boolean musicaEncendida = false;
 
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
@@ -173,6 +174,7 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
+		imagenMapaUno = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
@@ -185,7 +187,6 @@ public class VentanaJuego extends JFrame {
 		};
 
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-		// musicaFondo.repetir();
 
 		thread.start();
 
@@ -212,9 +213,9 @@ public class VentanaJuego extends JFrame {
 
 		JsonObject mapa = json.getJsonObject("mapa");
 		if (!mapa.isEmpty()) {
-			g2d.setColor(Color.BLACK);
-			g2d.fillRect(0, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 
+			g2d.setColor(Color.WHITE);
+			g2d.drawImage(imagenMapaUno, 0, 0, null);
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
@@ -301,7 +302,7 @@ public class VentanaJuego extends JFrame {
 		if (json.getBoolean("terminado")) {
 			g2d.setColor(Color.WHITE);
 			g2d.drawString("Juego terminado", (Param.MAPA_WIDTH / 2) - 100, Param.MAPA_HEIGHT / 2);
-			
+
 			if (json.getInt("numeroRonda") < this.totalRondas) {
 				// Termino la ronda
 				g2d.drawString("Proxima Ronda en 2 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
@@ -326,7 +327,6 @@ public class VentanaJuego extends JFrame {
 				}
 				
 			}
-
 		}
 
 		if (mapa.getBoolean("murioUnJugador")) {
@@ -336,8 +336,9 @@ public class VentanaJuego extends JFrame {
 		if (mapa.getBoolean("comioFruta")) {
 			new Sonido(Param.SONIDO_FRUTA_PATH).reproducir();
 		}
-
-		this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		if (this.panelMapa.getGraphics() != null) {
+			this.panelMapa.getGraphics().drawImage(bufferedImage, 0, 0, null);
+		}
 	}
 
 	private void dibujarCuerpo(Graphics2D g2d, BufferedImage imagen, int xAnterior, int yAnterior, int x, int y) {
@@ -345,7 +346,7 @@ public class VentanaJuego extends JFrame {
 		AffineTransform at = new AffineTransform();
 		Random r = new Random();
 		int numero = r.nextInt();
-		
+
 		Posicion posicion = Posicion.getPosicion(xAnterior, yAnterior, x, y);
 		switch (posicion) {
 		case ESTE:

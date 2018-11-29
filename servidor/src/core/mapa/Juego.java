@@ -17,7 +17,6 @@ public class Juego implements Serializable {
 	private List<Jugador> jugadoresEnJuego;
 	private Mapa mapa;
 
-	// private JList jListScore;
 	private TipoJuego tipoJuego;
 	private boolean juegoEnCurso = false;
 	private int segundosTranscurridos = 0;
@@ -25,12 +24,11 @@ public class Juego implements Serializable {
 	private int numeroRonda = 0;
 
 	public Juego(List<Jugador> jugadores, TipoJuego tipoJuego, Mapa mapa) {
-		this.jugadoresEnJuego = jugadores; // Revisar si apuntar la referencia o poner los objetos en su lista
+		this.jugadoresEnJuego = jugadores;
 		this.mapa = mapa;
 		for (Jugador jugador : this.jugadoresEnJuego) {
 			this.mapa.add(jugador, jugador instanceof JugadorBot);
 		}
-		// this.jListScore = new JList<Jugador>();
 		this.tipoJuego = tipoJuego;
 	}
 
@@ -41,19 +39,26 @@ public class Juego implements Serializable {
 		return false;
 	}
 
-	/*
+	/**
 	 * COMIENZA EL JUEGO (RONDA) REFRESCANDO EL MAPA CADA CIERTO TIEMPO
+	 * 
+	 * En realidad no es la mejor forma de sincronizar usar un Thread.sleep
+	 * Cuando el sleep es mas alto hay menos "problemas" de sincronizacion
+	 * con 100 lo probe y anda fluido y responde a las teclas instantaneamente
+	 * antes estaba en 1000/40 = 25, cuanto mas bajo hay mas posibilidad de que haya
+	 * "problemas" entre tanto thread, socket bla bla bla
+	 * Se deberia solucionar con buffer, semaforos y todo ese humo xd.
+	 * Mover entre 50 ~ 100.
+	 * 
 	 */
 	public void start() {
-		//Score score = new Score();
-		// score.add(this.mapa.getJugadores());
 		boolean puedeActualizar = true;
 		this.juegoEnCurso = true;
 		try {
 
 			Servidor.actualizarJuego(this);
 			Thread.sleep(1000);
-			this.tipoJuego = new TipoJuego();
+			
 			long tiempoInicial = System.currentTimeMillis();
 			while (puedeActualizar && this.juegoEnCurso && !this.tipoJuego.termina(this.mapa.getJugadores(), this.segundosTranscurridos)) {
 				this.currentTimeMillis = System.currentTimeMillis();
@@ -61,16 +66,6 @@ public class Juego implements Serializable {
 				
 				puedeActualizar = Servidor.actualizarJuego(this);
 				
-				//Reflejo 09/11 CUIDADO CON ESTO!!
-				/* En realidad no es la mejor forma de sincronizar usar un Thread.sleep
-				 * Cuando el sleep es mas alto hay menos "problemas" de sincronizacion
-				 * con 100 lo probe y anda fluido y responde a las teclas instantaneamente
-				 * antes estaba en 1000/40 = 25, cuanto mas bajo hay mas posibilidad de que haya
-				 * "problemas" entre tanto thread, socket bla bla bla
-				 * Se deberia solucionar con buffer, semaforos y todo ese humo xd.
-				 * Mover entre 50 ~ 100.
-				 * 
-				 */
 				Thread.sleep(100);
 				this.segundosTranscurridos = (int) (System.currentTimeMillis() - tiempoInicial) / 1000;
 			}

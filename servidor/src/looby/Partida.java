@@ -34,7 +34,6 @@ public class Partida implements Serializable {
 		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
-			System.out.println("partida " + usuario);
 			Jugador jugador;
 			if (usuario instanceof UsuarioBot) {
 				jugador = new JugadorBot(usuario);
@@ -54,12 +53,11 @@ public class Partida implements Serializable {
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
-		//System.out.println("numeroRonda " + numeroRonda + " " + " cantidadDeRondasAJugar " + cantidadDeRondasAJugar);
-		
+
 		if (this.numeroRonda < this.cantidadDeRondasAJugar) {
 			try {
 				this.partidaEnCurso = true;
-				//Inicia el mapa antes de cada ronda.
+				// Inicia el mapa antes de cada ronda.
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
@@ -69,12 +67,13 @@ public class Partida implements Serializable {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if (this.numeroRonda == this.cantidadDeRondasAJugar) {
 			if (!(ganadorPartida instanceof JugadorBot)) {
 				for (Usuario u : usuariosActivosEnSala) {
 					if (u.getJugador().equals(this.ganadorPartida)) {
-						usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u)).actualizarEstadisticasPartidasGanadas();
+						usuariosActivosEnSala.get(usuariosActivosEnSala.indexOf(u))
+								.actualizarEstadisticasPartidasGanadas();
 						break;
 					}
 				}
@@ -107,10 +106,10 @@ public class Partida implements Serializable {
 				}
 				rondaEnCurso.setRonda(numeroRonda);
 				rondaEnCurso.start();
-				
+
 				// Termina una ronda y comienza otra.
 				try {
-					
+
 					for (Jugador jug : rondaEnCurso.getJugadoresEnJuego()) {
 						//Itero por jugadores, no bots.
 							boolean sobrevivioRonda = false;
@@ -133,26 +132,22 @@ public class Partida implements Serializable {
 									}
 								}
 							}
-						jug.resetEstadisticasRonda();
-						
-					}
-
+							jug.resetEstadisticasRonda();
+						}	
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
 					// TODO Poner algo por si falla el update del usuario.
-					
+
 					e.printStackTrace();
 				}
-				
-				//Por temas de syncro. Por cada ronda voy calculando el ganador.
 				empezarPartida();
 			}
 		};
 		thread.start();
-		
+
 		return true;
 	}
-	
+
 	public void calcularGanadorPartida() {
 		for (Jugador jug : this.jugadoresEnPartida) {
 			if (jug.getPuntosEnPartida() > this.puntajeMaximo) {
@@ -162,12 +157,12 @@ public class Partida implements Serializable {
 		}
 		//return this.ganadorPartida;
 	}
-	
+
 	public Mapa crearMapaTipo(int tipoMapa) {
-		//Devuelve un mapa en base al tipo enviado.
-		switch(tipoMapa) {
-			case 1:
-				return new MapaUno();
+		// Devuelve un mapa en base al tipo enviado.
+		switch (tipoMapa) {
+		case 1:
+			return new MapaUno();
 //			case 2:
 //				return new MapaDos();
 //			case 3:
@@ -186,7 +181,7 @@ public class Partida implements Serializable {
 		this.rondaEnCurso = null;
 	}
 
-	public Juego getRondaEnCurso() {
+	public Juego getJuegoEnCurso() {
 		return rondaEnCurso;
 	}
 
@@ -209,7 +204,7 @@ public class Partida implements Serializable {
 	public void setPartidaEnCurso(boolean partidaEnCurso) {
 		this.partidaEnCurso = partidaEnCurso;
 	}
-	
+
 	public Jugador getGanador() {
 		return this.ganadorPartida;
 	}

@@ -14,13 +14,10 @@ import config.Param;
 import config.Posicion;
 import core.Jugador;
 import core.mapa.Juego;
-import core.mapa.Mapa;
-import core.mapa.MapaUno;
 import looby.Partida;
 import looby.Sala;
 import looby.TipoJuego;
 import looby.TipoJuegoFruta;
-import looby.TipoJuegoSupervivencia;
 import looby.TipoJuegoTiempo;
 import looby.Usuario;
 import looby.UsuarioBot;
@@ -49,7 +46,7 @@ public class ConexionCliente extends Thread {
 			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
-			System.out.println("Error al crear los stream de entrada y salida : " + ex.getMessage());
+			Servidor.LOGGER.error("Error al crear los stream de entrada y salida : " + ex.getMessage());
 		}
 	}
 
@@ -61,7 +58,6 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
-				//System.out.println("El cliente solicita " + message.getType());
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
@@ -71,7 +67,6 @@ public class ConexionCliente extends Thread {
 							properties.getProperty("hashPassword"));
 
 					if (usuario == null) {
-						System.out.println("Usuario y/o contrasenia incorrectos");
 						this.salidaDatos.flush();
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
 					} else {
@@ -79,7 +74,6 @@ public class ConexionCliente extends Thread {
 						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
 
 							if (usuarioActivo.getId() == usuario.getId()) {
-								System.out.println("Usuario ya logeado");
 								this.salidaDatos.flush();
 								this.salidaDatos
 										.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
@@ -105,15 +99,15 @@ public class ConexionCliente extends Thread {
 
 					switch (resultado) {
 					case -1:
-						//System.err.println("registro incorrecto");
+						// System.err.println("registro incorrecto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null).toJson());
 						break;
 					case 0:
-						//System.err.println("registro correcto");
+						// System.err.println("registro correcto");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null).toJson());
 						break;
 					case 1:
-						//System.err.println("registro duplicado");
+						// System.err.println("registro duplicado");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null).toJson());
 						break;
 					}
@@ -121,7 +115,7 @@ public class ConexionCliente extends Thread {
 					break;
 
 				case Param.REQUEST_GET_ALL_SALAS:
-					//System.err.println("Obtener todas las Salas");
+					// System.err.println("Obtener todas las Salas");
 					this.salidaDatos
 							.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()).toJson());
 					break;
@@ -134,7 +128,7 @@ public class ConexionCliente extends Thread {
 						sala = usuario.crearSala(dataSala.get(0), Integer.valueOf(dataSala.get(1)));
 
 						Servidor.agregarASalasActivas(sala);
-						//System.err.println("Sala creada");
+						// System.err.println("Sala creada");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
 						// Envio a los clientes que estaban en "unir sala" la actualizacion de la
@@ -146,38 +140,25 @@ public class ConexionCliente extends Thread {
 								+ sala.getCantidadUsuarioActuales() + Param.SEPARADOR_EN_MENSAJES
 								+ sala.getCantidadUsuarioMaximos();
 
-						//System.err.println("Actualizar Salas");
 						this.salidaDatos
 								.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
-						//System.err.println("Error al crear sala");
 						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
 
 					break;
 				case Param.REQUEST_SALIR_SALA:
 					usuario.salirDeSala();
-					String nombreSala = (String) message.getData();
-					sala = Servidor.getSalaPorNombre(nombreSala);
-					// Es similar al usuario.SalirSala() ? Estoy duplicando la accion.
+					sala = Servidor.getSalaPorNombre((String) message.getData());
 					sala.sacarUsuarioDeSala(usuario);
-					// Debug para comprobar verdaderamente la cantidad de usuarios con los que quedo
-					// la sala.
-					// System.out.println("ASD:"+s.getCantidadUsuarioActuales());
-					// Si tras la salida del usuario, la sala se quedo con 0 usuarios entonces debe
-					// eliminarse de las salas activas.
 
-					if (sala.getCantidadUsuarioActuales() == 0)
+					if (sala.getCantidadUsuarioActuales() == 0) {
 						Servidor.removerDeSalasActivas(sala);
+					}
 					break;
 				case Param.REQUEST_INGRESO_SALA:
-					// Obtengo la sala a la que me quiero unir en base al nombre.
-					String nombreSala1 = (String) message.getData();
-					sala = Servidor.getSalaPorNombre(nombreSala1);
-					/*
-					 * Me agrego(en realidad es desde la perspectiva del servidor) asi que el
-					 * servidor me agrega a la sala.
-					 */
+					sala = Servidor.getSalaPorNombre((String) message.getData());
+
 					sala.agregarUsuarioASala(usuario);
 					/*
 					 * El servidor me devuelve los datos de la sala, para que la vista me represente
@@ -186,64 +167,58 @@ public class ConexionCliente extends Thread {
 					int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
 					int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
 					String usuariosActivos = sala.getUsuariosSeparadosporComa();
-					//System.err.println("Datos de sala");
 					this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
 							cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos).toJson());
 					break;
-				//Si el usuario pide irse de la partida.
 				case Param.REQUEST_SALIR_JUEGO:
 					this.usuario.inJuego = false;
-					Jugador j = this.usuario.getJugador();
-					Sala s = this.sala;
-					Partida partidaActual = s.getPartidaActual();
-					Juego jg = partidaActual.getRondaEnCurso();
-					
-					///25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver crearSala en ConexionServidor.
-					//Lo saco de los jugadores en el juego actual.
-					if(jg.getJugadoresEnJuego().remove(j)) {
-						//Lo saco de los jugadores en la partida actual.
-						partidaActual.getJugadoresEnPartida().remove(j);
-						j.getVibora().matar();
+					Jugador jugador = this.usuario.getJugador();
+					Partida partidaActual = this.sala.getPartidaActual();
+					Juego juego = partidaActual.getJuegoEnCurso();
+
+					/// 25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver
+					/// crearSala en ConexionServidor.
+					// Lo saco de los jugadores en el juego actual.
+					if (juego.getJugadoresEnJuego().remove(jugador)) {
+						partidaActual.getJugadoresEnPartida().remove(jugador);
+						jugador.getVibora().matar();
 					}
 					break;
-					
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
 
-					int cantidadBots = Integer.valueOf(properties.getProperty("cantidadBots"));
+					int cantidadBots = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_BOTS));
 					boolean tipoJuegoFruta = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_FRUTA));
-					boolean tipoJuegoSupervivencia = Boolean
-							.valueOf(properties.getProperty(Param.TIPO_JUEGO_SUPERVIVENCIA));
+					int cantidadDeFrutas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_FRUTAS));
 					boolean tipoJuegoTiempo = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_TIEMPO));
+					int cantidadDeTiempo = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_TIEMPO));
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
 
 					for (int i = 0; i < cantidadBots; i++) {
 						sala.agregarUsuarioASala(new UsuarioBot());
 					}
 
-					//System.err.println("Juego empezado");
 					TipoJuego tipoJuego = new TipoJuego();
 
 					if (tipoJuegoFruta) {
 						tipoJuego = new TipoJuegoFruta(tipoJuego);
+						tipoJuego.setFrutasMaximas(cantidadDeFrutas);
 					}
-					if (tipoJuegoSupervivencia) {
-						tipoJuego = new TipoJuegoSupervivencia(tipoJuego);
-					}
+
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
+						tipoJuego.setSegundos(cantidadDeTiempo);
 					}
-					
-					//Traer desde la conexion.
+
+					// TODO: Traer desde la conexion.
 					int tipoMapa = 1;
-					
-					this.salidaDatos.writeObject(
-							new Message(Param.REQUEST_JUEGO_EMPEZADO, sala.crearPartida(cantidadBots, tipoJuego, tipoMapa, cantidadTotalRondas))
-									.toJson());
+
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
+							sala.crearPartida(cantidadBots, tipoJuego, tipoMapa, cantidadTotalRondas)).toJson());
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
-					Posicion posicion = Posicion.values()[((Double)message.getData()).intValue()];
+					Posicion posicion = Posicion.values()[((Double) message.getData()).intValue()];
 					if (posicion != null) {
 						this.usuario.getJugador().setTecla(posicion);
 					}
@@ -275,21 +250,19 @@ public class ConexionCliente extends Thread {
 				}
 
 			} catch (IOException ex) {
-				System.out.println(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
+				Servidor.LOGGER.error(ex.getMessage() + " Cliente con la IP " + socket.getInetAddress().getHostAddress()
 						+ " desconectado.");
 				conectado = false;
 				try {
 					this.entradaDatos.close();
 					this.salidaDatos.close();
 				} catch (IOException ex2) {
-					System.out.println("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
+					Servidor.LOGGER.error("Error al cerrar los stream de entrada y salida :" + ex2.getMessage());
 				}
 			} catch (JsonSyntaxException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Servidor.LOGGER.error("Error de sintaxis en el json " + e.getMessage());
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Servidor.LOGGER.error("No se encuentra una clase " + e.getMessage());
 			}
 		}
 		Servidor.desconectar(this);

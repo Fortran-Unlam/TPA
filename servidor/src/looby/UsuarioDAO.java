@@ -21,7 +21,6 @@ public class UsuarioDAO {
 			tx.commit();
 			String query = "SELECT u FROM Usuario u WHERE u.username = '" + username + "' AND u.password = '"
 					+ hashPassword + "'";
-			System.out.println(query);
 			Query queryLogueo = Servidor.getSessionHibernate().createQuery(query);
 			try {
 				Usuario user = (Usuario) queryLogueo.getSingleResult();
@@ -54,8 +53,6 @@ public class UsuarioDAO {
 			List<Usuario> resultList = chequearDuplicado.getResultList();
 
 			if (!resultList.isEmpty()) {
-
-				System.out.println("Ese nombre de usuario ya existe");
 				return 1;
 
 			} else {

@@ -34,8 +34,6 @@ public class Teclado implements KeyListener, Serializable {
 		case KeyEvent.VK_ESCAPE:
 			System.exit(0);
 			break;
-		default:
-			System.out.print(e.getKeyCode() + " " + KeyEvent.getKeyText(e.getKeyCode()) + "\n");
 		}
 		
 	}
