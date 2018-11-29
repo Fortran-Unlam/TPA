@@ -108,5 +108,6 @@ public abstract class Param implements Serializable {
 	public static final String CANTIDAD_DE_BOTS = "cantidadDeBots";
 	public static final String CANTIDAD_DE_FRUTAS = "cantidadDeFrutas";
 	public static final String CANTIDAD_DE_TIEMPO = "cantidadDeTiempo";
-
+	public static final String MAPA_DE_JUEGO = "mapaDeJuego";
+	
 }
