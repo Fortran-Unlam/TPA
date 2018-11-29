@@ -18,8 +18,9 @@ public class Jugador implements Comparable<Jugador> {
 	private Color color;
 	private String nombre;
 	private int frutasComidasEnRonda;
-	//private int frutasComidasEnPartida;
+	private int frutasComidasEnPartida;
 	private int puntosEnPartida;
+	
 	private GestorInput teclado = new GestorInput();
 	
 	/**
@@ -32,6 +33,7 @@ public class Jugador implements Comparable<Jugador> {
 		this.nombre = nombre;
 		this.frutasComidasEnRonda = 0;
 		this.puntosEnPartida = 0;
+		this.frutasComidasEnPartida = 0;
 	}
 
 	/**
@@ -67,9 +69,10 @@ public class Jugador implements Comparable<Jugador> {
 	public void setNombre(final String nombre) {
 		this.nombre = nombre;
 	}
-
+	
 	public void aumentarFrutasComidas() {
 		this.frutasComidasEnRonda++;
+		this.frutasComidasEnPartida++;
 		this.puntosEnPartida++;
 		if (this.getVibora() != null) {
 			this.getVibora().comer();
@@ -83,6 +86,10 @@ public class Jugador implements Comparable<Jugador> {
 	
 	public int getPuntosEnPartida() {
 		return this.puntosEnPartida;
+	}
+	
+	public int getFrutasComidasEnPartida() {
+		return this.frutasComidasEnPartida;
 	}
 
 	public void setTecla(Posicion posicion) {

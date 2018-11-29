@@ -308,16 +308,23 @@ public class VentanaJuego extends JFrame {
 			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
-
-				//Traer Ganador Partida.
-				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-				String mensaje = "El ganador es " + datosGanador[0] +
-								 "con " + datosGanador[1] + " frutas comidas" + 
-								 " y " + datosGanador[2] + " puntos";
-				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
-						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-					this.dispose();
+				try {
+					//Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
+					//Era mas rapida la conexion que el calculo del ganador.
+					thread.wait(250);
+					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
+					String mensaje = "El ganador es " + datosGanador[0] +
+							 "con " + datosGanador[1] + " frutas comidas" + 
+							 " y " + datosGanador[2] + " puntos";
+					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
+							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+						this.dispose();
+					}
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
 			}
 
 		}

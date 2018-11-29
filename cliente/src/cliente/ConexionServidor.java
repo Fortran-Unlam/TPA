@@ -249,12 +249,9 @@ public class ConexionServidor {
 	}
 	
 	public String[] recibirGanador(boolean partidaTerminada) {
-		//Recibir el ganador de cada partida. Pendiente.
 		String[] datosGanador = {"Jugador1","0","0"};
 		
 		try {
-			//El request esta al pedo me pa.
-			//String request = "{\"partidaTerminada\":" + partidaTerminada + "}";
 			this.message = new Message(Param.REQUEST_MOSTRAR_GANADOR, true);
 			this.salidaDatos.writeObject(this.message.toJson());
 			
@@ -264,23 +261,15 @@ public class ConexionServidor {
 			switch (this.message.getType()) {
 			case Param.REQUEST_GANADOR_ENVIADO:
 				return datosGanador;
-//				
-//				"vibora"
-//				"nombre"
-//				"color_red",
-//				"color_green"
-//				"color_blue"
-//				"frutasComidasEnRonda"
-				
 			}
 		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
+			// TODO log
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// TODO log
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO log
 			e.printStackTrace();
 		}
 		return datosGanador;
