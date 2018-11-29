@@ -52,6 +52,7 @@ public class VentanaJuego extends JFrame {
 
 	private Sonido musicaFondo;
 	private int totalRondas;
+	private char numeroDeMapa;
 
 	private JLabel lblReferencia;
 	private JLabel lblObstaculoRef;
@@ -65,7 +66,7 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenCuerpo;
 	private BufferedImage imagenCuerpoBot;
 	private BufferedImage imagenFruta;
-	private BufferedImage imagenMapaUno;
+	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
 
 	VentanaJuego v; // Fix para tener una referencia a la VentanaJuego y utilizarla en los eventos
@@ -73,11 +74,12 @@ public class VentanaJuego extends JFrame {
 	Thread thread = null; // Fix para tener una referencia al thread de la VentanaJuego y finalizar su
 							// ejecucion.
 
-	public VentanaJuego(int totalRondas) {
+	public VentanaJuego(int totalRondas, char numeroDeMapa) {
 		super("Snake");
 
 		this.totalRondas = totalRondas;
-
+		this.numeroDeMapa = numeroDeMapa;
+		System.out.println(this.numeroDeMapa);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(0, 0, Param.VENTANA_JUEGO_WIDTH, Param.VENTANA_JUEGO_HEIGHT);
 
@@ -174,7 +176,15 @@ public class VentanaJuego extends JFrame {
 		this.setFocusable(true);
 		this.setVisible(true);
 
-		imagenMapaUno = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
+		switch (this.numeroDeMapa) {
+		case '1':
+			imagenMapa = Imagen.cargar(Param.IMG_MAPA_UNO_PATH);
+			System.out.println("ENTRO AL CASE UNO");
+			break;
+		case '2':
+			break;
+		}
+		
 		imagenCabeza = Imagen.cargar(Param.IMG_CABEZA_PATH, true);
 		imagenCuerpo = Imagen.cargar(Param.IMG_CUERPO_PATH, true);
 		imagenCuerpoBot = Imagen.cargar(Param.IMG_CUERPO_BOT_PATH, true);
@@ -215,7 +225,7 @@ public class VentanaJuego extends JFrame {
 		if (!mapa.isEmpty()) {
 
 			g2d.setColor(Color.WHITE);
-			g2d.drawImage(imagenMapaUno, 0, 0, null);
+			g2d.drawImage(imagenMapa, 0, 0, null);
 			JsonArray frutas = mapa.getJsonArray("frutas");
 			for (int i = 0; i < frutas.size(); i++) {
 				g2d.setColor(Color.RED);
@@ -310,13 +320,12 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 				try {
-					//Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
-					//Era mas rapida la conexion que el calculo del ganador.
+					// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
+					// Era mas rapida la conexion que el calculo del ganador.
 					thread.wait(250);
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-					String mensaje = "El ganador es " + datosGanador[0] +
-							 " con " + datosGanador[1] + " frutas comidas" + 
-							 " y " + datosGanador[2] + " puntos";
+					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
+							+ " y " + datosGanador[2] + " puntos";
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Felicitaciones!!!",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 						this.dispose();
@@ -325,7 +334,7 @@ public class VentanaJuego extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
 
