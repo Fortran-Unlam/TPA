@@ -241,12 +241,22 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_MOSTRAR_GANADOR:
 					Jugador ganador = sala.getPartidaActual().getGanador();
 
-					this.salidaDatos.flush();
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-							ganador.getNombre() + ";" +
-						    ganador.getFrutasComidasEnPartida() + ";" +
-							ganador.getPuntosEnPartida()).toJson());
-					break;
+					try {
+						this.salidaDatos.flush();
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, 
+								ganador.getNombre() + ";" +
+							    ganador.getFrutasComidasEnPartida() + ";" +
+								ganador.getPuntosEnPartida()).toJson());
+						break;
+					}catch(NullPointerException e){
+						Servidor.LOGGER.error("No se pudo conseguir el ganador", e);
+						this.salidaDatos.flush();
+						this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, 
+								"Jugador 1" + ";" +
+							    "100" + ";" +
+								"200").toJson());
+						break;
+					}
 				default:
 					break;
 				}
