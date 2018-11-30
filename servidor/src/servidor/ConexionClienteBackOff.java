@@ -61,15 +61,15 @@ public class ConexionClienteBackOff extends Thread {
 						this.salidaDatos.writeObject(respuestaLogueoOk);
 					}
 				}
-				
-				//A todas las ventanasUnirSala
+
+				// A todas las ventanasUnirSala
 				if (tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) || tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
 						|| tipoDeMensaje.equals(Param.NOTICE_ENTRAR_A_VER_SALAS)
 						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 					enviarActualizacionSalasALosClientes();
 				}
 
-				//A una sala particular
+				// A una sala particular
 				if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
 						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)
 						|| tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)) {
@@ -135,7 +135,8 @@ public class ConexionClienteBackOff extends Thread {
 	public void enviarActualizacionSalasALosClientes() {
 		JsonArray datosDeSalas = Servidor.getAllSalas();
 		JsonObjectBuilder paqueteActualizacionDeSalas = Json.createObjectBuilder();
-		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS_DISPONIBLES).add("datosDeSalas", datosDeSalas);
+		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS_DISPONIBLES).add("datosDeSalas",
+				datosDeSalas);
 
 		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
 			try {
@@ -155,10 +156,9 @@ public class ConexionClienteBackOff extends Thread {
 
 		JsonObject paqueteAEnviar;
 		if (salaARefrescar != null) {
-			
-			//Si alguien se unio o salio de una sala actualizo los usuarios de esa sala
-			if (tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
-					|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
+
+			// Si alguien se unio o salio de una sala actualizo los usuarios de esa sala
+			if (tipoDeMensaje.equals(Param.NOTICE_UNION_SALA) || tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 
 				JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
 
@@ -170,13 +170,7 @@ public class ConexionClienteBackOff extends Thread {
 						.add("usuarios", usernamesConectadosALaSala.build())
 						.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
 			} else {
-				paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-						.add("fruta", entradaJson.getBoolean("fruta"))
-						.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
-						.add("tiempo", entradaJson.getBoolean("tiempo"))
-						.add("cantTiempo", entradaJson.getString("cantTiempo"))
-						.add("tipoMapa", entradaJson.getString("mapa")).add("rondas", entradaJson.getString("rondas"))
-						.add("bots", entradaJson.getString("bots")).build();
+				paqueteAEnviar = armarPaqueteParamSala(entradaJson);
 			}
 
 			for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
@@ -188,20 +182,37 @@ public class ConexionClienteBackOff extends Thread {
 					Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
 				}
 			}
+			
+			//Le pido al admin que envie un refresh de los parametros de la sala porque se unio un user nuevo
+			if(tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)) {
+				for(ConexionClienteBackOff c: Servidor.getConexionesClientesBackOff()) {
+					
+					if(c.getUsuario().equals(salaARefrescar.getAdministrador())) {
+						paqueteAEnviar = 
+								Json.createObjectBuilder().add("type", Param.NOTICE_ADMIN_DAME_PARAM_SALA).build();
+						try {
+							c.salidaDatos.writeObject(paqueteAEnviar.toString());
+						} catch (IOException e) {
+							e.printStackTrace();
+						} 
+						break;
+					}
+				}
+			}
 		}
 	}
 
 	/*
 	 * Dada una sala y un usuario, busca si ese usuario est� en esa sala.
 	 */
-	private boolean usuarioEstaEnLaSala(Usuario user, Sala salaARefrescar) {
-		for (Usuario usuarioActual : salaARefrescar.getUsuariosActivos()) {
+	private boolean usuarioEstaEnLaSala(Usuario user, Sala sala) {
+		for (Usuario usuarioActual : sala.getUsuariosActivos()) {
 			if (user != null && usuarioActual.getId() == user.getId())
 				return true;
 		}
 		return false;
 	}
-	
+
 	void escribirSalida(JsonObject dato) {
 		try {
 			this.salidaDatos.writeObject(dato.toString());
@@ -209,4 +220,14 @@ public class ConexionClienteBackOff extends Thread {
 			e.printStackTrace();
 		}
 	}
+
+	private JsonObject armarPaqueteParamSala(JsonObject entradaJson) {
+		return Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
+				.add("fruta", entradaJson.getBoolean("fruta"))
+				.add("cantidadDeFrutas", entradaJson.getString("cantidadDeFrutas"))
+				.add("tiempo", entradaJson.getBoolean("tiempo")).add("cantTiempo", entradaJson.getString("cantTiempo"))
+				.add("tipoMapa", entradaJson.getString("mapa")).add("rondas", entradaJson.getString("rondas"))
+				.add("bots", entradaJson.getString("bots")).build();
+	}
+
 }

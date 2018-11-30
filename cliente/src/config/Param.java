@@ -104,6 +104,7 @@ public abstract class Param implements Serializable {
 	public static final String NOTICE_LOGUEO_BACKOFF_OK = "CheClienteTeLogueeReZarpado";
 	public static final String NOTICE_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String NOTICE_EMPEZA_JUEGO_CLIENTE = "EmpezarJuegoCliente";
+	public static final String NOTICE_ADMIN_DAME_PARAM_SALA = "adminDameParamSala";
 	
 	public static final int LIMITE_CARACTERES_USUARIO = 20;
 	public static final int LIMITE_CARACTERES_CONTRASENA = 10;

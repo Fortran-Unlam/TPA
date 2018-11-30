@@ -947,3 +947,33 @@ INFORMACIÓN: Cliente con la IP 127.0.0.1 conectado.
 11/29/2018 07:57:24 PM|INFO |QueryTranslatorFactoryInitiator| HHH000397: Using ASTQueryTranslatorFactory
 11/29/2018 08:04:21 PM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado.
 11/29/2018 08:04:21 PM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado del backOff.
+11/30/2018 02:57:08 AM|INFO |Version                       | HHH000412: Hibernate Core {5.2.11.Final}
+11/30/2018 02:57:08 AM|INFO |Environment                   | HHH000206: hibernate.properties not found
+11/30/2018 02:57:09 AM|INFO |Version                       | HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+11/30/2018 02:57:09 AM|WARN |pooling                       | HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+11/30/2018 02:57:09 AM|INFO |pooling                       | HHH10001005: using driver [org.sqlite.JDBC] at URL [jdbc:sqlite:./DB/Usuarios.db]
+11/30/2018 02:57:09 AM|INFO |pooling                       | HHH10001001: Connection properties: {}
+11/30/2018 02:57:09 AM|INFO |pooling                       | HHH10001003: Autocommit mode: false
+11/30/2018 02:57:09 AM|INFO |DriverManagerConnectionProviderImpl| HHH000115: Hibernate connection pool size: 20 (min=1)
+11/30/2018 02:57:10 AM|INFO |Dialect                       | HHH000400: Using dialect: com.enigmabridge.hibernate.dialect.SQLiteDialect
+11/30/2018 02:57:10 AM|INFO |LobCreatorBuilderImpl         | HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [2] less than 4
+11/30/2018 02:57:10 AM|INFO |Class                         | Corriendo en el puerto: 9004
+11/30/2018 02:57:13 AM|INFO |Class                         | Cliente con la IP 127.0.0.1 conectado.
+11/30/2018 02:57:15 AM|INFO |QueryTranslatorFactoryInitiator| HHH000397: Using ASTQueryTranslatorFactory
+11/30/2018 02:57:26 AM|INFO |Class                         | Cliente con la IP 127.0.0.1 conectado.
+11/30/2018 02:57:48 AM|INFO |Version                       | HHH000412: Hibernate Core {5.2.11.Final}
+11/30/2018 02:57:48 AM|INFO |Environment                   | HHH000206: hibernate.properties not found
+11/30/2018 02:57:49 AM|INFO |Version                       | HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+11/30/2018 02:57:50 AM|WARN |pooling                       | HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+11/30/2018 02:57:50 AM|INFO |pooling                       | HHH10001005: using driver [org.sqlite.JDBC] at URL [jdbc:sqlite:./DB/Usuarios.db]
+11/30/2018 02:57:50 AM|INFO |pooling                       | HHH10001001: Connection properties: {}
+11/30/2018 02:57:50 AM|INFO |pooling                       | HHH10001003: Autocommit mode: false
+11/30/2018 02:57:50 AM|INFO |DriverManagerConnectionProviderImpl| HHH000115: Hibernate connection pool size: 20 (min=1)
+11/30/2018 02:57:50 AM|INFO |Dialect                       | HHH000400: Using dialect: com.enigmabridge.hibernate.dialect.SQLiteDialect
+11/30/2018 02:57:50 AM|INFO |LobCreatorBuilderImpl         | HHH000423: Disabling contextual LOB creation as JDBC driver reported JDBC version [2] less than 4
+11/30/2018 02:57:50 AM|INFO |Class                         | Corriendo en el puerto: 9004
+11/30/2018 02:57:51 AM|INFO |Class                         | Cliente con la IP 127.0.0.1 conectado.
+11/30/2018 02:57:53 AM|INFO |QueryTranslatorFactoryInitiator| HHH000397: Using ASTQueryTranslatorFactory
+11/30/2018 02:58:03 AM|INFO |Class                         | Cliente con la IP 127.0.0.1 conectado.
+11/30/2018 02:58:37 AM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado del backOff.
+11/30/2018 02:58:42 AM|ERROR|Class                         | Connection reset Cliente con la IP 127.0.0.1 desconectado del backOff.

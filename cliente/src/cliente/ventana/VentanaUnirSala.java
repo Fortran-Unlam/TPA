@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import cliente.Cliente;
+import cliente.ConexionServidor;
 import cliente.Sonido;
 import config.Param;
 import javax.swing.JTable;

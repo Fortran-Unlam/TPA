@@ -62,12 +62,16 @@ public class Sincronismo extends Thread {
 						Cliente.LOGGER.error("No se pudo refresacar salas");
 					}
 					break;
+				case Param.NOTICE_ADMIN_DAME_PARAM_SALA:
+					this.ventanaSala.prepararYEnviarCambiosDeSala();
+					break;
 					
 				case Param.SALA_TERMINADA:
 					Sincronismo.ventanaSala.cerrarSalaPorqueSalioAdmin();
 					ventanaUnirSala.setVisible(true);
 					break;
 				}
+				
 
 			} catch (ClassNotFoundException | IOException e) {
 				Cliente.LOGGER.error("Hubo un error al sincronizar" + e.getMessage());

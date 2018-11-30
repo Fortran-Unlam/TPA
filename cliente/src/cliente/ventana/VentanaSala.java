@@ -95,7 +95,7 @@ public class VentanaSala extends JFrame {
 		}
 	}
 
-	private void prepararCambiosDeSala() {
+	void prepararYEnviarCambiosDeSala() {
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
 
 		// Agrego parametros
@@ -409,7 +409,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -419,7 +419,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -429,7 +429,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -439,7 +439,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -448,7 +448,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -458,7 +458,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
@@ -468,7 +468,7 @@ public class VentanaSala extends JFrame {
 			public void itemStateChanged(ItemEvent e) {
 				if (visibiliadAdmin) {
 					verificarBotonesYRefrescarCambios();
-					prepararCambiosDeSala();
+					prepararYEnviarCambiosDeSala();
 				}
 			}
 		});
