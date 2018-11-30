@@ -164,50 +164,27 @@ public class ConexionServidor {
 	}
 
 	public boolean comenzarJuego(int cantidadBots, int cantidadRondas,boolean tipoDeJuegoFruta,int cantidadDeFrutas,boolean tipoDeJuegoTiempo,int cantidadDeTiempo,String mapa) {
-		try {
+
 			String request = "{\"" + Param.CANTIDAD_DE_BOTS + "\":\"" + cantidadBots + "\",\"" + Param.TIPO_JUEGO_FRUTA + "\":\""
 					+ tipoDeJuegoFruta + "\",\"" + Param.CANTIDAD_DE_FRUTAS + "\":\"" + cantidadDeFrutas + "\",\""
 					+ Param.TIPO_JUEGO_TIEMPO + "\":\"" + tipoDeJuegoTiempo + "\",\"" + Param.CANTIDAD_DE_TIEMPO + "\":\""
 					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas +"\",\""+ Param.MAPA_DE_JUEGO + "\":\""+ mapa +"\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
-			this.salidaDatos.writeUTF(this.message.toJson());
-			recibirMapa = true;
-			while (socketIn.isClosed() == false && recibirMapa) {
-				try
-				{
-				System.out.println("esperando si el juego comienza");
-				String a = entradaDatos.readUTF();
-				System.out.println("con read utf va " + a);
-//				Object o = entradaDatos.readUTF();
-//				System.out.println("object " + o);
-				String me = (String) a;
-				System.out.println("mensaje recibido " + me);
-				this.message = (Message) new Gson().fromJson(me, Message.class);
-
-				
-					switch (this.message.getType()) {
-					case Param.REQUEST_JUEGO_EMPEZADO:
-						System.out.println("se fue con " + (boolean)this.message.getData());
-						return (boolean) this.message.getData();
-					default:
-						System.out.println(this.message.getType());
-						break;
-					}
-				}
-				catch(Exception e)
-				{
-					Thread.sleep(100);
-					return true;
-				}
-				
+			try {
+				this.salidaDatos.writeUTF(this.message.toJson());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			Cliente.LOGGER.error("Error en comenzar juego " + ex.getMessage());
-		}
-		return false;
+			recibirMapa = true;
+			try {
+				Thread.sleep(105);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return true;
 	}
 
 	// Este metodo es invocado por VentanaJuego y detiene la accion iniciada por
@@ -226,9 +203,10 @@ public class ConexionServidor {
 		try {
 			System.out.println("llega2");
 			while (recibirMapa) {
-
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
-				System.out.println(this.message);
+				String a = entradaDatos.readUTF();
+				System.out.println(a);
+				this.message = (Message) new Gson().fromJson((String) a, Message.class);
+				//System.out.println(this.message);
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
 					ventanaJuego.dibujarMapaJson((String) this.message.getData());
@@ -236,6 +214,7 @@ public class ConexionServidor {
 			}
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			Cliente.LOGGER.error("Error en recibir el mapa " + ex.getMessage());
 		}
 	}
