@@ -42,6 +42,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_LOGUEO_DUPLICADO = "errorYaLogeado";
 	public static final String REQUEST_CERRAR_SESION = "cerrarSesion";
 	public static final String REQUEST_CERRAR_SESION_OK = "cerrarSesionOk";
+	public static final String REQUEST_CERRAR_SESION_FALLIDO = "cerrarSesionFail";
 	public static final String REQUEST_GET_ALL_SALAS = "getAllSalas";
 	public static final String REQUEST_REGISTRAR_USUARIO = "registrar";
 	public static final String REQUEST_REGISTRO_CORRECTO = "RegistroCorrecto";
@@ -92,7 +93,7 @@ public abstract class Param implements Serializable {
 	public static final String IMG_MAPA_DOS_PATH = IMAGEN_PATH + "mapaDos.png";
 	public static final String IMG_MAPA_TRES_PATH = IMAGEN_PATH + "mapaTres.png";
 	public static final String IMG_BOMBA_PATH = IMAGEN_PATH + "bomba.png";
-	public static final String IMG_BLOQUE_RETRO_PATH = IMAGEN_PATH + "retro_bloque.png";
+	public static final String IMG_BLOQUE_PATH = IMAGEN_PATH + "bloque.png";
 
 	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
@@ -116,5 +117,6 @@ public abstract class Param implements Serializable {
 	public static final String CANTIDAD_DE_FRUTAS = "cantidadDeFrutas";
 	public static final String CANTIDAD_DE_TIEMPO = "cantidadDeTiempo";
 	public static final String MAPA_DE_JUEGO = "mapaDeJuego";
+	
 	
 }

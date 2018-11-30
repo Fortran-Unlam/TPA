@@ -58,7 +58,8 @@ public class ConexionCliente extends Thread {
 		while (conectado) {
 			try {
 				Message message = (Message) new Gson().fromJson(this.entradaDatos.readUTF(), Message.class);
-
+				System.out.println("Mensaje: " + message.getType());
+				
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
@@ -233,12 +234,14 @@ public class ConexionCliente extends Thread {
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
 						if (usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
+							this.salidaDatos.flush();
+							this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
 							break;
+						}else {
+							this.salidaDatos.flush();
+							this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION_FALLIDO, usuario).toJson());
 						}
 					}
-
-					this.salidaDatos.flush();
-					this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
 					Jugador ganador = sala.getPartidaActual().getGanador();
@@ -255,8 +258,8 @@ public class ConexionCliente extends Thread {
 						this.salidaDatos.flush();
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
 								"Jugador 1" + ";" +
-							    "100" + ";" +
-								"200").toJson());
+							    "0" + ";" +
+								"0").toJson());
 						break;
 					}
 				default:
