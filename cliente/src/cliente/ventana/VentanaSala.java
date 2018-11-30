@@ -343,10 +343,17 @@ public class VentanaSala extends JFrame {
 	protected void empezarJuegoNoAdmin() {
 		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
 		// volver a la VentanaSala que volver a crear una nueva instancia.
-		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
-		musicaFondo.reproducir();
-		this.setVisible(false);
-		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
+		if (!visibiliadAdmin) {
+			Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
+			musicaFondo.reproducir();
+			this.setVisible(false);
+//			System.out.println("SOY EL INV VS " + this.numeroDeMapa);
+//			System.out.println("SOY EL INV VS " + this.totalRondas);
+//			System.err.println("LO SACO DEL COMBO" + this.cantidadDeRondasLabel.getText());
+			new VentanaJuego(Integer.valueOf(this.cantidadDeRondasLabel.getText()),
+					mapaParaNoAdmin.getText().charAt(mapaParaNoAdmin.getText().length()-1), ventanaMenu.getUsuario(),
+					this);
+		}
 	}
 
 	protected void empezarJuego() {
@@ -361,6 +368,7 @@ public class VentanaSala extends JFrame {
 				? Integer.parseInt((String) cantidadDeTiempoComboBox.getSelectedItem())
 				: 0;
 		String mapa = (String) comboMapa.getSelectedItem();
+		this.numeroDeMapa = mapa.charAt(mapa.length() - 1);
 
 		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas, tipoDeJuegoFruta, cantidadDeFrutas,
 				tipoDeJuegoTiempo, cantidadDeTiempo, mapa) == false) {
@@ -368,12 +376,12 @@ public class VentanaSala extends JFrame {
 			return;
 		}
 		AvisarAOtrosUsuariosSala();
+
 		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
 		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 
-		this.numeroDeMapa = mapa.charAt(mapa.length() - 1);
 		this.setVisible(false);
 		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
 	}
