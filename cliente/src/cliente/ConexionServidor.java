@@ -203,13 +203,17 @@ public class ConexionServidor {
 		try {
 			System.out.println("llega2");
 			while (recibirMapa) {
+				System.out.println("antes recibir mapa");
 				String a = entradaDatos.readUTF();
-				System.out.println(a);
-				this.message = (Message) new Gson().fromJson((String) a, Message.class);
-				//System.out.println(this.message);
-				switch (this.message.getType()) {
-				case Param.REQUEST_MOSTRAR_MAPA:
-					ventanaJuego.dibujarMapaJson((String) this.message.getData());
+				System.out.println("despues " + a);
+				if (a != null) {
+					
+					this.message = (Message) new Gson().fromJson(a, Message.class);
+					//System.out.println(this.message);
+					switch (this.message.getType()) {
+					case Param.REQUEST_MOSTRAR_MAPA:
+						ventanaJuego.dibujarMapaJson((String) this.message.getData());
+					}
 				}
 			}
 

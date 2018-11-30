@@ -179,7 +179,8 @@ public class Servidor {
 	 */
 	public static boolean actualizarJuego(final Juego juego) {
 		Mapa mapa = juego.getMapa();
-		Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, juego.toJson().toString());
+		String a = juego.toJson().toString();
+		Message message = new Message(Param.REQUEST_MOSTRAR_MAPA, a);
 		boolean enviar = false;
 		for (ConexionCliente conexionCliente : conexionClientes) {
 			enviar = false;
@@ -205,8 +206,11 @@ public class Servidor {
 					try {
 						System.out.println("mando para que dibuje");
 						conexionCliente.getSalidaDatos().flush();
-						conexionCliente.getSalidaDatos().writeUTF(message.toJson());
+						String b = new String().concat(message.toJson());
+						System.out.println(b);
+						conexionCliente.getSalidaDatos().writeUTF(b);
 					} catch (IOException e) {
+						System.out.println("no pudo acualizar mapa");
 						LOGGER.error("No se pudo actualizar el mapa ");
 						return false;
 					}

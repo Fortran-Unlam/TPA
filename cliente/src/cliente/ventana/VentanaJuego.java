@@ -70,18 +70,17 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
 	private Usuario usuario;
-	private VentanaSala vs;
+	private VentanaSala ventanaSala;
 
-	VentanaJuego ventana;
 	Thread thread = null;
 
 	private BufferedImage imagenObstaculo;
-	
+
 	public VentanaJuego(int totalRondas, char numeroDeMapa, Usuario usuario, VentanaSala vs) {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
-		this.vs = vs;
+		this.ventanaSala = vs;
 
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -201,7 +200,7 @@ public class VentanaJuego extends JFrame {
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
 
 		thread = new Thread() {
-			public synchronized void run() {
+			public void run() {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
@@ -211,8 +210,6 @@ public class VentanaJuego extends JFrame {
 		thread.start();
 
 		this.addListener();
-
-		ventana = this;
 	}
 
 	public void dibujarMapaJson(String jsonString) {
@@ -328,19 +325,15 @@ public class VentanaJuego extends JFrame {
 			} else {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
-				try {
-					// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
-					// Era mas rapida la conexion que el calculo del ganador.
-					thread.wait(500);
-					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-					String mensaje = "El ganador es " + datosGanador[0] + 
-									 " con " + datosGanador[1] + " frutas comidas" +
-									 " y " + datosGanador[2] + " puntos";
-					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
-							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-					}
-				} catch (InterruptedException e) {
-					Cliente.LOGGER.error("error al cerrar el juego " + e.getMessage());
+				// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
+				// Era mas rapida la conexion que el calculo del ganador.
+				thread.interrupt();
+				thread = null;
+				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
+				String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
+						+ " y " + datosGanador[2] + " puntos";
+				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
+						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 				}
 
 			}
@@ -405,7 +398,10 @@ public class VentanaJuego extends JFrame {
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
-				thread.interrupt();
+				if (thread != null) {
+					thread.interrupt();
+				}
+					
 				/*
 				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de
 				 * recibir el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo
@@ -413,10 +409,11 @@ public class VentanaJuego extends JFrame {
 				 * 
 				 */
 				musicaFondo.stop(); // Se para la musica.
-				ventana.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
+				ventanaJuego.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala
+												// pudiendo
+				ventanaJuego.dispose();
 				// volver para atras.
-				vs.setVisible(true);
-				//ventana.dispose();
+				ventanaSala.setVisible(true);
 			}
 		});
 	}
