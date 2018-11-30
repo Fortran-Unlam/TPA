@@ -159,7 +159,7 @@ public class ConexionServidor {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
 			this.salidaDatos.writeObject(this.message.toJson());
 		} catch (Exception ex) {
-			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
+			Cliente.LOGGER.error("Error en salir de sala " + ex.getMessage());
 		}
 	}
 
@@ -213,7 +213,7 @@ public class ConexionServidor {
 			}
 
 		} catch (Exception ex) {
-			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
+			Cliente.LOGGER.error("Error en recibir el mapa " + ex.getMessage());
 		}
 	}
 	
