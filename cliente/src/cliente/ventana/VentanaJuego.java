@@ -186,7 +186,7 @@ public class VentanaJuego extends JFrame {
 			break;
 		case '2':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
-			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
+			imagenObstaculo = Imagen.cargar(Param.IMG_BLOQUE_PATH, true);
 			break;
 		case '3':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
