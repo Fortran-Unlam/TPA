@@ -118,10 +118,7 @@ public class Partida implements Serializable {
 								sobrevivioRonda = true;
 								jug.sumarPuntosSobrevivirRonda();
 							}
-							
-							if (numeroRonda== cantidadDeRondasAJugar)
-								calcularGanadorPartida();
-							
+
 							//Guardo las estadisticas en la base.
 							if (!(jug instanceof JugadorBot)) {
 								for (Usuario u : usuariosActivosEnSala) {
@@ -132,8 +129,12 @@ public class Partida implements Serializable {
 								}
 							}
 							jug.resetEstadisticasRonda();
-						}	
-					Thread.sleep(1500);
+						}
+					
+					if (numeroRonda == cantidadDeRondasAJugar)
+						calcularGanadorPartida();
+					else
+						Thread.sleep(1500);
 				} catch (InterruptedException e) {
 					// TODO Poner algo por si falla el update del usuario.
 
@@ -147,14 +148,13 @@ public class Partida implements Serializable {
 		return true;
 	}
 
-	public Jugador calcularGanadorPartida() {
+	public void calcularGanadorPartida() {
 		for (Jugador jug : this.jugadoresEnPartida) {
 			if (jug.getPuntosEnPartida() > this.puntajeMaximo) {
 				this.ganadorPartida = jug;
 				this.puntajeMaximo = jug.getPuntosEnPartida();
 			}
 		}
-		return this.ganadorPartida;
 	}
 
 	public Mapa crearMapaTipo(int tipoMapa) {

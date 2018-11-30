@@ -227,7 +227,7 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_CERRAR_SESION:
 					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
-
+					
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
 						if (usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
@@ -237,10 +237,9 @@ public class ConexionCliente extends Thread {
 
 					this.salidaDatos.flush();
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
-					conectado = false;
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
-					Jugador jugadorGanador = sala.getPartidaActual().calcularGanadorPartida();
+					Jugador jugadorGanador = sala.getPartidaActual().getGanador();
 
 					this.salidaDatos.flush();
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, jugadorGanador.getNombre()
