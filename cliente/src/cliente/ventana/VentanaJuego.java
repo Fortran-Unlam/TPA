@@ -81,7 +81,6 @@ public class VentanaJuego extends JFrame {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
-		System.out.println("SOY EL INV VJ" + this.numeroDeMapa);
 		this.vs = vs;
 
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

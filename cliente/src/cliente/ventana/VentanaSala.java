@@ -347,9 +347,6 @@ public class VentanaSala extends JFrame {
 			Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 			musicaFondo.reproducir();
 			this.setVisible(false);
-//			System.out.println("SOY EL INV VS " + this.numeroDeMapa);
-//			System.out.println("SOY EL INV VS " + this.totalRondas);
-//			System.err.println("LO SACO DEL COMBO" + this.cantidadDeRondasLabel.getText());
 			new VentanaJuego(Integer.valueOf(this.cantidadDeRondasLabel.getText()),
 					mapaParaNoAdmin.getText().charAt(mapaParaNoAdmin.getText().length()-1), ventanaMenu.getUsuario(),
 					this);
