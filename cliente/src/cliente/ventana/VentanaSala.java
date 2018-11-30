@@ -97,7 +97,7 @@ public class VentanaSala extends JFrame {
 
 	private void prepararCambiosDeSala() {
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
-		
+
 		// Agrego parametros
 		nombreSalatipoJuegoMapaYBots.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
@@ -112,9 +112,11 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoMapaYBots.add("cantTiempo",
 				String.valueOf(chckbxTiempo.isSelected() ? this.cantidadDeTiempoComboBox.getSelectedItem() : "0"));
 
-		if (comboMapa.getSelectedIndex() == 0) {
+		if (comboMapa.getSelectedIndex() == -1) {
+			System.err.println("ENTRO POR TRUE");
 			nombreSalatipoJuegoMapaYBots.add("mapa", "Aun no se ha determinado");
 		} else {
+			System.err.println("ENTRO POR FALSE");
 			nombreSalatipoJuegoMapaYBots.add("mapa", (String) comboMapa.getSelectedItem());
 		}
 
@@ -402,55 +404,69 @@ public class VentanaSala extends JFrame {
 		chckbxFruta.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		chckbxTiempo.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		comboMapa.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		comboCantRondas.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		cantidadDeFrutascomboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		cantidadDeBotsComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
 		cantidadDeTiempoComboBox.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				verificarBotonesYRefrescarCambios();
-				prepararCambiosDeSala();
+				if (visibiliadAdmin) {
+					verificarBotonesYRefrescarCambios();
+					prepararCambiosDeSala();
+				}
 			}
 		});
 
@@ -485,7 +501,6 @@ public class VentanaSala extends JFrame {
 			if (!this.visibiliadAdmin)
 				this.lblAdmin.setText("El admin es: " + datosParaRefrescarSala.getString("admin"));
 		} else {
-
 			if (!this.visibiliadAdmin) {// USUARIO INVITADO
 				if (datosParaRefrescarSala.getBoolean("fruta")) {
 					chckbxFruta.setSelected(true);
@@ -502,6 +517,7 @@ public class VentanaSala extends JFrame {
 					chckbxTiempo.setSelected(false);
 					this.cantidadDeTiempoLabel.setText("");
 				}
+
 				this.cantidadDeRondasLabel.setText(datosParaRefrescarSala.getString("rondas"));
 				this.mapaParaNoAdmin.setText(datosParaRefrescarSala.getString("tipoMapa"));
 				this.cantidadDeBotsLabel.setText(datosParaRefrescarSala.getString("bots"));
