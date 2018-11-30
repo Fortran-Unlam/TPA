@@ -239,12 +239,13 @@ public class ConexionCliente extends Thread {
 					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
-					Jugador jugadorGanador = sala.getPartidaActual().getGanador();
+					Jugador ganador = sala.getPartidaActual().getGanador();
 
 					this.salidaDatos.flush();
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, jugadorGanador.getNombre()
-							+ ";" + jugadorGanador.getFrutasComidas() + ";" + jugadorGanador.getPuntosEnPartida())
-									.toJson());
+					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, 
+							ganador.getNombre() + ";" +
+						    ganador.getFrutasComidasEnPartida() + ";" +
+							ganador.getPuntosEnPartida()).toJson());
 					break;
 				default:
 					break;
