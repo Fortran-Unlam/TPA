@@ -472,7 +472,7 @@ public class VentanaSala extends JFrame {
 	public void refrescarSala(JsonObject datosParaRefrescarSala) {
 		String tipoDeActualizacion = datosParaRefrescarSala.getString("type");
 
-		if (tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+		if (tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_SALA_PARTICULAR)) {
 			JsonArray arrayUsuariosConectados = datosParaRefrescarSala.getJsonArray("usuarios");
 			this.modelUsuariosLista.clear(); // Limpio
 			// Cargo

@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -126,8 +128,14 @@ public class VentanaMenu extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		VentanaUnirSala ventanaUnirSala = new VentanaUnirSala(this);
-		Cliente.getSincronismo();
 		Sincronismo.setVentanaUnirSala(ventanaUnirSala);
+		
+		JsonObject paqueteIngresoVentanaUnirSala = Json.createObjectBuilder()
+				.add("type", Param.NOTICE_ENTRAR_A_VER_SALAS).build();
+
+		// Le aviso al sv que me actualice las salas, el cliente se las auto-actualiza
+		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteIngresoVentanaUnirSala);
+
 		ventanaUnirSala.setVisible(true);
 		this.setVisible(false);
 	}

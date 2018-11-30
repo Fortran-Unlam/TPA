@@ -88,10 +88,11 @@ public abstract class Param implements Serializable {
 	
 	public static final String NOTICE_CREACION_SALA = "ServerTeCreeUnaSala";
 	public static final String NOTICE_UNION_SALA = "ServerMeUniAUnaSala";
-	public static final String NOTICE_ACTUALIZAR_SALAS = "ClienteActualizaTusSalas";
 	public static final String NOTICE_SALIR_SALA = "MeFuiDeLaSala";
-	public static final String NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR = "SvRefrescaLosParametrosDeUnaDeterminadaSala";
-	public static final String NOTICE_REFRESCAR_USUARIOS_PARTICULAR = "SvRefrescaLosUsuariosDeUnaDeterminadaSala";
+	public static final String NOTICE_ENTRAR_A_VER_SALAS = "entreAVerLasSalas";
+	public static final String NOTICE_ACTUALIZAR_SALAS_DISPONIBLES = "refrescaLasSalasDisponibles";
+	public static final String NOTICE_REFRESCAR_USUARIOS_SALA_PARTICULAR = "refrescaLosUsuariosDeUnaSalaParticular";
+	public static final String NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR = "refrescaLosParametrosDeUnaSalaParticular";
 	public static final String NOTICE_LOGUEO_BACKOFF_OK = "CheClienteTeLogueeReZarpado";
 	public static final String NOTICE_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String NOTICE_EMPEZA_JUEGO_CLIENTE = "EmpezarJuegoCliente";

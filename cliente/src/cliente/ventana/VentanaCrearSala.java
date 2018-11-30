@@ -174,20 +174,16 @@ public class VentanaCrearSala extends JFrame {
 			if (Cliente.getConexionServidor().crearSala(datosSala)) {
 				Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 				musicaFondo.reproducir();
-
-				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
-						.add("nombreSala", datosSala.get(0)).build();
-				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
-
+				
 				this.ventanaSala = new VentanaSala(this.ventanaMenu, true, this.nombreField.getText());
 				Sincronismo.setVentanaSala(ventanaSala);
 
-				JsonObject paqueteActualizarSala = Json.createObjectBuilder()
-						.add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR).add("sala", this.nombreField.getText())
-						.build();
-
-				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteActualizarSala);
-
+				this.ventanaSala.setVisible(false);
+				JsonObject paqueteCrearSala = Json.createObjectBuilder().add("type", Param.NOTICE_CREACION_SALA)
+						.add("sala", datosSala.get(0)).build();
+				Cliente.getconexionServidorBackOff().enviarAlServer(paqueteCrearSala);
+				this.ventanaSala.setVisible(true);
+				
 				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null,

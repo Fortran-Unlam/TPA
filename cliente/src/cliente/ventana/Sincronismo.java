@@ -40,7 +40,7 @@ public class Sincronismo extends Thread {
 					Cliente.LOGGER.info("Logueo backoff OK");
 					break;
 
-				case Param.NOTICE_ACTUALIZAR_SALAS:
+				case Param.NOTICE_ACTUALIZAR_SALAS_DISPONIBLES:
 					datosDeSalasDisponibles = entradaJson.getJsonArray("datosDeSalas");
 
 					if (ventanaUnirSala != null) {
@@ -51,8 +51,8 @@ public class Sincronismo extends Thread {
 				// Hay que ver como arrancar la ventana de juego tambien.
 				case Param.NOTICE_EMPEZA_JUEGO_CLIENTE:
 					Sincronismo.ventanaSala.empezarJuegoNoAdmin();
-				case Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR:
 				case Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR:
+				case Param.NOTICE_REFRESCAR_USUARIOS_SALA_PARTICULAR:
 					// Reflejo 26/11 sucede cuando yo ya empece el juego.
 					// Recibo mensajes de mapa, los interpreta bien, pero tambien piensa que son de
 					// tipo refrescarSala.
