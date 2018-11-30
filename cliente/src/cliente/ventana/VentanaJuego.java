@@ -70,16 +70,18 @@ public class VentanaJuego extends JFrame {
 	private BufferedImage imagenMapa;
 	private boolean musicaEncendida = false;
 	private Usuario usuario;
+	private VentanaSala vs;
 
 	VentanaJuego ventana;
 	Thread thread = null;
 
 	private BufferedImage imagenObstaculo;
-
-	public VentanaJuego(int totalRondas, char numeroDeMapa, Usuario usuario) {
+	
+	public VentanaJuego(int totalRondas, char numeroDeMapa, Usuario usuario, VentanaSala vs) {
 		super("Snake");
 		this.totalRondas = totalRondas;
 		this.numeroDeMapa = numeroDeMapa;
+		this.vs = vs;
 
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -413,6 +415,7 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop(); // Se para la musica.
 				ventana.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
 				// volver para atras.
+				vs.setVisible(true);
 			}
 		});
 	}

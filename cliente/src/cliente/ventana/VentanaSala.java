@@ -97,7 +97,7 @@ public class VentanaSala extends JFrame {
 
 	private void prepararCambiosDeSala() {
 		JsonObjectBuilder nombreSalatipoJuegoMapaYBots = Json.createObjectBuilder();
-
+		
 		// Agrego parametros
 		nombreSalatipoJuegoMapaYBots.add("type", Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR);
 		nombreSalatipoJuegoMapaYBots.add("sala", this.nombreSala);
@@ -344,8 +344,7 @@ public class VentanaSala extends JFrame {
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 		this.setVisible(false);
-		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario());
-		this.setVisible(true);
+		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
 	}
 
 	protected void empezarJuego() {
@@ -374,7 +373,7 @@ public class VentanaSala extends JFrame {
 
 		this.numeroDeMapa = mapa.charAt(mapa.length() - 1);
 		this.setVisible(false);
-		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario());
+		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
 	}
 
 	private void addListener() {
