@@ -98,17 +98,25 @@ public class ConexionServidor {
 		return new Message(Param.REQUEST_REGISTRO_INCORRECTO, null);
 	}
 
-	public Message cerrarSesionUsuario(Usuario usuario) {
+	public Boolean cerrarSesionUsuario(Usuario usuario) {
 		try {
 			this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
-			return this.message;
-
+			while(true) {		
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
+				switch (this.message.getType()) {
+					case Param.REQUEST_CERRAR_SESION_OK:
+					return true;
+					
+					case Param.REQUEST_CERRAR_SESION_FALLIDO:
+					Cliente.LOGGER.error("No se pudo cerrar sesion");
+					return false;
+				}
+			}
 		} catch (Exception e) {
 			Cliente.LOGGER.error("No se pudo cerrar sesion" + e.getMessage());
 		}
-		return new Message(Param.REQUEST_CERRAR_SESION, null);
+		return false;
 	}
 
 	/**

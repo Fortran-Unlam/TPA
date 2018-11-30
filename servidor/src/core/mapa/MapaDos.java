@@ -19,13 +19,18 @@ public class MapaDos extends Mapa {
 		}
 		
 		int posicion = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE) - ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15));
+		int posicion2 = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE) - ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-43));
 		for (int i = 15; i < 30; i++) {
-			this.add(new Obstaculo(i,((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15)));
+			//Agrega obstaculos de arriba
 			this.add(new Obstaculo(i,posicion));
+			this.add(new Obstaculo(i,posicion2));
 		}
 		for (int i = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-30); i < ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15);i++){
-			this.add(new Obstaculo(i,((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15)));
+			//Agrega obstaculos de arriba
 			this.add(new Obstaculo(i,posicion));
+			this.add(new Obstaculo(i,posicion2));
+			
+			//this.add(new Obstaculo(i,((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15)));
 		}
 		
 		for (int i = 0; i < Param.CANTIDAD_FRUTA_MINIMAS; i++) {

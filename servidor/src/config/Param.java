@@ -41,6 +41,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_LOGUEO_DUPLICADO = "errorYaLogeado";
 	public static final String REQUEST_CERRAR_SESION = "cerrarSesion";
 	public static final String REQUEST_CERRAR_SESION_OK = "cerrarSesionOk";
+	public static final String REQUEST_CERRAR_SESION_FALLIDO = "cerrarSesionFail";
 	public static final String REQUEST_GET_ALL_SALAS = "getAllSalas";
 	public static final String REQUEST_REGISTRAR_USUARIO = "registrar";
 	public static final String REQUEST_REGISTRO_CORRECTO = "RegistroCorrecto";
