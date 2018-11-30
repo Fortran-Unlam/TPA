@@ -416,6 +416,7 @@ public class VentanaJuego extends JFrame {
 				ventana.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala pudiendo
 				// volver para atras.
 				vs.setVisible(true);
+				//ventana.dispose();
 			}
 		});
 	}
