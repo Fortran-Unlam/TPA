@@ -18,11 +18,11 @@ public class Input {
 	}
 
 	public static void terminate() {
-		try {
+		/*try {
 			glfwTerminate();
 			glfwSetErrorCallback(null).free();
 		} catch (UnsatisfiedLinkError e) {
 			Cliente.LOGGER.error("No se puede terminar el Joystick");
-		}
+		}*/
 	}
 }

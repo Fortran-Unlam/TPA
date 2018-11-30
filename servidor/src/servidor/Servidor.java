@@ -184,7 +184,7 @@ public class Servidor {
 		for (ConexionCliente conexionCliente : conexionClientes) {
 			enviar = false;
 			Usuario usuario = conexionCliente.getUsuario();
-			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null && usuario.inJuego) {
+			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null /*&& usuario.inJuego*/) {
 				for (Jugador jugadorMapa : mapa.getJugadores()) {
 					if (usuario.getJugador().equals(jugadorMapa)) {
 						enviar = true;
@@ -203,6 +203,7 @@ public class Servidor {
 
 				if (enviar) {
 					try {
+						System.out.println("mando para que dibuje");
 						conexionCliente.getSalidaDatos().flush();
 						conexionCliente.getSalidaDatos().writeUTF(message.toJson());
 					} catch (IOException e) {

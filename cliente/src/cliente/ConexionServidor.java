@@ -174,6 +174,8 @@ public class ConexionServidor {
 			this.salidaDatos.writeUTF(this.message.toJson());
 			recibirMapa = true;
 			while (socketIn.isClosed() == false && recibirMapa) {
+				try
+				{
 				System.out.println("esperando si el juego comienza");
 				String a = entradaDatos.readUTF();
 				System.out.println("con read utf va " + a);
@@ -183,11 +185,22 @@ public class ConexionServidor {
 				System.out.println("mensaje recibido " + me);
 				this.message = (Message) new Gson().fromJson(me, Message.class);
 
-				switch (this.message.getType()) {
-				case Param.REQUEST_JUEGO_EMPEZADO:
-					System.out.println("se fue con " + (boolean)this.message.getData());
-					return (boolean) this.message.getData();
+				
+					switch (this.message.getType()) {
+					case Param.REQUEST_JUEGO_EMPEZADO:
+						System.out.println("se fue con " + (boolean)this.message.getData());
+						return (boolean) this.message.getData();
+					default:
+						System.out.println(this.message.getType());
+						break;
+					}
 				}
+				catch(Exception e)
+				{
+					Thread.sleep(100);
+					return true;
+				}
+				
 			}
 
 		} catch (Exception ex) {
@@ -211,10 +224,11 @@ public class ConexionServidor {
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
 		try {
+			System.out.println("llega2");
 			while (recibirMapa) {
 
 				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
-
+				System.out.println(this.message);
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
 					ventanaJuego.dibujarMapaJson((String) this.message.getData());

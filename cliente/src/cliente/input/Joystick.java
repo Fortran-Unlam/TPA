@@ -87,12 +87,12 @@ public class Joystick implements Runnable {
 	@Override
 	public void run() {
 
-		Posicion posicion = getUltimaPulsada();
+		/*Posicion posicion = getUltimaPulsada();
 		long miliSeg = System.currentTimeMillis();
 		while (true) {
 			if (System.currentTimeMillis() - miliSeg > 5 && this.ultimaPulsada != posicion) {
 				Cliente.getConexionServidor().enviarTecla(this.ultimaPulsada);
 			}
-		}
+		}*/
 	}
 }
