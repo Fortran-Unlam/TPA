@@ -189,7 +189,7 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
-
+					
 					int cantidadBots = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_BOTS));
 					boolean tipoJuegoFruta = Boolean.valueOf(properties.getProperty(Param.TIPO_JUEGO_FRUTA));
 					int cantidadDeFrutas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_DE_FRUTAS));
