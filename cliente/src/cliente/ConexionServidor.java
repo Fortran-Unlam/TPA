@@ -102,14 +102,11 @@ public class ConexionServidor {
 		try {
 			this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
-			switch (this.message.getType()) {
-				case Param.REQUEST_CERRAR_SESION_OK:
-				return true;
+			while(true) {		
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 				
-				case Param.REQUEST_CERRAR_SESION_FALLIDO:
-				Cliente.LOGGER.error("No se pudo cerrar sesion");
-				return false;
+				if(this.message.getType().equals(Param.REQUEST_CERRAR_SESION_OK))
+					return this.message;
 			}
 
 		} catch (Exception e) {
