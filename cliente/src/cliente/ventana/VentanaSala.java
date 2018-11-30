@@ -112,7 +112,7 @@ public class VentanaSala extends JFrame {
 		nombreSalatipoJuegoMapaYBots.add("cantTiempo",
 				String.valueOf(chckbxTiempo.isSelected() ? this.cantidadDeTiempoComboBox.getSelectedItem() : "0"));
 
-		if (comboMapa.getSelectedIndex() == -1) {
+		if (comboMapa.getSelectedIndex() == 0) {
 			nombreSalatipoJuegoMapaYBots.add("mapa", "Aun no se ha determinado");
 		} else {
 			nombreSalatipoJuegoMapaYBots.add("mapa", (String) comboMapa.getSelectedItem());
