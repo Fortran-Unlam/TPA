@@ -103,7 +103,7 @@ public class VentanaJuego extends JFrame {
 		jListJugadores = new JList<String>();
 		jListJugadores.setBackground(SystemColor.control);
 		jListJugadores.setBorder(null);
-		jListJugadores.setBounds(10, 90, 50, 247);
+		jListJugadores.setBounds(10, 90, 80, 247);
 		jListJugadores.setOpaque(false);
 		jListJugadores.setEnabled(false);
 		contentPane.add(jListJugadores);
@@ -113,7 +113,7 @@ public class VentanaJuego extends JFrame {
 		jListFrutas.setEnabled(false);
 		jListFrutas.setBorder(null);
 		jListFrutas.setBackground(SystemColor.menu);
-		jListFrutas.setBounds(70, 90, 50, 247);
+		jListFrutas.setBounds(110, 90, 80, 247);
 		contentPane.add(jListFrutas);
 
 		lblVib = new JLabel("Viborita");
@@ -123,7 +123,7 @@ public class VentanaJuego extends JFrame {
 
 		lblFrutas = new JLabel("Frutas");
 		lblFrutas.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblFrutas.setBounds(70, 75, 50, 14);
+		lblFrutas.setBounds(110, 75, 50, 14);
 		this.contentPane.add(lblFrutas);
 
 		this.btnSalirJuego = new JButton("Salir juego");
@@ -135,7 +135,7 @@ public class VentanaJuego extends JFrame {
 		this.contentPane.add(panelMapa);
 
 		lblReferencia = new JLabel("Referencias:");
-		lblReferencia.setBounds(10, 397, 180, 21);
+		lblReferencia.setBounds(10, 409, 180, 21);
 		contentPane.add(lblReferencia);
 
 		lblObstaculoRef = new JLabel("Obstaculos");
@@ -168,7 +168,7 @@ public class VentanaJuego extends JFrame {
 		textRonda.setBackground(Color.BLACK);
 		textRonda.setFont(new Font("Tahoma", Font.BOLD, 13));
 		textRonda.setEditable(false);
-		textRonda.setBounds(88, 14, 72, 20);
+		textRonda.setBounds(88, 14, 102, 20);
 		contentPane.add(textRonda);
 		textRonda.setColumns(10);
 
@@ -187,10 +187,11 @@ public class VentanaJuego extends JFrame {
 			break;
 		case '2':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_DOS_PATH);
-			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, false);
+			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 			break;
 		case '3':
 			imagenMapa = Imagen.cargar(Param.IMG_MAPA_TRES_PATH);
+			imagenObstaculo = Imagen.cargar(Param.IMG_BOMBA_PATH, true);
 			break;
 		}
 
@@ -332,8 +333,9 @@ public class VentanaJuego extends JFrame {
 					// Era mas rapida la conexion que el calculo del ganador.
 					thread.wait(500);
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
-							+ " y " + datosGanador[2] + " puntos";
+					String mensaje = "El ganador es " + datosGanador[0] + 
+									 " con " + datosGanador[1] + " frutas comidas" +
+									 " y " + datosGanador[2] + " puntos";
 					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
 							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
 						Input.terminate();

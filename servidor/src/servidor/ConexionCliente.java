@@ -3,8 +3,6 @@ package servidor;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -244,15 +242,23 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
 					Jugador ganador = sala.getPartidaActual().getGanador();
-					if (ganador != null) {
-						
+
+					try {
 						this.salidaDatos.flush();
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
 								ganador.getNombre() + ";" +
-										ganador.getFrutasComidasEnPartida() + ";" +
-										ganador.getPuntosEnPartida()).toJson());
+							    ganador.getFrutasComidasEnPartida() + ";" +
+								ganador.getPuntosEnPartida()).toJson());
+						break;
+					}catch(NullPointerException e){
+						Servidor.LOGGER.error("No se pudo conseguir el ganador", e);
+						this.salidaDatos.flush();
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
+								"Jugador 1" + ";" +
+							    "100" + ";" +
+								"200").toJson());
+						break;
 					}
-					break;
 				default:
 					break;
 				}
