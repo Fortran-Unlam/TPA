@@ -136,8 +136,6 @@ public class Partida implements Serializable {
 					else
 						Thread.sleep(1500);
 				} catch (InterruptedException e) {
-					// TODO Poner algo por si falla el update del usuario.
-
 					e.printStackTrace();
 				}
 				empezarPartida();
