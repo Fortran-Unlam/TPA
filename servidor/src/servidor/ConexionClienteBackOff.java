@@ -61,23 +61,18 @@ public class ConexionClienteBackOff extends Thread {
 						this.salidaDatos.writeObject(respuestaLogueoOk);
 					}
 				}
-
+				
+				//A todas las ventanasUnirSala
 				if (tipoDeMensaje.equals(Param.NOTICE_CREACION_SALA) || tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
-						|| tipoDeMensaje.equals(Param.REQUEST_INGRESO_VENTANA_UNIR_SALA)
+						|| tipoDeMensaje.equals(Param.NOTICE_ENTRAR_A_VER_SALAS)
 						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 					enviarActualizacionSalasALosClientes();
 				}
 
-				/*
-				 * Aguante boca. Cada vez que se crea una nueva sala Empiezo a gatillar, como
-				 * policia a trabajador despedido, a todos los usuarios de esa sala, para
-				 * avisarle los cambios que hizo el admin o bien si un usuario entr� o se fue
-				 * de la sala
-				 */
-
+				//A una sala particular
 				if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_PARAM_SALA_PARTICULAR)
-						|| tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
-						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
+						|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)
+						|| tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)) {
 					enviarActualizacionAClientesDeUnaSalaParticular(entradaJson);
 				}
 
@@ -140,7 +135,7 @@ public class ConexionClienteBackOff extends Thread {
 	public void enviarActualizacionSalasALosClientes() {
 		JsonArray datosDeSalas = Servidor.getAllSalas();
 		JsonObjectBuilder paqueteActualizacionDeSalas = Json.createObjectBuilder();
-		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS).add("datosDeSalas", datosDeSalas);
+		paqueteActualizacionDeSalas.add("type", Param.NOTICE_ACTUALIZAR_SALAS_DISPONIBLES).add("datosDeSalas", datosDeSalas);
 
 		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
 			try {
@@ -160,8 +155,9 @@ public class ConexionClienteBackOff extends Thread {
 
 		JsonObject paqueteAEnviar;
 		if (salaARefrescar != null) {
-
-			if (tipoDeMensaje.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+			
+			//Si alguien se unio o salio de una sala actualizo los usuarios de esa sala
+			if (tipoDeMensaje.equals(Param.NOTICE_UNION_SALA)
 					|| tipoDeMensaje.equals(Param.NOTICE_SALIR_SALA)) {
 
 				JsonArrayBuilder usernamesConectadosALaSala = Json.createArrayBuilder();
@@ -170,7 +166,7 @@ public class ConexionClienteBackOff extends Thread {
 					usernamesConectadosALaSala.add(u.getUsername());
 				}
 
-				paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)
+				paqueteAEnviar = Json.createObjectBuilder().add("type", Param.NOTICE_REFRESCAR_USUARIOS_SALA_PARTICULAR)
 						.add("usuarios", usernamesConectadosALaSala.build())
 						.add("admin", salaARefrescar.getAdministrador().getUsername()).build();
 			} else {

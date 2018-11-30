@@ -113,10 +113,8 @@ public class VentanaSala extends JFrame {
 				String.valueOf(chckbxTiempo.isSelected() ? this.cantidadDeTiempoComboBox.getSelectedItem() : "0"));
 
 		if (comboMapa.getSelectedIndex() == -1) {
-			System.err.println("ENTRO POR TRUE");
 			nombreSalatipoJuegoMapaYBots.add("mapa", "Aun no se ha determinado");
 		} else {
-			System.err.println("ENTRO POR FALSE");
 			nombreSalatipoJuegoMapaYBots.add("mapa", (String) comboMapa.getSelectedItem());
 		}
 
@@ -493,7 +491,7 @@ public class VentanaSala extends JFrame {
 	public void refrescarSala(JsonObject datosParaRefrescarSala) {
 		String tipoDeActualizacion = datosParaRefrescarSala.getString("type");
 
-		if (tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_PARTICULAR)) {
+		if (tipoDeActualizacion.equals(Param.NOTICE_REFRESCAR_USUARIOS_SALA_PARTICULAR)) {
 			JsonArray arrayUsuariosConectados = datosParaRefrescarSala.getJsonArray("usuarios");
 			this.modelUsuariosLista.clear(); // Limpio
 			// Cargo
