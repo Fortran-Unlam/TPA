@@ -150,13 +150,12 @@ public class VentanaLoginUsuario extends JFrame {
 					try {
 						VentanaMenu frame = new VentanaMenu();
 						frame.setVisible(true);
+						dispose();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
 			});
-
-			this.dispose();
 
 		} else if (usuario != null && usuario.getId() == -1) {
 			JOptionPane.showMessageDialog(null, "Usuario ya logeado", "Error login", JOptionPane.ERROR_MESSAGE);

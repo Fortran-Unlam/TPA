@@ -181,9 +181,9 @@ public class VentanaMenu extends JFrame {
 		btnAtras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Cliente.getConexionServidor().cerrarSesionUsuario(usuario);
-				dispose();
 				VentanaLoginUsuario login = new VentanaLoginUsuario();
 				login.setVisible(true);
+				dispose();
 			}
 		});
 		btnAtras.addKeyListener(new KeyAdapter() {

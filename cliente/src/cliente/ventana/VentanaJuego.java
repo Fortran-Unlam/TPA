@@ -330,7 +330,7 @@ public class VentanaJuego extends JFrame {
 				try {
 					// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
 					// Era mas rapida la conexion que el calculo del ganador.
-					thread.wait(250);
+					thread.wait(500);
 					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
 					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
 							+ " y " + datosGanador[2] + " puntos";
