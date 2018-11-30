@@ -26,7 +26,7 @@ public class Sincronismo extends Thread {
 
 		while (conectado) {
 			try {
-				String stringEntrada = (String) Cliente.getconexionServidorBackOff().getEntradaDatos().readObject();
+				String stringEntrada = (String) Cliente.getconexionServidorBackOff().getEntradaDatos().readUTF();
 
 				JsonReader jsonReader = Json.createReader(new StringReader(stringEntrada));
 				JsonObject entradaJson = jsonReader.readObject();
@@ -63,7 +63,7 @@ public class Sincronismo extends Thread {
 					}
 					break;
 				case Param.NOTICE_ADMIN_DAME_PARAM_SALA:
-					this.ventanaSala.prepararYEnviarCambiosDeSala();
+					Sincronismo.ventanaSala.prepararYEnviarCambiosDeSala();
 					break;
 					
 				case Param.SALA_TERMINADA:
@@ -73,7 +73,7 @@ public class Sincronismo extends Thread {
 				}
 				
 
-			} catch (ClassNotFoundException | IOException e) {
+			} catch (IOException e) {
 				Cliente.LOGGER.error("Hubo un error al sincronizar" + e.getMessage());
 			}
 		}

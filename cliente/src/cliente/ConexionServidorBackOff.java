@@ -1,16 +1,17 @@
 package cliente;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.json.JsonObject;
 
 public class ConexionServidorBackOff extends Thread {
 
-	private ObjectOutputStream salidaDatos;
-	private ObjectInputStream entradaDatos;
+	private DataOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
 
 	private Socket socketIn;
 	private Socket socketOut;
@@ -19,8 +20,8 @@ public class ConexionServidorBackOff extends Thread {
 		this.socketOut = socketOut;
 		this.socketIn = socketIn;
 		try {
-			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
-			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
+			this.salidaDatos = new DataOutputStream(this.socketOut.getOutputStream());
+			this.entradaDatos = new DataInputStream(this.socketIn.getInputStream());
 
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("No pudo crear la conexion backoff");
@@ -38,14 +39,14 @@ public class ConexionServidorBackOff extends Thread {
 	public void enviarAlServer(JsonObject paquete) {
 		
 		try {
-			this.salidaDatos.writeObject(paquete.toString());
+			this.salidaDatos.writeUTF(paquete.toString());
 		} catch (IOException e) {
 			Cliente.LOGGER.error("HUBO UNE ERROR EN EL ENVIO DE DATOS AL SERVIDOR MEDIANTE BACKOFF " + paquete.toString());
 		}
 
 	}
 
-	public ObjectInputStream getEntradaDatos() {
+	public DataInputStream getEntradaDatos() {
 		return entradaDatos;
 	}
 

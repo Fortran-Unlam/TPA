@@ -203,9 +203,8 @@ public class Servidor {
 
 				if (enviar) {
 					try {
-						conexionCliente.getSalidaDatos().reset();
 						conexionCliente.getSalidaDatos().flush();
-						conexionCliente.getSalidaDatos().writeObject(message.toJson());
+						conexionCliente.getSalidaDatos().writeUTF(message.toJson());
 					} catch (IOException e) {
 						LOGGER.error("No se pudo actualizar el mapa ");
 						return false;

@@ -57,7 +57,7 @@ public class Sala implements Serializable {
 	 * @param cantidadDeRondasDePartida
 	 * @param tipoJuego
 	 * 
-	 * @return
+	 * @return Boolean
 	 */
 	public boolean crearPartida(int cantidadBots, TipoJuego tipoJuego, int tipoMapa, int cantidadTotalRondas) {
 		if ((this.partidaActual == null || this.partidaActual.getPartidaEnCurso() == false) && this.cantidadUsuarioActuales > 1) {
@@ -66,6 +66,7 @@ public class Sala implements Serializable {
 
 			return this.comenzarPartida();
 		}
+		System.out.println("no empezo " + this.partidaActual + " " + this.cantidadUsuarioActuales);
 		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
 	}
 

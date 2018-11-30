@@ -1,8 +1,9 @@
 package cliente;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -16,8 +17,8 @@ import config.Posicion;
 
 public class ConexionServidor {
 	
-	private ObjectOutputStream salidaDatos;
-	private ObjectInputStream entradaDatos;
+	private DataOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
 
 	private Message message;
 	private Usuario usuario;
@@ -38,9 +39,9 @@ public class ConexionServidor {
 		this.socketIn = socketIn;
 		this.recibirMapa = true;
 		try {
-			this.salidaDatos = new ObjectOutputStream(this.socketOut.getOutputStream());
+			this.salidaDatos = new DataOutputStream(this.socketOut.getOutputStream());
 
-			this.entradaDatos = new ObjectInputStream(this.socketIn.getInputStream());
+			this.entradaDatos = new DataInputStream(this.socketIn.getInputStream());
 
 		} catch (IOException ex) {
 			Cliente.LOGGER.error("No puede abrir la conexion con el servidor " + ex.getMessage());
@@ -61,9 +62,9 @@ public class ConexionServidor {
 		try {
 			String request = Json.createObjectBuilder().add("username", username).add("hashPassword", hashPassword)
 					.build().toString();
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEAR, request).toJson());
+			this.salidaDatos.writeUTF(new Message(Param.REQUEST_LOGUEAR, request).toJson());
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 			switch (this.message.getType()) {
 			case Param.REQUEST_LOGUEO_CORRECTO:
 				this.usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
@@ -87,9 +88,9 @@ public class ConexionServidor {
 					.build().toString();
 
 			System.err.println("registrar usuario");
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRAR_USUARIO, request).toJson());
+			this.salidaDatos.writeUTF(new Message(Param.REQUEST_REGISTRAR_USUARIO, request).toJson());
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 			return this.message;
 
 		} catch (Exception e) {
@@ -100,9 +101,9 @@ public class ConexionServidor {
 
 	public Message cerrarSesionUsuario(Usuario usuario) {
 		try {
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
+			this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION, new Gson().toJson(usuario)).toJson());
 
-			this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 			return this.message;
 
 		} catch (Exception e) {
@@ -124,10 +125,10 @@ public class ConexionServidor {
 		try {
 
 			this.message = new Message(Param.REQUEST_CREAR_SALA, datosSala);
-			this.salidaDatos.writeObject(this.message.toJson());
+			this.salidaDatos.writeUTF(this.message.toJson());
 			while (true) {
 
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 				// Cuando creo una partida y salgo y vuelvo a crear una sala, no tiene que decir
 				// MostrarMapa.
 				// Esto pasa porque me desconecte, pero el servidor me sigue mandando
@@ -157,7 +158,7 @@ public class ConexionServidor {
 	public void SalirSala(String nombreSala) {
 		try {
 			this.message = new Message(Param.REQUEST_SALIR_SALA, nombreSala);
-			this.salidaDatos.writeObject(this.message.toJson());
+			this.salidaDatos.writeUTF(this.message.toJson());
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en creacion sala " + ex.getMessage());
 		}
@@ -171,18 +172,27 @@ public class ConexionServidor {
 					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas +"\",\""+ Param.MAPA_DE_JUEGO + "\":\""+ mapa +"\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
-			this.salidaDatos.writeObject(this.message.toJson());
-
+			this.salidaDatos.writeUTF(this.message.toJson());
+			recibirMapa = true;
 			while (socketIn.isClosed() == false && recibirMapa) {
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				System.out.println("esperando si el juego comienza");
+				String a = entradaDatos.readUTF();
+				System.out.println("con read utf va " + a);
+//				Object o = entradaDatos.readUTF();
+//				System.out.println("object " + o);
+				String me = (String) a;
+				System.out.println("mensaje recibido " + me);
+				this.message = (Message) new Gson().fromJson(me, Message.class);
 
 				switch (this.message.getType()) {
 				case Param.REQUEST_JUEGO_EMPEZADO:
+					System.out.println("se fue con " + (boolean)this.message.getData());
 					return (boolean) this.message.getData();
 				}
 			}
 
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			Cliente.LOGGER.error("Error en comenzar juego " + ex.getMessage());
 		}
 		return false;
@@ -194,7 +204,7 @@ public class ConexionServidor {
 		this.recibirMapa = false;
 		this.message = new Message(Param.REQUEST_SALIR_JUEGO, "");
 		try {
-			this.salidaDatos.writeObject(this.message.toJson());
+			this.salidaDatos.writeUTF(this.message.toJson());
 		} catch (IOException ex) {
 			Cliente.LOGGER.error("Error al detener juego " + ex.getMessage());
 		}
@@ -204,7 +214,7 @@ public class ConexionServidor {
 		try {
 			while (recibirMapa) {
 
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 
 				switch (this.message.getType()) {
 				case Param.REQUEST_MOSTRAR_MAPA:
@@ -228,9 +238,9 @@ public class ConexionServidor {
 		
 		try {
 			this.message = new Message(Param.REQUEST_MOSTRAR_GANADOR, true);
-			this.salidaDatos.writeObject(this.message.toJson());
+			this.salidaDatos.writeUTF(this.message.toJson());
 			
-			Message retorno = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+			Message retorno = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 			datosGanador = ((String)retorno.getData()).split(";");
 			
 			switch (this.message.getType()) {
@@ -257,8 +267,7 @@ public class ConexionServidor {
 		}
 		this.message = new Message(Param.REQUEST_ENVIAR_TECLA, posicion.ordinal());
 		try {
-			this.salidaDatos.reset();
-			this.salidaDatos.writeObject(this.message.toJson());
+			this.salidaDatos.writeUTF(this.message.toJson());
 		} catch (IOException ex) {
 			Cliente.LOGGER.error("Error al enviar tecla " + ex.getMessage());
 		}
@@ -272,7 +281,7 @@ public class ConexionServidor {
 	public String recibirActualizacionDeSala() {
 		try {
 			while(true) {				
-				this.message = (Message) new Gson().fromJson((String) entradaDatos.readObject(), Message.class);
+				this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 				
 				if (message.getType() == Param.REQUEST_ACTUALIZAR_SALAS) {
 					return (String) message.getData();
@@ -292,8 +301,8 @@ public class ConexionServidor {
 	 */
 	public boolean unirseASala(String salaSeleccionada) {
 		try {
-			this.salidaDatos.writeObject(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
-			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
+			this.salidaDatos.writeUTF(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
+			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readUTF(), Message.class);
 			return (boolean) retorno.getData();
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en unirse a sala " + ex.getMessage());

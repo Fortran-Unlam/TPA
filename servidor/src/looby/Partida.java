@@ -50,8 +50,9 @@ public class Partida implements Serializable {
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
-
+System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDeRondasAJugar);
 		if (this.numeroRonda < this.cantidadDeRondasAJugar) {
+			System.out.println("empezar partida rondas");
 			try {
 				this.partidaEnCurso = true;
 				this.numeroRonda++;
@@ -60,8 +61,10 @@ public class Partida implements Serializable {
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
+					System.err.println("compieza");
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
+				System.out.println("no se si comienza");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -83,8 +86,10 @@ public class Partida implements Serializable {
 
 	public boolean comienzoDeJuego() {
 		if (this.rondaEnCurso == null) {
+			System.out.println("no comenzo por ronda en curso null");
 			return false;
 		} else if (!this.rondaEnCurso.puedeEmpezar()) {
+			System.out.println("no puede empezar por ronda");
 			this.partidaEnCurso = false;
 			this.rondaEnCurso = null;
 			return false;

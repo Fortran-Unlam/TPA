@@ -1,16 +1,20 @@
 package servidor;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringReader;
 import java.net.Socket;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
+
 import config.Param;
 import looby.Sala;
 import looby.Usuario;
@@ -18,16 +22,16 @@ import looby.Usuario;
 public class ConexionClienteBackOff extends Thread {
 
 	private Socket socket;
-	private ObjectInputStream entradaDatos;
-	private ObjectOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
+	private DataOutputStream salidaDatos;
 	private Usuario usuario;
 
 	public ConexionClienteBackOff(Socket socket, Socket socketOut) {
 		this.socket = socket;
 
 		try {
-			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
+			this.entradaDatos = new DataInputStream(socket.getInputStream());
+			this.salidaDatos = new DataOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
 			Servidor.LOGGER.error("Error al crear los stream de entrada y salida : " + ex.getMessage());
@@ -41,7 +45,7 @@ public class ConexionClienteBackOff extends Thread {
 		while (conectado) {
 
 			try {
-				String entrada = (String) this.entradaDatos.readObject();
+				String entrada = (String) this.entradaDatos.readUTF();
 				JsonReader jsonReader = Json.createReader(new StringReader(entrada));
 				JsonObject entradaJson = jsonReader.readObject();
 				jsonReader.close();
@@ -58,7 +62,7 @@ public class ConexionClienteBackOff extends Thread {
 					if (this.usuario != null) {
 						String respuestaLogueoOk = Json.createObjectBuilder()
 								.add("type", Param.NOTICE_LOGUEO_BACKOFF_OK).build().toString();
-						this.salidaDatos.writeObject(respuestaLogueoOk);
+						this.salidaDatos.writeUTF(respuestaLogueoOk);
 					}
 				}
 
@@ -95,8 +99,6 @@ public class ConexionClienteBackOff extends Thread {
 					Servidor.LOGGER
 							.error("Error al cerrar los stream de entrada y salida del backoff:" + ex2.getMessage());
 				}
-			} catch (ClassNotFoundException e) {
-				Servidor.LOGGER.error("Error en el backoff" + e.getMessage());
 			}
 		}
 		Servidor.desconectarBackOff(this);
@@ -117,7 +119,7 @@ public class ConexionClienteBackOff extends Thread {
 			try {
 				if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)
 						&& c.getUsuario() != salaARefrescar.getAdministrador()) {
-					c.salidaDatos.writeObject(paqueteAEnviar.toString());
+					c.salidaDatos.writeUTF(paqueteAEnviar.toString());
 				}
 			} catch (IOException e) {
 				Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
@@ -140,7 +142,7 @@ public class ConexionClienteBackOff extends Thread {
 
 		for (ConexionClienteBackOff conexion : Servidor.getConexionesClientesBackOff()) {
 			try {
-				conexion.salidaDatos.writeObject(paqueteActualizacionDeSalas.build().toString());
+				conexion.salidaDatos.writeUTF(paqueteActualizacionDeSalas.build().toString());
 			} catch (IOException e) {
 				Servidor.LOGGER
 						.error("Hubo un error, del lado del servidor, en la actualizacion de las salas a los clientes");
@@ -176,7 +178,7 @@ public class ConexionClienteBackOff extends Thread {
 			for (ConexionClienteBackOff c : Servidor.getConexionesClientesBackOff()) {
 				try {
 					if (usuarioEstaEnLaSala(c.getUsuario(), salaARefrescar)) {
-						c.salidaDatos.writeObject(paqueteAEnviar.toString());
+						c.salidaDatos.writeUTF(paqueteAEnviar.toString());
 					}
 				} catch (IOException e) {
 					Servidor.LOGGER.error("Fallo la escritura de datos de actualizar parametros sala");
@@ -191,7 +193,7 @@ public class ConexionClienteBackOff extends Thread {
 						paqueteAEnviar = 
 								Json.createObjectBuilder().add("type", Param.NOTICE_ADMIN_DAME_PARAM_SALA).build();
 						try {
-							c.salidaDatos.writeObject(paqueteAEnviar.toString());
+							c.salidaDatos.writeUTF(paqueteAEnviar.toString());
 						} catch (IOException e) {
 							e.printStackTrace();
 						} 
@@ -215,7 +217,7 @@ public class ConexionClienteBackOff extends Thread {
 
 	void escribirSalida(JsonObject dato) {
 		try {
-			this.salidaDatos.writeObject(dato.toString());
+			this.salidaDatos.writeUTF(dato.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

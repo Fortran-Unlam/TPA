@@ -1,5 +1,7 @@
 package servidor;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,8 +28,8 @@ import looby.UsuarioDAO;
 public class ConexionCliente extends Thread {
 
 	private Socket socket;
-	private ObjectInputStream entradaDatos;
-	private ObjectOutputStream salidaDatos;
+	private DataInputStream entradaDatos;
+	private DataOutputStream salidaDatos;
 	private Usuario usuario;
 	private Sala sala;
 
@@ -42,8 +44,8 @@ public class ConexionCliente extends Thread {
 		this.socket = socket;
 
 		try {
-			this.entradaDatos = new ObjectInputStream(socket.getInputStream());
-			this.salidaDatos = new ObjectOutputStream(socketOut.getOutputStream());
+			this.entradaDatos = new DataInputStream(socket.getInputStream());
+			this.salidaDatos = new DataOutputStream(socketOut.getOutputStream());
 
 		} catch (IOException ex) {
 			Servidor.LOGGER.error("Error al crear los stream de entrada y salida : " + ex.getMessage());
@@ -57,7 +59,7 @@ public class ConexionCliente extends Thread {
 
 		while (conectado) {
 			try {
-				Message message = (Message) new Gson().fromJson((String) this.entradaDatos.readObject(), Message.class);
+				Message message = (Message) new Gson().fromJson(this.entradaDatos.readUTF(), Message.class);
 
 				switch (message.getType()) {
 				case Param.REQUEST_LOGUEAR:
@@ -68,7 +70,7 @@ public class ConexionCliente extends Thread {
 
 					if (usuario == null) {
 						this.salidaDatos.flush();
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_LOGUEO_INCORRECTO, null).toJson());
 					} else {
 						boolean usuarioDuplicado = false;
 						for (Usuario usuarioActivo : Servidor.getUsuariosActivos()) {
@@ -76,7 +78,7 @@ public class ConexionCliente extends Thread {
 							if (usuarioActivo.getId() == usuario.getId()) {
 								this.salidaDatos.flush();
 								this.salidaDatos
-										.writeObject(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
+										.writeUTF(new Message(Param.REQUEST_LOGUEO_DUPLICADO, null).toJson());
 								usuarioDuplicado = true;
 								break;
 							}
@@ -85,7 +87,7 @@ public class ConexionCliente extends Thread {
 						if (!usuarioDuplicado) {
 							Servidor.agregarAUsuariosActivos(usuario);
 							this.salidaDatos.flush();
-							this.salidaDatos.writeObject(
+							this.salidaDatos.writeUTF(
 									new Message(Param.REQUEST_LOGUEO_CORRECTO, new Gson().toJson(usuario)).toJson());
 						}
 					}
@@ -100,15 +102,15 @@ public class ConexionCliente extends Thread {
 					switch (resultado) {
 					case -1:
 						// System.err.println("registro incorrecto");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_REGISTRO_INCORRECTO, null).toJson());
 						break;
 					case 0:
 						// System.err.println("registro correcto");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_CORRECTO, null).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_REGISTRO_CORRECTO, null).toJson());
 						break;
 					case 1:
 						// System.err.println("registro duplicado");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_REGISTRO_DUPLICADO, null).toJson());
 						break;
 					}
 
@@ -117,7 +119,7 @@ public class ConexionCliente extends Thread {
 				case Param.REQUEST_GET_ALL_SALAS:
 					// System.err.println("Obtener todas las Salas");
 					this.salidaDatos
-							.writeObject(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()).toJson());
+							.writeUTF(new Message(Param.REQUEST_GET_ALL_SALAS, Servidor.getAllSalas()).toJson());
 					break;
 
 				case Param.REQUEST_CREAR_SALA:
@@ -129,7 +131,7 @@ public class ConexionCliente extends Thread {
 
 						Servidor.agregarASalasActivas(sala);
 						// System.err.println("Sala creada");
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
 						// Envio a los clientes que estaban en "unir sala" la actualizacion de la
 						// nueva
@@ -141,9 +143,9 @@ public class ConexionCliente extends Thread {
 								+ sala.getCantidadUsuarioMaximos();
 
 						this.salidaDatos
-								.writeObject(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
+								.writeUTF(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
-						this.salidaDatos.writeObject(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
 
 					break;
@@ -167,10 +169,10 @@ public class ConexionCliente extends Thread {
 //						int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
 //						int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
 //						String usuariosActivos = sala.getUsuariosSeparadosporComa();
-//						this.salidaDatos.writeObject(new Message(Param.DATOS_SALA,
+//						this.salidaDatos.writeUTF(new Message(Param.DATOS_SALA,
 //								cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos)
 //										.toJson());
-					this.salidaDatos.writeObject(
+					this.salidaDatos.writeUTF(
 							new Message(Param.NOTICE_INGRESAR_SALA, sala.agregarUsuarioASala(usuario)).toJson());
 					break;
 				case Param.REQUEST_SALIR_JUEGO:
@@ -213,10 +215,12 @@ public class ConexionCliente extends Thread {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 						tipoJuego.setSegundos(cantidadDeTiempo);
 					}
-
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_JUEGO_EMPEZADO,
+					String r = new Message(Param.REQUEST_JUEGO_EMPEZADO,
 							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas))
-									.toJson());
+							.toJson();
+					System.err.println("mensaje que le mando " + r);
+					this.salidaDatos.flush();
+					this.salidaDatos.writeUTF(r);
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
@@ -236,16 +240,18 @@ public class ConexionCliente extends Thread {
 					}
 
 					this.salidaDatos.flush();
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
+					this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
 					Jugador ganador = sala.getPartidaActual().getGanador();
-
-					this.salidaDatos.flush();
-					this.salidaDatos.writeObject(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-							ganador.getNombre() + ";" +
-						    ganador.getFrutasComidasEnPartida() + ";" +
-							ganador.getPuntosEnPartida()).toJson());
+					if (ganador != null) {
+						
+						this.salidaDatos.flush();
+						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
+								ganador.getNombre() + ";" +
+										ganador.getFrutasComidasEnPartida() + ";" +
+										ganador.getPuntosEnPartida()).toJson());
+					}
 					break;
 				default:
 					break;
@@ -263,14 +269,12 @@ public class ConexionCliente extends Thread {
 				}
 			} catch (JsonSyntaxException e) {
 				Servidor.LOGGER.error("Error de sintaxis en el json " + e.getMessage());
-			} catch (ClassNotFoundException e) {
-				Servidor.LOGGER.error("No se encuentra una clase " + e.getMessage());
 			}
 		}
 		Servidor.desconectar(this);
 	}
 
-	public ObjectOutputStream getSalidaDatos() {
+	public DataOutputStream getSalidaDatos() {
 		return this.salidaDatos;
 	}
 
