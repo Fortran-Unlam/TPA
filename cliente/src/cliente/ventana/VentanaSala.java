@@ -294,7 +294,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeBotsComboBox);
 
 		cantidadDeRondasLabel = new JLabel();
-		cantidadDeRondasLabel.setBounds(368, 268, 111, 20);
+		cantidadDeRondasLabel.setBounds(368, 268, 151, 20);
 		contentPane.add(cantidadDeRondasLabel);
 
 		if (this.visibiliadAdmin) {
