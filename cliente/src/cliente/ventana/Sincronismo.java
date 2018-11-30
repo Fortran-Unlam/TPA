@@ -65,6 +65,7 @@ public class Sincronismo extends Thread {
 					
 				case Param.SALA_TERMINADA:
 					Sincronismo.ventanaSala.cerrarSalaPorqueSalioAdmin();
+					ventanaUnirSala.setVisible(true);
 					break;
 				}
 
