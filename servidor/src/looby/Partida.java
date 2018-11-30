@@ -8,6 +8,7 @@ import core.mapa.Juego;
 import core.mapa.Mapa;
 import core.mapa.MapaDos;
 import core.mapa.MapaUno;
+import servidor.Servidor;
 
 public class Partida implements Serializable {
 
@@ -136,7 +137,7 @@ public class Partida implements Serializable {
 					else
 						Thread.sleep(1500);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					Servidor.LOGGER.error("Error al realizar un wait del thread entre Ronda y ronda.", e);					
 				}
 				empezarPartida();
 			}
