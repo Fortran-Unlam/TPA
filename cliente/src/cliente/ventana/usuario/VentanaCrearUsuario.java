@@ -124,6 +124,7 @@ public class VentanaCrearUsuario extends JFrame {
 			JOptionPane.showMessageDialog(null, "!Te falto ingresar la contrase�a!", "Error",
 					JOptionPane.WARNING_MESSAGE);
 			this.password.setFocusable(true);
+			this.confirmPassword.setText("");
 			return;
 		}
 

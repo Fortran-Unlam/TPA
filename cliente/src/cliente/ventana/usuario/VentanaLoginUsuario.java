@@ -85,7 +85,6 @@ public class VentanaLoginUsuario extends JFrame {
 		this.setLocationRelativeTo(null);
 
 		addListener();
-
 	}
 
 	/**
