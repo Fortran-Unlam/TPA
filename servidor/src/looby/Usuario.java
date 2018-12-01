@@ -26,15 +26,28 @@ public class Usuario {
 		this.password = password;
 	}
 
-	// Constructor necesario para el Hibernate
-	public Usuario() {
-	}
-
-	// Constructor de usuario solamente utilizando el Id
+	/**
+	 * Constructor de usuario solamente utilizando el Id
+	 * 
+	 * @param id
+	 */
 	public Usuario(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Crea un usuario 
+	 * 
+	 * @param id
+	 * @param username
+	 * @param password
+	 * @param puntos
+	 * @param cantidadFrutaComida
+	 * @param asesinatos
+	 * @param muertes
+	 * @param partidasGanadas
+	 * @param rondasGanadas
+	 */
 	public Usuario(int id, String username, String password, int puntos, int cantidadFrutaComida, int asesinatos,
 			int muertes, int partidasGanadas, int rondasGanadas) {
 		this.id = id;
@@ -48,6 +61,11 @@ public class Usuario {
 		this.rondasGanadas = rondasGanadas;
 	}
 
+	/**
+	 * Crea un usuario a partir de un objeto json
+	 * 
+	 * @param jsonObject
+	 */
 	public Usuario(JsonObject jsonObject) {
 		this.id = Integer.valueOf(jsonObject.get("id").toString());
 		this.username = jsonObject.get("username").toString();
@@ -55,6 +73,13 @@ public class Usuario {
 		this.puntos = Integer.valueOf(jsonObject.get("password").toString());
 	}
 
+	/**
+	 * Crea una sala
+	 * 
+	 * @param nombreSala
+	 * @param cantDeUsrMaximos
+	 * @return
+	 */
 	public Sala crearSala(String nombreSala, int cantDeUsrMaximos) {
 		Sala sala = new Sala(nombreSala, cantDeUsrMaximos, this);
 		sala.agregarUsuarioASala(this);
@@ -153,25 +178,48 @@ public class Usuario {
 		this.jugador = jugador;
 	}
 
+	/**
+	 * Retorna el jugador
+	 * 
+	 * @return Jugador
+	 */
 	public Jugador getJugador() {
 		if (this.jugador != null) {
 			return this.jugador;
 		}
 
-		if (this.sala != null && this.sala.getPartidaActual() != null && this.sala.getPartidaActual().getUsuariosActivosEnSala() != null) {
+		if (this.sala != null && this.sala.getPartidaActual() != null
+				&& this.sala.getPartidaActual().getUsuariosActivosEnSala() != null) {
 			return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
 		}
 		return null;
 	}
 
+	/**
+	 * Retorna la sala
+	 * 
+	 * @return Sala
+	 */
 	public Sala getSala() {
 		return sala;
 	}
 
+	/**
+	 * Setea una sala
+	 * 
+	 * @param sala
+	 */
 	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
 
+	/**
+	 * Actualizaa las estadisticas de ronda
+	 * 
+	 * @param sobrevivio
+	 * @param frutasComidas
+	 * @return Boolean Si pudo guardarlo en el la DB
+	 */
 	public boolean actualizarEstadisticasRonda(boolean sobrevivio, int frutasComidas) {
 		// this.partidasJugadas++;
 		if (!sobrevivio)
@@ -190,6 +238,11 @@ public class Usuario {
 		return false;
 	}
 
+	/**
+	 * Actualiza la estadistica de partida
+	 * 
+	 * @return Boolean Si pudo guardarlo en la DB
+	 */
 	public boolean actualizarEstadisticasPartidasGanadas() {
 		this.partidasGanadas++;
 
