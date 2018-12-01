@@ -365,7 +365,7 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 
-		this.addKeyListener(new Teclado());
+		this.addKeyListener(Cliente.teclado);
 
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

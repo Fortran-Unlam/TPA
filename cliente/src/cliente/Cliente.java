@@ -1,10 +1,12 @@
 package cliente;
 
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import cliente.input.Teclado;
 import cliente.ventana.Sincronismo;
 import cliente.ventana.usuario.VentanaLoginUsuario;
 import config.Param;
@@ -19,6 +21,7 @@ public class Cliente {
 	private static ConexionServidorBackOff conexionServidorBackOff;
 	private static Sincronismo sincronismo;
 	public static Logger LOGGER = Logger.getLogger(Class.class);
+	public static KeyListener teclado = new Teclado();
 
 	public static void main(String[] args) {
 		new Cliente();

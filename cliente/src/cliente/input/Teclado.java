@@ -8,11 +8,11 @@ import config.Posicion;
 
 public class Teclado implements KeyListener {
 
-	public Posicion ultimaPulsada = null;
-	public int teclaArriba = KeyEvent.VK_UP;
-	public int teclaAbajo = KeyEvent.VK_DOWN;
-	public int teclaIzquierda = KeyEvent.VK_LEFT;
-	public int teclaDerecha = KeyEvent.VK_RIGHT;
+	public static Posicion ultimaPulsada = null;
+	public static int teclaArriba = KeyEvent.VK_UP;
+	public static int teclaAbajo = KeyEvent.VK_DOWN;
+	public static int teclaIzquierda = KeyEvent.VK_LEFT;
+	public static int teclaDerecha = KeyEvent.VK_RIGHT;
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -59,23 +59,23 @@ public class Teclado implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 	}
 	
-	public void setUltimaPulsada(Posicion ultimaPulsada) {
-		this.ultimaPulsada = ultimaPulsada;
+	public static void setUltimaPulsada(Posicion ultimaPulsada) {
+		Teclado.ultimaPulsada = ultimaPulsada;
 	}
 	
-	public void setTeclaArriba(int teclaArriba) {
-		this.teclaArriba = teclaArriba;
+	public static void setTeclaArriba(int teclaArriba) {
+		Teclado.teclaArriba = teclaArriba;
 	}
 	
-	public void setTeclaAbajo(int teclaAbajo) {
-		this.teclaAbajo = teclaAbajo;
+	public static void setTeclaAbajo(int teclaAbajo) {
+		Teclado.teclaAbajo = teclaAbajo;
 	}
 	
-	public void setTeclaIzquierda(int teclaIzquierda) {
-		this.teclaIzquierda = teclaIzquierda;
+	public static void setTeclaIzquierda(int teclaIzquierda) {
+		Teclado.teclaIzquierda = teclaIzquierda;
 	}
 	
-	public void setTeclaDerecha(int teclaDerecha) {
-		this.teclaDerecha = teclaDerecha;
+	public static void setTeclaDerecha(int teclaDerecha) {
+		Teclado.teclaDerecha = teclaDerecha;
 	}
 }
