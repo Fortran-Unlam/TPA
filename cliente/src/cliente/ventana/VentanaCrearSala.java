@@ -145,7 +145,7 @@ public class VentanaCrearSala extends JFrame {
 		}
 
 		if (this.maxUsuarioField.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "La cantidad de usuarios m�ximos no puede estar vacio.", "Aviso",
+			JOptionPane.showMessageDialog(null, "La cantidad de usuarios maximos no puede estar vacio.", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
 			this.maxUsuarioField.setText("");
 			this.nombreField.setFocusable(true);

@@ -70,7 +70,7 @@ public class VentanaSala extends JFrame {
 	}
 
 	protected void verificarBotonesYRefrescarCambios() {
-		if (comboMapa.getSelectedIndex() != 0 && comboCantRondas.getSelectedIndex() != 0) {
+		if (comboMapa.getSelectedIndex() != 0 && comboCantRondas.getSelectedIndex() != 0 && (this.listUsuarios.getModel().getSize() >= 2 || this.cantidadDeBotsComboBox.getSelectedIndex() != 0)) {
 			btnEmpezarJuego.setEnabled(true);
 		} else {
 			btnEmpezarJuego.setEnabled(false);
