@@ -47,6 +47,12 @@ public class Partida implements Serializable {
 		this.tipoMapa = tipoMapa;
 		this.ganadorPartida = null;
 	}
+	
+	public void agregarBotAPartida(Usuario usrBot) {
+		Jugador jugador = new JugadorBot(usrBot);
+		this.jugadoresEnPartida.add(jugador);
+		usrBot.setJugador(jugador);
+	}
 
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
@@ -62,7 +68,6 @@ public class Partida implements Serializable {
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
-					//System.err.println("comienza");
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
 				//System.out.println("no se si comienza");
@@ -122,7 +127,9 @@ public class Partida implements Serializable {
 							//Determino el ganador de cada ronda.
 							if (!jug.getVibora().isDead()) {
 								sobrevivioRonda = true;
-								jug.sumarPuntosSobrevivirRonda();
+								if(cantidadDeRondasAJugar>1) {
+									jug.sumarPuntosSobrevivirRonda();
+								}
 							}
 
 							//Guardo las estadisticas en la base.
@@ -209,7 +216,11 @@ public class Partida implements Serializable {
 		this.partidaEnCurso = partidaEnCurso;
 	}
 
-	public Jugador getGanador() {
-		return this.ganadorPartida;
+	public String getGanador() {
+		if(this.ganadorPartida == null)
+			return "Empate!";
+		return "El ganador es: " + this.ganadorPartida.getNombre() + ". Frutas comidas: " 
+				+ this.ganadorPartida.getFrutasComidasEnPartida() + " con un puntaje de: " + 
+				this.puntajeMaximo;
 	}
 }

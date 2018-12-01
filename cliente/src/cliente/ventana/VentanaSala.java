@@ -354,6 +354,13 @@ public class VentanaSala extends JFrame {
 				: 0;
 		String mapa = (String) comboMapa.getSelectedItem();
 		this.numeroDeMapa = mapa.charAt(mapa.length() - 1);
+		
+		//Si no están todos en la sala, vuelvo.
+		if(!Cliente.getConexionServidor().verificarTodosUsuariosEnSala()){
+			JOptionPane.showMessageDialog(this, "Hay usuarios que no han vuelto a la sala aún", 
+					"Atencion!",JOptionPane.INFORMATION_MESSAGE);
+			return;
+		}
 
 		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas, tipoDeJuegoFruta, cantidadDeFrutas,
 				tipoDeJuegoTiempo, cantidadDeTiempo, mapa) == false) {

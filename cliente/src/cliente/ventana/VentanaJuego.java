@@ -26,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import cliente.Cliente;
+import cliente.ConexionServidor;
 import cliente.Imagen;
 import cliente.Sonido;
 import cliente.Usuario;
@@ -181,6 +182,7 @@ public class VentanaJuego extends JFrame {
 
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
 		thread.start();
+		
 		this.addListener();
 	}
 
@@ -295,14 +297,18 @@ public class VentanaJuego extends JFrame {
 				// Termino la ronda
 				g2d.drawString("Proxima Ronda en 2 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			} else {
-				/*Esto va por si se decide quitar el Sync del trhead.
-				//thread.interrupt();
-				//thread = null;
-				*/
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 				
+				try {
+					thread.wait(300);
+					JOptionPane.showConfirmDialog(this, Cliente.getConexionServidor().recibirGanador(), "Game over, winner don't use drugs",
+							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
+			
 		}
 
 		if (mapa.getBoolean("murioUnJugador")) {
@@ -365,14 +371,6 @@ public class VentanaJuego extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
 
-				
-					
-				/*
-				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de
-				 * recibir el mapa porque a mi ya no me importa recibir el mapa, hasta ahi todo
-				 * ok.
-				 * 
-				 */
 				musicaFondo.stop(); // Se para la musica.
 				ventanaJuego.setVisible(false); // Cierre la ventana del juego. Y queda el focus en la VentanaSala
 												// pudiendo

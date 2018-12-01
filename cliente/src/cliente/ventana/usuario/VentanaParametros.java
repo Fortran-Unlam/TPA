@@ -69,7 +69,7 @@ public class VentanaParametros extends JPanel {
 				frame.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
-						Param.HOST = host.getText();
+						Param.IP_SERVER = host.getText();
 						
 						if (!puerto1.getText().isEmpty()) {
 							Param.PORT_1 = Integer.parseInt(puerto1.getText());

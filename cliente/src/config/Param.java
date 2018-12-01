@@ -31,7 +31,7 @@ public abstract class Param implements Serializable {
 	public static int PORT_4 = 9004; // Back off port
 
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
-	public static String HOST = "localhost";
+	public static String IP_SERVER = "localhost";
 
 	public static final String CREACION_SALA_ADMIN = "admin";
 	public static final String UNION_SALA = "unionUsuarioSala";
@@ -57,6 +57,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_INGRESO_VENTANA_UNIR_SALA = "DameLasSalas";
 	public static final String REQUEST_MOSTRAR_GANADOR = "enviarGanador";
 	public static final String REQUEST_GANADOR_ENVIADO = "hayGanador";
+	public static final String REQUEST_ESTAN_TODOS_EN_SALA = "estanTodosEnSala";
 	public static final String PODES_SALIR = "saliTranqui";
 
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
@@ -107,6 +108,7 @@ public abstract class Param implements Serializable {
 	public static final String NOTICE_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String NOTICE_EMPEZA_JUEGO_CLIENTE = "EmpezarJuegoCliente";
 	public static final String NOTICE_ADMIN_DAME_PARAM_SALA = "adminDameParamSala";
+	public static final String NOTICE_TODOS_EN_SALA = "elEstadoDeTodosEnSalaEs";
 	
 	public static final int LIMITE_CARACTERES_USUARIO = 20;
 	public static final int LIMITE_CARACTERES_CONTRASENA = 10;

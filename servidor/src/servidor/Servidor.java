@@ -205,13 +205,10 @@ public class Servidor {
 
 				if (enviar) {
 					try {
-						System.out.println("mando para que dibuje");
 						conexionCliente.getSalidaDatos().flush();
 						String b = new String().concat(message.toJson());
-						System.out.println(b);
 						conexionCliente.getSalidaDatos().writeUTF(b);
 					} catch (IOException e) {
-						System.out.println("no pudo acualizar mapa");
 						LOGGER.error("No se pudo actualizar el mapa ");
 						return false;
 					}

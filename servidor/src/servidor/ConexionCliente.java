@@ -132,17 +132,6 @@ public class ConexionCliente extends Thread {
 						// System.err.println("Sala creada");
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
-						// Envio a los clientes que estaban en "unir sala" la actualizacion de la
-						// nueva
-						// sala. Esto deberia mandarse por el canal de syncro pero por ahora va.
-						String datosSalaNueva;
-
-						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES
-								+ sala.getCantidadUsuarioActuales() + Param.SEPARADOR_EN_MENSAJES
-								+ sala.getCantidadUsuarioMaximos();
-
-						this.salidaDatos
-								.writeUTF(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
@@ -160,29 +149,15 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_INGRESO_SALA:
 					sala = Servidor.getSalaPorNombre((String) message.getData());
-
-					/*
-					 * El servidor me devuelve los datos de la sala, para que la vista me represente
-					 * los datos de la sala que me importan como usuario
-					 */
-//						int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
-//						int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
-//						String usuariosActivos = sala.getUsuariosSeparadosporComa();
-//						this.salidaDatos.writeUTF(new Message(Param.DATOS_SALA,
-//								cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos)
-//										.toJson());
 					this.salidaDatos.writeUTF(
 							new Message(Param.NOTICE_INGRESAR_SALA, sala.agregarUsuarioASala(usuario)).toJson());
 					break;
 				case Param.REQUEST_SALIR_JUEGO:
-					this.usuario.inJuego = false;
+					this.usuario.setInJuego(false);
 					Jugador jugador = this.usuario.getJugador();
 					Partida partidaActual = this.sala.getPartidaActual();
 					Juego juego = partidaActual.getJuegoEnCurso();
 
-					/// 25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver
-					/// crearSala en ConexionServidor.
-					// Lo saco de los jugadores en el juego actual.
 					if (juego.getJugadoresEnJuego().remove(jugador)) {
 						partidaActual.getJugadoresEnPartida().remove(jugador);
 						jugador.getVibora().matar();
@@ -202,9 +177,6 @@ public class ConexionCliente extends Thread {
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
 					String[] mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO)).split(" ");
 					int numeroDeMapaDeJuego = Integer.parseInt(mapaDeJuego[1]);
-					for (int i = 0; i < cantidadBots; i++) {
-						sala.agregarUsuarioASala(new UsuarioBot());
-					}
 
 					TipoJuego tipoJuego = new TipoJuego();
 
@@ -218,9 +190,17 @@ public class ConexionCliente extends Thread {
 						tipoJuego.setSegundos(cantidadDeTiempo);
 					}
 					
-					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
+					for(Usuario u: this.sala.getUsuariosActivos()) {
+						u.setInJuego(true);
+					}
 					
-					this.salidaDatos.flush();
+					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
+					for (int i = 0; i < cantidadBots; i++) {
+						sala.getPartidaActual().agregarBotAPartida(new UsuarioBot());
+					}
+					sala.comenzarPartida();
+					
+						
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
@@ -245,24 +225,21 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
-					Jugador ganador = sala.getPartidaActual().getGanador();
-
-					try {
 						this.salidaDatos.flush();
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-								ganador.getNombre() + ";" +
-							    ganador.getFrutasComidasEnPartida() + ";" +
-								ganador.getPuntosEnPartida()).toJson());
+								sala.getPartidaActual().getGanador()).toJson());
 						break;
-					}catch(NullPointerException e){
-						Servidor.LOGGER.error("No se pudo conseguir el ganador", e);
-						this.salidaDatos.flush();
-						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-								"Jugador 1" + ";" +
-							    "0" + ";" +
-								"0").toJson());
-						break;
+				case Param.REQUEST_ESTAN_TODOS_EN_SALA:
+					boolean todosEnSala = true;
+					for(Usuario u: this.sala.getUsuariosActivos()) {
+						if(u.inJuego()) {
+							todosEnSala = false;
+							break;
+						}
 					}
+						this.salidaDatos.writeUTF(
+								new Message(Param.NOTICE_TODOS_EN_SALA, todosEnSala).toJson());
+					break;
 				default:
 					break;
 				}

@@ -26,12 +26,12 @@ public class Cliente {
 
 	public Cliente() {
 		try {
-			socketOut = new Socket(Param.HOST, Param.PORT_1);
-			socketIn = new Socket(Param.HOST, Param.PORT_2);
+			socketOut = new Socket(Param.IP_SERVER, Param.PORT_1);
+			socketIn = new Socket(Param.IP_SERVER, Param.PORT_2);
 
 			conexionServidor = new ConexionServidor(socketOut, socketIn);
-			socketOutBackOff = new Socket(Param.HOST, Param.PORT_3);
-			socketInBackOff = new Socket(Param.HOST, Param.PORT_4);
+			socketOutBackOff = new Socket(Param.IP_SERVER, Param.PORT_3);
+			socketInBackOff = new Socket(Param.IP_SERVER, Param.PORT_4);
 			conexionServidorBackOff = new ConexionServidorBackOff(socketOutBackOff, socketInBackOff);
 
 			conexionServidorBackOff.start();
