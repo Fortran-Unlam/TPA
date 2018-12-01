@@ -140,7 +140,6 @@ public class VentanaTeclado extends JFrame {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				System.out.println("entrada aca");
 				if (inputArriba.hasFocus()) {
 					inputArriba.setText(KeyEvent.getKeyText(e.getKeyCode()));
 					arriba = e.getKeyCode();

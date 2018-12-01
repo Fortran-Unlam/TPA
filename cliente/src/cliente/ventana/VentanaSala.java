@@ -365,7 +365,6 @@ public class VentanaSala extends JFrame {
 		if (Cliente.getConexionServidor().comenzarJuego(totalBots, totalRondas, tipoDeJuegoFruta, cantidadDeFrutas,
 				tipoDeJuegoTiempo, cantidadDeTiempo, mapa) == false) {
 			Cliente.LOGGER.error("No se pudo creear el Juego");
-			System.out.println("no lo crea al juego");
 			return;
 		}
 
