@@ -14,7 +14,6 @@ public class Teclado implements KeyListener {
 	public int teclaIzquierda = KeyEvent.VK_LEFT;
 	public int teclaDerecha = KeyEvent.VK_RIGHT;
 	
-
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
@@ -58,5 +57,25 @@ public class Teclado implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+	
+	public void setUltimaPulsada(Posicion ultimaPulsada) {
+		this.ultimaPulsada = ultimaPulsada;
+	}
+	
+	public void setTeclaArriba(int teclaArriba) {
+		this.teclaArriba = teclaArriba;
+	}
+	
+	public void setTeclaAbajo(int teclaAbajo) {
+		this.teclaAbajo = teclaAbajo;
+	}
+	
+	public void setTeclaIzquierda(int teclaIzquierda) {
+		this.teclaIzquierda = teclaIzquierda;
+	}
+	
+	public void setTeclaDerecha(int teclaDerecha) {
+		this.teclaDerecha = teclaDerecha;
 	}
 }
