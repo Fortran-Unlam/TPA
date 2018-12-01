@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 
 import javax.json.Json;
 import javax.json.JsonObject;
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,9 +32,13 @@ public class VentanaMenu extends JFrame {
 	private JButton btnAtras;
 	private JButton btnUnirSala;
 	private JButton btnCrearSala;
+	private AbstractButton buttonTeclado;
+	private JFrame ventana;
 
 	public VentanaMenu() {
 
+		ventana = this;
+		
 		usuario = Cliente.getConexionServidor().getUsuario();
 
 		setTitle("Menu principal");
@@ -48,12 +53,12 @@ public class VentanaMenu extends JFrame {
 
 		btnCrearSala = new JButton("Crear sala");
 
-		btnCrearSala.setBounds(21, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnCrearSala.setBounds(21, 284, 93, 40);
 		contentPane.add(btnCrearSala);
 
 		btnUnirSala = new JButton("Unirse a sala");
 
-		btnUnirSala.setBounds(177, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnUnirSala.setBounds(124, 284, 93, 40);
 		contentPane.add(btnUnirSala);
 
 		JLabel lblBienvenidos = new JLabel("Bienvenido/a: " + usuario.getUsername(), SwingConstants.CENTER);
@@ -103,14 +108,16 @@ public class VentanaMenu extends JFrame {
 
 		btnAtras = new JButton("Cerrar sesi\u00F3n");
 
-		btnAtras.setBounds(338, 284, 130, 40);
+		btnAtras.setBounds(358, 284, 110, 40);
 		contentPane.add(btnAtras);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 128, 462, 2);
 		contentPane.add(separator);
-
-		addListener();
+		
+		buttonTeclado = new JButton("Personalizar Teclado");
+		buttonTeclado.setBounds(240, 284, 93, 40);
+		contentPane.add(buttonTeclado);
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
@@ -122,6 +129,8 @@ public class VentanaMenu extends JFrame {
 				}
 			}
 		});
+		
+		addListener();
 
 	}
 
@@ -194,6 +203,12 @@ public class VentanaMenu extends JFrame {
 				dispose();
 				VentanaLoginUsuario login = new VentanaLoginUsuario();
 				login.setVisible(true);
+			}
+		});
+		
+		buttonTeclado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new VentanaTeclado(ventana);
 			}
 		});
 	}
