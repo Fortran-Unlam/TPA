@@ -141,13 +141,14 @@ public class VentanaCrearSala extends JFrame {
 			this.nombreField.setText("");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
+			this.maxUsuarioField.setText("2");
 			return;
 		}
 
 		if (this.maxUsuarioField.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "La cantidad de usuarios maximos no puede estar vacio.", "Aviso",
 					JOptionPane.WARNING_MESSAGE);
-			this.maxUsuarioField.setText("");
+			this.maxUsuarioField.setText("2");
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
 			return;
