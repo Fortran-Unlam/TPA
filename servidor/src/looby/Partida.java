@@ -7,6 +7,7 @@ import core.JugadorBot;
 import core.mapa.Juego;
 import core.mapa.Mapa;
 import core.mapa.MapaDos;
+import core.mapa.MapaTres;
 import core.mapa.MapaUno;
 import servidor.Servidor;
 
@@ -170,8 +171,8 @@ public class Partida implements Serializable {
 			return new MapaUno();
 		case 2:
 			return new MapaDos();
-//			case 3:
-//				return new MapaTres();
+		case 3:
+			return new MapaTres();
 		}
 		return new MapaUno();
 	}
