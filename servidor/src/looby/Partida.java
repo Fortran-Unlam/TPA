@@ -127,7 +127,9 @@ public class Partida implements Serializable {
 							//Determino el ganador de cada ronda.
 							if (!jug.getVibora().isDead()) {
 								sobrevivioRonda = true;
-								jug.sumarPuntosSobrevivirRonda();
+								if(cantidadDeRondasAJugar>1) {
+									jug.sumarPuntosSobrevivirRonda();
+								}
 							}
 
 							//Guardo las estadisticas en la base.
