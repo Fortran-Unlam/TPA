@@ -9,29 +9,29 @@ import config.Posicion;
 public class Teclado implements KeyListener {
 
 	public Posicion ultimaPulsada = null;
-
+	public int teclaArriba = KeyEvent.VK_UP;
+	public int teclaAbajo = KeyEvent.VK_DOWN;
+	public int teclaIzquierda = KeyEvent.VK_LEFT;
+	public int teclaDerecha = KeyEvent.VK_RIGHT;
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_W:
-		case KeyEvent.VK_UP:
+		
+		
+		if (e.getKeyCode() == teclaArriba) {
 			ultimaPulsada = Posicion.SUR;
-			break;
-		case KeyEvent.VK_S:
-		case KeyEvent.VK_DOWN:
+		}
+		
+		if (e.getKeyCode() == teclaAbajo) {
 			ultimaPulsada = Posicion.NORTE;
-			break;
-		case KeyEvent.VK_A:
-		case KeyEvent.VK_LEFT:
+		}
+		
+		if (e.getKeyCode() == teclaIzquierda) {
 			ultimaPulsada = Posicion.OESTE;
-			break;
-		case KeyEvent.VK_D:
-		case KeyEvent.VK_RIGHT:
+		}
+		
+		if (e.getKeyCode() == teclaDerecha) {
 			ultimaPulsada = Posicion.ESTE;
-			break;
-		case KeyEvent.VK_ESCAPE:
-//			System.exit(0);
-			break;
 		}
 
 		Cliente.getConexionServidor().enviarTecla(ultimaPulsada);
@@ -57,5 +57,25 @@ public class Teclado implements KeyListener {
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+	}
+	
+	public void setUltimaPulsada(Posicion ultimaPulsada) {
+		this.ultimaPulsada = ultimaPulsada;
+	}
+	
+	public void setTeclaArriba(int teclaArriba) {
+		this.teclaArriba = teclaArriba;
+	}
+	
+	public void setTeclaAbajo(int teclaAbajo) {
+		this.teclaAbajo = teclaAbajo;
+	}
+	
+	public void setTeclaIzquierda(int teclaIzquierda) {
+		this.teclaIzquierda = teclaIzquierda;
+	}
+	
+	public void setTeclaDerecha(int teclaDerecha) {
+		this.teclaDerecha = teclaDerecha;
 	}
 }

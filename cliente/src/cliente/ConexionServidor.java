@@ -206,9 +206,9 @@ public class ConexionServidor {
 		this.recibirMapa = true;
 		try {
 			while (recibirMapa) {
-				String a = entradaDatos.readUTF();
-				if (a != null) {
-					this.message = (Message) new Gson().fromJson(a, Message.class);
+				String request = entradaDatos.readUTF();
+				if (request != null) {
+					this.message = (Message) new Gson().fromJson(request, Message.class);
 					switch (this.message.getType()) {
 					case Param.REQUEST_MOSTRAR_MAPA:
 						ventanaJuego.dibujarMapaJson((String) this.message.getData());
@@ -300,7 +300,7 @@ public class ConexionServidor {
 	public boolean unirseASala(String salaSeleccionada) {
 		try {
 			this.salidaDatos.writeUTF(new Message(Param.REQUEST_INGRESO_SALA, salaSeleccionada).toJson());
-			Message retorno = (Message) new Gson().fromJson((String) this.entradaDatos.readUTF(), Message.class);
+			Message retorno = (Message) new Gson().fromJson(this.entradaDatos.readUTF(), Message.class);
 			return (boolean) retorno.getData();
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en unirse a sala " + ex.getMessage());

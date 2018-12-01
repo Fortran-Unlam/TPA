@@ -15,7 +15,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-
 import config.Param;
 import core.Jugador;
 import core.mapa.Juego;
@@ -44,7 +43,7 @@ public class Servidor {
 		Socket socketBackOffOut = null;
 
 		try {
-			
+
 			servidorIn = new ServerSocket(Param.PORT_1, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
 
 			servidorOut = new ServerSocket(Param.PORT_2, Param.MAXIMAS_CONEXIONES_SIMULTANEAS);
@@ -185,10 +184,10 @@ public class Servidor {
 		for (ConexionCliente conexionCliente : conexionClientes) {
 			enviar = false;
 			Usuario usuario = conexionCliente.getUsuario();
-			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null /*&& usuario.inJuego*/) {
+			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null) {
 				for (Jugador jugadorMapa : mapa.getJugadores()) {
-					Jugador j = usuario.getJugador();
-					if (j !=  null && j.equals(jugadorMapa)) {
+					Jugador jugador = usuario.getJugador();
+					if (jugador != null && jugador.equals(jugadorMapa)) {
 						enviar = true;
 						break;
 					}
@@ -196,8 +195,8 @@ public class Servidor {
 
 				if (enviar == false) {
 					for (Jugador espectador : mapa.getEspectadores()) {
-						Jugador j = usuario.getJugador();
-						if (j != null && j.equals(espectador)) {
+						Jugador jugador = usuario.getJugador();
+						if (jugador != null && jugador.equals(espectador)) {
 							enviar = true;
 							break;
 						}
@@ -266,14 +265,13 @@ public class Servidor {
 	public static ArrayList<ConexionClienteBackOff> getConexionesClientesBackOff() {
 		return Servidor.conexionesClientesBackOff;
 	}
-	
-	
+
 	static void avisarALosClientesQueLaSalaTermino(Sala sala) {
 		JsonObject paqueteSalaTerminada = Json.createObjectBuilder().add("type", Param.SALA_TERMINADA).build();
-		
-		for(Usuario userSala: sala.getUsuariosActivos()) {
-			for(ConexionClienteBackOff cliente: conexionesClientesBackOff) {
-				if(cliente.getUsuario().equals(userSala)) {
+
+		for (Usuario userSala : sala.getUsuariosActivos()) {
+			for (ConexionClienteBackOff cliente : conexionesClientesBackOff) {
+				if (cliente.getUsuario().equals(userSala)) {
 					cliente.escribirSalida(paqueteSalaTerminada);
 				}
 			}

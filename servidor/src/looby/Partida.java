@@ -14,7 +14,6 @@ import servidor.Servidor;
 public class Partida implements Serializable {
 
 	private static final long serialVersionUID = 5614028727088648640L;
-	private int id;
 	private boolean partidaEnCurso = false;
 	private ArrayList<Juego> rondasJugadas = new ArrayList<Juego>();
 	private ArrayList<Jugador> jugadoresEnPartida = new ArrayList<Jugador>();
@@ -30,7 +29,6 @@ public class Partida implements Serializable {
 
 	public Partida(int id, ArrayList<Usuario> usuariosActivosEnSala, TipoJuego tipo,
 			int tipoMapa, int cantidadTotalRondas) {
-		this.id = id;
 		this.usuariosActivosEnSala = usuariosActivosEnSala;
 		for (Usuario usuario : usuariosActivosEnSala) {
 			Jugador jugador;
