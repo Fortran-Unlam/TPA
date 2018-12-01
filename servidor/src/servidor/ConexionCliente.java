@@ -233,7 +233,7 @@ public class ConexionCliente extends Thread {
 					usuario = new Gson().fromJson((String) message.getData(), Usuario.class);
 					
 					for (Usuario usuarioEnServer : Servidor.getUsuariosActivos()) {
-						if (usuarioEnServer.getId() == usuario.getId()) {
+						if (usuario != null && usuarioEnServer.getId() == usuario.getId()) {
 							Servidor.removerUsuarioActivo(usuarioEnServer);
 							this.salidaDatos.flush();
 							this.salidaDatos.writeUTF(new Message(Param.REQUEST_CERRAR_SESION_OK, null).toJson());
