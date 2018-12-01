@@ -215,7 +215,7 @@ public class ConexionClienteBackOff extends Thread {
 		return false;
 	}
 
-	void escribirSalida(JsonObject dato) {
+	public void escribirSalida(JsonObject dato) {
 		try {
 			this.salidaDatos.writeUTF(dato.toString());
 		} catch (IOException e) {

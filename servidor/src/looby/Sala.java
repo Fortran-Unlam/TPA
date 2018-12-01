@@ -6,6 +6,10 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import config.Param;
+import servidor.ConexionClienteBackOff;
+import servidor.Servidor;
+
 public class Sala implements Serializable {
 
 	private static final long serialVersionUID = -3003995871552317389L;
@@ -63,6 +67,15 @@ public class Sala implements Serializable {
 		if ((this.partidaActual == null || this.partidaActual.getPartidaEnCurso() == false) && this.cantidadUsuarioActuales > 1) {
 			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
 					tipoJuego, tipoMapa, cantidadTotalRondas);
+			
+			//Preparo a todos los usuarios
+			for(Usuario userActivo: this.usuariosActivos) {
+				for(ConexionClienteBackOff cc: Servidor.getConexionesClientesBackOff()) {
+					if(cc.getUsuario().equals(userActivo)) {
+						cc.escribirSalida(Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build());
+					}
+				}
+			}
 
 			return this.comenzarPartida();
 		}

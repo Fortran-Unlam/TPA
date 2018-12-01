@@ -129,17 +129,6 @@ public class VentanaSala extends JFrame {
 		Cliente.getconexionServidorBackOff().enviarAlServer(nombreSalatipoJuegoMapaYBots.build());
 	}
 
-	// Este metodo pretende avisarle a los otros usuarios de la sala que ya pueden
-	// Arrancar la VentanaJuego.
-	private void AvisarAOtrosUsuariosSala() {
-		JsonObjectBuilder JuegoEmpezado = Json.createObjectBuilder();
-		JuegoEmpezado.add("sala", this.nombreSala);
-
-		// Agrego parametros
-		JuegoEmpezado.add("type", Param.NOTICE_EMPEZAR_JUEGO);
-		Cliente.getconexionServidorBackOff().enviarAlServer(JuegoEmpezado.build());
-	}
-
 	// La visibilidad por default es para el admin
 	private void setearComponentes() {
 		setTitle("Sala de juego");
@@ -339,17 +328,16 @@ public class VentanaSala extends JFrame {
 		Sincronismo.setVentanaSala(null);
 		Cliente.getconexionServidorBackOff().enviarAlServer(paqueteSalirSala);
 	}
-
-	protected void empezarJuegoNoAdmin() {
-		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
-		// volver a la VentanaSala que volver a crear una nueva instancia.
-		if (!visibiliadAdmin) {
-			Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
-			musicaFondo.reproducir();
-			this.setVisible(false);
+	
+	protected void prepararParaArranqueJuego() {
+		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
+		musicaFondo.reproducir();
+		this.setVisible(false);
+		if(!this.visibiliadAdmin) {
 			new VentanaJuego(Integer.valueOf(this.cantidadDeRondasLabel.getText()),
-					mapaParaNoAdmin.getText().charAt(mapaParaNoAdmin.getText().length()-1), ventanaMenu.getUsuario(),
-					this);
+					mapaParaNoAdmin.getText().charAt(mapaParaNoAdmin.getText().length()-1), ventanaMenu.getUsuario(),this);
+		}else {
+			new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
 		}
 	}
 
@@ -373,16 +361,11 @@ public class VentanaSala extends JFrame {
 			System.out.println("no lo crea al juego");
 			return;
 		}
-		AvisarAOtrosUsuariosSala();
 
-		// this.dispose(); Cuando termina el VentanaJuego y se aprieta salir es mejor
-		// volver a la VentanaSala que volver a crear una nueva instancia.
 		Sonido musicaFondo = new Sonido(Param.SONIDO_GOLPE_PATH);
 		musicaFondo.reproducir();
 
 		this.setVisible(false);
-		System.out.println("llega");
-		new VentanaJuego(totalRondas, this.numeroDeMapa, ventanaMenu.getUsuario(), this);
 	}
 
 	private void addListener() {

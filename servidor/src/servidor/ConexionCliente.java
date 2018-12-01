@@ -187,6 +187,9 @@ public class ConexionCliente extends Thread {
 						partidaActual.getJugadoresEnPartida().remove(jugador);
 						jugador.getVibora().matar();
 					}
+					
+					this.salidaDatos.writeUTF(new Message(Param.PODES_SALIR, "").toJson());
+					
 					break;
 				case Param.REQUEST_EMPEZAR_JUEGO:
 					properties = new Gson().fromJson((String) message.getData(), Properties.class);
@@ -214,12 +217,10 @@ public class ConexionCliente extends Thread {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 						tipoJuego.setSegundos(cantidadDeTiempo);
 					}
-					String r = new Message(Param.REQUEST_JUEGO_EMPEZADO,
-							sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas))
-							.toJson();
-					System.err.println("mensaje que le mando " + r);
+					
+					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
+					
 					this.salidaDatos.flush();
-					this.salidaDatos.writeUTF(r);
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 

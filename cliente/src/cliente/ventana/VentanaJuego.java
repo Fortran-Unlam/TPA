@@ -302,18 +302,6 @@ public class VentanaJuego extends JFrame {
 				musicaFondo.stop();
 				this.musicaEncendida = false;
 				
-				try {
-					//Por temas de Sync, tuve que poner un wait.
-					thread.wait(300);
-					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
-							+ " y " + datosGanador[2] + " puntos";
-					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
-							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
-					}
-				} catch (InterruptedException e) {
-					Cliente.LOGGER.error("Error al calcular ganador", e);
-				}
 			}
 		}
 
@@ -376,15 +364,8 @@ public class VentanaJuego extends JFrame {
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
-				if (thread != null) {
-					//thread.interrupt();
-					try {
-						this.finalize();
-					} catch (Throwable e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
+
+				
 					
 				/*
 				 * Cuando apreto el boton salir, debo finalizar el thread que esta pendiente de

@@ -179,48 +179,43 @@ public class ConexionServidor {
 					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas +"\",\""+ Param.MAPA_DE_JUEGO + "\":\""+ mapa +"\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
+			
+			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			try {
 				this.salidaDatos.writeUTF(this.message.toJson());
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			recibirMapa = true;
-			try {
-				Thread.sleep(105);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 			return true;
 	}
 
 	// Este metodo es invocado por VentanaJuego y detiene la accion iniciada por
 	// ComenzarJuego.
 	public void detenerJuego() {
-		this.recibirMapa = false;
 		this.message = new Message(Param.REQUEST_SALIR_JUEGO, "");
 		try {
 			this.salidaDatos.writeUTF(this.message.toJson());
+			this.recibirMapa = false;
 		} catch (IOException ex) {
 			Cliente.LOGGER.error("Error al detener juego " + ex.getMessage());
 		}
 	}
 
 	public void recibirMapa(VentanaJuego ventanaJuego) {
+		this.recibirMapa = true;
 		try {
-			System.out.println("llega2");
 			while (recibirMapa) {
-				System.out.println("antes recibir mapa");
 				String a = entradaDatos.readUTF();
-				System.out.println("despues " + a);
 				if (a != null) {
-					
 					this.message = (Message) new Gson().fromJson(a, Message.class);
-					//System.out.println(this.message);
 					switch (this.message.getType()) {
 					case Param.REQUEST_MOSTRAR_MAPA:
 						ventanaJuego.dibujarMapaJson((String) this.message.getData());
+						break;
+					case Param.PODES_SALIR:
+						recibirMapa = false;
+						break;
 					}
 				}
 			}

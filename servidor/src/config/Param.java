@@ -56,6 +56,7 @@ public abstract class Param implements Serializable {
 	public static final String REQUEST_INGRESO_VENTANA_UNIR_SALA = "DameLasSalas";
 	public static final String REQUEST_MOSTRAR_GANADOR = "enviarGanador";
 	public static final String REQUEST_GANADOR_ENVIADO = "hayGanador";
+	public static final String PODES_SALIR = "saliTranqui";
 	
 	public static final String REQUEST_EMPEZAR_JUEGO = "EmpezarJuego";
 	public static final String REQUEST_JUEGO_EMPEZADO = "JuegoEmpezado";
