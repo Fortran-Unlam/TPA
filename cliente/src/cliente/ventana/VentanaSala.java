@@ -166,6 +166,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeTiempoLabel);
 
 		cantidadDeFrutascomboBox = new JComboBox<Object>();
+		cantidadDeFrutascomboBox.setToolTipText("Debe seleccionar cantidad de frutas");
 
 		cantidadDeFrutascomboBox
 				.setModel(new DefaultComboBoxModel<Object>(new String[] { "10", "15", "20", "25", "30", "35" }));
@@ -173,6 +174,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeFrutascomboBox);
 
 		cantidadDeTiempoComboBox = new JComboBox<Object>();
+		cantidadDeTiempoComboBox.setToolTipText("Debe seleccionar cantidad de segundos");
 		cantidadDeTiempoComboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "20", "30", "40", "50" }));
 		cantidadDeTiempoComboBox.setBounds(496, 135, 72, 24);
 		contentPane.add(cantidadDeTiempoComboBox);
