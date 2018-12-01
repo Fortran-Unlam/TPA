@@ -21,6 +21,12 @@ public class Usuario {
 	private Jugador jugador;
 	public boolean inJuego = true; // Pasar a privado
 
+	/**
+	 * Constructor de usuario que puede llegar a usa GSON
+	 */
+	public Usuario() {
+	}
+	
 	public Usuario(String username, String password) {
 		this.username = username;
 		this.password = password;
