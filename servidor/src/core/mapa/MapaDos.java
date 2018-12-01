@@ -19,7 +19,7 @@ public class MapaDos extends Mapa {
 		}
 		
 		int posicion = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE) - ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-15));
-		int posicion2 = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE) - ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-43));
+		int posicion2 = ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE) - ((Param.MAPA_WIDTH / Param.PIXEL_RESIZE)-42));
 		for (int i = 15; i < 30; i++) {
 			//Agrega obstaculos de arriba
 			this.add(new Obstaculo(i,posicion));
