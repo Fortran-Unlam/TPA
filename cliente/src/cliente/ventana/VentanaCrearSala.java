@@ -198,7 +198,7 @@ public class VentanaCrearSala extends JFrame {
 					JOptionPane.WARNING_MESSAGE);
 
 			this.nombreField.setText("");
-			this.maxUsuarioField.setText("");
+			this.maxUsuarioField.setText("2");
 
 			this.nombreField.setFocusable(true);
 			this.maxUsuarioField.setFocusable(true);
