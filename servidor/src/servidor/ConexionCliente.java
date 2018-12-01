@@ -160,17 +160,6 @@ public class ConexionCliente extends Thread {
 					break;
 				case Param.REQUEST_INGRESO_SALA:
 					sala = Servidor.getSalaPorNombre((String) message.getData());
-
-					/*
-					 * El servidor me devuelve los datos de la sala, para que la vista me represente
-					 * los datos de la sala que me importan como usuario
-					 */
-//						int cantidadUsuariosActuales = sala.getCantidadUsuarioActuales();
-//						int cantidadUsuarioMaximos = sala.getCantidadUsuarioMaximos();
-//						String usuariosActivos = sala.getUsuariosSeparadosporComa();
-//						this.salidaDatos.writeUTF(new Message(Param.DATOS_SALA,
-//								cantidadUsuariosActuales + ";" + cantidadUsuarioMaximos + ";" + usuariosActivos)
-//										.toJson());
 					this.salidaDatos.writeUTF(
 							new Message(Param.NOTICE_INGRESAR_SALA, sala.agregarUsuarioASala(usuario)).toJson());
 					break;
@@ -219,8 +208,6 @@ public class ConexionCliente extends Thread {
 					}
 					
 					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
-					
-					this.salidaDatos.flush();
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 
@@ -245,24 +232,10 @@ public class ConexionCliente extends Thread {
 					}
 					break;
 				case Param.REQUEST_MOSTRAR_GANADOR:
-					Jugador ganador = sala.getPartidaActual().getGanador();
-
-					try {
 						this.salidaDatos.flush();
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-								ganador.getNombre() + ";" +
-							    ganador.getFrutasComidasEnPartida() + ";" +
-								ganador.getPuntosEnPartida()).toJson());
+								sala.getPartidaActual().getGanador()).toJson());
 						break;
-					}catch(NullPointerException e){
-						Servidor.LOGGER.error("No se pudo conseguir el ganador", e);
-						this.salidaDatos.flush();
-						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
-								"Jugador 1" + ";" +
-							    "0" + ";" +
-								"0").toJson());
-						break;
-					}
 				default:
 					break;
 				}

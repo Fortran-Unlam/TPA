@@ -64,7 +64,6 @@ public class Partida implements Serializable {
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
-					//System.err.println("comienza");
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
 				//System.out.println("no se si comienza");
@@ -211,7 +210,9 @@ public class Partida implements Serializable {
 		this.partidaEnCurso = partidaEnCurso;
 	}
 
-	public Jugador getGanador() {
-		return this.ganadorPartida;
+	public String getGanador() {
+		return "El ganador es: " + this.ganadorPartida.getNombre() + ". Frutas comidas: " 
+				+ this.ganadorPartida.getFrutasComidasEnPartida() + " con un puntaje de: " + 
+				this.puntajeMaximo;
 	}
 }

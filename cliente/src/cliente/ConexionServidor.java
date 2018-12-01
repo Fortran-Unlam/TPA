@@ -232,19 +232,18 @@ public class ConexionServidor {
 	 * @param partidaTerminada
 	 * @return
 	 */
-	public String[] recibirGanador(boolean partidaTerminada) {
-		String[] datosGanador = {"Jugador1","0","0"};
+	public String recibirGanador() {
+		String datosGanador = "No gano nadie";
 		
 		try {
 			this.message = new Message(Param.REQUEST_MOSTRAR_GANADOR, true);
 			this.salidaDatos.writeUTF(this.message.toJson());
 			
-			Message retorno = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
-			datosGanador = ((String)retorno.getData()).split(";");
+			this.message = (Message) new Gson().fromJson((String) entradaDatos.readUTF(), Message.class);
 			
 			switch (this.message.getType()) {
 			case Param.REQUEST_GANADOR_ENVIADO:
-				return datosGanador;
+				datosGanador = (String) this.message.getData();
 			}
 		} catch (Exception ex) {
 			Cliente.LOGGER.error("Error en recibir ganador " + ex.getMessage());
