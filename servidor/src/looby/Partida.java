@@ -46,14 +46,15 @@ public class Partida implements Serializable {
 		this.tipoDeJuegoDeLaPartida = tipo;
 		this.puntajeMaximo = 0;
 		this.tipoMapa = tipoMapa;
+		this.ganadorPartida = null;
 	}
 
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar
 		// deberiamos decir que cuando termine el juego cree otro juego
-System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDeRondasAJugar);
+		//System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDeRondasAJugar);
 		if (this.numeroRonda < this.cantidadDeRondasAJugar) {
-			System.out.println("empezar partida rondas");
+			//System.out.println("empezar partida rondas");
 			try {
 				this.partidaEnCurso = true;
 				this.numeroRonda++;
@@ -62,10 +63,10 @@ System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDe
 				this.mapa = crearMapaTipo(tipoMapa);
 				this.rondaEnCurso = new Juego(this.jugadoresEnPartida, this.tipoDeJuegoDeLaPartida, this.mapa);
 				if (this.comienzoDeJuego()) {
-					System.err.println("compieza");
+					//System.err.println("comienza");
 					this.rondasJugadas.add(this.rondaEnCurso);
 				}
-				System.out.println("no se si comienza");
+				//System.out.println("no se si comienza");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -87,10 +88,10 @@ System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDe
 
 	public boolean comienzoDeJuego() {
 		if (this.rondaEnCurso == null) {
-			System.out.println("no comenzo por ronda en curso null");
+			//System.out.println("no comenzo por ronda en curso null");
 			return false;
 		} else if (!this.rondaEnCurso.puedeEmpezar()) {
-			System.out.println("no puede empezar por ronda");
+			//System.out.println("no puede empezar por ronda");
 			this.partidaEnCurso = false;
 			this.rondaEnCurso = null;
 			return false;
@@ -137,10 +138,11 @@ System.out.println("empezar partida " + this.numeroRonda + " " + this.cantidadDe
 							jug.resetEstadisticasRonda();
 						}
 					
-					if (numeroRonda == cantidadDeRondasAJugar)
+					if (numeroRonda == cantidadDeRondasAJugar) {
 						calcularGanadorPartida();
-					else
+					} else {
 						Thread.sleep(1500);
+					}
 				} catch (InterruptedException e) {
 					Servidor.LOGGER.error("Error al realizar un wait del thread entre Ronda y ronda.", e);					
 				}
