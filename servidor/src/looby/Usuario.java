@@ -158,7 +158,7 @@ public class Usuario {
 			return this.jugador;
 		}
 
-		if (this.sala.getPartidaActual() != null && this.sala.getPartidaActual().getUsuariosActivosEnSala() != null) {
+		if (this.sala != null && this.sala.getPartidaActual() != null && this.sala.getPartidaActual().getUsuariosActivosEnSala() != null) {
 			return this.sala.getPartidaActual().getUsuariosActivosEnSala().get(0).getJugador();
 		}
 		return null;

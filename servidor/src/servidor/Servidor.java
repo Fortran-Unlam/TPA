@@ -187,7 +187,8 @@ public class Servidor {
 			Usuario usuario = conexionCliente.getUsuario();
 			if (usuario != null && conexionCliente.getSalidaDatos() != null && mapa != null /*&& usuario.inJuego*/) {
 				for (Jugador jugadorMapa : mapa.getJugadores()) {
-					if (usuario.getJugador().equals(jugadorMapa)) {
+					Jugador j = usuario.getJugador();
+					if (j !=  null && j.equals(jugadorMapa)) {
 						enviar = true;
 						break;
 					}
@@ -195,7 +196,8 @@ public class Servidor {
 
 				if (enviar == false) {
 					for (Jugador espectador : mapa.getEspectadores()) {
-						if (usuario.getJugador().equals(espectador)) {
+						Jugador j = usuario.getJugador();
+						if (j != null && j.equals(espectador)) {
 							enviar = true;
 							break;
 						}
