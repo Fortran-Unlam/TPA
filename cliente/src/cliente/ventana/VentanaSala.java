@@ -286,6 +286,7 @@ public class VentanaSala extends JFrame {
 		contentPane.add(cantidadDeFrutasLabel);
 
 		cantidadDeBotsComboBox = new JComboBox<Object>();
+		cantidadDeBotsComboBox.setToolTipText("Debe seleccionar cantidad de bots");
 		cantidadDeBotsComboBox
 				.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
 		cantidadDeBotsComboBox.setBounds(411, 236, 69, 20);
