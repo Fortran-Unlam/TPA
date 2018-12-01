@@ -169,9 +169,6 @@ public class ConexionCliente extends Thread {
 					Partida partidaActual = this.sala.getPartidaActual();
 					Juego juego = partidaActual.getJuegoEnCurso();
 
-					/// 25/11 Reflejo remueve pero parece al cliente seguir enviandole la info ver
-					/// crearSala en ConexionServidor.
-					// Lo saco de los jugadores en el juego actual.
 					if (juego.getJugadoresEnJuego().remove(jugador)) {
 						partidaActual.getJugadoresEnPartida().remove(jugador);
 						jugador.getVibora().matar();
@@ -191,9 +188,6 @@ public class ConexionCliente extends Thread {
 					int cantidadTotalRondas = Integer.valueOf(properties.getProperty(Param.CANTIDAD_RONDAS));
 					String[] mapaDeJuego = String.valueOf(properties.get(Param.MAPA_DE_JUEGO)).split(" ");
 					int numeroDeMapaDeJuego = Integer.parseInt(mapaDeJuego[1]);
-					for (int i = 0; i < cantidadBots; i++) {
-						sala.agregarUsuarioASala(new UsuarioBot());
-					}
 
 					TipoJuego tipoJuego = new TipoJuego();
 
@@ -208,6 +202,12 @@ public class ConexionCliente extends Thread {
 					}
 					
 					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
+					for (int i = 0; i < cantidadBots; i++) {
+						sala.getPartidaActual().agregarBotAPartida(new UsuarioBot());
+					}
+					sala.comenzarPartida();
+					
+						
 					break;
 				case Param.REQUEST_ENVIAR_TECLA:
 

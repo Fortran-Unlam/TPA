@@ -47,6 +47,12 @@ public class Partida implements Serializable {
 		this.tipoMapa = tipoMapa;
 		this.ganadorPartida = null;
 	}
+	
+	public void agregarBotAPartida(Usuario usrBot) {
+		Jugador jugador = new JugadorBot(usrBot);
+		this.jugadoresEnPartida.add(jugador);
+		usrBot.setJugador(jugador);
+	}
 
 	public void empezarPartida() {
 		// TODO: ojo porque el juego va a comenzar asincronicamente y esto va a iterar

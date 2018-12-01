@@ -33,16 +33,26 @@ public class Sala implements Serializable {
 	}
 
 	public boolean agregarUsuarioASala(Usuario usuario) {
-		if ((this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos) && partidaActual == null) {
-			this.usuariosActivos.add(usuario);
-			this.cantidadUsuarioActuales++;
-			return true;
+		boolean noPrimera = this.partidasJugadas.size() > 0;
+		if (noPrimera) {
+			if ((this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos)
+					&& this.partidaActual.getPartidaEnCurso() == false) {
+				this.usuariosActivos.add(usuario);
+				this.cantidadUsuarioActuales++;
+				return true;
+			}
+		} else {
+			if ((this.cantidadUsuarioActuales < this.cantidadUsuarioMaximos)) {
+				this.usuariosActivos.add(usuario);
+				this.cantidadUsuarioActuales++;
+				return true;
+			}
 		}
 		this.salaLlena = true;
 		return false; // SALA LLENA
 	}
 
-	public boolean sacarUsuarioDeSala(Usuario usuario) { 
+	public boolean sacarUsuarioDeSala(Usuario usuario) {
 		if (this.usuariosActivos.remove(usuario)) {
 			this.cantidadUsuarioActuales--;
 			return true;
@@ -50,7 +60,7 @@ public class Sala implements Serializable {
 		if (this.salaLlena) {
 			this.salaLlena = false;
 		}
-		
+
 		return false;
 
 	}
@@ -64,22 +74,21 @@ public class Sala implements Serializable {
 	 * @return Boolean
 	 */
 	public boolean crearPartida(int cantidadBots, TipoJuego tipoJuego, int tipoMapa, int cantidadTotalRondas) {
-		if ((this.partidaActual == null || this.partidaActual.getPartidaEnCurso() == false) && this.cantidadUsuarioActuales > 1) {
-			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos,
-					tipoJuego, tipoMapa, cantidadTotalRondas);
-			
-			//Preparo a todos los usuarios
-			for(Usuario userActivo: this.usuariosActivos) {
-				for(ConexionClienteBackOff cc: Servidor.getConexionesClientesBackOff()) {
-					if(cc.getUsuario().equals(userActivo)) {
-						cc.escribirSalida(Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build());
+		if (this.partidaActual == null || this.partidaActual.getPartidaEnCurso() == false) {
+			this.partidaActual = new Partida(++this.cantidadDePartidasJugadas, this.usuariosActivos, tipoJuego,
+					tipoMapa, cantidadTotalRondas);
+
+			// Preparo a todos los usuarios
+			for (Usuario userActivo : this.usuariosActivos) {
+				for (ConexionClienteBackOff cc : Servidor.getConexionesClientesBackOff()) {
+					if (cc.getUsuario().equals(userActivo)) {
+						cc.escribirSalida(
+								Json.createObjectBuilder().add("type", Param.NOTICE_EMPEZA_JUEGO_CLIENTE).build());
 					}
 				}
 			}
-
-			return this.comenzarPartida();
+			return true;
 		}
-		System.out.println("no empezo " + this.partidaActual + " " + this.cantidadUsuarioActuales);
 		return false; // HAY UNA PARTIDA EN CURSO O HAY MENOS DE DOS USUARIOS, RETORNAR EXCEP DE SALA
 	}
 
@@ -147,6 +156,10 @@ public class Sala implements Serializable {
 		return cantidadUsuarioMaximos;
 	}
 
+	public void setPartidaActual(Partida partidaActual) {
+		this.partidaActual = partidaActual;
+	}
+
 	/*
 	 * Obtengo los usuarios activos en la sala separados por coma esto se utiliza
 	 * por ejemplo para devolver los usuarios a la vista en forma de String.
@@ -167,9 +180,8 @@ public class Sala implements Serializable {
 	public void setPartidasJugadas(ArrayList<Partida> partidasJugadas) {
 		this.partidasJugadas = partidasJugadas;
 	}
-	
+
 	public boolean esElAdmin(Usuario user) {
-		return this.usuarioCreador.getUsername().equals(user.getUsername()); 
+		return this.usuarioCreador.getUsername().equals(user.getUsername());
 	}
 }
-
