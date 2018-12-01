@@ -31,7 +31,7 @@ public abstract class Param implements Serializable {
 	public static int PORT_4 = 9004; // Back off port
 
 	public static final int MAXIMAS_CONEXIONES_SIMULTANEAS = 100;
-	public static String HOST = "localhost";
+	public static String IP_SERVER = "localhost";
 
 	public static final String CREACION_SALA_ADMIN = "admin";
 	public static final String UNION_SALA = "unionUsuarioSala";
