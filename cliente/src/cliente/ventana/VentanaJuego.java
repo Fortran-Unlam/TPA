@@ -54,14 +54,8 @@ public class VentanaJuego extends JFrame {
 	private Sonido musicaFondo;
 	private int totalRondas;
 	private char numeroDeMapa;
-
-	private JLabel lblReferencia;
-	private JLabel lblObstaculoRef;
-	private JLabel lblFrutasRef;
 	private JSeparator separatorTop;
 	private JSeparator separatorBottom;
-	private JLabel lblJugador;
-	private JLabel lblOtrosJugadores;
 
 	private BufferedImage imagenCabeza;
 	private BufferedImage imagenCuerpo;
@@ -133,26 +127,6 @@ public class VentanaJuego extends JFrame {
 		this.panelMapa.setBounds(Param.VENTANA_JUEGO_WIDTH - Param.MAPA_WIDTH, 0, Param.MAPA_WIDTH, Param.MAPA_HEIGHT);
 		this.contentPane.add(panelMapa);
 
-		lblReferencia = new JLabel("Referencias:");
-		lblReferencia.setBounds(10, 409, 180, 21);
-		contentPane.add(lblReferencia);
-
-		lblObstaculoRef = new JLabel("Obstaculos");
-		lblObstaculoRef.setBounds(10, 441, 150, 21);
-		contentPane.add(lblObstaculoRef);
-
-		lblFrutasRef = new JLabel("Frutas");
-		lblFrutasRef.setBounds(10, 473, 150, 21);
-		contentPane.add(lblFrutasRef);
-
-		lblJugador = new JLabel("Jugador");
-		lblJugador.setBounds(10, 505, 150, 21);
-		contentPane.add(lblJugador);
-
-		lblOtrosJugadores = new JLabel("Otros jugadores");
-		lblOtrosJugadores.setBounds(10, 537, 150, 21);
-		contentPane.add(lblOtrosJugadores);
-
 		separatorTop = new JSeparator();
 		separatorTop.setBounds(10, 335, 180, 2);
 		contentPane.add(separatorTop);
@@ -200,15 +174,13 @@ public class VentanaJuego extends JFrame {
 		imagenFruta = Imagen.cargar(Param.IMG_FRUTA_PATH, true);
 
 		thread = new Thread() {
-			public void run() {
+			public synchronized void run() {
 				Cliente.getConexionServidor().recibirMapa(ventanaJuego);
 			}
 		};
 
 		musicaFondo = new Sonido(Param.SONIDO_FONDO_PATH);
-
 		thread.start();
-
 		this.addListener();
 	}
 
@@ -323,19 +295,25 @@ public class VentanaJuego extends JFrame {
 				// Termino la ronda
 				g2d.drawString("Proxima Ronda en 2 segundos", (Param.MAPA_WIDTH / 2) - 150, Param.MAPA_HEIGHT - 50);
 			} else {
+				/*Esto va por si se decide quitar el Sync del trhead.
+				//thread.interrupt();
+				//thread = null;
+				*/
 				musicaFondo.stop();
 				this.musicaEncendida = false;
-				// Traer Ganador Partida. Por temas de Sync, tuve que poner un wait.
-				// Era mas rapida la conexion que el calculo del ganador.
-				thread.interrupt();
-				thread = null;
-				String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
-				String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
-						+ " y " + datosGanador[2] + " puntos";
-				if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
-						JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+				
+				try {
+					//Por temas de Sync, tuve que poner un wait.
+					thread.wait(300);
+					String[] datosGanador = Cliente.getConexionServidor().recibirGanador(true);
+					String mensaje = "El ganador es " + datosGanador[0] + " con " + datosGanador[1] + " frutas comidas"
+							+ " y " + datosGanador[2] + " puntos";
+					if (JOptionPane.showConfirmDialog(panelMapa, mensaje, "Game over, winner don't use drugs",
+							JOptionPane.PLAIN_MESSAGE, JOptionPane.QUESTION_MESSAGE) == JOptionPane.OK_OPTION) {
+					}
+				} catch (InterruptedException e) {
+					Cliente.LOGGER.error("Error al calcular ganador", e);
 				}
-
 			}
 		}
 
@@ -399,7 +377,13 @@ public class VentanaJuego extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Cliente.getConexionServidor().detenerJuego(); // Detengo la accion iniciado por ComenzarJuego.
 				if (thread != null) {
-					thread.interrupt();
+					//thread.interrupt();
+					try {
+						this.finalize();
+					} catch (Throwable e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 					
 				/*
