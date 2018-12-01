@@ -1,7 +1,9 @@
 package cliente.ventana;
 
 import java.awt.Font;
-import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,8 +19,6 @@ import javax.swing.border.EmptyBorder;
 import cliente.Cliente;
 import cliente.Usuario;
 import config.Param;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaTeclado extends JFrame {
 
@@ -91,23 +91,23 @@ public class VentanaTeclado extends JFrame {
 		contentPane.add(lblMuertes);
 		
 		inputArriba = new JTextField();
-		inputArriba.setBounds(86, 97, 20, 20);
+		inputArriba.setBounds(86, 97, 56, 20);
 		contentPane.add(inputArriba);
 		inputArriba.setColumns(10);
 		
 		inputDerecha = new JTextField();
-		inputDerecha.setBounds(87, 203, 20, 20);
+		inputDerecha.setBounds(87, 203, 55, 20);
 		contentPane.add(inputDerecha);
 		inputDerecha.setColumns(10);
 		
 		inputAbajo = new JTextField();
 		inputAbajo.setColumns(10);
-		inputAbajo.setBounds(86, 133, 20, 20);
+		inputAbajo.setBounds(86, 133, 56, 20);
 		contentPane.add(inputAbajo);
 		
 		inputIzquierda = new JTextField();
 		inputIzquierda.setColumns(10);
-		inputIzquierda.setBounds(86, 172, 20, 20);
+		inputIzquierda.setBounds(86, 172, 56, 20);
 		contentPane.add(inputIzquierda);
 
 		addListener();
@@ -123,7 +123,8 @@ public class VentanaTeclado extends JFrame {
 			}
 		});
 		
-		setVisible(true);
+		this.setVisible(true);
+		this.setFocusable(true);
 	}
 
 
@@ -132,37 +133,34 @@ public class VentanaTeclado extends JFrame {
 	}
 
 	private void addListener() {
-		
-		this.addKeyListener(new KeyListener() {
-			
-			@Override
-			public void keyTyped(KeyEvent e) {
-			}
+		KeyListener listener = new KeyAdapter() {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-			}
-			
-			@Override
-			public void keyPressed(KeyEvent e) {
-				
+				System.out.println("entrada aca");
 				if (inputArriba.hasFocus()) {
-					inputArriba.setText(String.valueOf(e.getKeyChar()));
+					System.out.println(KeyEvent.getKeyText(e.getKeyCode()));
+					inputArriba.setText(KeyEvent.getKeyText(e.getKeyCode()));
 				}
-
+				
 				if (inputAbajo.hasFocus()) {
-					inputAbajo.setText(String.valueOf(e.getKeyChar()));
+					inputAbajo.setText(KeyEvent.getKeyText(e.getKeyCode()));
 				}
 				
 				if (inputIzquierda.hasFocus()) {
-					inputIzquierda.setText(String.valueOf(e.getKeyChar()));
+					inputIzquierda.setText(KeyEvent.getKeyText(e.getKeyCode()));
 				}
 				
 				if (inputDerecha.hasFocus()) {
-					inputDerecha.setText(String.valueOf(e.getKeyChar()));
+					inputDerecha.setText(KeyEvent.getKeyText(e.getKeyCode()));
 				}
 			}
-		});
+			
+		};
+		this.inputArriba.addKeyListener(listener);
+		this.inputAbajo.addKeyListener(listener);
+		this.inputIzquierda.addKeyListener(listener);
+		this.inputDerecha.addKeyListener(listener);
 		
 		btnCancelar.addActionListener(new ActionListener() {
 
