@@ -218,9 +218,9 @@ public class VentanaSala extends JFrame {
 
 		comboMapa.setBounds(368, 192, 151, 25);
 		comboMapa.addItem("Seleccione un mapa");
-		comboMapa.addItem("Mapa 1");
-		comboMapa.addItem("Mapa 2");
-		comboMapa.addItem("Mapa 3");
+		comboMapa.addItem("Arena 1");
+		comboMapa.addItem("Laberinto 2");
+		comboMapa.addItem("Selva 3");
 		comboMapa.setSize(comboMapa.getPreferredSize());
 		contentPane.add(comboMapa);
 
