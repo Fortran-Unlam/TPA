@@ -19,7 +19,7 @@ public class Usuario {
 	private int rondasGanadas;
 	private Sala sala;
 	private Jugador jugador;
-	public boolean inJuego = true; // Pasar a privado
+	private boolean inJuego = false;
 
 	/**
 	 * Constructor de usuario que puede llegar a usa GSON
@@ -166,6 +166,14 @@ public class Usuario {
 
 	public void setRondasGanadas(int rondasGanadas) {
 		this.rondasGanadas = rondasGanadas;
+	}
+	
+	public boolean inJuego() {
+		return this.inJuego;
+	}
+	
+	public void setInJuego(boolean valor) {
+		this.inJuego = valor;
 	}
 
 	public String getUsuarioLogueado() {

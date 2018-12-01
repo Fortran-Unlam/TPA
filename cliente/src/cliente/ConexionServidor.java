@@ -179,8 +179,6 @@ public class ConexionServidor {
 					+ cantidadDeTiempo + "\",\"" + Param.CANTIDAD_RONDAS + "\":\"" + cantidadRondas +"\",\""+ Param.MAPA_DE_JUEGO + "\":\""+ mapa +"\"}";
 
 			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
-			
-			this.message = new Message(Param.REQUEST_EMPEZAR_JUEGO, request);
 			try {
 				this.salidaDatos.writeUTF(this.message.toJson());
 			} catch (IOException e) {
@@ -307,4 +305,16 @@ public class ConexionServidor {
 		}
 		return false;
 	}
+
+	public boolean verificarTodosUsuariosEnSala() {
+		try {
+			this.salidaDatos.writeUTF(new Message(Param.REQUEST_ESTAN_TODOS_EN_SALA, null).toJson());
+			Message retorno = (Message) new Gson().fromJson(this.entradaDatos.readUTF(), Message.class);
+			return (boolean) retorno.getData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }

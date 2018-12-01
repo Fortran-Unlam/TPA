@@ -132,17 +132,6 @@ public class ConexionCliente extends Thread {
 						// System.err.println("Sala creada");
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_SALA_CREADA, true).toJson());
 
-						// Envio a los clientes que estaban en "unir sala" la actualizacion de la
-						// nueva
-						// sala. Esto deberia mandarse por el canal de syncro pero por ahora va.
-						String datosSalaNueva;
-
-						datosSalaNueva = sala.getNombre() + Param.SEPARADOR_EN_MENSAJES
-								+ sala.getCantidadUsuarioActuales() + Param.SEPARADOR_EN_MENSAJES
-								+ sala.getCantidadUsuarioMaximos();
-
-						this.salidaDatos
-								.writeUTF(new Message(Param.REQUEST_ACTUALIZAR_SALAS, datosSalaNueva).toJson());
 					} else {
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_ERROR_CREAR_SALA, false).toJson());
 					}
@@ -164,7 +153,7 @@ public class ConexionCliente extends Thread {
 							new Message(Param.NOTICE_INGRESAR_SALA, sala.agregarUsuarioASala(usuario)).toJson());
 					break;
 				case Param.REQUEST_SALIR_JUEGO:
-					this.usuario.inJuego = false;
+					this.usuario.setInJuego(false);
 					Jugador jugador = this.usuario.getJugador();
 					Partida partidaActual = this.sala.getPartidaActual();
 					Juego juego = partidaActual.getJuegoEnCurso();
@@ -199,6 +188,10 @@ public class ConexionCliente extends Thread {
 					if (tipoJuegoTiempo) {
 						tipoJuego = new TipoJuegoTiempo(tipoJuego);
 						tipoJuego.setSegundos(cantidadDeTiempo);
+					}
+					
+					for(Usuario u: this.sala.getUsuariosActivos()) {
+						u.setInJuego(true);
 					}
 					
 					sala.crearPartida(cantidadBots, tipoJuego, numeroDeMapaDeJuego, cantidadTotalRondas);
@@ -236,6 +229,17 @@ public class ConexionCliente extends Thread {
 						this.salidaDatos.writeUTF(new Message(Param.REQUEST_GANADOR_ENVIADO, 
 								sala.getPartidaActual().getGanador()).toJson());
 						break;
+				case Param.REQUEST_ESTAN_TODOS_EN_SALA:
+					boolean todosEnSala = true;
+					for(Usuario u: this.sala.getUsuariosActivos()) {
+						if(u.inJuego()) {
+							todosEnSala = false;
+							break;
+						}
+					}
+						this.salidaDatos.writeUTF(
+								new Message(Param.NOTICE_TODOS_EN_SALA, todosEnSala).toJson());
+					break;
 				default:
 					break;
 				}
