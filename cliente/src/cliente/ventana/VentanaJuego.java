@@ -29,7 +29,7 @@ import cliente.Cliente;
 import cliente.Imagen;
 import cliente.Sonido;
 import cliente.Usuario;
-import cliente.input.Input;
+import cliente.input.Teclado;
 import config.Param;
 import config.Posicion;
 
@@ -359,7 +359,7 @@ public class VentanaJuego extends JFrame {
 			}
 		});
 
-		this.addKeyListener(new Input().teclado);
+		this.addKeyListener(new Teclado());
 
 		this.btnSalirJuego.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
