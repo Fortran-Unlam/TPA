@@ -217,6 +217,8 @@ public class Partida implements Serializable {
 	}
 
 	public String getGanador() {
+		if(this.ganadorPartida == null)
+			return "Empate!";
 		return "El ganador es: " + this.ganadorPartida.getNombre() + ". Frutas comidas: " 
 				+ this.ganadorPartida.getFrutasComidasEnPartida() + " con un puntaje de: " + 
 				this.puntajeMaximo;

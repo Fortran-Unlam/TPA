@@ -64,6 +64,7 @@ public class Sincronismo extends Thread {
 					}
 					break;
 				case Param.NOTICE_ADMIN_DAME_PARAM_SALA:
+					Sincronismo.ventanaSala.verificarBotonesYRefrescarCambios();
 					Sincronismo.ventanaSala.prepararYEnviarCambiosDeSala();
 					break;
 					
