@@ -83,11 +83,12 @@ public class VentanaMenu extends JFrame {
 		
 
 		JLabel lblAsesinatos = new JLabel("Asesinatos: " + usuario.getAsesinatos());
-		lblAsesinatos.setBounds(182, 141, 118, 14);
+		lblAsesinatos.setBounds(177, 166, 118, 14);
 		contentPane.add(lblAsesinatos);
+		lblAsesinatos.setVisible(false);
 
 		JLabel lblMuertes = new JLabel("Muertes: " + usuario.getMuertes());
-		lblMuertes.setBounds(182, 166, 118, 14);
+		lblMuertes.setBounds(177, 141, 118, 14);
 		contentPane.add(lblMuertes);
 
 		JLabel lblTPartidasGanadas = new JLabel("T. Partidas Ganadas: " + usuario.getPartidasGanadas());
