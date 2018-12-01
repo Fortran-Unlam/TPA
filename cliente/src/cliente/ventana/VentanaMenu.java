@@ -53,12 +53,12 @@ public class VentanaMenu extends JFrame {
 
 		btnCrearSala = new JButton("Crear sala");
 
-		btnCrearSala.setBounds(21, 284, 93, 40);
+		btnCrearSala.setBounds(61, 230, 145, 40);
 		contentPane.add(btnCrearSala);
 
 		btnUnirSala = new JButton("Unirse a sala");
 
-		btnUnirSala.setBounds(124, 284, 93, 40);
+		btnUnirSala.setBounds(61, 284, 145, 40);
 		contentPane.add(btnUnirSala);
 
 		JLabel lblBienvenidos = new JLabel("Bienvenido/a: " + usuario.getUsername(), SwingConstants.CENTER);
@@ -108,15 +108,15 @@ public class VentanaMenu extends JFrame {
 
 		btnAtras = new JButton("Cerrar sesi\u00F3n");
 
-		btnAtras.setBounds(358, 284, 110, 40);
+		btnAtras.setBounds(298, 284, 145, 40);
 		contentPane.add(btnAtras);
 
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 128, 462, 2);
 		contentPane.add(separator);
 		
-		buttonTeclado = new JButton("Personalizar Teclado");
-		buttonTeclado.setBounds(240, 284, 93, 40);
+		buttonTeclado = new JButton("Configuracion");
+		buttonTeclado.setBounds(298, 230, 145, 40);
 		contentPane.add(buttonTeclado);
 
 		this.addWindowListener(new java.awt.event.WindowAdapter() {

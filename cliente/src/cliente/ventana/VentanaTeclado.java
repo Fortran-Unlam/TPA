@@ -57,12 +57,12 @@ public class VentanaTeclado extends JFrame {
 
 		btnGuardar = new JButton("Guardar");
 
-		btnGuardar.setBounds(55, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnGuardar.setBounds(101, 285, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnGuardar);
 
 		btnCancelar = new JButton("Cancelar");
 
-		btnCancelar.setBounds(233, 284, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
+		btnCancelar.setBounds(280, 285, Param.BOTON_WIDTH, Param.BOTON_HEIGHT);
 		contentPane.add(btnCancelar);
 
 		JLabel lblBienvenidos = new JLabel("Configure el teclado", SwingConstants.CENTER);
@@ -76,42 +76,42 @@ public class VentanaTeclado extends JFrame {
 		contentPane.add(lblSnakeFortran);
 
 		JLabel lblNewLabel = new JLabel("Arriba");
-		lblNewLabel.setBounds(21, 97, 135, 14);
+		lblNewLabel.setBounds(79, 109, 135, 14);
 		lblNewLabel.setSize(lblNewLabel.getPreferredSize());
 		contentPane.add(lblNewLabel);
 
 		JLabel labelAbajo = new JLabel("Abajo");
-		labelAbajo.setBounds(22, 136, 135, 14);
+		labelAbajo.setBounds(80, 148, 135, 14);
 		labelAbajo.setSize(labelAbajo.getPreferredSize());
 		contentPane.add(labelAbajo);
 
 		JLabel labelDerecha = new JLabel("Derecha");
-		labelDerecha.setBounds(21, 206, 56, 14);
+		labelDerecha.setBounds(79, 226, 56, 14);
 		contentPane.add(labelDerecha);
-		labelDerecha.setVisible(false);
+		labelDerecha.setVisible(true);
 
 		JLabel lblMuertes = new JLabel("Izquierda");
-		lblMuertes.setBounds(21, 175, 56, 14);
+		lblMuertes.setBounds(79, 187, 56, 14);
 		contentPane.add(lblMuertes);
 
 		inputArriba = new JTextField();
-		inputArriba.setBounds(86, 97, 56, 20);
+		inputArriba.setBounds(144, 109, 99, 20);
 		contentPane.add(inputArriba);
 		inputArriba.setColumns(10);
 
 		inputDerecha = new JTextField();
-		inputDerecha.setBounds(87, 203, 55, 20);
+		inputDerecha.setBounds(145, 221, 98, 20);
 		contentPane.add(inputDerecha);
 		inputDerecha.setColumns(10);
 
 		inputAbajo = new JTextField();
 		inputAbajo.setColumns(10);
-		inputAbajo.setBounds(86, 133, 56, 20);
+		inputAbajo.setBounds(144, 145, 99, 20);
 		contentPane.add(inputAbajo);
 
 		inputIzquierda = new JTextField();
 		inputIzquierda.setColumns(10);
-		inputIzquierda.setBounds(86, 172, 56, 20);
+		inputIzquierda.setBounds(144, 184, 99, 20);
 		contentPane.add(inputIzquierda);
 
 		addListener();

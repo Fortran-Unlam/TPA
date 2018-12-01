@@ -259,7 +259,7 @@ public class VentanaSala extends JFrame {
 
 		comboCantRondas = new JComboBox<Object>();
 		comboCantRondas.setToolTipText("Debe seleccionar cantidad de rondas.");
-		comboCantRondas.setBounds(368, 268, 151, 51);
+		comboCantRondas.setBounds(374, 267, 151, 51);
 		contentPane.add(comboCantRondas);
 		comboCantRondas.setBounds(368, 268, 151, 20);
 		comboCantRondas.addItem("Seleccione Rondas");
@@ -279,7 +279,7 @@ public class VentanaSala extends JFrame {
 		cantidadDeBotsComboBox.setToolTipText("Debe seleccionar cantidad de bots");
 		cantidadDeBotsComboBox
 				.setModel(new DefaultComboBoxModel<Object>(new String[] { "0", "1", "2", "3", "4", "5" }));
-		cantidadDeBotsComboBox.setBounds(411, 236, 69, 20);
+		cantidadDeBotsComboBox.setBounds(431, 230, 80, 20);
 		contentPane.add(cantidadDeBotsComboBox);
 
 		cantidadDeRondasLabel = new JLabel();
